@@ -1,0 +1,35 @@
+from common.utils.path import create_path
+
+from hailo_apps.servos import ServoAngles
+from hailo_apps.meta.interfaces import RotatorParams, ImageSize
+
+
+from pydantic import (
+    BaseModel,
+    StrictStr,
+    FilePath,
+    NonNegativeInt,
+    NonNegativeFloat,
+    field_validator,
+)
+
+
+class ConfigSchema(BaseModel):
+    servo_angles: ServoAngles
+    rotator_params: RotatorParams
+    image_size: ImageSize
+    description_guidelines: StrictStr
+    history_length: NonNegativeInt
+    min_score: NonNegativeFloat
+    images_path: StrictStr
+    image_extension: StrictStr
+
+    @field_validator("images_path", mode="after")
+    def images_path_validator(cls, v: str) -> str:
+        create_path(path=v)
+        return v
+
+
+class StateSchema(BaseModel):
+    image_path: FilePath | None = None
+    image_description: StrictStr | None = None

@@ -1,0 +1,23 @@
+servo_angles:
+    x: 103
+    y: 80
+
+rotator_params:
+    update_angle: 5
+    min_delta_x_angle: 80
+    min_delta_y_angle: 100
+
+image_size:
+    width: 1024
+    height: 1024
+
+description_guidelines: |-
+    Analyze the provided image and generate a highly detailed description.
+    Your goal is to extract and describe visual details with precision,
+    capturing objects, colors, lighting, spatial relationships, emotions, and overall ambiance.
+    Your descriptions should be clear, vivid, and structured to be useful as AI prompts.
+
+history_length: 300
+min_score: 0.0
+images_path: /resources/images
+image_extension: jpg
