@@ -40,5 +40,4 @@ async def run(
 image_describer = Node(
     name="image_describer",
     run=run,
-    is_finish_point=True,
 )

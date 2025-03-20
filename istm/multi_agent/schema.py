@@ -23,6 +23,8 @@ class ConfigSchema(BaseModel):
     min_score: NonNegativeFloat
     images_path: StrictStr
     image_extension: StrictStr
+    generation_prompt_header: StrictStr
+    generation_prompt_footer: StrictStr
 
     @field_validator("images_path", mode="after")
     def images_path_validator(cls, v: str) -> str:
@@ -31,5 +33,7 @@ class ConfigSchema(BaseModel):
 
 
 class StateSchema(BaseModel):
+    image_id: StrictStr | None = None
     image_path: FilePath | None = None
     image_description: StrictStr | None = None
+    gen_image_path: FilePath | None = None
