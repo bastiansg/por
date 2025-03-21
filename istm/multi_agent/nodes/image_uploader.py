@@ -23,7 +23,7 @@ async def run(
     logger.info("runing image_uploader...")
     conf = config["configurable"]
 
-    url_endpoint = "https://ik.imagekit.io/ddmoon"
+    url_endpoint = conf["imagekit_url_endpoint"]
     imagekit = ImageKit(
         public_key=IMAGEKIT_PUBLIC_KEY,
         private_key=IMAGEKIT_PRIVATE_KEY,
@@ -35,12 +35,18 @@ async def run(
         is_private_file=False,
     )
 
-    with open(state.gen_image_path, "rb") as image_file:
+    concat_image_path = state.concat_image_path
+    image_name = os.path.basename(concat_image_path)
+    with open(state.concat_image_path, "rb") as image_file:
         upload = imagekit.upload_file(
             file=image_file,
-            file_name="test.jpg",
+            file_name=image_name,
             options=options,
         )
+
+    return {
+        "image_url": f"{url_endpoint}{upload.file_path}",
+    }
 
 
 image_uploader = Node(

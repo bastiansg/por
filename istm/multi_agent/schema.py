@@ -10,6 +10,7 @@ from pydantic import (
     FilePath,
     NonNegativeInt,
     NonNegativeFloat,
+    HttpUrl,
     field_validator,
 )
 
@@ -18,6 +19,7 @@ class ConfigSchema(BaseModel):
     servo_angles: ServoAngles
     rotator_params: RotatorParams
     image_size: ImageSize
+    image_margin: NonNegativeInt
     description_guidelines: StrictStr
     history_length: NonNegativeInt
     min_score: NonNegativeFloat
@@ -27,6 +29,7 @@ class ConfigSchema(BaseModel):
     generation_prompt_header: StrictStr
     generation_prompt_footer: StrictStr
     printer_name: StrictStr
+    imagekit_url_endpoint: StrictStr
 
     @field_validator("images_path", mode="after")
     def images_path_validator(cls, v: str) -> str:
@@ -40,3 +43,5 @@ class StateSchema(BaseModel):
     image_description: StrictStr | None = None
     gen_image_path: FilePath | None = None
     concat_image_path: FilePath | None = None
+    image_url: StrictStr | HttpUrl = None
+    qr_image_path: FilePath | None = None

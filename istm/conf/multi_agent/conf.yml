@@ -11,6 +11,8 @@ image_size:
     width: 1024
     height: 1024
 
+image_margin: 20
+
 description_guidelines: |-
     Analyze the provided image and generate a highly detailed description.
     Your goal is to extract and describe visual details with precision,
@@ -24,3 +26,4 @@ images_path: /resources/images
 image_extension: jpg
 
 printer_name: EPSON_TM-T20IIIL
+imagekit_url_endpoint: https://ik.imagekit.io/ddmoon
