@@ -25,6 +25,7 @@ class ConfigSchema(BaseModel):
     image_extension: StrictStr
     generation_prompt_header: StrictStr
     generation_prompt_footer: StrictStr
+    printer_name: StrictStr
 
     @field_validator("images_path", mode="after")
     def images_path_validator(cls, v: str) -> str:

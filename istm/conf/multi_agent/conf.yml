@@ -25,3 +25,5 @@ image_extension: jpg
 generation_prompt_header: A GRCRA cartoon illustration of
 generation_prompt_footer: |-
     The illustration is done in a colorful, whimsical style, with bold colors and a playful atmosphere.
+
+printer_name: EPSON_TM-T20IIIL
