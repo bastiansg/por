@@ -1,5 +1,6 @@
 import replicate
 
+from PIL import Image
 from multi_agents.graph import Node
 from common.logger import get_logger
 
@@ -17,6 +18,38 @@ def parse_image_description(image_description: str) -> str:
     return f"{image_description}."
 
 
+def get_concat_image_path(
+    image_path: str,
+    gen_image_path: str,
+    images_path: str,
+    image_id: str,
+    image_extension: str,
+    margin: int = 20,
+) -> str:
+    image = Image.open(image_path)
+    gen_image = Image.open(gen_image_path)
+
+    assert image.height == gen_image.height
+
+    total_width = image.width + gen_image.width + 3 * margin
+    total_height = image.height + 2 * margin
+
+    concat_image = Image.new(
+        "RGB",
+        (total_width, total_height),
+        color=(0, 0, 0),
+        # color=(255, 255, 255),
+    )
+
+    concat_image.paste(image, (margin, margin))
+    concat_image.paste(gen_image, (image.width + 2 * margin, margin))
+
+    concat_image_path = f"{images_path}/{image_id}-concat.{image_extension}"
+    concat_image.save(concat_image_path)
+
+    return concat_image_path
+
+
 async def run(
     state: StateSchema,
     config: ConfigSchema,
@@ -29,7 +62,7 @@ async def run(
     logger.info(f"generation_prompt => {prompt}")
 
     output = replicate.run(
-        "bastiansg/gerciara:53881ece494c76b6053387b59210290129dbdafb08c6e5411794255fc34ccfd0",
+        conf["model"],
         input={
             "model": "dev",
             "width": 1024,
@@ -49,15 +82,25 @@ async def run(
         },
     )
 
-    gen_image_path = (
-        f"{conf['images_path']}/{state.image_id}-gen.{conf['image_extension']}"
-    )
+    images_path = conf["images_path"]
+    image_id = state.image_id
+    image_extension = conf["image_extension"]
+    gen_image_path = f"{images_path}/{image_id}-gen.{image_extension}"
 
     with open(gen_image_path, "wb") as f:
         f.write(output[0].read())
 
+    concat_image_path = get_concat_image_path(
+        image_path=state.image_path,
+        gen_image_path=gen_image_path,
+        images_path=images_path,
+        image_id=image_id,
+        image_extension=image_extension,
+    )
+
     return {
         "gen_image_path": gen_image_path,
+        "concat_image_path": concat_image_path,
     }
 
 

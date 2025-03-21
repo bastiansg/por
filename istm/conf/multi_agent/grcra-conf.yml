@@ -1,0 +1,5 @@
+model: bastiansg/gerciara:53881ece494c76b6053387b59210290129dbdafb08c6e5411794255fc34ccfd0
+generation_prompt_header: A GRCRA cartoon illustration of
+generation_prompt_footer: |-
+    The illustration is done in a colorful, whimsical style, with bold colors and a playful atmosphere,
+    and it does not include any text or written characters.

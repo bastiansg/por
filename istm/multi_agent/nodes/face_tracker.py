@@ -1,5 +1,3 @@
-import uuid
-
 from time import sleep
 from PIL import Image
 
@@ -40,13 +38,12 @@ async def run(
     face_tracker.stop()
     history_item = face_tracker.history[-1]
 
+    image_id = state.image_id
     pil_image = Image.fromarray(history_item.np_image)
-    image_id = uuid.uuid4().hex
     image_path = f"{conf['images_path']}/{image_id}.{conf['image_extension']}"
 
     pil_image.save(image_path)
     return {
-        "image_id": image_id,
         "image_path": image_path,
     }
 

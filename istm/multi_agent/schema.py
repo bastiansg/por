@@ -23,6 +23,7 @@ class ConfigSchema(BaseModel):
     min_score: NonNegativeFloat
     images_path: StrictStr
     image_extension: StrictStr
+    model: StrictStr
     generation_prompt_header: StrictStr
     generation_prompt_footer: StrictStr
     printer_name: StrictStr
@@ -34,7 +35,8 @@ class ConfigSchema(BaseModel):
 
 
 class StateSchema(BaseModel):
-    image_id: StrictStr | None = None
+    image_id: StrictStr
     image_path: FilePath | None = None
     image_description: StrictStr | None = None
     gen_image_path: FilePath | None = None
+    concat_image_path: FilePath | None = None

@@ -16,14 +16,11 @@ description_guidelines: |-
     Your goal is to extract and describe visual details with precision,
     capturing objects, colors, lighting, spatial relationships, emotions, and overall ambiance.
     Your descriptions should be clear, vivid, and structured to be useful as AI prompts.
+    Do not describe or mention any text or written characters that may appear in the image.
 
 history_length: 300
 min_score: 0.0
 images_path: /resources/images
 image_extension: jpg
-
-generation_prompt_header: A GRCRA cartoon illustration of
-generation_prompt_footer: |-
-    The illustration is done in a colorful, whimsical style, with bold colors and a playful atmosphere.
 
 printer_name: EPSON_TM-T20IIIL
