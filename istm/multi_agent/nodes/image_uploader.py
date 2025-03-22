@@ -8,6 +8,8 @@ from common.logger import get_logger
 
 from istm.multi_agent.schema import StateSchema, ConfigSchema
 
+from .utils import dry_mode_handler
+
 
 IMAGEKIT_PUBLIC_KEY = os.getenv("IMAGEKIT_PUBLIC_KEY")
 IMAGEKIT_PRIVATE_KEY = os.getenv("IMAGEKIT_PRIVATE_KEY")
@@ -16,6 +18,10 @@ IMAGEKIT_PRIVATE_KEY = os.getenv("IMAGEKIT_PRIVATE_KEY")
 logger = get_logger(__name__)
 
 
+@dry_mode_handler(
+    func_name="image_uploader",
+    return_fields=["image_url"],
+)
 async def run(
     state: StateSchema,
     config: ConfigSchema,

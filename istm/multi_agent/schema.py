@@ -31,6 +31,7 @@ class ConfigSchema(BaseModel):
     generation_prompt_footer: StrictStr
     printer_name: StrictStr
     imagekit_url_endpoint: StrictStr
+    idle_angles: ServoAngles
     dry_mode: StrictBool = False
     dry_mode_wait: NonNegativeInt = 5
 

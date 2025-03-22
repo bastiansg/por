@@ -1,11 +1,12 @@
 import replicate
 
 from PIL import Image
-from time import sleep
 from multi_agents.graph import Node
 from common.logger import get_logger
 
 from istm.multi_agent.schema import StateSchema, ConfigSchema
+
+from .utils import dry_mode_handler
 
 
 logger = get_logger(__name__)
@@ -51,32 +52,19 @@ def get_concat_image_path(
     return concat_image_path
 
 
+@dry_mode_handler(
+    func_name="image_generator",
+    return_fields=[
+        "gen_image_path",
+        "concat_image_path",
+    ],
+)
 async def run(
     state: StateSchema,
     config: ConfigSchema,
 ) -> StateSchema:
     logger.info("runing image_generator...")
     conf = config["configurable"]
-
-    images_path = conf["images_path"]
-    image_id = state.image_id
-    image_extension = conf["image_extension"]
-
-    if conf["dry_mode"]:
-        sleep(conf["dry_mode_wait"])
-        empty_image = Image.new(
-            "RGB",
-            (1024, 1024),
-            color=(255, 255, 255),
-        )
-
-        empty_image_path = f"{images_path}/{image_id}-gen.{image_extension}"
-        empty_image.save(empty_image_path)
-
-        return {
-            "gen_image_path": empty_image_path,
-            "concat_image_path": empty_image_path,
-        }
 
     image_description = parse_image_description(state.image_description)
     prompt = f"{conf['generation_prompt_header']} {image_description} {conf['generation_prompt_footer']}"
@@ -103,6 +91,10 @@ async def run(
             "num_inference_steps": 28,
         },
     )
+
+    images_path = conf["images_path"]
+    image_id = state.image_id
+    image_extension = conf["image_extension"]
 
     gen_image_path = f"{images_path}/{image_id}-gen.{image_extension}"
 

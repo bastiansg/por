@@ -1,6 +1,6 @@
-from time import sleep
-from PIL import Image
+import asyncio
 
+from PIL import Image
 from multi_agents.graph import Node
 from common.logger import get_logger
 
@@ -22,7 +22,7 @@ async def run(
     conf = config["configurable"]
 
     history_length = conf["history_length"]
-    face_tracker = FaceTracker(
+    tracker = FaceTracker(
         init_servo_angles=ServoAngles(**conf["servo_angles"]),
         rotator_params=RotatorParams(**conf["rotator_params"]),
         image_size=ImageSize(**conf["image_size"]),
@@ -30,19 +30,30 @@ async def run(
         min_score=conf["min_score"],
     )
 
-    face_tracker.run()
-    while len(face_tracker.history) < history_length:
-        sleep(1)
-        pass
+    tracker.run()
+    while len(tracker.history) < history_length:
+        await asyncio.sleep(1)
 
-    face_tracker.stop()
-    history_item = face_tracker.history[-1]
+    tracker.stop()
+    history_item = tracker.history[-1]
 
     image_id = state.image_id
     pil_image = Image.fromarray(history_item.np_image)
-    image_path = f"{conf['images_path']}/{image_id}.{conf['image_extension']}"
 
+    image_path = f"{conf['images_path']}/{image_id}.{conf['image_extension']}"
     pil_image.save(image_path)
+
+    # FIXME: Why this sleep is necessary to set the angles?
+    await asyncio.sleep(1)
+
+    idle_angles = conf["idle_angles"]
+    tracker.servos.set_angles(
+        servo_angles=ServoAngles(
+            x=idle_angles["x"],
+            y=idle_angles["y"],
+        )
+    )
+
     return {
         "image_path": image_path,
     }

@@ -5,10 +5,16 @@ from common.logger import get_logger
 
 from istm.multi_agent.schema import StateSchema, ConfigSchema
 
+from .utils import dry_mode_handler
+
 
 logger = get_logger(__name__)
 
 
+@dry_mode_handler(
+    func_name="printer",
+    return_fields=["printer_job_id"],
+)
 async def run(
     state: StateSchema,
     config: ConfigSchema,

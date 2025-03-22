@@ -1,4 +1,3 @@
-from time import sleep
 from pydantic_ai import BinaryContent
 
 from multi_agents.graph import Node
@@ -8,24 +7,22 @@ from istm.multi_agent.schema import StateSchema, ConfigSchema
 from istm.llm_agents import ImageDescriberInput
 
 
-from .utils import get_image_describer
+from .utils import get_image_describer, dry_mode_handler
 
 
 logger = get_logger(__name__)
 
 
+@dry_mode_handler(
+    func_name="image_describer",
+    return_fields=["image_description"],
+)
 async def run(
     state: StateSchema,
     config: ConfigSchema,
 ) -> StateSchema:
     logger.info("runing image_describer...")
     conf = config["configurable"]
-
-    if conf["dry_mode"]:
-        sleep(conf["dry_mode_wait"])
-        return {
-            "description": "description",
-        }
 
     image_describer_agent = get_image_describer()
     with open(state.image_path, "rb") as image_file:
