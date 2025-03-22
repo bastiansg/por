@@ -1,6 +1,7 @@
 import replicate
 
 from PIL import Image
+from time import sleep
 from multi_agents.graph import Node
 from common.logger import get_logger
 
@@ -57,6 +58,26 @@ async def run(
     logger.info("runing image_generator...")
     conf = config["configurable"]
 
+    images_path = conf["images_path"]
+    image_id = state.image_id
+    image_extension = conf["image_extension"]
+
+    if conf["dry_mode"]:
+        sleep(conf["dry_mode_wait"])
+        empty_image = Image.new(
+            "RGB",
+            (1024, 1024),
+            color=(255, 255, 255),
+        )
+
+        empty_image_path = f"{images_path}/{image_id}-gen.{image_extension}"
+        empty_image.save(empty_image_path)
+
+        return {
+            "gen_image_path": empty_image_path,
+            "concat_image_path": empty_image_path,
+        }
+
     image_description = parse_image_description(state.image_description)
     prompt = f"{conf['generation_prompt_header']} {image_description} {conf['generation_prompt_footer']}"
     logger.info(f"generation_prompt => {prompt}")
@@ -83,9 +104,6 @@ async def run(
         },
     )
 
-    images_path = conf["images_path"]
-    image_id = state.image_id
-    image_extension = conf["image_extension"]
     gen_image_path = f"{images_path}/{image_id}-gen.{image_extension}"
 
     with open(gen_image_path, "wb") as f:

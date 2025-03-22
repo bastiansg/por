@@ -24,3 +24,4 @@ services:
         network_mode: host
         volumes:
             - $PWD/resources/cache/redis:/data
+        restart: unless-stopped

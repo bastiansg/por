@@ -21,7 +21,7 @@ async def run(
     qr = qrcode.QRCode(
         error_correction=qrcode.constants.ERROR_CORRECT_L,
         box_size=10,
-        border=2,
+        border=10,
     )
 
     qr.add_data(state.image_url)
@@ -47,9 +47,10 @@ async def run(
     images_path = conf["images_path"]
     image_id = state.image_id
     image_extension = conf["image_extension"]
-    qr_image_path = f"{images_path}/{image_id}-qr.{image_extension}"
 
+    qr_image_path = f"{images_path}/{image_id}-qr.{image_extension}"
     qr_pil_image.save(qr_image_path)
+
     return {
         "qr_image_path": qr_image_path,
     }

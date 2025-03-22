@@ -27,3 +27,6 @@ image_extension: jpg
 
 printer_name: EPSON_TM-T20IIIL
 imagekit_url_endpoint: https://ik.imagekit.io/ddmoon
+
+dry_mode: true
+dry_mode_wait: 5

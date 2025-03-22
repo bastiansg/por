@@ -10,6 +10,7 @@ from pydantic import (
     FilePath,
     NonNegativeInt,
     NonNegativeFloat,
+    StrictBool,
     HttpUrl,
     field_validator,
 )
@@ -30,6 +31,8 @@ class ConfigSchema(BaseModel):
     generation_prompt_footer: StrictStr
     printer_name: StrictStr
     imagekit_url_endpoint: StrictStr
+    dry_mode: StrictBool = False
+    dry_mode_wait: NonNegativeInt = 5
 
     @field_validator("images_path", mode="after")
     def images_path_validator(cls, v: str) -> str:
@@ -45,4 +48,4 @@ class StateSchema(BaseModel):
     concat_image_path: FilePath | None = None
     image_url: HttpUrl | None = None
     qr_image_path: FilePath | None = None
-    printer_job_id: StrictStr | None = None
+    printer_job_id: NonNegativeInt | None = None

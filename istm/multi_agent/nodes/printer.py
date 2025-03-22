@@ -16,11 +16,11 @@ async def run(
     logger.info("runing printer...")
     conf = config["configurable"]
 
-    conn = cups.Connection()
-    printer_job_id = conn.printFile(
+    cups_connection = cups.Connection()
+    printer_job_id = cups_connection.printFile(
         conf["printer_name"],
-        state.qr_image_path,
-        "qr-image-print",
+        state.qr_image_path.__str__(),
+        "print",
         {},
     )
 
