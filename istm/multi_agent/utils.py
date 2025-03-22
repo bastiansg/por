@@ -8,8 +8,6 @@ from .schema import ConfigSchema
 
 
 BASE_CONF_PATH = multi_agent.__path__[0]
-
-
 MODEL_CONF_MAP = {
     "grcra": f"{BASE_CONF_PATH}/grcra-conf.yml",
 }

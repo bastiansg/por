@@ -21,3 +21,8 @@ image_uploader_qr_generator = SimpleEdge(
     source="image_uploader",
     target="qr_generator",
 )
+
+qr_generator_printer = SimpleEdge(
+    source="qr_generator",
+    target="printer",
+)

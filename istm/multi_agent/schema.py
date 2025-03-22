@@ -43,5 +43,6 @@ class StateSchema(BaseModel):
     image_description: StrictStr | None = None
     gen_image_path: FilePath | None = None
     concat_image_path: FilePath | None = None
-    image_url: StrictStr | HttpUrl = None
+    image_url: HttpUrl | None = None
     qr_image_path: FilePath | None = None
+    printer_job_id: StrictStr | None = None

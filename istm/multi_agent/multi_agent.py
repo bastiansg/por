@@ -6,6 +6,7 @@ from .nodes import (
     image_generator,
     image_uploader,
     qr_generator,
+    printer,
 )
 
 from .edges import (
@@ -13,6 +14,7 @@ from .edges import (
     image_describer_image_generator,
     image_generator_image_uploader,
     image_uploader_qr_generator,
+    qr_generator_printer,
 )
 
 from .schema import StateSchema, ConfigSchema
@@ -25,6 +27,7 @@ def get_multi_agent() -> MultiAgentGraph:
         image_generator,
         image_uploader,
         qr_generator,
+        printer,
     ]
 
     edges = [
@@ -32,6 +35,7 @@ def get_multi_agent() -> MultiAgentGraph:
         image_describer_image_generator,
         image_generator_image_uploader,
         image_uploader_qr_generator,
+        qr_generator_printer,
     ]
 
     multi_agent = MultiAgentGraph(
