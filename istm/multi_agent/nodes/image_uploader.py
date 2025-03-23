@@ -6,9 +6,10 @@ from imagekitio.models.UploadFileRequestOptions import UploadFileRequestOptions
 from multi_agents.graph import Node
 from common.logger import get_logger
 
+from sensehat_dsp.display import Display
 from istm.multi_agent.schema import StateSchema, ConfigSchema
 
-from .utils import dry_mode_handler, get_sensehat_dsp
+from .utils import dry_mode_handler
 
 
 IMAGEKIT_PUBLIC_KEY = os.getenv("IMAGEKIT_PUBLIC_KEY")
@@ -29,11 +30,8 @@ async def run(
     logger.info("runing image_uploader...")
     conf = config["configurable"]
 
-    sensehat_dsp = get_sensehat_dsp()
-    sensehat_dsp.start_intermittent_image(
-        image_name="space-invader-3",
-        refresh_rate=0.1,
-    )
+    sensehat_dsp = Display(refresh_rate=0.1)
+    sensehat_dsp.start_intermittent_image(image_name="space-invader-3")
 
     url_endpoint = conf["imagekit_url_endpoint"]
     imagekit = ImageKit(

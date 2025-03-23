@@ -32,8 +32,7 @@ idle_angles:
     x: 103
     y: 0
 
-gol:
-    refresh_rate: 0.75
+gol_colors:
     p_color:
         r: 128
         g: 128
@@ -43,5 +42,5 @@ gol:
         g: 0
         b: 0
 
-dry_mode: false
+dry_mode: true
 dry_mode_wait: 5

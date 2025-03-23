@@ -7,8 +7,6 @@ from typing import Callable, Awaitable, TypeVar, Any
 from common.cache import RedisCache
 from common.logger import get_logger
 
-from sensehat_dsp.display import Display
-
 from istm.llm_agents import ImageDescriber
 from istm.multi_agent.schema import StateSchema, ConfigSchema
 
@@ -22,11 +20,6 @@ R = TypeVar("R", bound=dict[str, Any])
 @lru_cache(maxsize=1)
 def get_image_describer() -> ImageDescriber:
     return ImageDescriber(cache=RedisCache())
-
-
-@lru_cache(maxsize=1)
-def get_sensehat_dsp() -> Display:
-    return Display()
 
 
 def dry_mode_handler(func_name: str, return_fields: list[str]):

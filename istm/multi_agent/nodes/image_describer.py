@@ -4,22 +4,15 @@ from multi_agents.graph import Node
 from common.logger import get_logger
 
 
+from sensehat_dsp.display import Display
 from istm.multi_agent.schema import StateSchema, ConfigSchema
 from istm.llm_agents import ImageDescriberInput
 
 
-from .utils import get_image_describer, dry_mode_handler, get_sensehat_dsp
+from .utils import get_image_describer, dry_mode_handler
 
 
 logger = get_logger(__name__)
-
-# "space-invader-1",
-# "space-invader-1a",
-# "space-invader-1b",
-# "space-invader-2",
-# "space-invader-3",
-# "space-invader-4",
-# "space-invader-5",
 
 
 @dry_mode_handler(
@@ -33,11 +26,8 @@ async def run(
     logger.info("runing image_describer...")
     conf = config["configurable"]
 
-    sensehat_dsp = get_sensehat_dsp()
-    sensehat_dsp.start_intermittent_image(
-        image_name="space-invader-1",
-        refresh_rate=0.25,
-    )
+    sensehat_dsp = Display(refresh_rate=0.25)
+    sensehat_dsp.start_intermittent_image(image_name="space-invader-1")
 
     image_describer_agent = get_image_describer()
     with open(state.image_path, "rb") as image_file:

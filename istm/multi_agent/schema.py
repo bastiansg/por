@@ -8,7 +8,6 @@ from hailo_apps.meta.interfaces import RotatorParams, ImageSize
 
 from pydantic import (
     BaseModel,
-    PositiveFloat,
     StrictStr,
     FilePath,
     NonNegativeInt,
@@ -19,8 +18,7 @@ from pydantic import (
 )
 
 
-class Gol(BaseModel):
-    refresh_rate: PositiveFloat
+class GolColors(BaseModel):
     p_color: Color
     s_color: Color
 
@@ -41,7 +39,7 @@ class ConfigSchema(BaseModel):
     printer_name: StrictStr
     imagekit_url_endpoint: StrictStr
     idle_angles: ServoAngles
-    gol: Gol
+    gol_colors: GolColors
     dry_mode: StrictBool = False
     dry_mode_wait: NonNegativeInt = 5
 

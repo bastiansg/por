@@ -3,9 +3,10 @@ import cups
 from multi_agents.graph import Node
 from common.logger import get_logger
 
+from sensehat_dsp.display import Display
 from istm.multi_agent.schema import StateSchema, ConfigSchema
 
-from .utils import dry_mode_handler, get_sensehat_dsp
+from .utils import dry_mode_handler
 
 
 logger = get_logger(__name__)
@@ -22,7 +23,7 @@ async def run(
     logger.info("runing printer...")
     conf = config["configurable"]
 
-    sensehat_dsp = get_sensehat_dsp()
+    sensehat_dsp = Display()
     sensehat_dsp.stop()
     sensehat_dsp.clear()
 

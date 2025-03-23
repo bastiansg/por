@@ -1,19 +1,55 @@
 import asyncio
+import statistics
 
 from PIL import Image
+from collections import deque
+from more_itertools import unzip
+
 from multi_agents.graph import Node
 from common.logger import get_logger
 
 from hailo_apps.apps import FaceTracker
 from hailo_apps.servos import ServoAngles
+from hailo_apps.meta.interfaces.rotator_app import HistoryItem
 from hailo_apps.meta.interfaces import RotatorParams, ImageSize
 
+from sensehat_dsp.display import Display
 from istm.multi_agent.schema import StateSchema, ConfigSchema
-
-from .utils import get_sensehat_dsp
 
 
 logger = get_logger(__name__)
+
+
+def tracker_is_active(
+    tracker_history: deque[HistoryItem],
+    history_length: int,
+    sensehat_dsp: Display,
+) -> bool:
+    if len(tracker_history) < history_length:
+        return True
+
+    x_deltas, y_deltas = unzip(
+        (
+            history_item.x_delta,
+            history_item.y_delta,
+        )
+        for history_item in tracker_history
+    )
+
+    delta_avg = statistics.mean(
+        [
+            statistics.mean(x_deltas),
+            statistics.mean(y_deltas),
+        ]
+    )
+
+    logger.info(f"delta_avg => {delta_avg}")
+    sensehat_dsp.refresh_rate = delta_avg
+
+    if delta_avg > 0:
+        return True
+
+    return False
 
 
 async def run(
@@ -32,22 +68,35 @@ async def run(
         min_score=conf["min_score"],
     )
 
-    gol = conf["gol"]
-    sensehat_dsp = get_sensehat_dsp()
+    gol_colors = conf["gol_colors"]
+    sensehat_dsp = Display(refresh_rate=1.0)
     sensehat_dsp.start_gol(
-        p_color=gol["p_color"],
-        s_color=gol["s_color"],
-        refresh_rate=gol["refresh_rate"],
+        p_color=gol_colors["p_color"],
+        s_color=gol_colors["s_color"],
     )
 
     tracker.run()
-    while len(tracker.history) < history_length:
+    is_active = True
+    while is_active:
+        is_active = tracker_is_active(
+            tracker_history=tracker.history,
+            history_length=history_length,
+            sensehat_dsp=sensehat_dsp,
+        )
+
         await asyncio.sleep(1)
 
     tracker.stop()
-    history_item = tracker.history[-1]
+
+    valid_history_items = [
+        history_item
+        for history_item in tracker.history
+        if history_item.centroid is not None
+    ]
+
+    last_history_item = valid_history_items[-1]
     image_id = state.image_id
-    pil_image = Image.fromarray(history_item.np_image)
+    pil_image = Image.fromarray(last_history_item.np_image)
 
     image_path = f"{conf['images_path']}/{image_id}.{conf['image_extension']}"
     pil_image.save(image_path)

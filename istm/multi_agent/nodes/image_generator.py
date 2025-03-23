@@ -4,9 +4,10 @@ from PIL import Image
 from multi_agents.graph import Node
 from common.logger import get_logger
 
+from sensehat_dsp.display import Display
 from istm.multi_agent.schema import StateSchema, ConfigSchema
 
-from .utils import dry_mode_handler, get_sensehat_dsp
+from .utils import dry_mode_handler
 
 
 logger = get_logger(__name__)
@@ -66,11 +67,8 @@ async def run(
     logger.info("runing image_generator...")
     conf = config["configurable"]
 
-    sensehat_dsp = get_sensehat_dsp()
-    sensehat_dsp.start_color_cycle(
-        image_name="space-invader-1",
-        refresh_rate=0.001,
-    )
+    sensehat_dsp = Display(refresh_rate=0.001)
+    sensehat_dsp.start_color_cycle(image_name="space-invader-1")
 
     image_description = parse_image_description(state.image_description)
     prompt = f"{conf['generation_prompt_header']} {image_description} {conf['generation_prompt_footer']}"
