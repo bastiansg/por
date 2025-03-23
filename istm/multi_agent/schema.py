@@ -40,6 +40,7 @@ class ConfigSchema(BaseModel):
     imagekit_url_endpoint: StrictStr
     idle_angles: ServoAngles
     gol_colors: GolColors
+    recovery_time: NonNegativeFloat
     dry_mode: StrictBool = False
     dry_mode_wait: NonNegativeInt = 5
 

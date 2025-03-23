@@ -17,6 +17,7 @@ from .edges import (
     image_uploader_qr_generator,
     qr_generator_printer,
     printer_recovery,
+    recovery_face_tracker,
 )
 
 from .schema import StateSchema, ConfigSchema
@@ -40,6 +41,7 @@ def get_multi_agent() -> MultiAgentGraph:
         image_uploader_qr_generator,
         qr_generator_printer,
         printer_recovery,
+        recovery_face_tracker,
     ]
 
     multi_agent = MultiAgentGraph(

@@ -31,3 +31,8 @@ printer_recovery = SimpleEdge(
     source="printer",
     target="recovery",
 )
+
+recovery_face_tracker = SimpleEdge(
+    source="recovery",
+    target="face_tracker",
+)

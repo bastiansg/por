@@ -42,5 +42,7 @@ gol_colors:
         g: 0
         b: 0
 
+recovery_time: 30
+
 dry_mode: true
 dry_mode_wait: 0

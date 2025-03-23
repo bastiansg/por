@@ -1,3 +1,4 @@
+import uuid
 import asyncio
 
 from multi_agents.graph import Node
@@ -30,15 +31,16 @@ async def run(
         )
     )
 
-    await asyncio.sleep(20)
+    await asyncio.sleep(conf["recovery_time"])
     sensehat_dsp.stop()
     sensehat_dsp.clear()
 
-    return {}
+    return {
+        "image_id": uuid.uuid4().hex,
+    }
 
 
 recovery = Node(
     name="recovery",
     run=run,
-    is_finish_point=True,
 )
