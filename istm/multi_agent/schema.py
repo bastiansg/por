@@ -1,11 +1,14 @@
 from common.utils.path import create_path
 
+from sensehat_dsp.display import Color
+
 from hailo_apps.servos import ServoAngles
 from hailo_apps.meta.interfaces import RotatorParams, ImageSize
 
 
 from pydantic import (
     BaseModel,
+    PositiveFloat,
     StrictStr,
     FilePath,
     NonNegativeInt,
@@ -14,6 +17,12 @@ from pydantic import (
     HttpUrl,
     field_validator,
 )
+
+
+class Gol(BaseModel):
+    refresh_rate: PositiveFloat
+    p_color: Color
+    s_color: Color
 
 
 class ConfigSchema(BaseModel):
@@ -32,6 +41,7 @@ class ConfigSchema(BaseModel):
     printer_name: StrictStr
     imagekit_url_endpoint: StrictStr
     idle_angles: ServoAngles
+    gol: Gol
     dry_mode: StrictBool = False
     dry_mode_wait: NonNegativeInt = 5
 

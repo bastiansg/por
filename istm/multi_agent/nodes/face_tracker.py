@@ -10,6 +10,8 @@ from hailo_apps.meta.interfaces import RotatorParams, ImageSize
 
 from istm.multi_agent.schema import StateSchema, ConfigSchema
 
+from .utils import get_sensehat_dsp
+
 
 logger = get_logger(__name__)
 
@@ -30,13 +32,23 @@ async def run(
         min_score=conf["min_score"],
     )
 
+    gol = conf["gol"]
+    sensehat_dsp = get_sensehat_dsp()
+    sensehat_dsp.start_gol(
+        p_color=gol["p_color"],
+        s_color=gol["s_color"],
+        refresh_rate=gol["refresh_rate"],
+    )
+
     tracker.run()
     while len(tracker.history) < history_length:
         await asyncio.sleep(1)
 
     tracker.stop()
-    history_item = tracker.history[-1]
+    sensehat_dsp.stop()
+    sensehat_dsp.clear()
 
+    history_item = tracker.history[-1]
     image_id = state.image_id
     pil_image = Image.fromarray(history_item.np_image)
 

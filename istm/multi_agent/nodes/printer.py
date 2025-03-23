@@ -5,7 +5,7 @@ from common.logger import get_logger
 
 from istm.multi_agent.schema import StateSchema, ConfigSchema
 
-from .utils import dry_mode_handler
+from .utils import dry_mode_handler, get_sensehat_dsp
 
 
 logger = get_logger(__name__)
@@ -21,6 +21,10 @@ async def run(
 ) -> StateSchema:
     logger.info("runing printer...")
     conf = config["configurable"]
+
+    sensehat_dsp = get_sensehat_dsp()
+    sensehat_dsp.stop()
+    sensehat_dsp.clear()
 
     cups_connection = cups.Connection()
     printer_job_id = cups_connection.printFile(
