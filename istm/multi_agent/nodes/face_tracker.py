@@ -45,9 +45,6 @@ async def run(
         await asyncio.sleep(1)
 
     tracker.stop()
-    sensehat_dsp.stop()
-    sensehat_dsp.clear()
-
     history_item = tracker.history[-1]
     image_id = state.image_id
     pil_image = Image.fromarray(history_item.np_image)
@@ -65,6 +62,9 @@ async def run(
             y=idle_angles["y"],
         )
     )
+
+    sensehat_dsp.stop()
+    sensehat_dsp.clear()
 
     return {
         "image_path": image_path,

@@ -36,7 +36,7 @@ async def run(
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.start_intermittent_image(
         image_name="space-invader-1",
-        refresh_rate=1,
+        refresh_rate=0.25,
     )
 
     image_describer_agent = get_image_describer()

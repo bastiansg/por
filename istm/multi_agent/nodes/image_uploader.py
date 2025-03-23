@@ -8,7 +8,7 @@ from common.logger import get_logger
 
 from istm.multi_agent.schema import StateSchema, ConfigSchema
 
-from .utils import dry_mode_handler
+from .utils import dry_mode_handler, get_sensehat_dsp
 
 
 IMAGEKIT_PUBLIC_KEY = os.getenv("IMAGEKIT_PUBLIC_KEY")
@@ -28,6 +28,12 @@ async def run(
 ) -> StateSchema:
     logger.info("runing image_uploader...")
     conf = config["configurable"]
+
+    sensehat_dsp = get_sensehat_dsp()
+    sensehat_dsp.start_intermittent_image(
+        image_name="space-invader-3",
+        refresh_rate=0.1,
+    )
 
     url_endpoint = conf["imagekit_url_endpoint"]
     imagekit = ImageKit(

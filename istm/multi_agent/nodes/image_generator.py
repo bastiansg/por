@@ -116,6 +116,9 @@ async def run(
         margin=conf["image_margin"],
     )
 
+    sensehat_dsp.stop()
+    sensehat_dsp.clear()
+
     return {
         "gen_image_path": gen_image_path,
         "concat_image_path": concat_image_path,
