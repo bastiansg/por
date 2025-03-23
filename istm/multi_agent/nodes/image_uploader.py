@@ -62,5 +62,4 @@ async def run(
 image_uploader = Node(
     name="image_uploader",
     run=run,
-    is_finish_point=True,
 )

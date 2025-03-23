@@ -4,7 +4,7 @@ lgpio==0.2.2.0
 replicate==1.0.4
 imagekitio==4.1.0
 
-hailo_apps @ git+ssh://git@github.com/bastiansg/hailo-apps.git@v1.0.10
+hailo_apps @ git+ssh://git@github.com/bastiansg/hailo-apps.git@v1.0.11
 sensehat_dsp @ git+https://github.com/bastiansg/sensehat-dsp.git@v1.0.10
 
 multi_agents @ git+https://github.com/aureka-team/agents.git@v1.1.1

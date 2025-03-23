@@ -26,3 +26,8 @@ qr_generator_printer = SimpleEdge(
     source="qr_generator",
     target="printer",
 )
+
+printer_recovery = SimpleEdge(
+    source="printer",
+    target="recovery",
+)

@@ -101,17 +101,6 @@ async def run(
     image_path = f"{conf['images_path']}/{image_id}.{conf['image_extension']}"
     pil_image.save(image_path)
 
-    # FIXME: Why this sleep is necessary to set the angles?
-    await asyncio.sleep(1)
-
-    idle_angles = conf["idle_angles"]
-    tracker.servos.set_angles(
-        servo_angles=ServoAngles(
-            x=idle_angles["x"],
-            y=idle_angles["y"],
-        )
-    )
-
     sensehat_dsp.stop()
     sensehat_dsp.clear()
 

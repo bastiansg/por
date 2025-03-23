@@ -23,24 +23,19 @@ def get_image_describer() -> ImageDescriber:
 
 
 def dry_mode_handler(func_name: str, return_fields: list[str]):
-    try:
+    def decorator(
+        func: Callable[[StateSchema, ConfigSchema], Awaitable[R]],
+    ) -> Callable[[StateSchema, ConfigSchema], Awaitable[R]]:
+        @functools.wraps(func)
+        async def wrapper(state: StateSchema, config: ConfigSchema) -> R:
+            conf = config["configurable"]
+            if conf["dry_mode"]:
+                logger.info(f"runing {func_name} in dry mode...")
+                await asyncio.sleep(conf["dry_mode_wait"])
+                return {field: None for field in return_fields}
 
-        def decorator(
-            func: Callable[[StateSchema, ConfigSchema], Awaitable[R]],
-        ) -> Callable[[StateSchema, ConfigSchema], Awaitable[R]]:
-            @functools.wraps(func)
-            async def wrapper(state: StateSchema, config: ConfigSchema) -> R:
-                conf = config["configurable"]
-                if conf["dry_mode"]:
-                    logger.info(f"runing {func_name} in dry mode...")
-                    await asyncio.sleep(conf["dry_mode_wait"])
-                    return {field: None for field in return_fields}
+            return await func(state, config)
 
-                return await func(state, config)
+        return wrapper
 
-            return wrapper
-
-        return decorator
-
-    except Exception as err:
-        raise (err)
+    return decorator

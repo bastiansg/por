@@ -4,4 +4,5 @@ from .edges import (  # noqa
     image_generator_image_uploader,
     image_uploader_qr_generator,
     qr_generator_printer,
+    printer_recovery,
 )

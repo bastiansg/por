@@ -43,4 +43,4 @@ gol_colors:
         b: 0
 
 dry_mode: true
-dry_mode_wait: 5
+dry_mode_wait: 0

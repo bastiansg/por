@@ -43,5 +43,4 @@ async def run(
 printer = Node(
     name="printer",
     run=run,
-    is_finish_point=True,
 )

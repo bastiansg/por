@@ -65,5 +65,4 @@ async def run(
 qr_generator = Node(
     name="qr_generator",
     run=run,
-    is_finish_point=True,
 )
