@@ -5,8 +5,8 @@ from common.logger import get_logger
 
 
 from sensehat_dsp.display import Display
-from istm.multi_agent.schema import StateSchema, ConfigSchema
 from istm.llm_agents import ImageDescriberInput
+from istm.multi_agent.schema import StateSchema, ConfigSchema
 
 
 from .utils import get_image_describer, dry_mode_handler

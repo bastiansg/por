@@ -93,6 +93,7 @@ async def run(
             "prompt_strength": 0.6,
             "extra_lora_scale": 1,
             "num_inference_steps": 28,
+            "disable_safety_checker": True,
         },
     )
 
