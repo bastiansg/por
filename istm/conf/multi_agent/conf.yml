@@ -14,11 +14,9 @@ image_size:
 image_margin: 20
 
 description_guidelines: |-
-    Analyze the provided image and generate a highly detailed description.
-    For each person, clearly describe their appearance, including clothing, accessories, posture, hairstyle, hair color, eye color,
-    facial expression, and any distinguishing features.
-    Also describe their interactions, actions, body language, and how they relate spatially to the environment and to each other.
-    Beyond the people, capture and describe other visual elements such as objects, colors, lighting, setting, mood, and overall ambiance.
+    Carefully analyze the provided image and generate a vivid, highly detailed description.
+    Use rich, expressive language to convey the style, composition, atmosphere, and visual elements.
+    Always begin the description with "a..." — note that it should start in lowercase.
 
 history_length: 300
 min_score: 0.0
@@ -44,5 +42,5 @@ gol_colors:
 
 recovery_time: 30
 
-dry_mode: true
+dry_mode: false
 dry_mode_wait: 0

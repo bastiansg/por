@@ -30,8 +30,8 @@ async def run(
     logger.info("runing image_uploader...")
     conf = config["configurable"]
 
-    sensehat_dsp = Display(refresh_rate=0.1)
-    sensehat_dsp.start_intermittent_image(image_name="space-invader-3")
+    sensehat_dsp = Display(refresh_rate=0.25)
+    sensehat_dsp.start_intermittent_image(image_name="space-invader-2")
 
     url_endpoint = conf["imagekit_url_endpoint"]
     imagekit = ImageKit(
@@ -54,8 +54,14 @@ async def run(
             options=options,
         )
 
+    image_url = f"{url_endpoint}{upload.file_path}"
+    print(image_url)
+
+    sensehat_dsp.stop()
+    sensehat_dsp.clear()
+
     return {
-        "image_url": f"{url_endpoint}{upload.file_path}",
+        "image_url": image_url,
     }
 
 
