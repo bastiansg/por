@@ -1,5 +1,6 @@
 import qrcode
 
+from PIL import Image, ImageDraw
 from qrcode.image.styles.moduledrawers.pil import GappedSquareModuleDrawer
 
 from multi_agents.graph import Node
@@ -40,16 +41,47 @@ async def run(
     )
 
     qr_pil_image = img.get_image()
+    w, h = qr_pil_image.size
 
-    # image_size = conf["image_size"]
-    # margin = conf["image_margin"]
-    # qr_pil_image = qr_pil_image.resize(
-    #     (
-    #         image_size["width"] + margin,
-    #         image_size["height"] + margin,
-    #     )
-    # )
+    r_width = state.concat_image.width
+    resized_qr_image = Image.new("RGB", (r_width, r_width), "white")
 
+    x_offset = (r_width - w) // 2
+    y_offset = (r_width - h) // 2
+
+    resized_qr_image.paste(qr_pil_image, (x_offset, y_offset))
+    total_height = resized_qr_image.height + state.concat_image.height
+    concat_image = Image.new(
+        "RGB",
+        (
+            resized_qr_image.width,
+            total_height,
+        ),
+        "white",
+    )
+
+    concat_image_path = state.concat_image.image_path
+    concat_image.paste(
+        Image.open(concat_image_path),
+        (0, 0),
+    )
+
+    concat_image.paste(
+        resized_qr_image,
+        (0, state.concat_image.height),
+    )
+
+    # NOTE: Prevents the printer from auto-cutting the bottom
+    draw = ImageDraw.Draw(concat_image)
+    draw.rectangle(
+        [
+            (0, concat_image.height - conf["image_margin"]),
+            (concat_image.width, concat_image.height),
+        ],
+        fill=(0, 0, 0),
+    )
+
+    concat_image.save(concat_image_path)
     images_path = conf["images_path"]
     image_id = state.image_id
     image_extension = conf["image_extension"]

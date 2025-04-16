@@ -24,7 +24,7 @@ async def run(
     cups_connection = cups.Connection()
     printer_job_id = cups_connection.printFile(
         conf["printer_name"],
-        state.qr_image_path.__str__(),
+        state.concat_image.image_path.__str__(),
         "print",
         {},
     )

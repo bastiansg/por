@@ -6,9 +6,17 @@ face_tracker_image_describer = SimpleEdge(
     target="image_describer",
 )
 
+face_tracker_person_describer = SimpleEdge(
+    source="face_tracker",
+    target="person_describer",
+)
 
-image_describer_image_generator = SimpleEdge(
-    source="image_describer",
+
+image_generator_edges = SimpleEdge(
+    source=[
+        "image_describer",
+        "person_describer",
+    ],
     target="image_generator",
 )
 
@@ -30,9 +38,4 @@ qr_generator_printer = SimpleEdge(
 printer_recovery = SimpleEdge(
     source="printer",
     target="recovery",
-)
-
-recovery_face_tracker = SimpleEdge(
-    source="recovery",
-    target="face_tracker",
 )

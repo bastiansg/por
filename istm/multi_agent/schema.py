@@ -28,7 +28,8 @@ class ConfigSchema(BaseModel):
     rotator_params: RotatorParams
     image_size: ImageSize
     image_margin: NonNegativeInt
-    description_guidelines: StrictStr
+    image_description_guidelines: StrictStr
+    person_description_guidelines: StrictStr
     history_length: NonNegativeInt
     min_score: NonNegativeFloat
     images_path: StrictStr
@@ -50,12 +51,26 @@ class ConfigSchema(BaseModel):
         return v
 
 
+class ConcatImage(BaseModel):
+    image_path: FilePath
+    width: NonNegativeInt
+    height: NonNegativeInt
+
+
+class PersonDescription(BaseModel):
+    fears: StrictStr
+    dreams_and_desires: StrictStr
+    love_status: StrictStr
+    lucky_number: StrictStr
+
+
 class StateSchema(BaseModel):
     image_id: StrictStr
     image_path: FilePath | None = None
     image_description: StrictStr | None = None
+    person_description: PersonDescription | None = None
     gen_image_path: FilePath | None = None
-    concat_image_path: FilePath | None = None
+    concat_image: ConcatImage | None = None
     image_url: HttpUrl | None = None
     qr_image_path: FilePath | None = None
     printer_job_id: NonNegativeInt | None = None

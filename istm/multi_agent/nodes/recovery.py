@@ -43,4 +43,5 @@ async def run(
 recovery = Node(
     name="recovery",
     run=run,
+    is_finish_point=True,
 )

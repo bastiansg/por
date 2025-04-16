@@ -1,6 +1,7 @@
-model: openai:gpt-4o-2024-11-20
+# model: openai:gpt-4o-2024-11-20
 # model: openai:gpt-4o-mini-2024-07-18
-# model: google-gla:gemini-2.0-flash-001
+model: google-gla:gemini-2.0-flash-001
+# model: google-gla:gemini-2.5-pro-exp-03-25
 # max-tokens: 500
 max-tokens: 448
 temperature: 0.7

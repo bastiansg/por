@@ -45,9 +45,9 @@ async def run(
         is_private_file=False,
     )
 
-    concat_image_path = state.concat_image_path
+    concat_image_path = state.concat_image.image_path
     image_name = os.path.basename(concat_image_path)
-    with open(state.concat_image_path, "rb") as image_file:
+    with open(concat_image_path, "rb") as image_file:
         upload = imagekit.upload_file(
             file=image_file,
             file_name=image_name,
@@ -55,8 +55,6 @@ async def run(
         )
 
     image_url = f"{url_endpoint}{upload.file_path}"
-    print(image_url)
-
     sensehat_dsp.stop()
     sensehat_dsp.clear()
 
