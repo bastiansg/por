@@ -1,8 +1,8 @@
 services:
-    istm-devcontainer:
+    por-devcontainer:
         network_mode: host
-        image: istm-devcontainer
-        container_name: istm-devcontainer
+        image: por-devcontainer
+        container_name: por-devcontainer
         build:
             context: ..
             dockerfile: .devcontainer/Dockerfile

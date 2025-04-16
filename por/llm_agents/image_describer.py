@@ -2,7 +2,7 @@ from pydantic import BaseModel, StrictStr
 
 from common.cache import RedisCache
 
-from istm.conf import agents
+from por.conf import agents
 from llm_agents.meta.interfaces import LLMAgent
 
 

@@ -1,7 +1,7 @@
 from typing import Literal
 from functools import lru_cache
 
-from istm.conf import multi_agent
+from por.conf import multi_agent
 from common.utils.yaml_data import load_yaml
 
 from .schema import ConfigSchema

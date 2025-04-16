@@ -14,7 +14,7 @@ from hailo_apps.meta.interfaces.rotator_app import HistoryItem
 from hailo_apps.meta.interfaces import RotatorParams, ImageSize
 
 from sensehat_dsp.display import Display
-from istm.multi_agent.schema import StateSchema, ConfigSchema
+from por.multi_agent.schema import StateSchema, ConfigSchema
 
 
 logger = get_logger(__name__)

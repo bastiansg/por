@@ -5,7 +5,7 @@ from multi_agents.graph import Node
 from common.logger import get_logger
 
 from sensehat_dsp.display import Display
-from istm.multi_agent.schema import StateSchema, ConfigSchema, ConcatImage
+from por.multi_agent.schema import StateSchema, ConfigSchema, ConcatImage
 
 from .utils import dry_mode_handler
 

@@ -3,7 +3,7 @@ import functools
 
 from common.logger import get_logger
 from typing import Callable, Awaitable, TypeVar, Any
-from istm.multi_agent.schema import StateSchema, ConfigSchema
+from por.multi_agent.schema import StateSchema, ConfigSchema
 
 
 logger = get_logger(__name__)

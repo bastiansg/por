@@ -3,8 +3,8 @@ from pydantic_ai import BinaryContent
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from istm.llm_agents import PersonDescriber, PersonDescriberInput
-from istm.multi_agent.schema import StateSchema, ConfigSchema
+from por.llm_agents import PersonDescriber, PersonDescriberInput
+from por.multi_agent.schema import StateSchema, ConfigSchema
 
 
 from .utils import dry_mode_handler

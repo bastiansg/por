@@ -6,7 +6,7 @@ from common.logger import get_logger
 
 from sensehat_dsp.display import Display
 from hailo_apps.servos import Servos, ServoAngles
-from istm.multi_agent.schema import StateSchema, ConfigSchema
+from por.multi_agent.schema import StateSchema, ConfigSchema
 
 
 logger = get_logger(__name__)

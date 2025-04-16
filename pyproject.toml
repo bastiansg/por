@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 requires-python = ">=3.11"
-name = "istm"
+name = "por"
 dynamic = ["version", "dependencies"]
 description = "Image Style Transfer Machine"
 readme = "README.md"
@@ -17,7 +17,7 @@ classifiers = [
 ]
 
 [tool.setuptools.packages.find]
-include = ["istm"]
+include = ["por"]
 
 [tool.setuptools.dynamic]
 dependencies = { file = ["requirements.txt"] }
@@ -25,4 +25,4 @@ dependencies = { file = ["requirements.txt"] }
 [tool.setuptools_scm]
 
 [tool.setuptools.package-data]
-"istm" = ["conf/*"]
+"por" = ["conf/*"]

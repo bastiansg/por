@@ -4,8 +4,8 @@ from multi_agents.graph import Node
 from common.logger import get_logger
 from sensehat_dsp.display import Display
 
-from istm.llm_agents import ImageDescriber, ImageDescriberInput
-from istm.multi_agent.schema import StateSchema, ConfigSchema
+from por.llm_agents import ImageDescriber, ImageDescriberInput
+from por.multi_agent.schema import StateSchema, ConfigSchema
 
 from .utils import dry_mode_handler
 

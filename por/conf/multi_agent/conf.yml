@@ -36,8 +36,8 @@ idle_angles:
 gol_colors:
     p_color:
         r: 128
-        g: 128
-        b: 128
+        g: 0
+        b: 255
     s_color:
         r: 0
         g: 0

@@ -1,4 +1,4 @@
-FROM istm-core
+FROM por-core
 
 RUN --mount=type=cache,target=/var/cache/apt \
     --mount=target=/var/cache/apt,type=cache,sharing=locked \

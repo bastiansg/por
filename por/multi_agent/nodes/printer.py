@@ -2,7 +2,7 @@ import cups
 
 from multi_agents.graph import Node
 from common.logger import get_logger
-from istm.multi_agent.schema import StateSchema, ConfigSchema
+from por.multi_agent.schema import StateSchema, ConfigSchema
 
 from .utils import dry_mode_handler
 

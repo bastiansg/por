@@ -1,8 +1,8 @@
 {
-    "name": "istm",
+    "name": "por",
     "initializeCommand": "make core-build",
     "dockerComposeFile": "docker-compose.yml",
-    "service": "istm-devcontainer",
+    "service": "por-devcontainer",
     "workspaceFolder": "/workspace",
     "customizations": {
         "vscode": {

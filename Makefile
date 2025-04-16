@@ -4,21 +4,21 @@ include .env
 
 core-build:
 	[ -e .secrets/.env ] || touch .secrets/.env
-	docker compose build istm-core
+	docker compose build por-core
 
 core-run:
-	docker compose run istm-core
+	docker compose run por-core
 
 
 devcontainer-build: core-build
-	docker compose -f .devcontainer/docker-compose.yml build istm-devcontainer
+	docker compose -f .devcontainer/docker-compose.yml build por-devcontainer
 
 
 redis-start:
-	docker compose up -d istm-redis
+	docker compose up -d por-redis
 
 redis-stop:
-	docker compose stop istm-redis
+	docker compose stop por-redis
 
 redis-flush:
-	docker compose exec istm-redis redis-cli FLUSHALL
+	docker compose exec por-redis redis-cli FLUSHALL

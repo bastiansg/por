@@ -1,7 +1,7 @@
 services:
-    istm-core:
-        image: istm-core
-        container_name: istm-core
+    por-core:
+        image: por-core
+        container_name: por-core
         network_mode: host
         build:
             context: .
@@ -18,10 +18,18 @@ services:
             - .secrets/.env
         privileged: true
 
-    istm-redis:
+    por-redis:
         image: redis:${REDIS_VERSION}
-        container_name: istm-redis
+        container_name: por-redis
         network_mode: host
         volumes:
             - $PWD/resources/cache/redis:/data
+        restart: unless-stopped
+
+    por-qdrant:
+        image: qdrant/qdrant:${QDRANT_VERSION}
+        container_name: por-qdrant
+        network_mode: host
+        volumes:
+            - ./resources/db/qdrant:/qdrant/storage
         restart: unless-stopped
