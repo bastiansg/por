@@ -7,29 +7,30 @@ from por.conf import agents
 from llm_agents.meta.interfaces import LLMAgent
 
 
-class PersonDescriberInput(BaseModel):
-    description_guidelines: StrictStr
+class ImagePrompterInput(BaseModel):
+    image_description: StrictStr
+    person_description: StrictStr
+    nietzsche_advice: StrictStr
+    jung_advice: StrictStr
+    ts_advice: StrictStr
     output_language: LanguageName
 
 
-class PersonDescriberOutput(BaseModel):
-    fears: StrictStr
-    dreams_and_desires: StrictStr
-    love_status: StrictStr
-    lucky_number: StrictStr
+class ImagePrompterOutput(BaseModel):
+    image_generation_prompt: StrictStr
 
 
-class PersonDescriber(LLMAgent[PersonDescriberInput, PersonDescriberOutput]):
+class ImagePrompter(LLMAgent[ImagePrompterInput, ImagePrompterOutput]):
     def __init__(
         self,
-        conf_path=f"{agents.__path__[0]}/person-describer.yml",
+        conf_path=f"{agents.__path__[0]}/image-prompter.yml",
         max_concurrency: int = 10,
         cache: RedisCache = None,
     ):
         super().__init__(
             conf_path=conf_path,
-            agent_input=PersonDescriberInput,
-            agent_output=PersonDescriberOutput,
+            agent_input=ImagePrompterInput,
+            agent_output=ImagePrompterOutput,
             max_concurrency=max_concurrency,
             cache=cache,
         )

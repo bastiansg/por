@@ -87,12 +87,14 @@ async def run(
         await asyncio.sleep(1)
 
     tracker.stop()
-
     valid_history_items = [
         history_item
         for history_item in tracker.history
         if history_item.centroid is not None
     ]
+
+    tracker.servos.set_angles(servo_angles=ServoAngles(**conf["servo_angles"]))
+    del tracker
 
     last_history_item = valid_history_items[-1]
     image_id = state.image_id

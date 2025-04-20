@@ -7,29 +7,27 @@ from por.conf import agents
 from llm_agents.meta.interfaces import LLMAgent
 
 
-class PersonDescriberInput(BaseModel):
-    description_guidelines: StrictStr
+class JungAdvisorInput(BaseModel):
+    person_description: StrictStr
+    jung_text_chunks: list[StrictStr]
     output_language: LanguageName
 
 
-class PersonDescriberOutput(BaseModel):
-    fears: StrictStr
-    dreams_and_desires: StrictStr
-    love_status: StrictStr
-    lucky_number: StrictStr
+class JungAdvisorOutput(BaseModel):
+    jung_advise: StrictStr
 
 
-class PersonDescriber(LLMAgent[PersonDescriberInput, PersonDescriberOutput]):
+class JungAdvisor(LLMAgent[JungAdvisorInput, JungAdvisorOutput]):
     def __init__(
         self,
-        conf_path=f"{agents.__path__[0]}/person-describer.yml",
+        conf_path=f"{agents.__path__[0]}/jung-advisor.yml",
         max_concurrency: int = 10,
         cache: RedisCache = None,
     ):
         super().__init__(
             conf_path=conf_path,
-            agent_input=PersonDescriberInput,
-            agent_output=PersonDescriberOutput,
+            agent_input=JungAdvisorInput,
+            agent_output=JungAdvisorOutput,
             max_concurrency=max_concurrency,
             cache=cache,
         )

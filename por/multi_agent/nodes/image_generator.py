@@ -13,14 +13,6 @@ from .utils import dry_mode_handler
 logger = get_logger(__name__)
 
 
-def parse_image_description(image_description: str) -> str:
-    image_description = image_description[:1].lower() + image_description[1:]
-    if image_description.endswith("."):
-        return image_description
-
-    return f"{image_description}."
-
-
 def get_concat_image(
     image_path: str,
     gen_image_path: str,
@@ -75,10 +67,6 @@ async def run(
     sensehat_dsp = Display(refresh_rate=0.001)
     sensehat_dsp.start_color_cycle(image_name="space-invader-1")
 
-    image_description = parse_image_description(state.image_description)
-    prompt = f"{conf['generation_prompt_header']} {image_description} {conf['generation_prompt_footer']}"
-    logger.info(f"generation_prompt => {prompt}")
-
     image_size = conf["image_size"]
     output = replicate.run(
         conf["model"],
@@ -86,7 +74,7 @@ async def run(
             "model": "dev",
             "width": image_size["width"],
             "height": image_size["height"],
-            "prompt": prompt,
+            "prompt": state.image_generation_prompt,
             "go_fast": True,
             "lora_scale": 1,
             "megapixels": "1",

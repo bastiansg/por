@@ -1,8 +1,11 @@
 import asyncio
-import functools
 
 from common.logger import get_logger
+from functools import wraps, lru_cache
+
+from rage.retriever import Retriever
 from typing import Callable, Awaitable, TypeVar, Any
+
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
 
@@ -16,7 +19,7 @@ def dry_mode_handler(func_name: str, return_fields: list[str]):
     def decorator(
         func: Callable[[StateSchema, ConfigSchema], Awaitable[R]],
     ) -> Callable[[StateSchema, ConfigSchema], Awaitable[R]]:
-        @functools.wraps(func)
+        @wraps(func)
         async def wrapper(state: StateSchema, config: ConfigSchema) -> R:
             conf = config["configurable"]
             if conf["dry_mode"]:
@@ -29,3 +32,18 @@ def dry_mode_handler(func_name: str, return_fields: list[str]):
         return wrapper
 
     return decorator
+
+
+@lru_cache(maxsize=1)
+def get_retriever() -> Retriever:
+    return Retriever()
+
+
+def get_str_person_description(state: StateSchema) -> str:
+    person_description_parts = (
+        f"{k}: {v}"
+        for k, v in state.person_description.model_dump().items()
+        if k != "lucky_number"
+    )
+
+    return "\n".join(person_description_parts)

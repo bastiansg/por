@@ -2,6 +2,7 @@ from typing import Literal
 from functools import lru_cache
 
 from por.conf import multi_agent
+from common.utils.json_data import load_json
 from common.utils.yaml_data import load_yaml
 
 from .schema import ConfigSchema
@@ -15,7 +16,35 @@ MODEL_CONF_MAP = {
 
 @lru_cache(maxsize=1)
 def get_multi_agent_config(model: Literal["grcra"]) -> ConfigSchema:
-    base_conf = load_yaml(file_path=f"{BASE_CONF_PATH}/conf.yml")
-    model_conf = load_yaml(file_path=MODEL_CONF_MAP[model])
-
-    return ConfigSchema(**(base_conf | model_conf))
+    return ConfigSchema(
+        **(
+            load_yaml(file_path=f"{BASE_CONF_PATH}/conf.yml")
+            | load_yaml(file_path=MODEL_CONF_MAP[model])
+            | {
+                "dc_poems": [
+                    {
+                        "poem_id": idx,
+                        "poem": poem,
+                    }
+                    for idx, poem in enumerate(
+                        load_json(
+                            "/resources/documents/dos-corazones/poemas.json"
+                        ),
+                        start=1,
+                    )
+                ],
+                "fc_messages": [
+                    {
+                        "message_id": idx,
+                        "message": message,
+                    }
+                    for idx, message in enumerate(
+                        load_json(
+                            "/resources/documents/fortune-cookie/messages.json"
+                        ),
+                        start=1,
+                    )
+                ],
+            }
+        )
+    )

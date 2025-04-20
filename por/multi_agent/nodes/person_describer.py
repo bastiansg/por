@@ -15,7 +15,7 @@ logger = get_logger(__name__)
 
 @dry_mode_handler(
     func_name="person_describer",
-    return_fields=["image_description"],
+    return_fields=["person_description"],
 )
 async def run(
     state: StateSchema,
@@ -29,6 +29,7 @@ async def run(
         person_describer_output = await person_describer_agent.generate(
             agent_input=PersonDescriberInput(
                 description_guidelines=conf["person_description_guidelines"],
+                output_language=conf["output_language"],
             ),
             user_content=BinaryContent(
                 data=image_file.read(),

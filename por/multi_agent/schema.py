@@ -1,11 +1,12 @@
-from common.utils.path import create_path
+import tiktoken
 
 from sensehat_dsp.display import Color
+from common.utils.path import create_path
 
 from hailo_apps.servos import ServoAngles
 from hailo_apps.meta.interfaces import RotatorParams, ImageSize
 
-
+from pydantic_extra_types.language_code import LanguageName
 from pydantic import (
     BaseModel,
     StrictStr,
@@ -18,9 +19,22 @@ from pydantic import (
 )
 
 
+tiktoken_encoder = tiktoken.encoding_for_model("gpt-4o")
+
+
 class GolColors(BaseModel):
     p_color: Color
     s_color: Color
+
+
+class DCPoem(BaseModel):
+    poem_id: NonNegativeInt
+    poem: StrictStr
+
+
+class FCMessage(BaseModel):
+    message_id: NonNegativeInt
+    message: StrictStr
 
 
 class ConfigSchema(BaseModel):
@@ -42,6 +56,9 @@ class ConfigSchema(BaseModel):
     idle_angles: ServoAngles
     gol_colors: GolColors
     recovery_time: NonNegativeFloat
+    output_language: LanguageName
+    dc_poems: list[DCPoem]
+    fc_messages: list[FCMessage]
     dry_mode: StrictBool = False
     dry_mode_wait: NonNegativeInt = 5
 
@@ -69,8 +86,24 @@ class StateSchema(BaseModel):
     image_path: FilePath | None = None
     image_description: StrictStr | None = None
     person_description: PersonDescription | None = None
+    nietzsche_text_chunks: list[StrictStr] = []
+    nietzsche_advise: StrictStr | None = None
+    ts_text_chunks: list[StrictStr] = []
+    taylor_swift_advise: StrictStr | None = None
+    jung_text_chunks: list[StrictStr] = []
+    jung_advise: StrictStr | None = None
+    selected_dc_poem: StrictStr | None = None
+    selected_fc_message: StrictStr | None = None
+    image_generation_prompt: StrictStr | None = None
     gen_image_path: FilePath | None = None
     concat_image: ConcatImage | None = None
     image_url: HttpUrl | None = None
     qr_image_path: FilePath | None = None
     printer_job_id: NonNegativeInt | None = None
+
+    @field_validator("image_generation_prompt", mode="after")
+    def image_prompt_validator(cls, v: str) -> str:
+        if len(tiktoken_encoder.encode(v)) > 512:
+            raise ValueError(
+                "The image generation prompt exceeds the 512-token limit."
+            )

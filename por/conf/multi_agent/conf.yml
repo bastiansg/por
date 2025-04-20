@@ -16,7 +16,6 @@ image_margin: 20
 image_description_guidelines: |-
     Carefully analyze the provided image and generate a vivid, highly detailed description.
     Use rich, expressive language to convey the style, composition, atmosphere, and visual elements.
-    Always begin the description with "a..." — note that it should start in lowercase.
 
 person_description_guidelines: |-
     Carefully observe the image and provide a psychologically rich profile for each person.
@@ -47,3 +46,4 @@ recovery_time: 30
 
 dry_mode: false
 dry_mode_wait: 0
+output_language: Spanish

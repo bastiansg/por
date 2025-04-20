@@ -1,12 +1,10 @@
-from tqdm import tqdm
-
 from common.cache import RedisCache
 from rage.meta.interfaces import TextLoader, Document
 
 from unstructured.partition.docx import partition_docx
 
 
-class TFLoader(TextLoader):
+class TSLoader(TextLoader):
     def __init__(self, cache: RedisCache | None = None):
         super().__init__(cache=cache)
 

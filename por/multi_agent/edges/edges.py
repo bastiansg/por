@@ -11,12 +11,45 @@ face_tracker_person_describer = SimpleEdge(
     target="person_describer",
 )
 
+person_describer_nietzsche_advisor = SimpleEdge(
+    source="person_describer",
+    target="nietzsche_advisor",
+)
 
-image_generator_edges = SimpleEdge(
+person_describer_ts_advisor = SimpleEdge(
+    source="person_describer",
+    target="ts_advisor",
+)
+
+person_describer_jung_advisor = SimpleEdge(
+    source="person_describer",
+    target="jung_advisor",
+)
+
+person_describer_dc_selector = SimpleEdge(
+    source="person_describer",
+    target="dc_selector",
+)
+
+person_describer_fc_selector = SimpleEdge(
+    source="person_describer",
+    target="fc_selector",
+)
+
+image_prompter_edges = SimpleEdge(
     source=[
         "image_describer",
-        "person_describer",
+        "dc_selector",
+        "fc_selector",
+        "jung_advisor",
+        "nietzsche_advisor",
+        "ts_advisor",
     ],
+    target="image_prompter",
+)
+
+image_prompter_image_generator = SimpleEdge(
+    source="image_prompter",
     target="image_generator",
 )
 
