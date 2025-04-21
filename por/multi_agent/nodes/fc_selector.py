@@ -28,8 +28,6 @@ async def run(
     }
 
     str_person_description = get_str_person_description(state=state)
-    print(str_person_description)
-
     fc_selector = FCSelector()
     fc_selector_output = await fc_selector.generate(
         agent_input=FCSelectorInput(

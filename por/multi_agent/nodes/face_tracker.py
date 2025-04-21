@@ -16,6 +16,8 @@ from hailo_apps.meta.interfaces import RotatorParams, ImageSize
 from sensehat_dsp.display import Display
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
+from .utils import get_sensehat_dsp
+
 
 logger = get_logger(__name__)
 
@@ -69,10 +71,11 @@ async def run(
     )
 
     gol_colors = conf["gol_colors"]
-    sensehat_dsp = Display(refresh_rate=1.0)
+    sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.start_gol(
         p_color=gol_colors["p_color"],
         s_color=gol_colors["s_color"],
+        refresh_rate=1.0,
     )
 
     tracker.run()
@@ -93,9 +96,6 @@ async def run(
         if history_item.centroid is not None
     ]
 
-    tracker.servos.set_angles(servo_angles=ServoAngles(**conf["servo_angles"]))
-    del tracker
-
     last_history_item = valid_history_items[-1]
     image_id = state.image_id
     pil_image = Image.fromarray(last_history_item.np_image)
@@ -103,8 +103,22 @@ async def run(
     image_path = f"{conf['images_path']}/{image_id}.{conf['image_extension']}"
     pil_image.save(image_path)
 
+    idle_angles = conf["idle_angles"]
+    tracker.servos.set_angles(
+        servo_angles=ServoAngles(
+            x=idle_angles["x"],
+            y=idle_angles["y"],
+        )
+    )
+
     sensehat_dsp.stop()
     sensehat_dsp.clear()
+
+    await asyncio.sleep(1)
+    sensehat_dsp.start_intermittent_image(
+        image_name="si-01",
+        refresh_rate=0.25,
+    )
 
     return {
         "image_path": image_path,

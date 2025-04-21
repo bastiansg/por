@@ -5,7 +5,7 @@ from por.llm_agents import TSAdvisor, TSAdvisorAdvisorInput
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
 
-from .utils import dry_mode_handler, get_retriever, get_str_person_description
+from .utils import dry_mode_handler, get_retriever
 
 
 logger = get_logger(__name__)
@@ -23,18 +23,18 @@ async def run(
     conf = config["configurable"]
 
     retriever = get_retriever()
-    str_person_description = get_str_person_description(state=state)
+    love_status = state.person_description.love_status
 
     retriever_items = await retriever.dense_search(
         collection_name="taylor-swift",
-        query=str_person_description,
+        query=love_status,
     )
 
     ts_text_chunks = [ri.text for ri in retriever_items]
     ts_advisor = TSAdvisor()
     ts_advisor_output = await ts_advisor.generate(
         agent_input=TSAdvisorAdvisorInput(
-            person_description=str_person_description,
+            person_description=love_status,
             ts_text_chunks=ts_text_chunks,
             output_language=conf["output_language"],
         )

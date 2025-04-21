@@ -1,13 +1,13 @@
+import asyncio
 import replicate
 
 from PIL import Image
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from sensehat_dsp.display import Display
 from por.multi_agent.schema import StateSchema, ConfigSchema, ConcatImage
 
-from .utils import dry_mode_handler
+from .utils import dry_mode_handler, get_sensehat_dsp
 
 
 logger = get_logger(__name__)
@@ -64,8 +64,15 @@ async def run(
     logger.info("runing image_generator...")
     conf = config["configurable"]
 
-    sensehat_dsp = Display(refresh_rate=0.001)
-    sensehat_dsp.start_color_cycle(image_name="space-invader-1")
+    sensehat_dsp = get_sensehat_dsp()
+    sensehat_dsp.stop()
+    sensehat_dsp.clear()
+
+    await asyncio.sleep(1)
+    sensehat_dsp.start_color_cycle(
+        image_name="si-03",
+        refresh_rate=0.001,
+    )
 
     image_size = conf["image_size"]
     output = replicate.run(
@@ -107,9 +114,6 @@ async def run(
         image_extension=image_extension,
         margin=conf["image_margin"],
     )
-
-    sensehat_dsp.stop()
-    sensehat_dsp.clear()
 
     return {
         "gen_image_path": gen_image_path,

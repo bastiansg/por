@@ -30,7 +30,7 @@ imagekit_url_endpoint: https://ik.imagekit.io/ddmoon
 
 idle_angles:
     x: 103
-    y: 0
+    y: 10
 
 gol_colors:
     p_color:

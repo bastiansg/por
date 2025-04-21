@@ -35,3 +35,7 @@ qdrant-flush:
 	$(info *** WARNING you are deleting all data from qdrant ***)
 
 qdrant-restart: qdrant-stop qdrant-start
+
+
+app-run: devcontainer-build
+	docker compose -f .devcontainer/docker-compose.yml run --rm --entrypoint="python -m por.app.app" por-devcontainer

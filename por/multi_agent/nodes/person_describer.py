@@ -1,3 +1,5 @@
+import asyncio
+
 from pydantic_ai import BinaryContent
 
 from multi_agents.graph import Node
@@ -7,7 +9,7 @@ from por.llm_agents import PersonDescriber, PersonDescriberInput
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
 
-from .utils import dry_mode_handler
+from .utils import dry_mode_handler, get_sensehat_dsp
 
 
 logger = get_logger(__name__)
@@ -36,6 +38,13 @@ async def run(
                 media_type=f"image/{conf['image_extension']}",
             ),
         )
+
+    sensehat_dsp = get_sensehat_dsp()
+    sensehat_dsp.stop()
+    sensehat_dsp.clear()
+
+    await asyncio.sleep(1)
+    sensehat_dsp.start_intermittent_image(image_name="heart")
 
     return {
         "person_description": person_describer_output.model_dump(),

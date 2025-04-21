@@ -6,6 +6,7 @@ from functools import wraps, lru_cache
 from rage.retriever import Retriever
 from typing import Callable, Awaitable, TypeVar, Any
 
+from sensehat_dsp.display import Display
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
 
@@ -47,3 +48,8 @@ def get_str_person_description(state: StateSchema) -> str:
     )
 
     return "\n".join(person_description_parts)
+
+
+@lru_cache(maxsize=1)
+def get_sensehat_dsp() -> Display:
+    return Display()

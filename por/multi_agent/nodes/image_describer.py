@@ -2,7 +2,6 @@ from pydantic_ai import BinaryContent
 
 from multi_agents.graph import Node
 from common.logger import get_logger
-from sensehat_dsp.display import Display
 
 from por.llm_agents import ImageDescriber, ImageDescriberInput
 from por.multi_agent.schema import StateSchema, ConfigSchema
@@ -24,9 +23,6 @@ async def run(
     logger.info("runing image_describer...")
     conf = config["configurable"]
 
-    sensehat_dsp = Display(refresh_rate=0.25)
-    sensehat_dsp.start_intermittent_image(image_name="space-invader-1")
-
     image_describer_agent = ImageDescriber()
     with open(state.image_path, "rb") as image_file:
         image_describer_output = await image_describer_agent.generate(
@@ -38,9 +34,6 @@ async def run(
                 media_type=f"image/{conf['image_extension']}",
             ),
         )
-
-    sensehat_dsp.stop()
-    sensehat_dsp.clear()
 
     return {
         "image_description": image_describer_output.description,

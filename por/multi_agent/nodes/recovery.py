@@ -4,9 +4,10 @@ import asyncio
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from sensehat_dsp.display import Display
 from hailo_apps.servos import Servos, ServoAngles
 from por.multi_agent.schema import StateSchema, ConfigSchema
+
+from .utils import get_sensehat_dsp
 
 
 logger = get_logger(__name__)
@@ -19,10 +20,23 @@ async def run(
     logger.info("runing recovery...")
     conf = config["configurable"]
 
-    sensehat_dsp = Display(refresh_rate=1.0)
-    sensehat_dsp.start_intermittent_image(image_name="space-invader-3")
+    sensehat_dsp = get_sensehat_dsp()
+    sensehat_dsp.stop()
+    sensehat_dsp.clear()
 
+    await asyncio.sleep(1)
+    sensehat_dsp.start_intermittent_image(
+        image_name="si-04a",
+        refresh_rate=1.0,
+    )
+
+    await asyncio.sleep(conf["recovery_time"])
+    sensehat_dsp.stop()
+    sensehat_dsp.clear()
+
+    await asyncio.sleep(1)
     servos = Servos()
+
     idle_angles = conf["idle_angles"]
     servos.set_angles(
         servo_angles=ServoAngles(
@@ -30,10 +44,6 @@ async def run(
             y=idle_angles["y"],
         )
     )
-
-    await asyncio.sleep(conf["recovery_time"])
-    sensehat_dsp.stop()
-    sensehat_dsp.clear()
 
     return {
         "image_id": uuid.uuid4().hex,

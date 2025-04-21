@@ -5,7 +5,7 @@ from por.llm_agents import NietzscheAdvisor, NietzscheAdvisorInput
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
 
-from .utils import dry_mode_handler, get_retriever, get_str_person_description
+from .utils import dry_mode_handler, get_retriever
 
 
 logger = get_logger(__name__)
@@ -23,18 +23,18 @@ async def run(
     conf = config["configurable"]
 
     retriever = get_retriever()
-    str_person_description = get_str_person_description(state=state)
+    dreams_and_desires = state.person_description.dreams_and_desires
 
     retriever_items = await retriever.dense_search(
         collection_name="nietzsche",
-        query=str_person_description,
+        query=dreams_and_desires,
     )
 
     nietzsche_text_chunks = [ri.text for ri in retriever_items]
     nietzsche_advisor = NietzscheAdvisor()
     nietzsche_advisor_output = await nietzsche_advisor.generate(
         agent_input=NietzscheAdvisorInput(
-            person_description=str_person_description,
+            person_description=dreams_and_desires,
             nietzsche_text_chunks=nietzsche_text_chunks,
             output_language=conf["output_language"],
         )

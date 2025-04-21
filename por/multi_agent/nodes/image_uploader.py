@@ -1,4 +1,5 @@
 import os
+import asyncio
 
 from imagekitio import ImageKit
 from imagekitio.models.UploadFileRequestOptions import UploadFileRequestOptions
@@ -6,10 +7,9 @@ from imagekitio.models.UploadFileRequestOptions import UploadFileRequestOptions
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from sensehat_dsp.display import Display
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
-from .utils import dry_mode_handler
+from .utils import dry_mode_handler, get_sensehat_dsp
 
 
 IMAGEKIT_PUBLIC_KEY = os.getenv("IMAGEKIT_PUBLIC_KEY")
@@ -30,8 +30,15 @@ async def run(
     logger.info("runing image_uploader...")
     conf = config["configurable"]
 
-    sensehat_dsp = Display(refresh_rate=0.25)
-    sensehat_dsp.start_intermittent_image(image_name="space-invader-2")
+    sensehat_dsp = get_sensehat_dsp()
+    sensehat_dsp.stop()
+    sensehat_dsp.clear()
+
+    await asyncio.sleep(1)
+    sensehat_dsp.start_intermittent_image(
+        image_name="up-arrow",
+        refresh_rate=0.25,
+    )
 
     url_endpoint = conf["imagekit_url_endpoint"]
     imagekit = ImageKit(
@@ -55,9 +62,6 @@ async def run(
         )
 
     image_url = f"{url_endpoint}{upload.file_path}"
-    sensehat_dsp.stop()
-    sensehat_dsp.clear()
-
     return {
         "image_url": image_url,
     }

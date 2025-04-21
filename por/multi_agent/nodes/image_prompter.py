@@ -1,3 +1,5 @@
+import asyncio
+
 from multi_agents.graph import Node
 from common.logger import get_logger
 
@@ -5,7 +7,11 @@ from por.llm_agents import ImagePrompter, ImagePrompterInput
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
 
-from .utils import dry_mode_handler, get_str_person_description
+from .utils import (
+    dry_mode_handler,
+    get_str_person_description,
+    get_sensehat_dsp,
+)
 
 
 logger = get_logger(__name__)
@@ -22,8 +28,17 @@ async def run(
     logger.info("runing image_prompter...")
     conf = config["configurable"]
 
-    str_person_description = get_str_person_description(state=state)
+    sensehat_dsp = get_sensehat_dsp()
+    sensehat_dsp.stop()
+    sensehat_dsp.clear()
 
+    await asyncio.sleep(1)
+    sensehat_dsp.start_intermittent_image(
+        image_name="si-02",
+        refresh_rate=0.25,
+    )
+
+    str_person_description = get_str_person_description(state=state)
     image_prompter = ImagePrompter()
     image_prompter_output = await image_prompter.generate(
         agent_input=ImagePrompterInput(

@@ -5,7 +5,7 @@ from por.llm_agents import JungAdvisor, JungAdvisorInput
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
 
-from .utils import dry_mode_handler, get_retriever, get_str_person_description
+from .utils import dry_mode_handler, get_retriever
 
 
 logger = get_logger(__name__)
@@ -23,11 +23,11 @@ async def run(
     conf = config["configurable"]
 
     retriever = get_retriever()
-    str_person_description = get_str_person_description(state=state)
+    fears = state.person_description.fears
 
     retriever_items = await retriever.dense_search(
         collection_name="el-libro-rojo",
-        query=str_person_description,
+        query=fears,
     )
 
     jung_text_chunks = [ri.text for ri in retriever_items]
@@ -35,7 +35,7 @@ async def run(
     jung_advisor = JungAdvisor()
     jung_advisor_output = await jung_advisor.generate(
         agent_input=JungAdvisorInput(
-            person_description=str_person_description,
+            person_description=fears,
             jung_text_chunks=jung_text_chunks,
             output_language=conf["output_language"],
         )
