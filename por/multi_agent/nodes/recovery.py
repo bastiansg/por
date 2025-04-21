@@ -4,7 +4,7 @@ import asyncio
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-# from hailo_apps.servos import Servos, ServoAngles
+from hailo_apps.servos import Servos, ServoAngles
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
 from .utils import get_sensehat_dsp
@@ -32,20 +32,18 @@ async def run(
         refresh_rate=refresh_rate,
     )
 
+    servos = Servos()
+    idle_angles = conf["idle_angles"]
+    servos.set_angles(
+        servo_angles=ServoAngles(
+            x=idle_angles["x"],
+            y=idle_angles["y"],
+        )
+    )
+
     await asyncio.sleep(conf["recovery_time"])
     sensehat_dsp.stop()
     sensehat_dsp.clear()
-
-    # asyncio.sleep(refresh_rate)
-    # servos = Servos()
-
-    # idle_angles = conf["idle_angles"]
-    # servos.set_angles(
-    #     servo_angles=ServoAngles(
-    #         x=idle_angles["x"],
-    #         y=idle_angles["y"],
-    #     )
-    # )
 
     return {
         "image_id": uuid.uuid4().hex,

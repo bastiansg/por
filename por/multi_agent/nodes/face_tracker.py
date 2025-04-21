@@ -90,6 +90,8 @@ async def run(
         await asyncio.sleep(1)
 
     tracker.stop()
+    tracker.servos.set_angles(servo_angles=ServoAngles())
+
     valid_history_items = [
         history_item
         for history_item in tracker.history
