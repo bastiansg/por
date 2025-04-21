@@ -103,21 +103,13 @@ async def run(
     image_path = f"{conf['images_path']}/{image_id}.{conf['image_extension']}"
     pil_image.save(image_path)
 
-    idle_angles = conf["idle_angles"]
-    tracker.servos.set_angles(
-        servo_angles=ServoAngles(
-            x=idle_angles["x"],
-            y=idle_angles["y"],
-        )
-    )
-
     sensehat_dsp.stop()
     sensehat_dsp.clear()
 
     await asyncio.sleep(1)
     sensehat_dsp.start_intermittent_image(
         image_name="si-01",
-        refresh_rate=0.25,
+        refresh_rate=0.5,
     )
 
     return {

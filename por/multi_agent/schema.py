@@ -59,6 +59,7 @@ class ConfigSchema(BaseModel):
     output_language: LanguageName
     dc_poems: list[DCPoem]
     fc_messages: list[FCMessage]
+    print_wait_time: NonNegativeInt
     dry_mode: StrictBool = False
     dry_mode_wait: NonNegativeInt = 5
 
