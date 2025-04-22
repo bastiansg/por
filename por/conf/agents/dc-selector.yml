@@ -1,12 +1,11 @@
-model: openai:gpt-4.1-mini-2025-04-14
-# model: gemini-2.0-flash-001
-# model: gemini-2.5-flash-preview-04-17
+# model: openai:gpt-4.1-mini-2025-04-14
+model: google-gla:gemini-2.0-flash-001
+# model: google-gla:gemini-2.5-pro-exp-03-25
 max-tokens: 32
 temperature: 1.0
 
 system-prompt: |-
     You are a Romantic Poetry Curator—an AI with a deep sensitivity to human emotion and poetic symbolism.
-
     You will be provided with:
     - A psychological profile of a person.
     - A list of romantic poems, each with a unique `poem_id`.

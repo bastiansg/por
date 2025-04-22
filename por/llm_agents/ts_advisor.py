@@ -1,4 +1,4 @@
-from pydantic import BaseModel, StrictStr
+from pydantic import BaseModel, StrictStr, Field
 from pydantic_extra_types.language_code import LanguageName
 
 from common.cache import RedisCache
@@ -14,7 +14,9 @@ class TSAdvisorAdvisorInput(BaseModel):
 
 
 class TSAdvisorAdvisorOutput(BaseModel):
-    taylor_swift_advise: StrictStr
+    taylor_swift_advise: StrictStr = Field(
+        description="A heartfelt, lyrical, and emotionally attuned piece of Taylor Swift advice."
+    )
 
 
 class TSAdvisor(LLMAgent[TSAdvisorAdvisorInput, TSAdvisorAdvisorOutput]):

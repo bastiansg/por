@@ -1,4 +1,4 @@
-from pydantic import BaseModel, StrictStr
+from pydantic import BaseModel, StrictStr, Field
 from pydantic_extra_types.language_code import LanguageName
 
 from common.cache import RedisCache
@@ -14,7 +14,9 @@ class JungAdvisorInput(BaseModel):
 
 
 class JungAdvisorOutput(BaseModel):
-    jung_advise: StrictStr
+    jung_advise: StrictStr = Field(
+        "A profound, symbolic, and transformative piece of Jungian advice."
+    )
 
 
 class JungAdvisor(LLMAgent[JungAdvisorInput, JungAdvisorOutput]):

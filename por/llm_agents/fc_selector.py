@@ -1,4 +1,4 @@
-from pydantic import BaseModel, StrictStr, NonNegativeInt
+from pydantic import BaseModel, StrictStr, NonNegativeInt, Field
 
 from common.cache import RedisCache
 
@@ -17,7 +17,9 @@ class FCSelectorInput(BaseModel):
 
 
 class FCSelectorOutput(BaseModel):
-    message_id: NonNegativeInt
+    message_id: NonNegativeInt = Field(
+        description="The selected message_id that best aligns with the person's current mindset or inner journey."
+    )
 
 
 class FCSelector(LLMAgent[FCSelectorInput, FCSelectorOutput]):

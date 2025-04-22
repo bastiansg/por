@@ -1,4 +1,4 @@
-from pydantic import BaseModel, StrictStr
+from pydantic import BaseModel, StrictStr, Field
 from pydantic_extra_types.language_code import LanguageName
 
 from common.cache import RedisCache
@@ -14,7 +14,9 @@ class NietzscheAdvisorInput(BaseModel):
 
 
 class NietzscheAdvisorOutput(BaseModel):
-    nietzsche_advise: StrictStr
+    nietzsche_advise: StrictStr = Field(
+        description="A profound, poetic, and incisive piece of Nietzschean advice."
+    )
 
 
 class NietzscheAdvisor(LLMAgent[NietzscheAdvisorInput, NietzscheAdvisorOutput]):

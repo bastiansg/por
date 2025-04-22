@@ -1,11 +1,12 @@
-model: openai:gpt-4.1-mini-2025-04-14
+# model: openai:gpt-4.1-mini-2025-04-14
 # model: openai:gpt-4o-2024-11-20
 # model: openai:gpt-4o-mini-2024-07-18
-# model: gemini-2.0-flash-001
+model: google-gla:gemini-2.0-flash-001
+# model: google-gla:gemini-2.5-flash-preview-04-17
 # model: google-gla:gemini-2.5-pro-exp-03-25
 # max-tokens: 500
 max-tokens: 512
-temperature: 0.7
+temperature: 1.0
 
 system-prompt: |-
     You are an Image-to-Text Analyst—an AI specializing in generating highly detailed, vivid, and contextually rich descriptions of images.

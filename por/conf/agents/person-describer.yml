@@ -1,7 +1,8 @@
-model: openai:gpt-4.1-mini-2025-04-14
-# model: gemini-2.0-flash-001
+# model: openai:gpt-4.1-mini-2025-04-14
+model: google-gla:gemini-2.0-flash-001
 # model: openai:gpt-4o-2024-11-20
-# max-tokens: 500
+# model: google-gla:gemini-2.5-flash-preview-04-17
+# model: google-gla:gemini-2.5-pro-exp-03-25
 max-tokens: 512
 temperature: 1.0
 
@@ -21,4 +22,4 @@ system-prompt: |-
 human-prompt-template: |-
     {description_guidelines}
 
-    Provide the advice in {output_language}
+    Provide the personality analysis in {output_language}

@@ -1,4 +1,4 @@
-from pydantic import BaseModel, StrictStr, NonNegativeInt
+from pydantic import BaseModel, StrictStr, NonNegativeInt, Field
 
 from common.cache import RedisCache
 
@@ -17,7 +17,9 @@ class DCSelectorInput(BaseModel):
 
 
 class DCSelectorOutput(BaseModel):
-    poem_id: NonNegativeInt
+    poem_id: NonNegativeInt = Field(
+        description="The selected poem_id that best aligns with the person's current romantic or emotional state."
+    )
 
 
 class DCSelector(LLMAgent[DCSelectorInput, DCSelectorOutput]):

@@ -1,4 +1,4 @@
-from pydantic import BaseModel, StrictStr
+from pydantic import BaseModel, StrictStr, Field
 from pydantic_extra_types.language_code import LanguageName
 
 from common.cache import RedisCache
@@ -17,7 +17,9 @@ class ImagePrompterInput(BaseModel):
 
 
 class ImagePrompterOutput(BaseModel):
-    image_generation_prompt: StrictStr
+    image_generation_prompt: StrictStr = Field(
+        description="A symbolically rich, emotionally resonant prompt for image generation."
+    )
 
 
 class ImagePrompter(LLMAgent[ImagePrompterInput, ImagePrompterOutput]):

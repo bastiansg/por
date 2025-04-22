@@ -1,4 +1,4 @@
-from pydantic import BaseModel, StrictStr
+from pydantic import BaseModel, StrictStr, Field
 from pydantic_extra_types.language_code import LanguageName
 
 from common.cache import RedisCache
@@ -13,10 +13,18 @@ class PersonDescriberInput(BaseModel):
 
 
 class PersonDescriberOutput(BaseModel):
-    fears: StrictStr
-    dreams_and_desires: StrictStr
-    love_status: StrictStr
-    lucky_number: StrictStr
+    fears: StrictStr = Field(
+        description="What the person is subconsciously afraid of."
+    )
+    dreams_and_desires: StrictStr = Field(
+        description="The person's ambitions, longings, or life goals."
+    )
+    love_status: StrictStr = Field(
+        description="The person's current emotional or romantic state."
+    )
+    lucky_number: StrictStr = Field(
+        description="A number that symbolically or intuitively resonates with the person's personality."
+    )
 
 
 class PersonDescriber(LLMAgent[PersonDescriberInput, PersonDescriberOutput]):
