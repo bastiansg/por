@@ -19,7 +19,7 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
     printer.set(align="left")
     printer.block_text("* Made in Iturri")
     printer.text("\n")
-    printer.block_text("* x el Oraculo Robot. (2025, ∞)")
+    printer.block_text("* x el Oráculo Robot. (2025, ∞)")
     printer.text("\n")
     printer.block_text("* @dd.moon__                All rights reserved.")
     printer.text("\n\n")
@@ -28,7 +28,7 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
 
     printer.set(bold=True)
     printer.block_text(
-        "* WARNING: Este Robot nunca reemplazara a tu terapeuta.",
+        "* WARNING: Este Robot nunca reemplazará a tu terapeuta.",
     )
     printer.set(bold=False)
 
@@ -37,7 +37,7 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
     printer.text("\n\n")
 
     printer.set(bold=True)
-    printer.block_text("* EL OJO DEL ORÁCULO HA VISTO LOS SIGUIENTE:")
+    printer.block_text("* EL OJO DEL ORÁCULO HA VISTO LO SIGUIENTE:")
     printer.text("\n")
     printer.set(bold=False)
 
@@ -86,15 +86,15 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
 
     printer.set(bold=True)
     printer.block_text("Tu lucky number:")
-    printer.text("\n")
     printer.set(bold=False)
+    printer.text("\n")
     printer.block_text(f"{state.person_description.lucky_number}")
     printer.text("\n")
 
     printer.set(bold=True)
     printer.block_text("El total de tu situación es:")
-    printer.text("\n")
     printer.set(bold=False)
+    printer.text("\n")
     printer.block_text(f"{state.selected_fc_message}")
     printer.text("\n\n")
 
