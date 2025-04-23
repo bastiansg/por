@@ -1,10 +1,9 @@
 numpy<2.0.0
 
-qrcode==8.1
-pycups==2.0.4
 replicate==1.0.4
 imagekitio==4.1.0
 torchvision==0.21.0
+python-escpos==3.1
 
 hailo_apps @ git+ssh://git@github.com/bastiansg/hailo-apps.git@v1.0.14
 sensehat_dsp @ git+https://github.com/bastiansg/sensehat-dsp.git@v1.0.16

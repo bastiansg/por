@@ -24,7 +24,6 @@ RUN --mount=type=cache,target=/var/cache/apt \
     python3-rpi.gpio \
     python3-sense-hat \
     hailo-all \
-    libcups2-dev \
     && apt-get autoremove -y \
     && apt-get clean \
     && rm -rf /var/tmp/* /var/lib/apt/lists/*

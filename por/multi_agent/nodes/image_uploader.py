@@ -40,7 +40,7 @@ async def run(
         refresh_rate=0.25,
     )
 
-    url_endpoint = conf["imagekit_url_endpoint"]
+    url_endpoint = conf["imagekit_url"]
     imagekit = ImageKit(
         public_key=IMAGEKIT_PUBLIC_KEY,
         private_key=IMAGEKIT_PRIVATE_KEY,
@@ -52,9 +52,9 @@ async def run(
         is_private_file=False,
     )
 
-    concat_image_path = state.concat_image.image_path
-    image_name = os.path.basename(concat_image_path)
-    with open(concat_image_path, "rb") as image_file:
+    gen_image_path = state.gen_image_path
+    image_name = os.path.basename(gen_image_path)
+    with open(gen_image_path, "rb") as image_file:
         upload = imagekit.upload_file(
             file=image_file,
             file_name=image_name,

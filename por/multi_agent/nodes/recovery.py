@@ -20,7 +20,6 @@ async def run(
     logger.info("runing recovery...")
     conf = config["configurable"]
 
-    await asyncio.sleep(conf["print_wait_time"])
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.stop()
     sensehat_dsp.clear()

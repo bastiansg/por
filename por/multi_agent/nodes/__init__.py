@@ -9,7 +9,6 @@ from .fc_selector import fc_selector  # noqa
 from .image_prompter import image_prompter  # noqa
 from .image_generator import image_generator  # noqa
 from .image_uploader import image_uploader  # noqa
-from .qr_generator import qr_generator  # noqa
 from .printer import printer  # noqa
 from .recovery import recovery  # noqa
 from .ts_advisor import ts_advisor  # noqa

@@ -9,7 +9,6 @@ from .edges import (  # noqa
     image_prompter_edges,
     image_prompter_image_generator,
     image_generator_image_uploader,
-    image_uploader_qr_generator,
-    qr_generator_printer,
+    image_uploader_printer,
     printer_recovery,
 )

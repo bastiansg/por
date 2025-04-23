@@ -1,12 +1,17 @@
 import uuid
 import asyncio
 
-from rich.pretty import pprint
 from common.logger import get_logger
+from common.utils.json_data import save_json
+
+from por.multi_agent.schema import StateSchema
 from por.multi_agent import get_multi_agent, get_multi_agent_config
 
 
 logger = get_logger(__name__)
+
+
+STORE_PATH = "/resources/states"
 
 
 async def main() -> None:
@@ -23,8 +28,11 @@ async def main() -> None:
         thread_id=image_id,
     )
 
-    pprint(state)
-    logger.info(f"image_url => {state['image_url']}")
+    state = StateSchema(**state)
+    save_json(
+        obj=state.model_dump(),
+        file_path=f"{STORE_PATH}/{image_id}.json",
+    )
 
 
 if __name__ == "__main__":

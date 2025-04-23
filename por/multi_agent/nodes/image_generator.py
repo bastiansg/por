@@ -1,53 +1,15 @@
 import asyncio
 import replicate
 
-from PIL import Image
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from por.multi_agent.schema import StateSchema, ConfigSchema, ConcatImage
+from por.multi_agent.schema import StateSchema, ConfigSchema
 
 from .utils import dry_mode_handler, get_sensehat_dsp
 
 
 logger = get_logger(__name__)
-
-
-def get_concat_image(
-    image_path: str,
-    gen_image_path: str,
-    images_path: str,
-    image_id: str,
-    image_extension: str,
-    margin: int,
-) -> ConcatImage:
-    image = Image.open(image_path)
-    gen_image = Image.open(gen_image_path)
-
-    assert image.width == gen_image.width
-
-    total_width = image.width + 2 * margin
-    total_height = image.height + gen_image.height + 3 * margin
-
-    concat_image = Image.new(
-        "RGB",
-        (total_width, total_height),
-        color=(0, 0, 0),
-        # color=(255, 255, 255),
-    )
-
-    concat_image.paste(image, (margin, margin))
-    concat_image.paste(gen_image, (margin, image.height + 2 * margin))
-
-    concat_image_path = f"{images_path}/{image_id}-concat.{image_extension}"
-    concat_image.save(concat_image_path)
-
-    width, height = concat_image.size
-    return ConcatImage(
-        image_path=concat_image_path,
-        width=width,
-        height=height,
-    )
 
 
 @dry_mode_handler(
@@ -102,22 +64,11 @@ async def run(
     image_extension = conf["image_extension"]
 
     gen_image_path = f"{images_path}/{image_id}-gen.{image_extension}"
-
     with open(gen_image_path, "wb") as f:
         f.write(output[0].read())
 
-    concat_image = get_concat_image(
-        image_path=state.image_path,
-        gen_image_path=gen_image_path,
-        images_path=images_path,
-        image_id=image_id,
-        image_extension=image_extension,
-        margin=conf["image_margin"],
-    )
-
     return {
         "gen_image_path": gen_image_path,
-        "concat_image": concat_image,
     }
 
 

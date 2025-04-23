@@ -12,7 +12,6 @@ from .nodes import (
     image_prompter,
     image_generator,
     image_uploader,
-    qr_generator,
     printer,
     recovery,
 )
@@ -28,8 +27,7 @@ from .edges import (
     image_prompter_edges,
     image_prompter_image_generator,
     image_generator_image_uploader,
-    image_uploader_qr_generator,
-    qr_generator_printer,
+    image_uploader_printer,
     printer_recovery,
 )
 
@@ -49,7 +47,6 @@ def get_multi_agent() -> MultiAgentGraph:
         image_prompter,
         image_generator,
         image_uploader,
-        qr_generator,
         printer,
         recovery,
     ]
@@ -65,8 +62,7 @@ def get_multi_agent() -> MultiAgentGraph:
         image_prompter_edges,
         image_prompter_image_generator,
         image_generator_image_uploader,
-        image_uploader_qr_generator,
-        qr_generator_printer,
+        image_uploader_printer,
         printer_recovery,
     ]
 

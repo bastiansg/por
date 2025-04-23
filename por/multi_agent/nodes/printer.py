@@ -1,13 +1,106 @@
-import cups
-
 from multi_agents.graph import Node
 from common.logger import get_logger
+
+from por.utils.printer import get_printer
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
 from .utils import dry_mode_handler
 
 
 logger = get_logger(__name__)
+
+
+def print_pipeline(conf: dict, state: StateSchema) -> None:
+    printer = get_printer()
+    printer.image(img_source=conf["por_logo_path"])
+    printer.text("\n\n")
+
+    printer.set(align="left")
+    printer.block_text("* Made in Iturri")
+    printer.text("\n")
+    printer.block_text("* x el Oraculo Robot. (2025, ∞)")
+    printer.text("\n")
+    printer.block_text("* @dd.moon__             All rights reserved.")
+    printer.text("\n\n")
+    printer.block_text(f'"{state.selected_dc_poem}"')
+    printer.text("\n\n")
+
+    printer.set(bold=True)
+    printer.block_text(
+        "* WARNING: Este Robot nunca reemplazara a tu terapeuta.",
+    )
+    printer.set(bold=False)
+
+    printer.text("\n\n")
+    printer.text("------------------------------------------------")
+    printer.text("\n\n")
+
+    printer.set(bold=True)
+    printer.block_text("* EL OJO DEL ORÁCULO HA VISTO LOS SIGUIENTE:")
+    printer.text("\n")
+    printer.set(bold=False)
+
+    printer.set(bold=True)
+    printer.block_text("$$ Tus deseos:")
+    printer.text("\n")
+    printer.set(bold=False)
+
+    printer.block_text(f"{state.person_description.dreams_and_desires}")
+    printer.text("\n")
+    printer.block_text(f"Según Nietzsche: {state.nietzsche_advise}")
+    printer.text("\n")
+
+    printer.set(bold=True)
+    printer.block_text("$$ Tus miedos:")
+    printer.text("\n")
+    printer.set(bold=False)
+
+    printer.block_text(f"{state.person_description.fears}")
+    printer.text("\n")
+    printer.block_text(f"Según Jung: {state.jung_advise}")
+    printer.text("\n")
+
+    printer.set(bold=True)
+    printer.block_text("$$ Sobre el amor:")
+    printer.text("\n")
+    printer.set(bold=False)
+
+    printer.block_text(f"{state.person_description.love_status}")
+    printer.text("\n")
+    printer.block_text(f"Según Taylor Swift: {state.taylor_swift_advise}")
+
+    printer.text("\n\n")
+    printer.text("------------------------------------------------")
+    printer.text("\n\n")
+
+    printer.set(bold=True)
+    printer.block_text("* Y HE AQUÍ TU RETRATO POR @gervasio_ciaravino:")
+    printer.set(bold=False)
+
+    printer.qr(
+        content=state.image_url,
+        size=8,
+        center=True,
+    )
+
+    printer.set(bold=True)
+    printer.block_text("Tu lucky number:")
+    printer.text("\n")
+    printer.set(bold=False)
+    printer.block_text(f"{state.person_description.lucky_number}")
+    printer.text("\n")
+
+    printer.set(bold=True)
+    printer.block_text("El total de tu situación es:")
+    printer.text("\n")
+    printer.set(bold=False)
+    printer.block_text(f"{state.selected_fc_message}")
+    printer.text("\n")
+
+    printer.set(align="center")
+    printer.text(":)")
+
+    printer.cut()
 
 
 @dry_mode_handler(
@@ -21,16 +114,9 @@ async def run(
     logger.info("runing printer...")
     conf = config["configurable"]
 
-    cups_connection = cups.Connection()
-    printer_job_id = cups_connection.printFile(
-        conf["printer_name"],
-        state.concat_image.image_path.__str__(),
-        "print",
-        {},
-    )
-
+    print_pipeline(conf=conf["printer"], state=state)
     return {
-        "printer_job_id": printer_job_id,
+        "print_status": "ok",
     }
 
 

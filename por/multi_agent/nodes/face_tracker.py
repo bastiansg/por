@@ -67,7 +67,7 @@ async def run(
         rotator_params=RotatorParams(**conf["rotator_params"]),
         image_size=ImageSize(**conf["image_size"]),
         history_length=history_length,
-        min_score=conf["min_score"],
+        min_score=conf["face_detector_min_score"],
     )
 
     gol_colors = conf["gol_colors"]

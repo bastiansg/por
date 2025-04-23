@@ -58,15 +58,11 @@ image_generator_image_uploader = SimpleEdge(
     target="image_uploader",
 )
 
-image_uploader_qr_generator = SimpleEdge(
+image_uploader_printer = SimpleEdge(
     source="image_uploader",
-    target="qr_generator",
-)
-
-qr_generator_printer = SimpleEdge(
-    source="qr_generator",
     target="printer",
 )
+
 
 printer_recovery = SimpleEdge(
     source="printer",

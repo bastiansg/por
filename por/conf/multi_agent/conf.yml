@@ -21,12 +21,12 @@ person_description_guidelines: |-
     Carefully observe the image and provide a psychologically rich profile for each person.
 
 history_length: 300
-min_score: 0.0
+face_detector_min_score: 0.0
 images_path: /resources/images
 image_extension: jpg
 
 printer_name: EPSON_TM-T20IIIL
-imagekit_url_endpoint: https://ik.imagekit.io/ddmoon
+imagekit_url: https://ik.imagekit.io/ddmoon
 
 idle_angles:
     x: 103
@@ -42,9 +42,13 @@ gol_colors:
         g: 0
         b: 0
 
-recovery_time: 60
+recovery_time: 1
 
 dry_mode: false
 dry_mode_wait: 0
 output_language: Spanish
-print_wait_time: 5
+
+printer:
+    por_logo_path: "/resources/ticket-images/por-logo.jpeg"
+    max_text_len: 48
+    num_lucky_numbers: 13
