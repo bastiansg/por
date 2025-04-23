@@ -15,12 +15,13 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
     printer.image(img_source=conf["por_logo_path"])
     printer.text("\n\n")
 
+    printer.set(font=0)
     printer.set(align="left")
     printer.block_text("* Made in Iturri")
     printer.text("\n")
     printer.block_text("* x el Oraculo Robot. (2025, ∞)")
     printer.text("\n")
-    printer.block_text("* @dd.moon__             All rights reserved.")
+    printer.block_text("* @dd.moon__                All rights reserved.")
     printer.text("\n\n")
     printer.block_text(f'"{state.selected_dc_poem}"')
     printer.text("\n\n")
@@ -95,10 +96,11 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
     printer.text("\n")
     printer.set(bold=False)
     printer.block_text(f"{state.selected_fc_message}")
-    printer.text("\n")
+    printer.text("\n\n")
 
     printer.set(align="center")
-    printer.text(":)")
+    printer.set(font=1)
+    printer.block_text(":) ticket no válido como factura.")
 
     printer.cut()
 
