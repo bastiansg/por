@@ -13,6 +13,7 @@ from pydantic import (
     StrictStr,
     NonNegativeInt,
     NonNegativeFloat,
+    PositiveFloat,
     StrictBool,
     PositiveInt,
     field_validator,
@@ -46,6 +47,7 @@ class Printer(BaseModel):
 class ConfigSchema(BaseModel):
     servo_angles: ServoAngles
     rotator_params: RotatorParams
+    min_delta_avg: PositiveFloat
     image_size: ImageSize
     image_margin: NonNegativeInt
     image_description_guidelines: StrictStr
@@ -60,7 +62,6 @@ class ConfigSchema(BaseModel):
     printer_name: StrictStr
     imagekit_url: StrictStr
     idle_angles: ServoAngles
-    gol_colors: GolColors
     recovery_time: NonNegativeFloat
     output_language: LanguageName
     dc_poems: list[DCPoem]
@@ -79,7 +80,7 @@ class PersonDescription(BaseModel):
     fears: StrictStr
     dreams_and_desires: StrictStr
     love_status: StrictStr
-    lucky_number: StrictStr
+    lucky_number: NonNegativeInt
 
 
 class StateSchema(BaseModel):

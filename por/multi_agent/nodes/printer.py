@@ -4,7 +4,7 @@ from common.logger import get_logger
 from por.utils.printer import get_printer
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
-from .utils import dry_mode_handler
+from .utils import dry_mode_handler, get_sensehat_dsp
 
 
 logger = get_logger(__name__)
@@ -116,7 +116,13 @@ async def run(
     logger.info("runing printer...")
     conf = config["configurable"]
 
+    sensehat_dsp = get_sensehat_dsp()
+    sensehat_dsp.stop()
+    sensehat_dsp.clear()
+
+    sensehat_dsp.start_color_cycle(image_name="down-arrow")
     print_pipeline(conf=conf["printer"], state=state)
+
     return {
         "print_status": "ok",
     }

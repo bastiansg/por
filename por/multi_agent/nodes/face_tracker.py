@@ -26,6 +26,7 @@ def tracker_is_active(
     tracker_history: deque[HistoryItem],
     history_length: int,
     sensehat_dsp: Display,
+    min_delta_avg: float,
 ) -> bool:
     if len(tracker_history) < history_length:
         return True
@@ -46,7 +47,9 @@ def tracker_is_active(
     )
 
     logger.info(f"delta_avg => {delta_avg}")
-    sensehat_dsp.refresh_rate = delta_avg
+
+    refresh_rate = max(delta_avg, min_delta_avg)
+    sensehat_dsp.refresh_rate = refresh_rate
 
     if delta_avg > 0:
         return True
@@ -70,13 +73,8 @@ async def run(
         min_score=conf["face_detector_min_score"],
     )
 
-    gol_colors = conf["gol_colors"]
     sensehat_dsp = get_sensehat_dsp()
-    sensehat_dsp.start_gol(
-        p_color=gol_colors["p_color"],
-        s_color=gol_colors["s_color"],
-        refresh_rate=1.0,
-    )
+    sensehat_dsp.start_intermittent_image(image_name="heart", refresh_rate=1.0)
 
     tracker.run()
     is_active = True
@@ -85,6 +83,7 @@ async def run(
             tracker_history=tracker.history,
             history_length=history_length,
             sensehat_dsp=sensehat_dsp,
+            min_delta_avg=conf["min_delta_avg"],
         )
 
         await asyncio.sleep(1)
@@ -109,10 +108,7 @@ async def run(
     sensehat_dsp.clear()
 
     await asyncio.sleep(1)
-    sensehat_dsp.start_intermittent_image(
-        image_name="si-01",
-        refresh_rate=0.5,
-    )
+    sensehat_dsp.start_color_cycle(image_name="si-01")
 
     return {
         "image_path": image_path,

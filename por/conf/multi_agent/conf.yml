@@ -7,6 +7,8 @@ rotator_params:
     min_delta_x_angle: 80
     min_delta_y_angle: 100
 
+min_delta_avg: 0.001
+
 image_size:
     width: 1024
     height: 1024
@@ -31,16 +33,6 @@ imagekit_url: https://ik.imagekit.io/ddmoon
 idle_angles:
     x: 103
     y: 20
-
-gol_colors:
-    p_color:
-        r: 128
-        g: 0
-        b: 255
-    s_color:
-        r: 0
-        g: 0
-        b: 0
 
 recovery_time: 1
 

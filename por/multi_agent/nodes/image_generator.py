@@ -31,10 +31,7 @@ async def run(
     sensehat_dsp.clear()
 
     await asyncio.sleep(1)
-    sensehat_dsp.start_color_cycle(
-        image_name="si-03",
-        refresh_rate=0.001,
-    )
+    sensehat_dsp.start_color_cycle(image_name="si-04")
 
     image_size = conf["image_size"]
     output = replicate.run(

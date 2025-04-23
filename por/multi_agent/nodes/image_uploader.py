@@ -35,10 +35,7 @@ async def run(
     sensehat_dsp.clear()
 
     await asyncio.sleep(1)
-    sensehat_dsp.start_intermittent_image(
-        image_name="up-arrow",
-        refresh_rate=0.25,
-    )
+    sensehat_dsp.start_color_cycle(image_name="up-arrow")
 
     url_endpoint = conf["imagekit_url"]
     imagekit = ImageKit(

@@ -44,7 +44,7 @@ async def run(
     sensehat_dsp.clear()
 
     await asyncio.sleep(1)
-    sensehat_dsp.start_intermittent_image(image_name="heart")
+    sensehat_dsp.start_color_cycle(image_name="si-02")
 
     return {
         "person_description": person_describer_output.model_dump(),

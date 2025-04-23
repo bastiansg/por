@@ -1,4 +1,4 @@
-from pydantic import BaseModel, StrictStr, Field
+from pydantic import BaseModel, StrictStr, NonNegativeInt, Field
 from pydantic_extra_types.language_code import LanguageName
 
 from common.cache import RedisCache
@@ -22,7 +22,7 @@ class PersonDescriberOutput(BaseModel):
     love_status: StrictStr = Field(
         description="The person's current emotional or romantic state."
     )
-    lucky_number: StrictStr = Field(
+    lucky_number: NonNegativeInt = Field(
         description="A number that symbolically or intuitively resonates with the person's personality."
     )
 
