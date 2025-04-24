@@ -47,7 +47,6 @@ def tracker_is_active(
     )
 
     logger.info(f"delta_avg => {delta_avg}")
-
     refresh_rate = max(delta_avg, min_delta_avg)
     sensehat_dsp.refresh_rate = refresh_rate
 
@@ -90,6 +89,7 @@ async def run(
 
     tracker.stop()
     tracker.servos.set_angles(servo_angles=ServoAngles())
+    asyncio.sleep(1)
 
     valid_history_items = [
         history_item
@@ -108,7 +108,10 @@ async def run(
     sensehat_dsp.clear()
 
     await asyncio.sleep(1)
-    sensehat_dsp.start_color_cycle(image_name="si-01")
+    sensehat_dsp.start_intermittent_image(
+        image_name="space-invader-2",
+        refresh_rate=0.5,
+    )
 
     return {
         "image_path": image_path,

@@ -44,6 +44,12 @@ class Printer(BaseModel):
     num_lucky_numbers: PositiveInt
 
 
+class NumberArchetype(BaseModel):
+    number: NonNegativeInt
+    archetype: StrictStr
+    traits: list[StrictStr]
+
+
 class ConfigSchema(BaseModel):
     servo_angles: ServoAngles
     rotator_params: RotatorParams
@@ -67,6 +73,7 @@ class ConfigSchema(BaseModel):
     dc_poems: list[DCPoem]
     fc_messages: list[FCMessage]
     printer: Printer
+    number_archetypes: list[NumberArchetype]
     dry_mode: StrictBool = False
     dry_mode_wait: NonNegativeInt = 5
 
@@ -80,7 +87,6 @@ class PersonDescription(BaseModel):
     fears: StrictStr
     dreams_and_desires: StrictStr
     love_status: StrictStr
-    lucky_number: NonNegativeInt
 
 
 class StateSchema(BaseModel):
@@ -99,6 +105,7 @@ class StateSchema(BaseModel):
     image_generation_prompt: StrictStr | None = None
     gen_image_path: StrictStr | None = None
     image_url: StrictStr | None = None
+    lucky_number: NonNegativeInt | None = None
     print_status: Literal["ok", "failed"] | None = None
 
     @field_validator("image_generation_prompt", mode="after")

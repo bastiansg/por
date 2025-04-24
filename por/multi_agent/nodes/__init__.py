@@ -6,6 +6,7 @@ from .ts_advisor import ts_advisor  # noqa
 from .jung_advisor import jung_advisor  # noqa
 from .dc_selector import dc_selector  # noqa
 from .fc_selector import fc_selector  # noqa
+from .number_archetypes import number_archetypes  # noqa
 from .image_prompter import image_prompter  # noqa
 from .image_generator import image_generator  # noqa
 from .image_uploader import image_uploader  # noqa

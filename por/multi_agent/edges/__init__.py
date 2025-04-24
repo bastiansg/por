@@ -6,6 +6,7 @@ from .edges import (  # noqa
     person_describer_jung_advisor,
     person_describer_dc_selector,
     person_describer_fc_selector,
+    person_describer_number_archetypes,
     image_prompter_edges,
     image_prompter_image_generator,
     image_generator_image_uploader,

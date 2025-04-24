@@ -7,7 +7,7 @@ rotator_params:
     min_delta_x_angle: 80
     min_delta_y_angle: 100
 
-min_delta_avg: 0.001
+min_delta_avg: 0.01
 
 image_size:
     width: 1024
@@ -22,7 +22,7 @@ image_description_guidelines: |-
 person_description_guidelines: |-
     Carefully observe the image and provide a psychologically rich profile for each person.
 
-history_length: 300
+history_length: 90
 face_detector_min_score: 0.0
 images_path: /resources/images
 image_extension: jpg

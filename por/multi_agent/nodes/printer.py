@@ -15,7 +15,7 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
     printer.image(img_source=conf["por_logo_path"])
     printer.text("\n\n")
 
-    printer.set(font=0)
+    printer.set(font=0, double_width=False, double_height=False)
     printer.set(align="left")
     printer.block_text("* Made in Iturri")
     printer.text("\n")
@@ -38,37 +38,63 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
 
     printer.set(bold=True)
     printer.block_text("* EL OJO DEL ORÁCULO HA VISTO LO SIGUIENTE:")
-    printer.text("\n")
     printer.set(bold=False)
+    printer.text("\n\n")
 
     printer.set(bold=True)
     printer.block_text("$$ Tus deseos:")
     printer.text("\n")
     printer.set(bold=False)
 
-    printer.block_text(f"{state.person_description.dreams_and_desires}")
-    printer.text("\n")
-    printer.block_text(f"Según Nietzsche: {state.nietzsche_advise}")
-    printer.text("\n")
+    printer.block_text(state.person_description.dreams_and_desires)
+    printer.text("\n\n")
 
     printer.set(bold=True)
     printer.block_text("$$ Tus miedos:")
     printer.text("\n")
     printer.set(bold=False)
 
-    printer.block_text(f"{state.person_description.fears}")
-    printer.text("\n")
-    printer.block_text(f"Según Jung: {state.jung_advise}")
-    printer.text("\n")
+    printer.block_text(state.person_description.fears)
+    printer.text("\n\n")
 
     printer.set(bold=True)
     printer.block_text("$$ Sobre el amor:")
     printer.text("\n")
     printer.set(bold=False)
 
-    printer.block_text(f"{state.person_description.love_status}")
+    printer.block_text(state.person_description.love_status)
+
+    printer.text("\n\n")
+    printer.text("------------------------------------------------")
+    printer.text("\n\n")
+
+    printer.set(bold=True)
+    printer.block_text("* EL ORÁCULO HA DELIBERADO:")
+    printer.set(bold=False)
+    printer.text("\n\n")
+
+    printer.set(bold=True)
+    printer.block_text("$$ Sobre tus deseos, dicen que Nietzsche dijo:")
     printer.text("\n")
-    printer.block_text(f"Según Taylor Swift: {state.taylor_swift_advise}")
+    printer.set(bold=False)
+
+    printer.block_text(state.nietzsche_advise)
+    printer.text("\n\n")
+
+    printer.set(bold=True)
+    printer.block_text("$$ Lo que reveló el Libro Rojo sobre tus miedos:")
+    printer.text("\n")
+    printer.set(bold=False)
+
+    printer.block_text(state.jung_advise)
+    printer.text("\n\n")
+
+    printer.set(bold=True)
+    printer.block_text("$$ Amor: lo que canto Taylor Swift entre líneas:")
+    printer.text("\n")
+    printer.set(bold=False)
+
+    printer.block_text(state.taylor_swift_advise)
 
     printer.text("\n\n")
     printer.text("------------------------------------------------")
@@ -76,6 +102,7 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
 
     printer.set(bold=True)
     printer.block_text("* Y HE AQUÍ TU RETRATO POR @gervasio_ciaravino:")
+    printer.text("\n")
     printer.set(bold=False)
 
     printer.qr(
@@ -88,8 +115,8 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
     printer.block_text("Tu lucky number:")
     printer.set(bold=False)
     printer.text("\n")
-    printer.block_text(f"{state.person_description.lucky_number}")
-    printer.text("\n")
+    printer.block_text(f"{state.lucky_number}")
+    printer.text("\n\n")
 
     printer.set(bold=True)
     printer.block_text("El total de tu situación es:")

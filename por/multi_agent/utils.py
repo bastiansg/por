@@ -45,6 +45,9 @@ def get_multi_agent_config(model: Literal["grcra"]) -> ConfigSchema:
                         start=1,
                     )
                 ],
+                "number_archetypes": load_json(
+                    "/resources/documents/numerology/archetypes.json"
+                ),
             }
         )
     )

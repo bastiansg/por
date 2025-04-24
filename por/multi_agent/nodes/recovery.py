@@ -27,7 +27,7 @@ async def run(
     await asyncio.sleep(1)
     refresh_rate = 2.0
     sensehat_dsp.start_intermittent_image(
-        image_name="si-04a",
+        image_name="space-invader-4",
         refresh_rate=refresh_rate,
     )
 

@@ -33,7 +33,10 @@ async def run(
     sensehat_dsp.clear()
 
     await asyncio.sleep(1)
-    sensehat_dsp.start_color_cycle(image_name="si-03")
+    sensehat_dsp.start_intermittent_image(
+        image_name="si-03",
+        refresh_rate=0.5,
+    )
 
     str_person_description = get_str_person_description(state=state)
     image_prompter = ImagePrompter()

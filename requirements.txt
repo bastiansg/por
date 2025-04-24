@@ -6,7 +6,7 @@ torchvision==0.21.0
 python-escpos==3.1
 
 hailo_apps @ git+ssh://git@github.com/bastiansg/hailo-apps.git@v1.0.14
-sensehat_dsp @ git+https://github.com/bastiansg/sensehat-dsp.git@v1.0.16
+sensehat_dsp @ git+https://github.com/bastiansg/sensehat-dsp.git@v1.0.17
 
 multi_agents @ git+https://github.com/aureka-team/agents.git@v1.1.4
 llm_agents @ git+ssh://git@github.com/aureka-team/llm-agents.git@v1.0.5

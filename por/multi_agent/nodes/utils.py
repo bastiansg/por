@@ -42,9 +42,7 @@ def get_retriever() -> Retriever:
 
 def get_str_person_description(state: StateSchema) -> str:
     person_description_parts = (
-        f"{k}: {v}"
-        for k, v in state.person_description.model_dump().items()
-        if k != "lucky_number"
+        f"{k}: {v}" for k, v in state.person_description.model_dump().items()
     )
 
     return "\n".join(person_description_parts)

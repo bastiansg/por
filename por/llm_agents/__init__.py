@@ -25,3 +25,10 @@ from .image_prompter import (  # noqa
     ImagePrompterInput,
     ImagePrompterOutput,
 )
+
+
+from .number_archetypes import (
+    NumberArchetypes,
+    NumberArchetypesInput,
+    NumberArchetypesOutput,
+)  # noqa

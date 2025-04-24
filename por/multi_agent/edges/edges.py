@@ -36,6 +36,11 @@ person_describer_fc_selector = SimpleEdge(
     target="fc_selector",
 )
 
+person_describer_number_archetypes = SimpleEdge(
+    source="person_describer",
+    target="number_archetypes",
+)
+
 image_prompter_edges = SimpleEdge(
     source=[
         "image_describer",
@@ -44,6 +49,7 @@ image_prompter_edges = SimpleEdge(
         "jung_advisor",
         "nietzsche_advisor",
         "ts_advisor",
+        "number_archetypes",
     ],
     target="image_prompter",
 )
