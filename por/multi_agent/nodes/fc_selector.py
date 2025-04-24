@@ -1,11 +1,12 @@
-from multi_agents.graph import Node
-from common.logger import get_logger
+import random
 
-from por.llm_agents import FCSelector, FCSelectorInput
+from multi_agents.graph import Node
+
+from common.logger import get_logger
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
 
-from .utils import dry_mode_handler, get_str_person_description
+from .utils import dry_mode_handler
 
 
 logger = get_logger(__name__)
@@ -22,22 +23,8 @@ async def run(
     logger.info("runing fc_selector...")
     conf = config["configurable"]
 
-    fc_messages = conf["fc_messages"]
-    fc_message_map = {
-        message["message_id"]: message["message"] for message in fc_messages
-    }
-
-    str_person_description = get_str_person_description(state=state)
-    fc_selector = FCSelector()
-    fc_selector_output = await fc_selector.generate(
-        agent_input=FCSelectorInput(
-            person_description=str_person_description,
-            fc_messages=fc_messages,
-        )
-    )
-
     return {
-        "selected_fc_message": fc_message_map[fc_selector_output.message_id],
+        "selected_fc_message": random.choice(conf["fc_messages"])["message"],
     }
 
 

@@ -18,8 +18,6 @@ from .nietzsche_advisor import (  # noqa
 
 from .ts_advisor import TSAdvisor, TSAdvisorAdvisorInput, TSAdvisorAdvisorOutput  # noqa
 from .jung_advisor import JungAdvisor, JungAdvisorInput, JungAdvisorOutput  # noqa
-from .dc_selector import DCSelector, DCSelectorInput, DCSelectorOutput  # noqa
-from .fc_selector import FCSelector, FCSelectorInput, FCSelectorOutput  # noqa
 from .image_prompter import (  # noqa
     ImagePrompter,
     ImagePrompterInput,
@@ -27,8 +25,8 @@ from .image_prompter import (  # noqa
 )
 
 
-from .number_archetypes import (
+from .number_archetypes import (  # noqa
     NumberArchetypes,
     NumberArchetypesInput,
     NumberArchetypesOutput,
-)  # noqa
+)

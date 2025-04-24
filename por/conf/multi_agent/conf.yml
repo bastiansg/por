@@ -22,7 +22,7 @@ image_description_guidelines: |-
 person_description_guidelines: |-
     Carefully observe the image and provide a psychologically rich profile for each person.
 
-history_length: 90
+history_length: 180
 face_detector_min_score: 0.0
 images_path: /resources/images
 image_extension: jpg
@@ -34,7 +34,7 @@ idle_angles:
     x: 103
     y: 20
 
-recovery_time: 1
+recovery_time: 5
 
 dry_mode: false
 dry_mode_wait: 0
