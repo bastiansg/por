@@ -37,5 +37,14 @@ qdrant-flush:
 qdrant-restart: qdrant-stop qdrant-start
 
 
-app-run: devcontainer-build
-	docker compose -f .devcontainer/docker-compose.yml run --rm --entrypoint="python -m por.app.app" por-devcontainer
+app-build:
+	docker compose build por-app
+
+app-run: app-build
+	docker compose  run --rm por-app
+
+app-up: devcontainer-build
+	docker compose up -d por-app
+
+app-stop:
+	docker stop por-app

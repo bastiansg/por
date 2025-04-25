@@ -33,3 +33,19 @@ services:
         volumes:
             - ./resources/db/qdrant:/qdrant/storage
         restart: unless-stopped
+
+    por-app:
+        image: por-app
+        container_name: por-app
+        network_mode: host
+        build:
+            context: .
+            dockerfile: ./docker/app/Dockerfile
+        volumes:
+            - $PWD/resources:/resources
+            - /run/udev:/run/udev:ro
+        env_file:
+            - .env
+            - .secrets/.env
+        privileged: true
+        restart: unless-stopped
