@@ -6,6 +6,10 @@ rotator_params:
     update_angle: 5
     min_delta_x_angle: 80
     min_delta_y_angle: 100
+    min_x_angle: 20
+    max_x_angle: 160
+    min_y_angle: 30
+    max_y_angle: 150
 
 min_delta_avg: 0.01
 
@@ -34,7 +38,7 @@ idle_angles:
     x: 103
     y: 20
 
-recovery_time: 5
+recovery_time: 30
 
 dry_mode: false
 dry_mode_wait: 0

@@ -21,24 +21,24 @@ async def main() -> None:
     multi_agent = get_multi_agent()
     multi_agent_config = get_multi_agent_config(model="grcra")
 
-    # while True:
-    image_id = uuid.uuid4().hex
-    state = await multi_agent.run(
-        input_state={
-            "image_id": image_id,
-        },
-        config=multi_agent_config,
-        thread_id=image_id,
-    )
+    while True:
+        image_id = uuid.uuid4().hex
+        state = await multi_agent.run(
+            input_state={
+                "image_id": image_id,
+            },
+            config=multi_agent_config,
+            thread_id=image_id,
+        )
 
-    state = StateSchema(**state)
-    state = state.model_dump()
-    pprint(state)
+        state = StateSchema(**state)
+        state = state.model_dump()
+        pprint(state)
 
-    save_json(
-        obj=state,
-        file_path=f"{STORE_PATH}/{image_id}.json",
-    )
+        save_json(
+            obj=state,
+            file_path=f"{STORE_PATH}/{image_id}.json",
+        )
 
 
 if __name__ == "__main__":
