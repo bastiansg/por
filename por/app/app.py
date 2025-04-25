@@ -3,6 +3,7 @@ import asyncio
 
 from rich.pretty import pprint
 from common.logger import get_logger
+from common.utils.path import create_path
 from common.utils.json_data import save_json
 
 from por.multi_agent.schema import StateSchema
@@ -13,6 +14,7 @@ logger = get_logger(__name__)
 
 
 STORE_PATH = "/resources/states"
+create_path(STORE_PATH)
 
 
 async def main() -> None:
@@ -29,12 +31,12 @@ async def main() -> None:
         thread_id=image_id,
     )
 
-    pprint(state)
     state = StateSchema(**state)
-    # pprint(state)
+    state = state.model_dump()
+    pprint(state)
 
     save_json(
-        obj=state.model_dump(),
+        obj=state,
         file_path=f"{STORE_PATH}/{image_id}.json",
     )
 

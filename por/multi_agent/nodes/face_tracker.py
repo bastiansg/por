@@ -46,11 +46,12 @@ def tracker_is_active(
         ]
     )
 
+    delta_avg = min(delta_avg, 1.0)
     logger.info(f"delta_avg => {delta_avg}")
+
     refresh_rate = max(delta_avg, min_delta_avg)
     sensehat_dsp.refresh_rate = refresh_rate
 
-    delta_avg = min(delta_avg, 1.0)
     if delta_avg > 0:
         return True
 

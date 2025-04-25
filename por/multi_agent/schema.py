@@ -114,3 +114,5 @@ class StateSchema(BaseModel):
             raise ValueError(
                 "The image generation prompt exceeds the 512-token limit."
             )
+
+        return v
