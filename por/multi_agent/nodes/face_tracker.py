@@ -50,6 +50,7 @@ def tracker_is_active(
     refresh_rate = max(delta_avg, min_delta_avg)
     sensehat_dsp.refresh_rate = refresh_rate
 
+    delta_avg = min(delta_avg, 1.0)
     if delta_avg > 0:
         return True
 
@@ -89,7 +90,7 @@ async def run(
 
     tracker.stop()
     tracker.servos.set_angles(servo_angles=ServoAngles())
-    asyncio.sleep(1)
+    await asyncio.sleep(1)
 
     valid_history_items = [
         history_item

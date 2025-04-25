@@ -10,9 +10,6 @@ from llm_agents.meta.interfaces import LLMAgent
 class ImagePrompterInput(BaseModel):
     image_description: StrictStr
     person_description: StrictStr
-    nietzsche_advice: StrictStr
-    jung_advice: StrictStr
-    ts_advice: StrictStr
     output_language: LanguageName
 
 

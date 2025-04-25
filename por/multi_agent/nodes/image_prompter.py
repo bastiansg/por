@@ -44,9 +44,6 @@ async def run(
         agent_input=ImagePrompterInput(
             image_description=state.image_description,
             person_description=str_person_description,
-            nietzsche_advice=state.nietzsche_advise,
-            jung_advice=state.jung_advise,
-            ts_advice=state.taylor_swift_advise,
             output_language="English",
         )
     )

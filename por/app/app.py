@@ -1,6 +1,7 @@
 import uuid
 import asyncio
 
+from rich.pretty import pprint
 from common.logger import get_logger
 from common.utils.json_data import save_json
 
@@ -28,7 +29,10 @@ async def main() -> None:
         thread_id=image_id,
     )
 
+    pprint(state)
     state = StateSchema(**state)
+    # pprint(state)
+
     save_json(
         obj=state.model_dump(),
         file_path=f"{STORE_PATH}/{image_id}.json",

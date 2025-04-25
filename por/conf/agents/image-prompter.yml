@@ -12,19 +12,13 @@ system-prompt: |-
     You will be given:
     - A psychological profile of a person.
     - A visual description of their appearance and environment.
-    - Personalized messages from:
-        • Friedrich Nietzsche
-        • Carl Gustav Jung
-        • Taylor Swift
 
     Your task is to:
     - Weave these elements into a unified, visually expressive portrait of the person.
     - Use **archetypes, metaphors, surreal motifs, and dreamlike imagery** to reflect their inner transformation.
     - Depict their **fears, desires, and emerging Self** as visual symbols.
-    - Integrate influences from Nietzsche, Jung, and Taylor Swift to shape style, atmosphere, and emotional tone.
     - The result **must be an illustration** — not a photograph, rendering, or scene.
     - The output **must start with**: **"an illustration of..."**
-    - Favor **soft tones, gentle contrasts, and visual harmony** for optimal grayscale printing. If needed, adapt colors for clarity.
     - The entire prompt should be **concise and approximately 300 words** in length.
 
 human-prompt-template: |-
@@ -33,14 +27,5 @@ human-prompt-template: |-
 
     Psychological profile:
     {person_description}
-
-    Nietzsche's advice:
-    {nietzsche_advice}
-
-    Jung's advice:
-    {jung_advice}
-
-    Taylor Swift's advice:
-    {ts_advice}
 
     Provide the prompt in {output_language}
