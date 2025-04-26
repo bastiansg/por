@@ -28,7 +28,7 @@ async def run(
     retriever_items = await retriever.dense_search(
         collection_name="el-libro-rojo",
         query=fears,
-        k=5,
+        k=10,
     )
 
     jung_text_chunks = [ri.text for ri in retriever_items]

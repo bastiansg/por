@@ -28,7 +28,7 @@ async def run(
     retriever_items = await retriever.dense_search(
         collection_name="taylor-swift",
         query=love_status,
-        k=5,
+        k=10,
     )
 
     ts_text_chunks = [ri.text for ri in retriever_items]

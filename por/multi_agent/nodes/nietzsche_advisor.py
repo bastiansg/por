@@ -28,7 +28,7 @@ async def run(
     retriever_items = await retriever.dense_search(
         collection_name="nietzsche",
         query=dreams_and_desires,
-        k=5,
+        k=10,
     )
 
     nietzsche_text_chunks = [ri.text for ri in retriever_items]
