@@ -30,3 +30,9 @@ from .number_archetypes import (  # noqa
     NumberArchetypesInput,
     NumberArchetypesOutput,
 )
+
+from .vk_image_describer import (  # noqa
+    VKImageDescriber,
+    VKImageDescriberInput,
+    VKImageDescriberOutput,
+)
