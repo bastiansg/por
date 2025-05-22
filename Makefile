@@ -1,9 +1,7 @@
-include .env
 .PHONY: core-build devcontainer-build
 
 
 core-build:
-	[ -e .secrets/.env ] || touch .secrets/.env
 	docker compose build por-core
 
 core-run:

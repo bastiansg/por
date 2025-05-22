@@ -1,6 +1,5 @@
 services:
     por-devcontainer:
-        network_mode: host
         image: por-devcontainer
         container_name: por-devcontainer
         build:
@@ -12,7 +11,13 @@ services:
             - /run/udev:/run/udev:ro
         env_file:
             - ../.env
-            - ../.secrets/.env
         privileged: true
         # This keeps the devcontainer running.
         entrypoint: ["tail", "-f", "/dev/null"]
+        networks:
+            - por
+
+networks:
+    por:
+        name: por
+        driver: bridge

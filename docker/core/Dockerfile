@@ -6,6 +6,8 @@ FROM debian:bookworm-slim
 ENV UV_SYSTEM_PYTHON=1
 ENV HAILORT_LOGGER_PATH=NONE
 ENV FAST_EMBED_SPARSE_CACHE=/resources/cache/fes
+
+ENV REDIS_HOST=por-redis
 ENV QDRANT_HOST=por-qdrant
 
 RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates gpg \
