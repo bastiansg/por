@@ -19,7 +19,7 @@ services:
         privileged: true
 
     por-redis:
-        image: redis:${REDIS_VERSION}
+        image: redis:8.0.1
         container_name: por-redis
         network_mode: host
         volumes:
@@ -27,7 +27,7 @@ services:
         restart: unless-stopped
 
     por-qdrant:
-        image: qdrant/qdrant:${QDRANT_VERSION}
+        image: qdrant/qdrant:v1.14.0
         container_name: por-qdrant
         network_mode: host
         volumes:

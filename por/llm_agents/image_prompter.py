@@ -3,7 +3,7 @@ from pydantic_extra_types.language_code import LanguageName
 
 from common.cache import RedisCache
 
-from por.conf import agents
+from por.conf import llm_agents
 from llm_agents.meta.interfaces import LLMAgent
 
 
@@ -22,7 +22,7 @@ class ImagePrompterOutput(BaseModel):
 class ImagePrompter(LLMAgent[ImagePrompterInput, ImagePrompterOutput]):
     def __init__(
         self,
-        conf_path=f"{agents.__path__[0]}/image-prompter.yml",
+        conf_path=f"{llm_agents.__path__[0]}/image-prompter.yml",
         max_concurrency: int = 10,
         cache: RedisCache = None,
     ):
