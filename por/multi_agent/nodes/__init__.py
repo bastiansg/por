@@ -1,6 +1,6 @@
 from .face_tracker import face_tracker  # noqa
 from .image_describer import image_describer  # noqa
-from .person_describer import person_describer  # noqa
+from .psychological_describer import psychological_describer  # noqa
 from .nietzsche_advisor import nietzsche_advisor  # noqa
 from .ts_advisor import ts_advisor  # noqa
 from .jung_advisor import jung_advisor  # noqa

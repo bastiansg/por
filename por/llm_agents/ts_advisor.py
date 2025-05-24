@@ -8,7 +8,7 @@ from llm_agents.meta.interfaces import LLMAgent
 
 
 class TSAdvisorAdvisorInput(BaseModel):
-    person_description: StrictStr
+    love_status: StrictStr
     ts_text_chunks: list[StrictStr]
     output_language: LanguageName
 

@@ -8,7 +8,7 @@ from llm_agents.meta.interfaces import LLMAgent
 
 
 class NietzscheAdvisorInput(BaseModel):
-    person_description: StrictStr
+    dreams_and_desires: StrictStr
     nietzsche_text_chunks: list[StrictStr]
     output_language: LanguageName
 

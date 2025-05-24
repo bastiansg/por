@@ -5,16 +5,12 @@ from por.llm_agents import JungAdvisor, JungAdvisorInput
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
 
-from .utils import dry_mode_handler, get_retriever
+from .utils import get_retriever
 
 
 logger = get_logger(__name__)
 
 
-@dry_mode_handler(
-    func_name="person_describer",
-    return_fields=["jung_advise"],
-)
 async def run(
     state: StateSchema,
     config: ConfigSchema,
@@ -23,11 +19,11 @@ async def run(
     conf = config["configurable"]
 
     retriever = get_retriever()
-    fears = state.person_description.fears
+    creative_status = state.psychological_description.creative_status
 
     retriever_items = await retriever.dense_search(
         collection_name="el-libro-rojo",
-        query=fears,
+        query=creative_status,
         k=10,
     )
 
@@ -36,7 +32,7 @@ async def run(
     jung_advisor = JungAdvisor()
     jung_advisor_output = await jung_advisor.generate(
         agent_input=JungAdvisorInput(
-            person_description=fears,
+            creative_status=creative_status,
             jung_text_chunks=jung_text_chunks,
             output_language=conf["output_language"],
         )

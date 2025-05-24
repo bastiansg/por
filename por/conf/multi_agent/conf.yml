@@ -21,10 +21,6 @@ image_margin: 20
 
 image_description_guidelines: |-
     Carefully analyze the provided image and generate a vivid, highly detailed description.
-    Use rich, expressive language to convey the style, composition, atmosphere, and visual elements.
-
-person_description_guidelines: |-
-    Carefully observe the image and provide a psychologically rich profile for each person.
 
 history_length: 180
 face_detector_min_score: 0.0

@@ -7,16 +7,12 @@ from por.llm_agents import NumberArchetypes, NumberArchetypesInput
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
 
-from .utils import dry_mode_handler, get_str_person_description
+from .utils import get_str_description
 
 
 logger = get_logger(__name__)
 
 
-@dry_mode_handler(
-    func_name="person_describer",
-    return_fields=["number"],
-)
 async def run(
     state: StateSchema,
     config: ConfigSchema,
@@ -25,13 +21,15 @@ async def run(
     conf = config["configurable"]
 
     number_archetypes = NumberArchetypes()
-    str_person_description = get_str_person_description(state=state)
-    str_archetypes = get_pretty(obj=conf["number_archetypes"], indent=1)
+    str_psychological_description = get_str_description(
+        description=state.psychological_description.model_dump()
+    )
 
+    str_archetypes = get_pretty(obj=conf["number_archetypes"], indent=1)
     number_archetypes_output = await number_archetypes.generate(
         agent_input=NumberArchetypesInput(
-            person_description=str_person_description,
             number_archetypes=str_archetypes,
+            psychological_description=str_psychological_description,
         )
     )
 

@@ -6,38 +6,38 @@ face_tracker_image_describer = SimpleEdge(
     target="image_describer",
 )
 
-face_tracker_person_describer = SimpleEdge(
+face_tracker_psychological_describer = SimpleEdge(
     source="face_tracker",
-    target="person_describer",
+    target="psychological_describer",
 )
 
-person_describer_nietzsche_advisor = SimpleEdge(
-    source="person_describer",
+psychological_describer_nietzsche_advisor = SimpleEdge(
+    source="psychological_describer",
     target="nietzsche_advisor",
 )
 
-person_describer_ts_advisor = SimpleEdge(
-    source="person_describer",
+psychological_describer_ts_advisor = SimpleEdge(
+    source="psychological_describer",
     target="ts_advisor",
 )
 
-person_describer_jung_advisor = SimpleEdge(
-    source="person_describer",
+psychological_describer_jung_advisor = SimpleEdge(
+    source="psychological_describer",
     target="jung_advisor",
 )
 
-person_describer_dc_selector = SimpleEdge(
-    source="person_describer",
+psychological_describer_dc_selector = SimpleEdge(
+    source="psychological_describer",
     target="dc_selector",
 )
 
-person_describer_fc_selector = SimpleEdge(
-    source="person_describer",
+psychological_describer_fc_selector = SimpleEdge(
+    source="psychological_describer",
     target="fc_selector",
 )
 
-person_describer_number_archetypes = SimpleEdge(
-    source="person_describer",
+psychological_describer_number_archetypes = SimpleEdge(
+    source="psychological_describer",
     target="number_archetypes",
 )
 

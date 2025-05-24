@@ -4,7 +4,7 @@ from common.logger import get_logger
 from por.utils.printer import get_printer
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
-from .utils import dry_mode_handler, get_sensehat_dsp
+from .utils import get_sensehat_dsp
 
 
 logger = get_logger(__name__)
@@ -46,15 +46,15 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
     printer.text("\n")
     printer.set(bold=False)
 
-    printer.block_text(state.person_description.dreams_and_desires)
+    printer.block_text(state.psychological_description.dreams_and_desires)
     printer.text("\n\n")
 
     printer.set(bold=True)
-    printer.block_text("$$ Tus miedos:")
+    printer.block_text("$$ Sobre tu creatividad:")
     printer.text("\n")
     printer.set(bold=False)
 
-    printer.block_text(state.person_description.fears)
+    printer.block_text(state.psychological_description.creative_status)
     printer.text("\n\n")
 
     printer.set(bold=True)
@@ -62,7 +62,7 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
     printer.text("\n")
     printer.set(bold=False)
 
-    printer.block_text(state.person_description.love_status)
+    printer.block_text(state.psychological_description.love_status)
 
     printer.text("\n\n")
     printer.text("------------------------------------------------")
@@ -82,7 +82,7 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
     printer.text("\n\n")
 
     printer.set(bold=True)
-    printer.block_text("$$ Lo que reveló el Libro Rojo sobre tus miedos:")
+    printer.block_text("$$ Lo que reveló el Libro Rojo sobre tu cratividad:")
     printer.text("\n")
     printer.set(bold=False)
 
@@ -132,10 +132,6 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
     printer.cut()
 
 
-@dry_mode_handler(
-    func_name="printer",
-    return_fields=["printer_job_id"],
-)
 async def run(
     state: StateSchema,
     config: ConfigSchema,

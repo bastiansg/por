@@ -8,7 +8,7 @@ from llm_agents.meta.interfaces import LLMAgent
 
 
 class JungAdvisorInput(BaseModel):
-    person_description: StrictStr
+    creative_status: StrictStr
     jung_text_chunks: list[StrictStr]
     output_language: LanguageName
 

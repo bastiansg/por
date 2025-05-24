@@ -2,7 +2,9 @@ from typing import Literal
 from functools import lru_cache
 
 from por.conf import multi_agent
-from common.utils.json_data import load_json
+from por.loaders import image_caption_loader
+from por.data import dc_poems, fc_messages, num_archetypes
+
 from common.utils.yaml_data import load_yaml
 
 from .schema import ConfigSchema
@@ -15,7 +17,7 @@ MODEL_CONF_MAP = {
 
 
 @lru_cache(maxsize=1)
-def get_multi_agent_config(model: Literal["grcra"]) -> ConfigSchema:
+def get_multi_agent_config(model: Literal["grcra"] = "grcra") -> ConfigSchema:
     return ConfigSchema(
         **(
             load_yaml(file_path=f"{BASE_CONF_PATH}/conf.yml")
@@ -27,9 +29,7 @@ def get_multi_agent_config(model: Literal["grcra"]) -> ConfigSchema:
                         "poem": poem,
                     }
                     for idx, poem in enumerate(
-                        load_json(
-                            "/resources/documents/dos-corazones/poemas.json"
-                        ),
+                        dc_poems,
                         start=1,
                     )
                 ],
@@ -39,15 +39,12 @@ def get_multi_agent_config(model: Literal["grcra"]) -> ConfigSchema:
                         "message": message,
                     }
                     for idx, message in enumerate(
-                        load_json(
-                            "/resources/documents/fortune-cookie/messages.json"
-                        ),
+                        fc_messages,
                         start=1,
                     )
                 ],
-                "number_archetypes": load_json(
-                    "/resources/documents/numerology/archetypes.json"
-                ),
+                "number_archetypes": num_archetypes,
+                "train_image_captions": image_caption_loader(),
             }
         )
     )

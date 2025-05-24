@@ -4,10 +4,10 @@ from .image_describer import (  # noqa
     ImageDescriberOutput,
 )
 
-from .person_describer import (  # noqa
-    PersonDescriber,
-    PersonDescriberInput,
-    PersonDescriberOutput,
+from .psychological_describer import (  # noqa
+    PsychologicalDescriber,
+    PsychologicalDescriberInput,
+    PsychologicalDescriberOutput,
 )
 
 from .nietzsche_advisor import (  # noqa
@@ -18,10 +18,10 @@ from .nietzsche_advisor import (  # noqa
 
 from .ts_advisor import TSAdvisor, TSAdvisorAdvisorInput, TSAdvisorAdvisorOutput  # noqa
 from .jung_advisor import JungAdvisor, JungAdvisorInput, JungAdvisorOutput  # noqa
-from .image_prompter import (  # noqa
-    ImagePrompter,
-    ImagePrompterInput,
-    ImagePrompterOutput,
+from .scene_image_prompter import (  # noqa
+    SceneImagePrompter,
+    SceneImagePrompterInput,
+    SceneImagePrompterOutput,
 )
 
 

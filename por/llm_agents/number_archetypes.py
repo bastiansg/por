@@ -7,13 +7,13 @@ from llm_agents.meta.interfaces import LLMAgent
 
 
 class NumberArchetypesInput(BaseModel):
-    person_description: StrictStr
     number_archetypes: StrictStr
+    psychological_description: StrictStr
 
 
 class NumberArchetypesOutput(BaseModel):
     number: NonNegativeInt = Field(
-        description="Symbolic number reflecting the person's psychological profile."
+        description="Number that symbolically reflects the psychological profile."
     )
 
 

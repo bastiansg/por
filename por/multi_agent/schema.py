@@ -19,6 +19,10 @@ from pydantic import (
     field_validator,
 )
 
+from por.loaders import ImageCaptionItem
+from por.llm_agents.image_describer import ImageDescriberOutput
+from por.llm_agents.psychological_describer import PsychologicalDescriberOutput
+
 
 tiktoken_encoder = tiktoken.encoding_for_model("gpt-4o")
 
@@ -57,14 +61,12 @@ class ConfigSchema(BaseModel):
     image_size: ImageSize
     image_margin: NonNegativeInt
     image_description_guidelines: StrictStr
-    person_description_guidelines: StrictStr
     history_length: NonNegativeInt
     face_detector_min_score: NonNegativeFloat
     images_path: StrictStr
     image_extension: StrictStr
     model: StrictStr
     generation_prompt_header: StrictStr
-    generation_prompt_footer: StrictStr
     printer_name: StrictStr
     imagekit_url: StrictStr
     idle_angles: ServoAngles
@@ -74,6 +76,7 @@ class ConfigSchema(BaseModel):
     fc_messages: list[FCMessage]
     printer: Printer
     number_archetypes: list[NumberArchetype]
+    train_image_captions: list[ImageCaptionItem]
     dry_mode: StrictBool = False
     dry_mode_wait: NonNegativeInt = 5
 
@@ -83,17 +86,11 @@ class ConfigSchema(BaseModel):
         return v
 
 
-class PersonDescription(BaseModel):
-    fears: StrictStr
-    dreams_and_desires: StrictStr
-    love_status: StrictStr
-
-
 class StateSchema(BaseModel):
     image_id: StrictStr
     image_path: StrictStr | None = None
-    image_description: StrictStr | None = None
-    person_description: PersonDescription | None = None
+    image_description: ImageDescriberOutput | None = None
+    psychological_description: PsychologicalDescriberOutput | None = None
     nietzsche_text_chunks: list[StrictStr] = []
     nietzsche_advise: StrictStr | None = None
     ts_text_chunks: list[StrictStr] = []

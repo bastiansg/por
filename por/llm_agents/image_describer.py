@@ -30,6 +30,7 @@ class ImageDescriber(LLMAgent[ImageDescriberInput, ImageDescriberOutput]):
             conf_path=conf_path,
             agent_input=ImageDescriberInput,
             agent_output=ImageDescriberOutput,
+            retries=3,
             max_concurrency=max_concurrency,
             cache=cache,
         )

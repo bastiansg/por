@@ -1,26 +1,18 @@
+import random
 import asyncio
 
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from por.llm_agents import ImagePrompter, ImagePrompterInput
+from por.llm_agents import SceneImagePrompter, SceneImagePrompterInput
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
-
-from .utils import (
-    dry_mode_handler,
-    get_str_person_description,
-    get_sensehat_dsp,
-)
+from .utils import get_str_description, get_sensehat_dsp
 
 
 logger = get_logger(__name__)
 
 
-@dry_mode_handler(
-    func_name="person_describer",
-    return_fields=["image_prompt"],
-)
 async def run(
     state: StateSchema,
     config: ConfigSchema,
@@ -38,20 +30,29 @@ async def run(
         refresh_rate=0.5,
     )
 
-    str_person_description = get_str_person_description(state=state)
-    image_prompter = ImagePrompter()
-    image_prompter_output = await image_prompter.generate(
-        agent_input=ImagePrompterInput(
-            image_description=state.image_description,
-            person_description=str_person_description,
+    people_description = state.image_description.people_description
+    str_psychological_description = get_str_description(
+        description=state.psychological_description.model_dump()
+    )
+
+    image_prompter = SceneImagePrompter()
+    scene_image_prompter_output = await image_prompter.generate(
+        agent_input=SceneImagePrompterInput(
+            people_description=people_description,
+            psychological_description=str_psychological_description,
+            proposed_scene=random.choice(conf["train_image_captions"])[
+                "scene_description"
+            ],
             output_language="English",
         )
     )
 
-    image_generation_prompt = image_prompter_output.image_generation_prompt
-    image_generation_prompt = f"{conf['generation_prompt_header']} {image_generation_prompt} {conf['generation_prompt_footer']}"
     return {
-        "image_generation_prompt": image_generation_prompt,
+        "image_generation_prompt": (
+            f"{conf['generation_prompt_header']}\n"
+            f"People description: {people_description}\n"
+            f"Scene description: {scene_image_prompter_output.scene_description}\n"
+        ),
     }
 
 

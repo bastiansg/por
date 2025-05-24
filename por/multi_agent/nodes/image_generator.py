@@ -6,19 +6,12 @@ from common.logger import get_logger
 
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
-from .utils import dry_mode_handler, get_sensehat_dsp
+from .utils import get_sensehat_dsp
 
 
 logger = get_logger(__name__)
 
 
-@dry_mode_handler(
-    func_name="image_generator",
-    return_fields=[
-        "gen_image_path",
-        "concat_image_path",
-    ],
-)
 async def run(
     state: StateSchema,
     config: ConfigSchema,
