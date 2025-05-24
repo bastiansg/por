@@ -4,7 +4,7 @@ import asyncio
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from por.utils.tokens import validate_num_tokens
+from por.utils.tokens import get_num_tokens
 from por.llm_agents import ImagePrompter, ImagePrompterInput
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
@@ -12,6 +12,9 @@ from .utils import get_sensehat_dsp
 
 
 logger = get_logger(__name__)
+
+
+MAX_TOKENS = 512
 
 
 async def run(
@@ -51,10 +54,16 @@ async def run(
         f"Scene description: {scene_image_prompter_output.scene_description}\n"
     )
 
-    assert validate_num_tokens(text=image_generation_prompt)
+    num_tokens = get_num_tokens(text=image_generation_prompt)
+    if num_tokens > MAX_TOKENS:
+        logger.warning(f"image_prompt_tokens: {num_tokens} > {MAX_TOKENS}")
+
     return {
         "selected_scene_description": selected_scene_description,
-        "image_generation_prompt": image_generation_prompt,
+        "image_generation_prompt": {
+            "prompt": image_generation_prompt,
+            "num_tokens": num_tokens,
+        },
     }
 
 

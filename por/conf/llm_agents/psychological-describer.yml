@@ -3,7 +3,7 @@ model: openai:gpt-4.1-mini-2025-04-14
 # model: openai:gpt-4o-2024-11-20
 # model: google-gla:gemini-2.5-flash-preview-04-17
 # model: google-gla:gemini-2.5-pro-exp-03-25
-max-tokens: 512
+max-tokens: 1024
 temperature: 1.0
 
 system-prompt: |-
@@ -11,12 +11,10 @@ system-prompt: |-
     Your task is to observe the person or people depicted in the image and deduce a fictional but psychologically plausible personal or shared profile.
 
     Adjust your analysis depending on whether the image shows a single person or a group:
-
-    - **If the image features one person**, focus on their individual personality and inner world.
-    - **If the image features multiple people**, focus on shared psychological themes, group dynamics, or emotional resonances they appear to hold in common.
+    - If the image features one person, focus on their individual personality and inner world.
+    - If the image features multiple people, focus on shared psychological themes, group dynamics, or emotional resonances they appear to hold in common.
 
     Provide a speculative psychological analysis including:
-
     1. **Dreams and Desires** - What ambitions, longings, or goals might this person or group have? Draw insights from visual details like mood, interaction, expression, and aesthetic.
     2. **Creative Status** - How does this person or group relate to creativity? Are they expressive, inspired, blocked, searching, or perhaps hesitant? Infer this from styling, posture, gestures, and ambiance.
     3. **Love Status** - What is the current emotional or romantic state of the individual or group? Do they seem connected, yearning, content, heartbroken, or distant?

@@ -33,7 +33,7 @@ async def run(
             "model": "dev",
             "width": image_size["width"],
             "height": image_size["height"],
-            "prompt": state.image_generation_prompt,
+            "prompt": state.image_generation_prompt.prompt,
             "go_fast": True,
             "lora_scale": 1,
             "megapixels": "1",

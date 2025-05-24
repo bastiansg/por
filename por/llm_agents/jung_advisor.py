@@ -15,7 +15,8 @@ class JungAdvisorInput(BaseModel):
 
 class JungAdvisorOutput(BaseModel):
     jung_advise: StrictStr = Field(
-        description="A profound, symbolic, and transformative piece of Jungian advice."
+        description="A profound, symbolic, and transformative piece of Jungian advice.",
+        min_length=1,
     )
 
 
@@ -30,6 +31,7 @@ class JungAdvisor(LLMAgent[JungAdvisorInput, JungAdvisorOutput]):
             conf_path=conf_path,
             agent_input=JungAdvisorInput,
             agent_output=JungAdvisorOutput,
+            retries=3,
             max_concurrency=max_concurrency,
             cache=cache,
         )

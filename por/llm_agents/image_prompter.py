@@ -15,11 +15,13 @@ class ImagePrompterInput(BaseModel):
 
 class ImagePrompterOutput(BaseModel):
     people_description: StrictStr = Field(
-        description="An adapted version of the original people description."
+        description="An adapted version of the original people description.",
+        min_length=1,
     )
 
     scene_description: StrictStr = Field(
-        description="An adapted version of the original scene description."
+        description="An adapted version of the original scene description.",
+        min_length=1,
     )
 
 
@@ -34,6 +36,7 @@ class ImagePrompter(LLMAgent[ImagePrompterInput, ImagePrompterOutput]):
             conf_path=conf_path,
             agent_input=ImagePrompterInput,
             agent_output=ImagePrompterOutput,
+            retries=3,
             max_concurrency=max_concurrency,
             cache=cache,
         )

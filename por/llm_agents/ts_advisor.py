@@ -15,7 +15,8 @@ class TSAdvisorAdvisorInput(BaseModel):
 
 class TSAdvisorAdvisorOutput(BaseModel):
     taylor_swift_advise: StrictStr = Field(
-        description="A heartfelt, lyrical, and emotionally attuned piece of Taylor Swift advice."
+        description="A heartfelt, lyrical, and emotionally attuned piece of Taylor Swift advice.",
+        min_length=1,
     )
 
 
@@ -30,6 +31,7 @@ class TSAdvisor(LLMAgent[TSAdvisorAdvisorInput, TSAdvisorAdvisorOutput]):
             conf_path=conf_path,
             agent_input=TSAdvisorAdvisorInput,
             agent_output=TSAdvisorAdvisorOutput,
+            retries=3,
             max_concurrency=max_concurrency,
             cache=cache,
         )

@@ -13,7 +13,7 @@ class NumberArchetypesInput(BaseModel):
 
 class NumberArchetypesOutput(BaseModel):
     number: NonNegativeInt = Field(
-        description="Number that symbolically reflects the psychological profile."
+        description="Number that symbolically reflects the psychological profile.",
     )
 
 
@@ -28,6 +28,7 @@ class NumberArchetypes(LLMAgent[NumberArchetypesInput, NumberArchetypesOutput]):
             conf_path=conf_path,
             agent_input=NumberArchetypesInput,
             agent_output=NumberArchetypesOutput,
+            retries=3,
             max_concurrency=max_concurrency,
             cache=cache,
         )

@@ -12,31 +12,27 @@ rotator_params:
     max_y_angle: 150
 
 min_delta_avg: 0.01
-
 image_size:
     width: 1024
     height: 1024
 
 image_margin: 20
-
 image_description_guidelines: |-
     Carefully analyze the provided image and generate a vivid, highly detailed description.
 
-history_length: 180
+history_length: 90
 face_detector_min_score: 0.0
 images_path: /resources/images
 image_extension: jpg
 
 printer_name: EPSON_TM-T20IIIL
 imagekit_url: https://ik.imagekit.io/ddmoon
-
 idle_angles:
     x: 103
     y: 20
 
 recovery_time: 0
 output_language: Spanish
-
 printer:
     por_logo_path: "/resources/ticket-images/por-logo.jpeg"
     max_text_len: 48

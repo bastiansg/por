@@ -1,5 +1,3 @@
-import tiktoken
-
 from typing import Literal
 from sensehat_dsp.display import Color
 from common.utils.path import create_path
@@ -21,9 +19,6 @@ from pydantic import (
 from por.loaders import ImageCaptionItem
 from por.llm_agents.image_describer import ImageDescriberOutput
 from por.llm_agents.psychological_describer import PsychologicalDescriberOutput
-
-
-tiktoken_encoder = tiktoken.encoding_for_model("gpt-4o")
 
 
 class GolColors(BaseModel):
@@ -83,6 +78,11 @@ class ConfigSchema(BaseModel):
         return v
 
 
+class ImageGenerationPrompt(BaseModel):
+    prompt: StrictStr
+    num_tokens: PositiveInt
+
+
 class StateSchema(BaseModel):
     image_id: StrictStr
     image_path: StrictStr | None = None
@@ -97,17 +97,8 @@ class StateSchema(BaseModel):
     selected_dc_poem: StrictStr | None = None
     selected_fc_message: StrictStr | None = None
     selected_scene_description: StrictStr | None = None
-    image_generation_prompt: StrictStr | None = None
+    image_generation_prompt: ImageGenerationPrompt | None = None
     gen_image_path: StrictStr | None = None
     image_url: StrictStr | None = None
     lucky_number: NonNegativeInt | None = None
     print_status: Literal["ok", "failed"] | None = None
-
-    @field_validator("image_generation_prompt", mode="after")
-    def image_prompt_validator(cls, v: str) -> str:
-        if len(tiktoken_encoder.encode(v)) > 512:
-            raise ValueError(
-                "The image generation prompt exceeds the 512-token limit."
-            )
-
-        return v
