@@ -8,7 +8,7 @@ from por.utils.tokens import get_num_tokens
 from por.llm_agents import ImagePrompter, ImagePrompterInput
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
-from .utils import get_sensehat_dsp
+from .utils import get_sensehat_dsp, get_str_description
 
 
 logger = get_logger(__name__)
@@ -35,6 +35,10 @@ async def run(
     )
 
     people_description = state.image_description.people_description
+    psychological_description = get_str_description(
+        description=state.psychological_description.model_dump()
+    )
+
     selected_scene_description = random.choice(conf["train_image_captions"])[
         "scene_description"
     ]
@@ -44,6 +48,7 @@ async def run(
         agent_input=ImagePrompterInput(
             people_description=people_description,
             scene_description=selected_scene_description,
+            psychological_description=psychological_description,
             output_language="English",
         )
     )

@@ -25,14 +25,10 @@ async def run(
 
     await asyncio.sleep(1)
     sensehat_dsp.start_color_cycle(image_name="si-04")
-
-    image_size = conf["image_size"]
     output = replicate.run(
         conf["model"],
         input={
             "model": "dev",
-            "width": image_size["width"],
-            "height": image_size["height"],
             "prompt": state.image_generation_prompt.prompt,
             "go_fast": True,
             "lora_scale": 1,
@@ -41,7 +37,7 @@ async def run(
             "aspect_ratio": "9:16",
             "output_format": "jpg",
             "guidance_scale": 3,
-            "output_quality": 80,
+            "output_quality": 100,
             "prompt_strength": 0.6,
             "extra_lora_scale": 1,
             "num_inference_steps": 28,

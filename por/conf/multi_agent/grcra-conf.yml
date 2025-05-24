@@ -2,5 +2,6 @@
 # model: bastiansg/gerciara:ad145121cb1dcbd809add3c826941e000717d491e8bba9ed88a176802a56b0f9
 # model: bastiansg/gerciara:d655fa89e45963ad1e5bb8b312b8ecd47bc402a5130746bd70bd9e089ae07eba
 # model: bastiansg/gerciara:e83f9cdec39b1dd2c55057fd50ee67b06a5a79e0e4bde1137fcdbb3c2179739c
-model: bastiansg/gerciara:2d6bac608c480aecc38ef802db238874c72d9d3b67c55290e031d46fbd4265d5
+# model: bastiansg/gerciara:2d6bac608c480aecc38ef802db238874c72d9d3b67c55290e031d46fbd4265d5
+model: bastiansg/gerciara:c6b1509cc8e0f94e840b6f74b30079e32cf6f672182aad9c26bfbc4bfe5808d2
 generation_prompt_header: "In the style of GRCRA, an illustration of:"

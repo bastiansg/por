@@ -22,7 +22,7 @@ image_description_guidelines: |-
 
 history_length: 90
 face_detector_min_score: 0.0
-images_path: /resources/images
+images_path: /resources/generated-images
 image_extension: jpg
 
 printer_name: EPSON_TM-T20IIIL
