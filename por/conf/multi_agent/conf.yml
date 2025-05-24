@@ -34,10 +34,7 @@ idle_angles:
     x: 103
     y: 20
 
-recovery_time: 60
-
-dry_mode: false
-dry_mode_wait: 0
+recovery_time: 0
 output_language: Spanish
 
 printer:

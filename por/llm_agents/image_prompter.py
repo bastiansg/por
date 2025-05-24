@@ -7,32 +7,33 @@ from por.conf import llm_agents
 from llm_agents.meta.interfaces import LLMAgent
 
 
-class SceneImagePrompterInput(BaseModel):
+class ImagePrompterInput(BaseModel):
     people_description: StrictStr
-    psychological_description: StrictStr
-    proposed_scene: StrictStr
+    scene_description: StrictStr
     output_language: LanguageName
 
 
-class SceneImagePrompterOutput(BaseModel):
+class ImagePrompterOutput(BaseModel):
+    people_description: StrictStr = Field(
+        description="An adapted version of the original people description."
+    )
+
     scene_description: StrictStr = Field(
-        description="An adapted version of the proposed scene."
+        description="An adapted version of the original scene description."
     )
 
 
-class SceneImagePrompter(
-    LLMAgent[SceneImagePrompterInput, SceneImagePrompterOutput]
-):
+class ImagePrompter(LLMAgent[ImagePrompterInput, ImagePrompterOutput]):
     def __init__(
         self,
-        conf_path=f"{llm_agents.__path__[0]}/scene-image-prompter.yml",
+        conf_path=f"{llm_agents.__path__[0]}/image-prompter.yml",
         max_concurrency: int = 10,
         cache: RedisCache = None,
     ):
         super().__init__(
             conf_path=conf_path,
-            agent_input=SceneImagePrompterInput,
-            agent_output=SceneImagePrompterOutput,
+            agent_input=ImagePrompterInput,
+            agent_output=ImagePrompterOutput,
             max_concurrency=max_concurrency,
             cache=cache,
         )

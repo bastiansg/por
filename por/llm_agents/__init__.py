@@ -18,10 +18,10 @@ from .nietzsche_advisor import (  # noqa
 
 from .ts_advisor import TSAdvisor, TSAdvisorAdvisorInput, TSAdvisorAdvisorOutput  # noqa
 from .jung_advisor import JungAdvisor, JungAdvisorInput, JungAdvisorOutput  # noqa
-from .scene_image_prompter import (  # noqa
-    SceneImagePrompter,
-    SceneImagePrompterInput,
-    SceneImagePrompterOutput,
+from .image_prompter import (  # noqa
+    ImagePrompter,
+    ImagePrompterInput,
+    ImagePrompterOutput,
 )
 
 

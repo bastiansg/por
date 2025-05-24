@@ -14,7 +14,6 @@ from pydantic import (
     NonNegativeInt,
     NonNegativeFloat,
     PositiveFloat,
-    StrictBool,
     PositiveInt,
     field_validator,
 )
@@ -77,8 +76,6 @@ class ConfigSchema(BaseModel):
     printer: Printer
     number_archetypes: list[NumberArchetype]
     train_image_captions: list[ImageCaptionItem]
-    dry_mode: StrictBool = False
-    dry_mode_wait: NonNegativeInt = 5
 
     @field_validator("images_path", mode="after")
     def images_path_validator(cls, v: str) -> str:
@@ -99,6 +96,7 @@ class StateSchema(BaseModel):
     jung_advise: StrictStr | None = None
     selected_dc_poem: StrictStr | None = None
     selected_fc_message: StrictStr | None = None
+    selected_scene_description: StrictStr | None = None
     image_generation_prompt: StrictStr | None = None
     gen_image_path: StrictStr | None = None
     image_url: StrictStr | None = None
