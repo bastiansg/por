@@ -34,7 +34,7 @@ async def run(
             "lora_scale": 1,
             "megapixels": "1",
             "num_outputs": 1,
-            "aspect_ratio": "9:16",
+            "aspect_ratio": "4:5",
             "output_format": "jpg",
             "guidance_scale": 3,
             "output_quality": 100,

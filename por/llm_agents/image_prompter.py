@@ -9,19 +9,18 @@ from llm_agents.meta.interfaces import LLMAgent
 
 class ImagePrompterInput(BaseModel):
     people_description: StrictStr
-    scene_description: StrictStr
     psychological_description: StrictStr
     output_language: LanguageName
 
 
 class ImagePrompterOutput(BaseModel):
     people_description: StrictStr = Field(
-        description="An adapted version of the original people description.",
+        description="A reinterpreted People description.",
         min_length=1,
     )
 
     scene_description: StrictStr = Field(
-        description="An adapted version of the original scene description.",
+        description="A newly imagined Scene description.",
         min_length=1,
     )
 
