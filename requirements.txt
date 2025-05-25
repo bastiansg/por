@@ -10,4 +10,4 @@ sensehat_dsp @ git+https://github.com/bastiansg/sensehat-dsp.git@v1.0.19
 
 multi_agents @ git+https://github.com/aureka-team/agents.git@v1.1.6
 llm_agents @ git+ssh://git@github.com/aureka-team/llm-agents.git@v1.0.12
-rage @ git+ssh://git@github.com/bastiansg/rage.git@v1.0.9
+rage @ git+ssh://git@github.com/bastiansg/rage.git@v1.0.10

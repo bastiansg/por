@@ -51,6 +51,7 @@ async def run(
         f"{conf['generation_prompt_header']}\n"
         f"People description: {people_description}\n"
         f"Scene description: {scene_image_prompter_output.scene_description}\n"
+        f"{conf['generation_prompt_footer']}"
     )
 
     num_tokens = get_num_tokens(text=image_generation_prompt)

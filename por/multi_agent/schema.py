@@ -60,6 +60,7 @@ class ConfigSchema(BaseModel):
     image_extension: StrictStr
     model: StrictStr
     generation_prompt_header: StrictStr
+    generation_prompt_footer: StrictStr
     printer_name: StrictStr
     imagekit_url: StrictStr
     idle_angles: ServoAngles
