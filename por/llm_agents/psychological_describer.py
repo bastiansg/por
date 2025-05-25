@@ -8,17 +8,19 @@ from llm_agents.meta.interfaces import LLMAgent
 
 
 class PsychologicalDescriberInput(BaseModel):
+    people_description: StrictStr
+    scene_description: StrictStr
     output_language: LanguageName
 
 
 class PsychologicalDescriberOutput(BaseModel):
-    creative_status: StrictStr = Field(
-        description="The individual's or group's relationship with creativity.",
+    dreams_and_desires: StrictStr = Field(
+        description="Speculative ambitions, longings, or life goals inferred from the person's or group's appearance, mood, and styling.",
         min_length=1,
     )
 
-    dreams_and_desires: StrictStr = Field(
-        description="Speculative ambitions, longings, or life goals inferred from the person's or group's appearance, mood, and styling.",
+    creative_status: StrictStr = Field(
+        description="The individual's or group's relationship with creativity.",
         min_length=1,
     )
 

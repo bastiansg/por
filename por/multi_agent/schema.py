@@ -39,12 +39,11 @@ class FCMessage(BaseModel):
 class Printer(BaseModel):
     por_logo_path: StrictStr
     max_text_len: PositiveInt
-    num_lucky_numbers: PositiveInt
 
 
 class NumberArchetype(BaseModel):
     number: NonNegativeInt
-    archetype: StrictStr
+    archetype_name: StrictStr
     traits: list[StrictStr]
 
 
@@ -96,7 +95,6 @@ class StateSchema(BaseModel):
     jung_advise: StrictStr | None = None
     selected_dc_poem: StrictStr | None = None
     selected_fc_message: StrictStr | None = None
-    selected_scene_description: StrictStr | None = None
     image_generation_prompt: ImageGenerationPrompt | None = None
     gen_image_path: StrictStr | None = None
     image_url: StrictStr | None = None

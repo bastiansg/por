@@ -1,4 +1,3 @@
-import random
 import asyncio
 
 from multi_agents.graph import Node
@@ -39,15 +38,10 @@ async def run(
         description=state.psychological_description.model_dump()
     )
 
-    selected_scene_description = random.choice(conf["train_image_captions"])[
-        "scene_description"
-    ]
-
     image_prompter = ImagePrompter()
     scene_image_prompter_output = await image_prompter.generate(
         agent_input=ImagePrompterInput(
             people_description=people_description,
-            scene_description=selected_scene_description,
             psychological_description=psychological_description,
             output_language="English",
         )
@@ -64,7 +58,6 @@ async def run(
         logger.warning(f"image_prompt_tokens: {num_tokens} > {MAX_TOKENS}")
 
     return {
-        "selected_scene_description": selected_scene_description,
         "image_generation_prompt": {
             "prompt": image_generation_prompt,
             "num_tokens": num_tokens,

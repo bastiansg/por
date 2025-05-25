@@ -6,8 +6,8 @@ face_tracker_image_describer = SimpleEdge(
     target="image_describer",
 )
 
-face_tracker_psychological_describer = SimpleEdge(
-    source="face_tracker",
+image_describer_psychological_describer = SimpleEdge(
+    source="image_describer",
     target="psychological_describer",
 )
 
@@ -43,7 +43,6 @@ psychological_describer_number_archetypes = SimpleEdge(
 
 image_prompter_edges = SimpleEdge(
     source=[
-        "image_describer",
         "dc_selector",
         "fc_selector",
         "jung_advisor",

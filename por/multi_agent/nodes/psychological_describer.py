@@ -1,6 +1,6 @@
 import asyncio
 
-from pydantic_ai import BinaryContent
+# from pydantic_ai import BinaryContent
 
 from multi_agents.graph import Node
 from common.logger import get_logger
@@ -23,18 +23,28 @@ async def run(
     conf = config["configurable"]
 
     psychological_describer_agent = PsychologicalDescriber()
-    with open(state.image_path, "rb") as image_file:
-        psychological_describer_output = (
-            await psychological_describer_agent.generate(
-                agent_input=PsychologicalDescriberInput(
-                    output_language=conf["output_language"],
-                ),
-                user_content=BinaryContent(
-                    data=image_file.read(),
-                    media_type=f"image/{conf['image_extension']}",
-                ),
+    psychological_describer_output = (
+        await psychological_describer_agent.generate(
+            agent_input=PsychologicalDescriberInput(
+                people_description=state.image_description.people_description,
+                scene_description=state.image_description.scene_description,
+                output_language=conf["output_language"],
             )
         )
+    )
+
+    # with open(state.image_path, "rb") as image_file:
+    #     psychological_describer_output = (
+    #         await psychological_describer_agent.generate(
+    #             agent_input=PsychologicalDescriberInput(
+    #                 output_language=conf["output_language"],
+    #             ),
+    #             user_content=BinaryContent(
+    #                 data=image_file.read(),
+    #                 media_type=f"image/{conf['image_extension']}",
+    #             ),
+    #         )
+    #     )
 
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.stop()

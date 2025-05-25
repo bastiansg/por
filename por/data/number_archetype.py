@@ -1,7 +1,7 @@
-num_archetypes = [
+number_archetype = [
     {
         "number": 1,
-        "archetype": "The Leader",
+        "archetype_name": "The Leader",
         "traits": [
             "Independence",
             "Ambition",
@@ -11,7 +11,7 @@ num_archetypes = [
     },
     {
         "number": 2,
-        "archetype": "The Peacemaker",
+        "archetype_name": "The Peacemaker",
         "traits": [
             "Cooperation",
             "Diplomacy",
@@ -21,7 +21,7 @@ num_archetypes = [
     },
     {
         "number": 3,
-        "archetype": "The Creative",
+        "archetype_name": "The Creative",
         "traits": [
             "Expression",
             "Joy",
@@ -31,7 +31,7 @@ num_archetypes = [
     },
     {
         "number": 4,
-        "archetype": "The Builder",
+        "archetype_name": "The Builder",
         "traits": [
             "Stability",
             "Discipline",
@@ -41,7 +41,7 @@ num_archetypes = [
     },
     {
         "number": 5,
-        "archetype": "The Adventurer",
+        "archetype_name": "The Adventurer",
         "traits": [
             "Freedom",
             "Curiosity",
@@ -51,7 +51,7 @@ num_archetypes = [
     },
     {
         "number": 6,
-        "archetype": "The Caregiver",
+        "archetype_name": "The Caregiver",
         "traits": [
             "Responsibility",
             "Nurturing",
@@ -61,7 +61,7 @@ num_archetypes = [
     },
     {
         "number": 7,
-        "archetype": "The Seeker",
+        "archetype_name": "The Seeker",
         "traits": [
             "Introspection",
             "Wisdom",
@@ -71,7 +71,7 @@ num_archetypes = [
     },
     {
         "number": 8,
-        "archetype": "The Powerhouse",
+        "archetype_name": "The Powerhouse",
         "traits": [
             "Authority",
             "Success",
@@ -81,7 +81,7 @@ num_archetypes = [
     },
     {
         "number": 9,
-        "archetype": "The Humanitarian",
+        "archetype_name": "The Humanitarian",
         "traits": [
             "Compassion",
             "Global awareness",
@@ -91,7 +91,7 @@ num_archetypes = [
     },
     {
         "number": 11,
-        "archetype": "The Visionary",
+        "archetype_name": "The Visionary",
         "traits": [
             "Spiritual insight",
             "Inspiration",
@@ -101,7 +101,7 @@ num_archetypes = [
     },
     {
         "number": 22,
-        "archetype": "The Master Builder",
+        "archetype_name": "The Master Builder",
         "traits": [
             "Vision + Action",
             "Large-scale impact",
@@ -111,7 +111,7 @@ num_archetypes = [
     },
     {
         "number": 33,
-        "archetype": "The Master Teacher",
+        "archetype_name": "The Master Teacher",
         "traits": [
             "Universal love",
             "Service",

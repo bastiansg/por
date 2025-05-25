@@ -87,7 +87,7 @@ async def run(
             min_delta_avg=conf["min_delta_avg"],
         )
 
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.25)
 
     tracker.stop()
     await asyncio.sleep(1)

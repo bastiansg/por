@@ -1,4 +1,5 @@
-from pydantic import BaseModel, StrictStr, NonNegativeInt, Field
+from typing import Literal
+from pydantic import BaseModel, StrictStr, Field
 
 from common.cache import RedisCache
 
@@ -12,8 +13,21 @@ class NumberArchetypesInput(BaseModel):
 
 
 class NumberArchetypesOutput(BaseModel):
-    number: NonNegativeInt = Field(
-        description="Number that symbolically reflects the psychological profile.",
+    archetype_name: Literal[
+        "The Leader",
+        "The Peacemaker",
+        "The Creative",
+        "The Builder",
+        "The Adventurer",
+        "The Caregiver",
+        "The Seeker",
+        "The Powerhouse",
+        "The Humanitarian",
+        "The Visionary",
+        "The Master Builder",
+        "The Master Teacher",
+    ] = Field(
+        description="The name of the numerological archetype.",
     )
 
 

@@ -19,6 +19,9 @@ system-prompt: |-
     - You may freely alter or embellish visual elements (clothing, posture, gestures, etc.) in the People description to enhance symbolic depth and oneiric coherence.
     - The final result should feel like a unified oneiric vision—a poetic illustration in which every visual choice reveals and deepens the subject's psychological truth.
 
+    The output will be used as a prompt for an AI image generation model.
+    Therefore, it must be vivid, richly detailed, and visually evocative.
+
     Output format:
     - Reinterpreted People description
     - Newly imagined Scene description
@@ -26,6 +29,7 @@ system-prompt: |-
     Think like a surrealist painter and a mythic dreamweaver.
     Let psychological insight give form to symbolic space.
     Guide the image through the logic of the unconscious.
+    Your output must **not exceed 400 words** in total length.
 
 human-prompt-template: |-
     People description:

@@ -36,4 +36,3 @@ output_language: Spanish
 printer:
     por_logo_path: "/resources/ticket-images/por-logo.jpeg"
     max_text_len: 48
-    num_lucky_numbers: 13

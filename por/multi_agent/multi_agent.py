@@ -19,7 +19,7 @@ from .nodes import (
 
 from .edges import (
     face_tracker_image_describer,
-    face_tracker_psychological_describer,
+    image_describer_psychological_describer,
     psychological_describer_nietzsche_advisor,
     psychological_describer_ts_advisor,
     psychological_describer_jung_advisor,
@@ -56,7 +56,7 @@ def get_multi_agent() -> MultiAgentGraph:
 
     edges = [
         face_tracker_image_describer,
-        face_tracker_psychological_describer,
+        image_describer_psychological_describer,
         psychological_describer_nietzsche_advisor,
         psychological_describer_ts_advisor,
         psychological_describer_jung_advisor,
