@@ -3,7 +3,7 @@ from .image_describer import image_describer  # noqa
 from .psychological_describer import psychological_describer  # noqa
 from .nietzsche_advisor import nietzsche_advisor  # noqa
 from .ts_advisor import ts_advisor  # noqa
-from .jung_advisor import jung_advisor  # noqa
+from .creativity_advisor import creativity_advisor  # noqa
 from .dc_selector import dc_selector  # noqa
 from .fc_selector import fc_selector  # noqa
 from .number_archetypes import number_archetypes  # noqa

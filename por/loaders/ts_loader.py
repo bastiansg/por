@@ -8,7 +8,7 @@ class TSLoader(TextLoader):
     def __init__(self, cache: RedisCache | None = None):
         super().__init__(cache=cache)
 
-    def _load(self, source_path: str) -> list[Document]:
+    async def _load(self, source_path: str) -> list[Document]:
         text_elements = (
             elem.to_dict() for elem in partition_docx(filename=source_path)
         )

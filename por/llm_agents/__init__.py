@@ -17,7 +17,12 @@ from .nietzsche_advisor import (  # noqa
 )
 
 from .ts_advisor import TSAdvisor, TSAdvisorAdvisorInput, TSAdvisorAdvisorOutput  # noqa
-from .jung_advisor import JungAdvisor, JungAdvisorInput, JungAdvisorOutput  # noqa
+from .creativity_advisor import (  # noqa
+    CreativityAdvisor,
+    CreativityAdvisorInput,
+    CreativityAdvisorOutput,
+)
+
 from .image_prompter import (  # noqa
     ImagePrompter,
     ImagePrompterInput,

@@ -7,30 +7,32 @@ from por.conf import llm_agents
 from llm_agents.meta.interfaces import LLMAgent
 
 
-class JungAdvisorInput(BaseModel):
+class CreativityAdvisorInput(BaseModel):
     creative_status: StrictStr
-    jung_text_chunks: list[StrictStr]
+    creativity_text_chunks: list[StrictStr]
     output_language: LanguageName
 
 
-class JungAdvisorOutput(BaseModel):
-    jung_advise: StrictStr = Field(
-        description="A profound, symbolic, and transformative piece of Jungian advice.",
+class CreativityAdvisorOutput(BaseModel):
+    creativity_advice: StrictStr = Field(
+        description="Symbolic and transformative creative guidance.",
         min_length=1,
     )
 
 
-class JungAdvisor(LLMAgent[JungAdvisorInput, JungAdvisorOutput]):
+class CreativityAdvisor(
+    LLMAgent[CreativityAdvisorInput, CreativityAdvisorOutput]
+):
     def __init__(
         self,
-        conf_path=f"{llm_agents.__path__[0]}/jung-advisor.yml",
+        conf_path=f"{llm_agents.__path__[0]}/creativity-advisor.yml",
         max_concurrency: int = 10,
         cache: RedisCache = None,
     ):
         super().__init__(
             conf_path=conf_path,
-            agent_input=JungAdvisorInput,
-            agent_output=JungAdvisorOutput,
+            agent_input=CreativityAdvisorInput,
+            agent_output=CreativityAdvisorOutput,
             retries=3,
             max_concurrency=max_concurrency,
             cache=cache,

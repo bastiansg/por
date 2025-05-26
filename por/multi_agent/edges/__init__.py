@@ -3,7 +3,7 @@ from .edges import (  # noqa
     image_describer_psychological_describer,
     psychological_describer_nietzsche_advisor,
     psychological_describer_ts_advisor,
-    psychological_describer_jung_advisor,
+    psychological_describer_creativity_advisor,
     psychological_describer_dc_selector,
     psychological_describer_fc_selector,
     psychological_describer_number_archetypes,

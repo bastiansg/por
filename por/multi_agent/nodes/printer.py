@@ -82,7 +82,7 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
     printer.text("\n\n")
 
     printer.set(bold=True)
-    printer.block_text("$$ Lo que reveló el Libro Rojo sobre tu cratividad:")
+    printer.block_text("$$ Para tu cratividad:")
     printer.text("\n")
     printer.set(bold=False)
 
