@@ -14,7 +14,7 @@ logger = get_logger(__name__)
 
 
 def get_number_archetype_map(number_archetypes: list[dict]) -> dict:
-    return {na["archetype_name"]: na for na in number_archetypes}
+    return {na["archetype_name"]: na["number"] for na in number_archetypes}
 
 
 def parse_archetypes(number_archetypes: list[dict]) -> list[dict]:

@@ -38,6 +38,7 @@ class FCMessage(BaseModel):
 
 class Printer(BaseModel):
     por_logo_path: StrictStr
+    yzn_logo_path: StrictStr
     max_text_len: PositiveInt
 
 

@@ -1,4 +1,5 @@
 numpy<2.0.0
+polars==1.30.0
 
 replicate==1.0.6
 imagekitio==4.1.0

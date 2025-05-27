@@ -35,4 +35,5 @@ recovery_time: 0
 output_language: Spanish
 printer:
     por_logo_path: "/resources/ticket-images/por-logo.jpeg"
+    yzn_logo_path: "/resources/ticket-images/yzn-logo.jpeg"
     max_text_len: 48
