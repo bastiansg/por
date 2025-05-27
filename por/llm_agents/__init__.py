@@ -16,11 +16,11 @@ from .nietzsche_advisor import (  # noqa
     NietzscheAdvisorOutput,
 )
 
-from .ts_advisor import TSAdvisor, TSAdvisorAdvisorInput, TSAdvisorAdvisorOutput  # noqa
-from .creativity_advisor import (  # noqa
-    CreativityAdvisor,
-    CreativityAdvisorInput,
-    CreativityAdvisorOutput,
+from .ts_advisor import TSAdvisor, TSAdvisorInput, TSAdvisorOutput  # noqa
+from .creative_advisor import (  # noqa
+    CreativeAdvisor,
+    CreativeAdvisorInput,
+    CreativeAdvisorOutput,
 )
 
 from .image_prompter import (  # noqa
@@ -35,3 +35,5 @@ from .number_archetypes import (  # noqa
     NumberArchetypesInput,
     NumberArchetypesOutput,
 )
+
+from .lm_advisor import LMAdvisor, LMAdvisorInput, LMAdvisorOutput  # noqa

@@ -94,7 +94,7 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
     # printer.text("\n")
     # printer.set(bold=False)
 
-    # printer.block_text(state.creativity_advice)
+    # printer.block_text(state.creative_advice)
     # printer.text("\n\n")
 
     # printer.set(bold=True)

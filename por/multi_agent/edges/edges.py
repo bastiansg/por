@@ -21,9 +21,14 @@ psychological_describer_ts_advisor = SimpleEdge(
     target="ts_advisor",
 )
 
-psychological_describer_creativity_advisor = SimpleEdge(
+psychological_describer_lm_advisor = SimpleEdge(
     source="psychological_describer",
-    target="creativity_advisor",
+    target="lm_advisor",
+)
+
+psychological_describer_creative_advisor = SimpleEdge(
+    source="psychological_describer",
+    target="creative_advisor",
 )
 
 psychological_describer_dc_selector = SimpleEdge(
@@ -45,9 +50,10 @@ image_prompter_edges = SimpleEdge(
     source=[
         "dc_selector",
         "fc_selector",
-        "creativity_advisor",
+        "creative_advisor",
         "nietzsche_advisor",
-        "ts_advisor",
+        # "ts_advisor",
+        "lm_advisor",
         "number_archetypes",
     ],
     target="image_prompter",

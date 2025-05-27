@@ -91,10 +91,12 @@ class StateSchema(BaseModel):
     psychological_description: PsychologicalDescriberOutput | None = None
     nietzsche_text_chunks: list[StrictStr] = []
     nietzsche_advise: StrictStr | None = None
-    ts_text_chunks: list[StrictStr] = []
-    taylor_swift_advise: StrictStr | None = None
-    creativity_text_chunks: list[StrictStr] = []
-    creativity_advice: StrictStr | None = None
+    # ts_text_chunks: list[StrictStr] = []
+    # taylor_swift_advise: StrictStr | None = None
+    lm_text_chunks: list[StrictStr] = []
+    luis_miguel_advise: StrictStr | None = None
+    creative_text_chunks: list[StrictStr] = []
+    creative_advice: StrictStr | None = None
     selected_dc_poem: StrictStr | None = None
     selected_fc_message: StrictStr | None = None
     image_generation_prompt: ImageGenerationPrompt | None = None

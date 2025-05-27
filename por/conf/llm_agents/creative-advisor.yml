@@ -22,6 +22,6 @@ human-prompt-template: |-
     {creative_status}
 
     Relevant creativity book excerpts:
-    {creativity_text_chunks}
+    {creative_text_chunks}
 
     Provide the advice in {output_language}

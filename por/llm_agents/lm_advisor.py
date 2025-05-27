@@ -7,30 +7,30 @@ from por.conf import llm_agents
 from llm_agents.meta.interfaces import LLMAgent
 
 
-class TSAdvisorInput(BaseModel):
+class LMAdvisorInput(BaseModel):
     love_status: StrictStr
-    ts_text_chunks: list[StrictStr]
+    lm_text_chunks: list[StrictStr]
     output_language: LanguageName
 
 
-class TSAdvisorOutput(BaseModel):
-    taylor_swift_advise: StrictStr = Field(
-        description="A heartfelt, lyrical, and emotionally attuned piece of Taylor Swift advice.",
+class LMAdvisorOutput(BaseModel):
+    luis_miguel_advise: StrictStr = Field(
+        description="A heartfelt, romantic, and emotionally resonant piece of Luis Miguel-style advice.",
         min_length=1,
     )
 
 
-class TSAdvisor(LLMAgent[TSAdvisorInput, TSAdvisorOutput]):
+class LMAdvisor(LLMAgent[LMAdvisorInput, LMAdvisorOutput]):
     def __init__(
         self,
-        conf_path=f"{llm_agents.__path__[0]}/ts-advisor.yml",
+        conf_path=f"{llm_agents.__path__[0]}/lm-advisor.yml",
         max_concurrency: int = 10,
         cache: RedisCache = None,
     ):
         super().__init__(
             conf_path=conf_path,
-            agent_input=TSAdvisorInput,
-            agent_output=TSAdvisorOutput,
+            agent_input=LMAdvisorInput,
+            agent_output=LMAdvisorOutput,
             retries=3,
             max_concurrency=max_concurrency,
             cache=cache,
