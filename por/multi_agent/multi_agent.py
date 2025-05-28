@@ -1,6 +1,7 @@
 from multi_agents.graph import MultiAgentGraph
 
 from .nodes import (
+    idle_state,
     face_tracker,
     image_describer,
     psychological_describer,
@@ -15,10 +16,10 @@ from .nodes import (
     image_generator,
     image_uploader,
     printer,
-    recovery,
 )
 
 from .edges import (
+    idle_state_face_tracker,
     face_tracker_image_describer,
     image_describer_psychological_describer,
     psychological_describer_nietzsche_advisor,
@@ -32,7 +33,6 @@ from .edges import (
     image_prompter_image_generator,
     image_generator_image_uploader,
     image_uploader_printer,
-    printer_recovery,
 )
 
 from .schema import StateSchema, ConfigSchema
@@ -40,6 +40,7 @@ from .schema import StateSchema, ConfigSchema
 
 def get_multi_agent() -> MultiAgentGraph:
     nodes = [
+        idle_state,
         face_tracker,
         image_describer,
         psychological_describer,
@@ -54,10 +55,10 @@ def get_multi_agent() -> MultiAgentGraph:
         image_generator,
         image_uploader,
         printer,
-        recovery,
     ]
 
     edges = [
+        idle_state_face_tracker,
         face_tracker_image_describer,
         image_describer_psychological_describer,
         psychological_describer_nietzsche_advisor,
@@ -71,7 +72,6 @@ def get_multi_agent() -> MultiAgentGraph:
         image_prompter_image_generator,
         image_generator_image_uploader,
         image_uploader_printer,
-        printer_recovery,
     ]
 
     multi_agent = MultiAgentGraph(

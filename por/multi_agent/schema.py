@@ -9,9 +9,9 @@ from pydantic_extra_types.language_code import LanguageName
 from pydantic import (
     BaseModel,
     StrictStr,
+    StrictBool,
     NonNegativeInt,
     NonNegativeFloat,
-    PositiveFloat,
     PositiveInt,
     field_validator,
 )
@@ -51,7 +51,6 @@ class NumberArchetype(BaseModel):
 class ConfigSchema(BaseModel):
     servo_angles: ServoAngles
     rotator_params: RotatorParams
-    min_delta_avg: PositiveFloat
     image_size: ImageSize
     image_margin: NonNegativeInt
     image_description_guidelines: StrictStr
@@ -65,7 +64,6 @@ class ConfigSchema(BaseModel):
     printer_name: StrictStr
     imagekit_url: StrictStr
     idle_angles: ServoAngles
-    recovery_time: NonNegativeFloat
     output_language: LanguageName
     dc_poems: list[DCPoem]
     fc_messages: list[FCMessage]
@@ -85,6 +83,7 @@ class ImageGenerationPrompt(BaseModel):
 
 
 class StateSchema(BaseModel):
+    idle: StrictBool = True
     image_id: StrictStr
     image_path: StrictStr | None = None
     image_description: ImageDescriberOutput | None = None

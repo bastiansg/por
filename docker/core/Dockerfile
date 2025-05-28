@@ -28,7 +28,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
     python${PYTHON_VERSION}-distutils \
     python3-setuptools \
     python3-picamera2 \
-    python3-rpi.gpio \
+    python3-rpi-lgpio \
     python3-sense-hat \
     hailo-all \
     pandoc \

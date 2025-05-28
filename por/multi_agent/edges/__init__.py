@@ -1,4 +1,5 @@
 from .edges import (  # noqa
+    idle_state_face_tracker,
     face_tracker_image_describer,
     image_describer_psychological_describer,
     psychological_describer_nietzsche_advisor,
@@ -12,5 +13,4 @@ from .edges import (  # noqa
     image_prompter_image_generator,
     image_generator_image_uploader,
     image_uploader_printer,
-    printer_recovery,
 )

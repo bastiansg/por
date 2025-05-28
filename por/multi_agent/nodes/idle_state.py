@@ -1,6 +1,6 @@
-import uuid
 import asyncio
 
+from gpiozero import Button
 from multi_agents.graph import Node
 from common.logger import get_logger
 
@@ -17,18 +17,13 @@ async def run(
     state: StateSchema,
     config: ConfigSchema,
 ) -> StateSchema:
-    logger.info("runing recovery...")
+    logger.info("runing idle_state...")
     conf = config["configurable"]
 
     sensehat_dsp = get_sensehat_dsp()
-    sensehat_dsp.stop()
-    sensehat_dsp.clear()
-
-    await asyncio.sleep(1)
-    refresh_rate = 2.0
     sensehat_dsp.start_intermittent_image(
         image_name="space-invader-4",
-        refresh_rate=refresh_rate,
+        refresh_rate=2.0,
     )
 
     servos = Servos()
@@ -40,17 +35,24 @@ async def run(
         )
     )
 
-    await asyncio.sleep(conf["recovery_time"])
+    idle = True
+    button = Button(16)
+    while idle:
+        await asyncio.sleep(0.01)
+        if button.is_pressed:
+            idle = False
+
+    del button
     sensehat_dsp.stop()
     sensehat_dsp.clear()
 
     return {
-        "image_id": uuid.uuid4().hex,
+        "idle": False,
     }
 
 
-recovery = Node(
-    name="recovery",
+idle_state = Node(
+    name="idle_state",
     run=run,
-    is_finish_point=True,
+    is_entry_point=True,
 )

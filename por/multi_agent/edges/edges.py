@@ -1,5 +1,9 @@
 from multi_agents.graph import SimpleEdge
 
+idle_state_face_tracker = SimpleEdge(
+    source="idle_state",
+    target="face_tracker",
+)
 
 face_tracker_image_describer = SimpleEdge(
     source="face_tracker",
@@ -72,10 +76,4 @@ image_generator_image_uploader = SimpleEdge(
 image_uploader_printer = SimpleEdge(
     source="image_uploader",
     target="printer",
-)
-
-
-printer_recovery = SimpleEdge(
-    source="printer",
-    target="recovery",
 )

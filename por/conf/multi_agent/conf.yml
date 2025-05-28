@@ -11,7 +11,6 @@ rotator_params:
     min_y_angle: 30
     max_y_angle: 150
 
-min_delta_avg: 0.01
 image_size:
     width: 1024
     height: 1024
@@ -31,7 +30,6 @@ idle_angles:
     x: 103
     y: 20
 
-recovery_time: 0
 output_language: Spanish
 printer:
     por_logo_path: "/resources/ticket-images/por-logo.jpeg"
