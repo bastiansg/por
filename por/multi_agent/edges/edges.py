@@ -45,9 +45,9 @@ psychological_describer_fc_selector = SimpleEdge(
     target="fc_selector",
 )
 
-psychological_describer_number_archetypes = SimpleEdge(
+psychological_describer_number_generator = SimpleEdge(
     source="psychological_describer",
-    target="number_archetypes",
+    target="number_generator",
 )
 
 image_prompter_edges = SimpleEdge(
@@ -58,7 +58,7 @@ image_prompter_edges = SimpleEdge(
         "nietzsche_advisor",
         # "ts_advisor",
         "lm_advisor",
-        "number_archetypes",
+        "number_generator",
     ],
     target="image_prompter",
 )

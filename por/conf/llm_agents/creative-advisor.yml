@@ -17,6 +17,11 @@ system-prompt: |-
     - Thoughtfully incorporate insights from the book excerpts when relevant.
     - Offer constructive, concise, and encouraging guidance to help the person or group move forward.
 
+    Use at least one excerpt to ground your insight, but do not feel compelled to use all of them.
+    Choose creatively and deliberately—only the most resonant ideas deserve survival.
+    If none of the excerpts fit precisely, invent insight bravely—draw from your well of understanding and intuition.
+    This is a creative and psychological exercise. Remain silent under no condition.
+
 human-prompt-template: |-
     Creative status:
     {creative_status}

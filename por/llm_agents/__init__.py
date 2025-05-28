@@ -29,11 +29,4 @@ from .image_prompter import (  # noqa
     ImagePrompterOutput,
 )
 
-
-from .number_archetypes import (  # noqa
-    NumberArchetypes,
-    NumberArchetypesInput,
-    NumberArchetypesOutput,
-)
-
 from .lm_advisor import LMAdvisor, LMAdvisorInput, LMAdvisorOutput  # noqa

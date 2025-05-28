@@ -42,12 +42,6 @@ class Printer(BaseModel):
     max_text_len: PositiveInt
 
 
-class NumberArchetype(BaseModel):
-    number: NonNegativeInt
-    archetype_name: StrictStr
-    traits: list[StrictStr]
-
-
 class ConfigSchema(BaseModel):
     servo_angles: ServoAngles
     rotator_params: RotatorParams
@@ -68,7 +62,6 @@ class ConfigSchema(BaseModel):
     dc_poems: list[DCPoem]
     fc_messages: list[FCMessage]
     printer: Printer
-    number_archetypes: list[NumberArchetype]
     train_image_captions: list[ImageCaptionItem]
 
     @field_validator("images_path", mode="after")
@@ -101,5 +94,5 @@ class StateSchema(BaseModel):
     image_generation_prompt: ImageGenerationPrompt | None = None
     gen_image_path: StrictStr | None = None
     image_url: StrictStr | None = None
-    lucky_number: NonNegativeInt | None = None
+    lucky_numbers: list[NonNegativeInt] | None = None
     print_status: Literal["ok", "failed"] | None = None

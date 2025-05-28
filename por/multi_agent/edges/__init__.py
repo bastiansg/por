@@ -8,7 +8,7 @@ from .edges import (  # noqa
     psychological_describer_creative_advisor,
     psychological_describer_dc_selector,
     psychological_describer_fc_selector,
-    psychological_describer_number_archetypes,
+    psychological_describer_number_generator,
     image_prompter_edges,
     image_prompter_image_generator,
     image_generator_image_uploader,

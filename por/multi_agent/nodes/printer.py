@@ -16,27 +16,36 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
     printer.text("\n\n")
     printer.text("\n\n")
 
-    printer.set(bold=True, align="center")
+    printer.set(
+        bold=True,
+        align="center",
+        font=0,
+        double_width=False,
+        double_height=False,
+    )
+
     printer.block_text("*** Edicion Especial Yoizen ***")
     printer.set(bold=False)
 
     printer.text("\n\n")
     printer.image(img_source=conf["yzn_logo_path"])
     printer.text("\n\n")
+    printer.text("\n\n")
 
-    printer.set(font=0, double_width=False, double_height=False)
     printer.set(align="left")
     # printer.block_text("* Made in Iturri")
     # printer.text("\n")
-    printer.block_text("* x el Oráculo Robot. (2025, ∞)")
+    # printer.block_text("* x el Oráculo Robot. (2025, ∞)")
+    printer.block_text("* Oráculo Robot. (2025, ∞)")
     printer.text("\n")
     printer.block_text("* @dd.moon__                All rights reserved.")
     printer.text("\n\n")
 
     printer.set(bold=True)
     printer.block_text(
-        "*** WARNING: Este Robot nunca reemplazará a tu terapeuta ***",
+        "*** WARNING: Este Robot nunca reemplazará a tu terapeuta ***"
     )
+
     printer.set(bold=False)
 
     printer.text("\n\n")
@@ -119,10 +128,10 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
     )
 
     printer.set(bold=True)
-    printer.block_text("Tu lucky number:")
+    printer.block_text("Tus lucky numbers:")
     printer.set(bold=False)
     printer.text("\n")
-    printer.block_text(f"{state.lucky_number}")
+    printer.block_text(", ".join(map(str, state.lucky_numbers)))
     printer.text("\n\n")
 
     printer.set(bold=True)
@@ -137,6 +146,7 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
     printer.set(bold=False)
     printer.text("\n")
     printer.block_text(f"{state.selected_fc_message}")
+    printer.text("\n\n")
     printer.text("\n\n")
 
     printer.set(align="center")

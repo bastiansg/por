@@ -7,7 +7,7 @@ from .ts_advisor import ts_advisor  # noqa
 from .creative_advisor import creative_advisor  # noqa
 from .dc_selector import dc_selector  # noqa
 from .fc_selector import fc_selector  # noqa
-from .number_archetypes import number_archetypes  # noqa
+from .number_generator import number_generator  # noqa
 from .image_prompter import image_prompter  # noqa
 from .image_generator import image_generator  # noqa
 from .image_uploader import image_uploader  # noqa

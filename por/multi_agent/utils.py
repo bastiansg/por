@@ -2,8 +2,8 @@ from typing import Literal
 from functools import lru_cache
 
 from por.conf import multi_agent
+from por.data import dc_poems, fc_messages
 from por.loaders import image_caption_loader
-from por.data import dc_poems, fc_messages, number_archetype
 
 from common.utils.yaml_data import load_yaml
 
@@ -43,7 +43,6 @@ def get_multi_agent_config(model: Literal["grcra"] = "grcra") -> ConfigSchema:
                         start=1,
                     )
                 ],
-                "number_archetypes": number_archetype,
                 "train_image_captions": image_caption_loader(),
             }
         )
