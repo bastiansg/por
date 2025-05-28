@@ -1,9 +1,10 @@
+from .idle_state import idle_state  # noqa
 from .face_tracker import face_tracker  # noqa
 from .image_describer import image_describer  # noqa
-from .person_describer import person_describer  # noqa
+from .psychological_describer import psychological_describer  # noqa
 from .nietzsche_advisor import nietzsche_advisor  # noqa
 from .ts_advisor import ts_advisor  # noqa
-from .jung_advisor import jung_advisor  # noqa
+from .creative_advisor import creative_advisor  # noqa
 from .dc_selector import dc_selector  # noqa
 from .fc_selector import fc_selector  # noqa
 from .number_archetypes import number_archetypes  # noqa
@@ -11,5 +12,5 @@ from .image_prompter import image_prompter  # noqa
 from .image_generator import image_generator  # noqa
 from .image_uploader import image_uploader  # noqa
 from .printer import printer  # noqa
-from .recovery import recovery  # noqa
 from .ts_advisor import ts_advisor  # noqa
+from .lm_advisor import lm_advisor  # noqa

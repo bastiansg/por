@@ -1,4 +1,5 @@
-from pydantic import BaseModel, StrictStr, NonNegativeInt, Field
+from typing import Literal
+from pydantic import BaseModel, StrictStr, Field
 
 from common.cache import RedisCache
 
@@ -7,13 +8,26 @@ from llm_agents.meta.interfaces import LLMAgent
 
 
 class NumberArchetypesInput(BaseModel):
-    person_description: StrictStr
     number_archetypes: StrictStr
+    psychological_description: StrictStr
 
 
 class NumberArchetypesOutput(BaseModel):
-    number: NonNegativeInt = Field(
-        description="Symbolic number reflecting the person's psychological profile."
+    archetype_name: Literal[
+        "The Leader",
+        "The Peacemaker",
+        "The Creative",
+        "The Builder",
+        "The Adventurer",
+        "The Caregiver",
+        "The Seeker",
+        "The Powerhouse",
+        "The Humanitarian",
+        "The Visionary",
+        "The Master Builder",
+        "The Master Teacher",
+    ] = Field(
+        description="The name of the numerological archetype.",
     )
 
 
@@ -28,6 +42,7 @@ class NumberArchetypes(LLMAgent[NumberArchetypesInput, NumberArchetypesOutput]):
             conf_path=conf_path,
             agent_input=NumberArchetypesInput,
             agent_output=NumberArchetypesOutput,
+            retries=3,
             max_concurrency=max_concurrency,
             cache=cache,
         )

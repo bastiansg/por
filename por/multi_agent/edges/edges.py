@@ -1,54 +1,63 @@
 from multi_agents.graph import SimpleEdge
 
+idle_state_face_tracker = SimpleEdge(
+    source="idle_state",
+    target="face_tracker",
+)
 
 face_tracker_image_describer = SimpleEdge(
     source="face_tracker",
     target="image_describer",
 )
 
-face_tracker_person_describer = SimpleEdge(
-    source="face_tracker",
-    target="person_describer",
+image_describer_psychological_describer = SimpleEdge(
+    source="image_describer",
+    target="psychological_describer",
 )
 
-person_describer_nietzsche_advisor = SimpleEdge(
-    source="person_describer",
+psychological_describer_nietzsche_advisor = SimpleEdge(
+    source="psychological_describer",
     target="nietzsche_advisor",
 )
 
-person_describer_ts_advisor = SimpleEdge(
-    source="person_describer",
+psychological_describer_ts_advisor = SimpleEdge(
+    source="psychological_describer",
     target="ts_advisor",
 )
 
-person_describer_jung_advisor = SimpleEdge(
-    source="person_describer",
-    target="jung_advisor",
+psychological_describer_lm_advisor = SimpleEdge(
+    source="psychological_describer",
+    target="lm_advisor",
 )
 
-person_describer_dc_selector = SimpleEdge(
-    source="person_describer",
+psychological_describer_creative_advisor = SimpleEdge(
+    source="psychological_describer",
+    target="creative_advisor",
+)
+
+psychological_describer_dc_selector = SimpleEdge(
+    source="psychological_describer",
     target="dc_selector",
 )
 
-person_describer_fc_selector = SimpleEdge(
-    source="person_describer",
+psychological_describer_fc_selector = SimpleEdge(
+    source="psychological_describer",
     target="fc_selector",
 )
 
-person_describer_number_archetypes = SimpleEdge(
-    source="person_describer",
+psychological_describer_number_archetypes = SimpleEdge(
+    source="psychological_describer",
     target="number_archetypes",
 )
 
 image_prompter_edges = SimpleEdge(
     source=[
-        "image_describer",
         "dc_selector",
         "fc_selector",
-        "jung_advisor",
+        "creative_advisor",
         "nietzsche_advisor",
-        "ts_advisor",
+        # "ts_advisor",
+        "lm_advisor",
         "number_archetypes",
     ],
     target="image_prompter",
@@ -67,10 +76,4 @@ image_generator_image_uploader = SimpleEdge(
 image_uploader_printer = SimpleEdge(
     source="image_uploader",
     target="printer",
-)
-
-
-printer_recovery = SimpleEdge(
-    source="printer",
-    target="recovery",
 )

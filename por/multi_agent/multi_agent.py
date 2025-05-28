@@ -1,12 +1,14 @@
 from multi_agents.graph import MultiAgentGraph
 
 from .nodes import (
+    idle_state,
     face_tracker,
     image_describer,
-    person_describer,
+    psychological_describer,
     nietzsche_advisor,
-    ts_advisor,
-    jung_advisor,
+    # ts_advisor,
+    lm_advisor,
+    creative_advisor,
     dc_selector,
     fc_selector,
     number_archetypes,
@@ -14,23 +16,23 @@ from .nodes import (
     image_generator,
     image_uploader,
     printer,
-    recovery,
 )
 
 from .edges import (
+    idle_state_face_tracker,
     face_tracker_image_describer,
-    face_tracker_person_describer,
-    person_describer_nietzsche_advisor,
-    person_describer_ts_advisor,
-    person_describer_jung_advisor,
-    person_describer_dc_selector,
-    person_describer_fc_selector,
-    person_describer_number_archetypes,
+    image_describer_psychological_describer,
+    psychological_describer_nietzsche_advisor,
+    # psychological_describer_ts_advisor,
+    psychological_describer_lm_advisor,
+    psychological_describer_creative_advisor,
+    psychological_describer_dc_selector,
+    psychological_describer_fc_selector,
+    psychological_describer_number_archetypes,
     image_prompter_edges,
     image_prompter_image_generator,
     image_generator_image_uploader,
     image_uploader_printer,
-    printer_recovery,
 )
 
 from .schema import StateSchema, ConfigSchema
@@ -38,12 +40,14 @@ from .schema import StateSchema, ConfigSchema
 
 def get_multi_agent() -> MultiAgentGraph:
     nodes = [
+        idle_state,
         face_tracker,
         image_describer,
-        person_describer,
+        psychological_describer,
         nietzsche_advisor,
-        ts_advisor,
-        jung_advisor,
+        # ts_advisor,
+        lm_advisor,
+        creative_advisor,
         dc_selector,
         fc_selector,
         number_archetypes,
@@ -51,23 +55,23 @@ def get_multi_agent() -> MultiAgentGraph:
         image_generator,
         image_uploader,
         printer,
-        recovery,
     ]
 
     edges = [
+        idle_state_face_tracker,
         face_tracker_image_describer,
-        face_tracker_person_describer,
-        person_describer_nietzsche_advisor,
-        person_describer_ts_advisor,
-        person_describer_jung_advisor,
-        person_describer_dc_selector,
-        person_describer_fc_selector,
-        person_describer_number_archetypes,
+        image_describer_psychological_describer,
+        psychological_describer_nietzsche_advisor,
+        # psychological_describer_ts_advisor,
+        psychological_describer_lm_advisor,
+        psychological_describer_creative_advisor,
+        psychological_describer_dc_selector,
+        psychological_describer_fc_selector,
+        psychological_describer_number_archetypes,
         image_prompter_edges,
         image_prompter_image_generator,
         image_generator_image_uploader,
         image_uploader_printer,
-        printer_recovery,
     ]
 
     multi_agent = MultiAgentGraph(

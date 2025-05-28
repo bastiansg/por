@@ -1,5 +1,3 @@
-import tiktoken
-
 from typing import Literal
 from sensehat_dsp.display import Color
 from common.utils.path import create_path
@@ -11,16 +9,16 @@ from pydantic_extra_types.language_code import LanguageName
 from pydantic import (
     BaseModel,
     StrictStr,
+    StrictBool,
     NonNegativeInt,
     NonNegativeFloat,
-    PositiveFloat,
-    StrictBool,
     PositiveInt,
     field_validator,
 )
 
-
-tiktoken_encoder = tiktoken.encoding_for_model("gpt-4o")
+from por.loaders import ImageCaptionItem
+from por.llm_agents.image_describer import ImageDescriberOutput
+from por.llm_agents.psychological_describer import PsychologicalDescriberOutput
 
 
 class GolColors(BaseModel):
@@ -40,24 +38,22 @@ class FCMessage(BaseModel):
 
 class Printer(BaseModel):
     por_logo_path: StrictStr
+    yzn_logo_path: StrictStr
     max_text_len: PositiveInt
-    num_lucky_numbers: PositiveInt
 
 
 class NumberArchetype(BaseModel):
     number: NonNegativeInt
-    archetype: StrictStr
+    archetype_name: StrictStr
     traits: list[StrictStr]
 
 
 class ConfigSchema(BaseModel):
     servo_angles: ServoAngles
     rotator_params: RotatorParams
-    min_delta_avg: PositiveFloat
     image_size: ImageSize
     image_margin: NonNegativeInt
     image_description_guidelines: StrictStr
-    person_description_guidelines: StrictStr
     history_length: NonNegativeInt
     face_detector_min_score: NonNegativeFloat
     images_path: StrictStr
@@ -68,14 +64,12 @@ class ConfigSchema(BaseModel):
     printer_name: StrictStr
     imagekit_url: StrictStr
     idle_angles: ServoAngles
-    recovery_time: NonNegativeFloat
     output_language: LanguageName
     dc_poems: list[DCPoem]
     fc_messages: list[FCMessage]
     printer: Printer
     number_archetypes: list[NumberArchetype]
-    dry_mode: StrictBool = False
-    dry_mode_wait: NonNegativeInt = 5
+    train_image_captions: list[ImageCaptionItem]
 
     @field_validator("images_path", mode="after")
     def images_path_validator(cls, v: str) -> str:
@@ -83,36 +77,29 @@ class ConfigSchema(BaseModel):
         return v
 
 
-class PersonDescription(BaseModel):
-    fears: StrictStr
-    dreams_and_desires: StrictStr
-    love_status: StrictStr
+class ImageGenerationPrompt(BaseModel):
+    prompt: StrictStr
+    num_tokens: PositiveInt
 
 
 class StateSchema(BaseModel):
+    idle: StrictBool = True
     image_id: StrictStr
     image_path: StrictStr | None = None
-    image_description: StrictStr | None = None
-    person_description: PersonDescription | None = None
+    image_description: ImageDescriberOutput | None = None
+    psychological_description: PsychologicalDescriberOutput | None = None
     nietzsche_text_chunks: list[StrictStr] = []
     nietzsche_advise: StrictStr | None = None
-    ts_text_chunks: list[StrictStr] = []
-    taylor_swift_advise: StrictStr | None = None
-    jung_text_chunks: list[StrictStr] = []
-    jung_advise: StrictStr | None = None
+    # ts_text_chunks: list[StrictStr] = []
+    # taylor_swift_advise: StrictStr | None = None
+    lm_text_chunks: list[StrictStr] = []
+    luis_miguel_advise: StrictStr | None = None
+    creative_text_chunks: list[StrictStr] = []
+    creative_advice: StrictStr | None = None
     selected_dc_poem: StrictStr | None = None
     selected_fc_message: StrictStr | None = None
-    image_generation_prompt: StrictStr | None = None
+    image_generation_prompt: ImageGenerationPrompt | None = None
     gen_image_path: StrictStr | None = None
     image_url: StrictStr | None = None
     lucky_number: NonNegativeInt | None = None
     print_status: Literal["ok", "failed"] | None = None
-
-    @field_validator("image_generation_prompt", mode="after")
-    def image_prompt_validator(cls, v: str) -> str:
-        if len(tiktoken_encoder.encode(v)) > 512:
-            raise ValueError(
-                "The image generation prompt exceeds the 512-token limit."
-            )
-
-        return v

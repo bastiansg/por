@@ -6,16 +6,10 @@ from common.logger import get_logger
 from por.llm_agents import ImageDescriber, ImageDescriberInput
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
-from .utils import dry_mode_handler
-
 
 logger = get_logger(__name__)
 
 
-@dry_mode_handler(
-    func_name="image_describer",
-    return_fields=["image_description"],
-)
 async def run(
     state: StateSchema,
     config: ConfigSchema,
@@ -36,7 +30,7 @@ async def run(
         )
 
     return {
-        "image_description": image_describer_output.description,
+        "image_description": image_describer_output,
     }
 
 

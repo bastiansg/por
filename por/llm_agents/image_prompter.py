@@ -8,14 +8,20 @@ from llm_agents.meta.interfaces import LLMAgent
 
 
 class ImagePrompterInput(BaseModel):
-    image_description: StrictStr
-    person_description: StrictStr
+    people_description: StrictStr
+    psychological_description: StrictStr
     output_language: LanguageName
 
 
 class ImagePrompterOutput(BaseModel):
-    image_generation_prompt: StrictStr = Field(
-        description="A symbolically rich, emotionally resonant prompt for image generation."
+    people_description: StrictStr = Field(
+        description="A reinterpreted People description.",
+        min_length=1,
+    )
+
+    scene_description: StrictStr = Field(
+        description="A newly imagined Scene description.",
+        min_length=1,
     )
 
 
@@ -30,6 +36,7 @@ class ImagePrompter(LLMAgent[ImagePrompterInput, ImagePrompterOutput]):
             conf_path=conf_path,
             agent_input=ImagePrompterInput,
             agent_output=ImagePrompterOutput,
+            retries=3,
             max_concurrency=max_concurrency,
             cache=cache,
         )

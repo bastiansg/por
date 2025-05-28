@@ -1,3 +1,4 @@
+import math
 import asyncio
 import statistics
 
@@ -26,7 +27,6 @@ def tracker_is_active(
     tracker_history: deque[HistoryItem],
     history_length: int,
     sensehat_dsp: Display,
-    min_delta_avg: float,
 ) -> bool:
     if len(tracker_history) < history_length:
         return True
@@ -46,16 +46,16 @@ def tracker_is_active(
         ]
     )
 
-    delta_avg = min(delta_avg, 1.0)
+    if not delta_avg:
+        return False
+
+    delta_avg = math.log10(delta_avg + 1)
     logger.info(f"delta_avg => {delta_avg}")
 
-    refresh_rate = max(delta_avg, min_delta_avg)
+    refresh_rate = min(delta_avg, 1.0)
     sensehat_dsp.refresh_rate = refresh_rate
 
-    if delta_avg > 0:
-        return True
-
-    return False
+    return True
 
 
 async def run(
@@ -84,15 +84,14 @@ async def run(
             tracker_history=tracker.history,
             history_length=history_length,
             sensehat_dsp=sensehat_dsp,
-            min_delta_avg=conf["min_delta_avg"],
         )
 
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.25)
 
     tracker.stop()
-    tracker.servos.set_angles(servo_angles=ServoAngles())
     await asyncio.sleep(1)
 
+    tracker.servos.set_angles(servo_angles=ServoAngles())
     valid_history_items = [
         history_item
         for history_item in tracker.history
@@ -123,5 +122,4 @@ async def run(
 face_tracker = Node(
     name="face_tracker",
     run=run,
-    is_entry_point=True,
 )

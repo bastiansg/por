@@ -8,14 +8,15 @@ from llm_agents.meta.interfaces import LLMAgent
 
 
 class NietzscheAdvisorInput(BaseModel):
-    person_description: StrictStr
+    dreams_and_desires: StrictStr
     nietzsche_text_chunks: list[StrictStr]
     output_language: LanguageName
 
 
 class NietzscheAdvisorOutput(BaseModel):
     nietzsche_advise: StrictStr = Field(
-        description="A profound, poetic, and incisive piece of Nietzschean advice."
+        description="A profound, poetic, and incisive piece of Nietzschean advice.",
+        min_length=1,
     )
 
 
@@ -30,6 +31,7 @@ class NietzscheAdvisor(LLMAgent[NietzscheAdvisorInput, NietzscheAdvisorOutput]):
             conf_path=conf_path,
             agent_input=NietzscheAdvisorInput,
             agent_output=NietzscheAdvisorOutput,
+            retries=3,
             max_concurrency=max_concurrency,
             cache=cache,
         )

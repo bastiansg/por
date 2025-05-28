@@ -4,10 +4,10 @@ from .image_describer import (  # noqa
     ImageDescriberOutput,
 )
 
-from .person_describer import (  # noqa
-    PersonDescriber,
-    PersonDescriberInput,
-    PersonDescriberOutput,
+from .psychological_describer import (  # noqa
+    PsychologicalDescriber,
+    PsychologicalDescriberInput,
+    PsychologicalDescriberOutput,
 )
 
 from .nietzsche_advisor import (  # noqa
@@ -16,8 +16,13 @@ from .nietzsche_advisor import (  # noqa
     NietzscheAdvisorOutput,
 )
 
-from .ts_advisor import TSAdvisor, TSAdvisorAdvisorInput, TSAdvisorAdvisorOutput  # noqa
-from .jung_advisor import JungAdvisor, JungAdvisorInput, JungAdvisorOutput  # noqa
+from .ts_advisor import TSAdvisor, TSAdvisorInput, TSAdvisorOutput  # noqa
+from .creative_advisor import (  # noqa
+    CreativeAdvisor,
+    CreativeAdvisorInput,
+    CreativeAdvisorOutput,
+)
+
 from .image_prompter import (  # noqa
     ImagePrompter,
     ImagePrompterInput,
@@ -30,3 +35,5 @@ from .number_archetypes import (  # noqa
     NumberArchetypesInput,
     NumberArchetypesOutput,
 )
+
+from .lm_advisor import LMAdvisor, LMAdvisorInput, LMAdvisorOutput  # noqa

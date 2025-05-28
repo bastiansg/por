@@ -3,22 +3,14 @@ import replicate
 
 from multi_agents.graph import Node
 from common.logger import get_logger
-
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
-from .utils import dry_mode_handler, get_sensehat_dsp
+from .utils import get_sensehat_dsp
 
 
 logger = get_logger(__name__)
 
 
-@dry_mode_handler(
-    func_name="image_generator",
-    return_fields=[
-        "gen_image_path",
-        "concat_image_path",
-    ],
-)
 async def run(
     state: StateSchema,
     config: ConfigSchema,
@@ -33,24 +25,22 @@ async def run(
     await asyncio.sleep(1)
     sensehat_dsp.start_color_cycle(image_name="si-04")
 
-    image_size = conf["image_size"]
+    image_extension = conf["image_extension"]
     output = replicate.run(
         conf["model"],
         input={
             "model": "dev",
-            "width": image_size["width"],
-            "height": image_size["height"],
-            "prompt": state.image_generation_prompt,
-            "go_fast": True,
-            "lora_scale": 1,
+            "prompt": state.image_generation_prompt.prompt,
+            "go_fast": False,
+            "lora_scale": 1.3,
             "megapixels": "1",
             "num_outputs": 1,
-            "aspect_ratio": "1:1",
-            "output_format": "jpg",
-            "guidance_scale": 3,
-            "output_quality": 80,
-            "prompt_strength": 0.6,
-            "extra_lora_scale": 1,
+            "aspect_ratio": "4:5",
+            # "height": 1350,
+            # "width": 1080,
+            "output_format": image_extension,
+            "guidance_scale": 10,
+            "output_quality": 100,
             "num_inference_steps": 28,
             "disable_safety_checker": True,
         },
@@ -58,7 +48,6 @@ async def run(
 
     images_path = conf["images_path"]
     image_id = state.image_id
-    image_extension = conf["image_extension"]
 
     gen_image_path = f"{images_path}/{image_id}-gen.{image_extension}"
     with open(gen_image_path, "wb") as f:
