@@ -29,7 +29,7 @@ system-prompt: |-
     Think like a surrealist painter and a mythic dreamweaver.
     Let psychological insight give form to symbolic space.
     Guide the image through the logic of the unconscious.
-    Your output must **not exceed 400 words** in total length.
+    Your output must **not exceed 300 words** in total length.
 
 human-prompt-template: |-
     People description:
