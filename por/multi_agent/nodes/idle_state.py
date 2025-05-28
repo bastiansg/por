@@ -21,6 +21,9 @@ async def run(
     conf = config["configurable"]
 
     sensehat_dsp = get_sensehat_dsp()
+    sensehat_dsp.stop()
+    sensehat_dsp.clear()
+
     sensehat_dsp.start_intermittent_image(
         image_name="space-invader-4",
         refresh_rate=2.0,

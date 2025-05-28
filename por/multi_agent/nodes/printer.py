@@ -160,8 +160,6 @@ async def run(
 
     sensehat_dsp.start_color_cycle(image_name="down-arrow")
     print_pipeline(conf=conf["printer"], state=state)
-    sensehat_dsp.stop()
-    sensehat_dsp.clear()
 
     return {
         "print_status": "ok",
