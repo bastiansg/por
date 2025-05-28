@@ -1,13 +1,8 @@
 from multi_agents.graph import Node
-
 from common.logger import get_logger
-from common.utils.json_data import get_pretty
 
 from por.llm_agents import NumberArchetypes, NumberArchetypesInput
 from por.multi_agent.schema import StateSchema, ConfigSchema
-
-
-from .utils import get_str_description
 
 
 logger = get_logger(__name__)
@@ -35,20 +30,13 @@ async def run(
     conf = config["configurable"]
 
     archetypes = conf["number_archetypes"]
-    archetype_map = get_number_archetype_map(number_archetypes=archetypes)
-
-    parsed_archetypes = parse_archetypes(number_archetypes=archetypes)
-    str_archetypes = get_pretty(obj=parsed_archetypes, indent=1)
-
-    str_psychological_description = get_str_description(
-        description=state.psychological_description.model_dump()
-    )
+    archetype_map = {na["archetype_name"]: na["number"] for na in archetypes}
 
     number_archetypes = NumberArchetypes()
     number_archetypes_output = await number_archetypes.generate(
         agent_input=NumberArchetypesInput(
-            number_archetypes=str_archetypes,
-            psychological_description=str_psychological_description,
+            number_archetypes=archetypes,
+            psychological_description=state.psychological_description,
         )
     )
 

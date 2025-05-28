@@ -7,7 +7,7 @@ from por.utils.tokens import get_num_tokens
 from por.llm_agents import ImagePrompter, ImagePrompterInput
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
-from .utils import get_sensehat_dsp, get_str_description
+from .utils import get_sensehat_dsp
 
 
 logger = get_logger(__name__)
@@ -33,24 +33,19 @@ async def run(
         refresh_rate=0.5,
     )
 
-    people_description = state.image_description.people_description
-    psychological_description = get_str_description(
-        description=state.psychological_description.model_dump()
-    )
-
     image_prompter = ImagePrompter()
-    scene_image_prompter_output = await image_prompter.generate(
+    image_prompter_output = await image_prompter.generate(
         agent_input=ImagePrompterInput(
-            people_description=people_description,
-            psychological_description=psychological_description,
+            people_description=state.image_description.people_description,
+            psychological_description=state.psychological_description,
             output_language="English",
         )
     )
 
     image_generation_prompt = (
         f"{conf['generation_prompt_header']}\n"
-        f"People description: {people_description}\n"
-        f"Scene description: {scene_image_prompter_output.scene_description}\n"
+        f"People description: {image_prompter_output.people_description}\n"
+        f"Scene description: {image_prompter_output.scene_description}\n"
         f"{conf['generation_prompt_footer']}"
     )
 

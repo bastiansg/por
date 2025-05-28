@@ -6,10 +6,17 @@ from common.cache import RedisCache
 from por.conf import llm_agents
 from llm_agents.meta.interfaces import LLMAgent
 
+from .psychological_describer import PsychologicalDescriberOutput
+
+
+class NumberArchetype(BaseModel):
+    archetype_name: StrictStr
+    traits: list[StrictStr]
+
 
 class NumberArchetypesInput(BaseModel):
-    number_archetypes: StrictStr
-    psychological_description: StrictStr
+    number_archetypes: list[NumberArchetype]
+    psychological_description: PsychologicalDescriberOutput
 
 
 class NumberArchetypesOutput(BaseModel):

@@ -6,10 +6,12 @@ from common.cache import RedisCache
 from por.conf import llm_agents
 from llm_agents.meta.interfaces import LLMAgent
 
+from .psychological_describer import PsychologicalDescriberOutput
+
 
 class ImagePrompterInput(BaseModel):
     people_description: StrictStr
-    psychological_description: StrictStr
+    psychological_description: PsychologicalDescriberOutput
     output_language: LanguageName
 
 
