@@ -16,7 +16,7 @@ async def run(
     logger.info("runing number_generator...")
 
     return {
-        "lucky_numbers": [random.randint(0, 45) for _ in range(6)],
+        "lucky_number": random.randint(1, 22),
     }
 
 

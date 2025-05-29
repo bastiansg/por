@@ -94,5 +94,5 @@ class StateSchema(BaseModel):
     image_generation_prompt: ImageGenerationPrompt | None = None
     gen_image_path: StrictStr | None = None
     image_url: StrictStr | None = None
-    lucky_numbers: list[NonNegativeInt] | None = None
+    lucky_number: PositiveInt | None = None
     print_status: Literal["ok", "failed"] | None = None

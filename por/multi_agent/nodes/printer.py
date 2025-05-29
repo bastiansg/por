@@ -24,7 +24,7 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
         double_height=False,
     )
 
-    printer.block_text("*** Edicion Especial Yoizen ***")
+    printer.block_text("*** Special Edition Yoizen ***")
     printer.set(bold=False)
 
     printer.text("\n\n")
@@ -42,10 +42,7 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
     printer.text("\n\n")
 
     printer.set(bold=True)
-    printer.block_text(
-        "*** WARNING: Este Robot nunca reemplazará a tu terapeuta ***"
-    )
-
+    printer.block_text("* WARNING: Este Robot nunca reemplazará a tu terapeuta")
     printer.set(bold=False)
 
     printer.text("\n\n")
@@ -74,7 +71,7 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
     printer.text("\n\n")
 
     printer.set(bold=True)
-    printer.block_text("$$ Sobre el amor:")
+    printer.block_text("$$ Del amor:")
     printer.text("\n")
     printer.set(bold=False)
 
@@ -98,7 +95,7 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
     printer.text("\n\n")
 
     printer.set(bold=True)
-    printer.block_text("$$ Para tu cratividad:")
+    printer.block_text("$$ Rod Judkins para tu creatividad:")
     printer.text("\n")
     printer.set(bold=False)
 
@@ -128,10 +125,10 @@ def print_pipeline(conf: dict, state: StateSchema) -> None:
     )
 
     printer.set(bold=True)
-    printer.block_text("Tus lucky numbers:")
+    printer.block_text("Tu lucky number:")
     printer.set(bold=False)
     printer.text("\n")
-    printer.block_text(", ".join(map(str, state.lucky_numbers)))
+    printer.block_text(f"{state.lucky_number}")
     printer.text("\n\n")
 
     printer.set(bold=True)
@@ -170,6 +167,9 @@ async def run(
 
     sensehat_dsp.start_color_cycle(image_name="down-arrow")
     print_pipeline(conf=conf["printer"], state=state)
+
+    sensehat_dsp.stop()
+    sensehat_dsp.clear()
 
     return {
         "print_status": "ok",
