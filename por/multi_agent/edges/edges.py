@@ -5,15 +5,29 @@ idle_state_face_tracker = SimpleEdge(
     target="face_tracker",
 )
 
-face_tracker_image_describer = SimpleEdge(
-    source="face_tracker",
+idle_state_recorder = SimpleEdge(
+    source="idle_state",
+    target="recorder",
+)
+
+recorder_audio_transcriber = SimpleEdge(
+    source="recorder",
+    target="audio_transcriber",
+)
+
+recorder_image_describer = SimpleEdge(
+    source="recorder",
     target="image_describer",
 )
 
-image_describer_psychological_describer = SimpleEdge(
-    source="image_describer",
+psychological_describer_edges = SimpleEdge(
+    source=[
+        "audio_transcriber",
+        "image_describer",
+    ],
     target="psychological_describer",
 )
+
 
 psychological_describer_nietzsche_advisor = SimpleEdge(
     source="psychological_describer",

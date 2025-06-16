@@ -1,3 +1,4 @@
+import io
 import asyncio
 
 from PIL import Image
@@ -9,9 +10,10 @@ from hailo_apps.apps import FaceTracker
 from hailo_apps.servos import ServoAngles
 from hailo_apps.meta.interfaces import RotatorParams, ImageSize
 
+from por.audio import AudioRecorder
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
-from .utils import get_audio_recorder
+from .utils import get_sensehat_dsp, get_button
 
 
 logger = get_logger(__name__)
@@ -21,9 +23,16 @@ async def run(
     state: StateSchema,
     config: ConfigSchema,
 ) -> StateSchema:
-    logger.info("runing face_tracker...")
+    logger.info("runing recorder...")
     conf = config["configurable"]
 
+    sensehat_dsp = get_sensehat_dsp()
+    sensehat_dsp.start_intermittent_image(
+        image_name="heart",
+        refresh_rate=0.5,
+    )
+
+    audio_recorder = AudioRecorder()
     history_length = conf["history_length"]
     tracker = FaceTracker(
         init_servo_angles=ServoAngles(**conf["servo_angles"]),
@@ -33,15 +42,19 @@ async def run(
         min_score=conf["face_detector_min_score"],
     )
 
-    logger.info("here!")
-
+    audio_recorder.start()
     tracker.run()
-    audio_recorder = get_audio_recorder()
-    while audio_recorder.is_recording:
-        await asyncio.sleep(0.01)
 
+    button = get_button()
+    button.wait_for_inactive()
+
+    audio_recorder.stop()
     tracker.stop()
-    await asyncio.sleep(2)
+    await asyncio.sleep(1)
+
+    audio_buffer = io.BytesIO()
+    audio_recorder.save_to_file(file=audio_buffer)
+    audio_buffer.seek(0)
 
     tracker.servos.set_angles(servo_angles=ServoAngles())
     valid_history_items = [
@@ -57,12 +70,18 @@ async def run(
     image_path = f"{conf['images_path']}/{image_id}.{conf['image_extension']}"
     pil_image.save(image_path)
 
+    sensehat_dsp.start_intermittent_image(
+        image_name="space-invader-2",
+        refresh_rate=0.5,
+    )
+
     return {
+        "audio_buffer": audio_buffer,
         "image_path": image_path,
     }
 
 
-face_tracker = Node(
-    name="face_tracker",
+recorder = Node(
+    name="recorder",
     run=run,
 )

@@ -1,7 +1,8 @@
 from .edges import (  # noqa
-    idle_state_face_tracker,
-    face_tracker_image_describer,
-    image_describer_psychological_describer,
+    idle_state_recorder,
+    recorder_audio_transcriber,
+    recorder_image_describer,
+    psychological_describer_edges,
     psychological_describer_nietzsche_advisor,
     psychological_describer_ts_advisor,
     psychological_describer_lm_advisor,

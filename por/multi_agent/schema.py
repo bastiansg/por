@@ -1,3 +1,4 @@
+from io import BytesIO
 from typing import Literal
 from sensehat_dsp.display import Color
 from common.utils.path import create_path
@@ -8,8 +9,8 @@ from hailo_apps.meta.interfaces import RotatorParams, ImageSize
 from pydantic_extra_types.language_code import LanguageName
 from pydantic import (
     BaseModel,
+    ConfigDict,
     StrictStr,
-    StrictBool,
     NonNegativeInt,
     NonNegativeFloat,
     PositiveInt,
@@ -76,15 +77,16 @@ class ImageGenerationPrompt(BaseModel):
 
 
 class StateSchema(BaseModel):
-    idle: StrictBool = True
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
     image_id: StrictStr
+    audio_buffer: BytesIO | None = None
     image_path: StrictStr | None = None
+    audio_transcription: StrictStr | None = None
     image_description: ImageDescriberOutput | None = None
     psychological_description: PsychologicalDescriberOutput | None = None
     nietzsche_text_chunks: list[StrictStr] = []
     nietzsche_advise: StrictStr | None = None
-    # ts_text_chunks: list[StrictStr] = []
-    # taylor_swift_advise: StrictStr | None = None
     lm_text_chunks: list[StrictStr] = []
     luis_miguel_advise: StrictStr | None = None
     creative_text_chunks: list[StrictStr] = []

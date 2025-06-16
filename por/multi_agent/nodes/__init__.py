@@ -1,5 +1,6 @@
 from .idle_state import idle_state  # noqa
-from .face_tracker import face_tracker  # noqa
+from .recorder import recorder  # noqa
+from .audio_transcriber import audio_transcriber  # noqa
 from .image_describer import image_describer  # noqa
 from .psychological_describer import psychological_describer  # noqa
 from .nietzsche_advisor import nietzsche_advisor  # noqa

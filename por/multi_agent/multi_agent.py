@@ -2,7 +2,8 @@ from multi_agents.graph import MultiAgentGraph
 
 from .nodes import (
     idle_state,
-    face_tracker,
+    recorder,
+    audio_transcriber,
     image_describer,
     psychological_describer,
     nietzsche_advisor,
@@ -19,9 +20,10 @@ from .nodes import (
 )
 
 from .edges import (
-    idle_state_face_tracker,
-    face_tracker_image_describer,
-    image_describer_psychological_describer,
+    idle_state_recorder,
+    recorder_audio_transcriber,
+    recorder_image_describer,
+    psychological_describer_edges,
     psychological_describer_nietzsche_advisor,
     # psychological_describer_ts_advisor,
     psychological_describer_lm_advisor,
@@ -41,7 +43,8 @@ from .schema import StateSchema, ConfigSchema
 def get_multi_agent() -> MultiAgentGraph:
     nodes = [
         idle_state,
-        face_tracker,
+        recorder,
+        audio_transcriber,
         image_describer,
         psychological_describer,
         nietzsche_advisor,
@@ -58,9 +61,10 @@ def get_multi_agent() -> MultiAgentGraph:
     ]
 
     edges = [
-        idle_state_face_tracker,
-        face_tracker_image_describer,
-        image_describer_psychological_describer,
+        idle_state_recorder,
+        recorder_audio_transcriber,
+        recorder_image_describer,
+        psychological_describer_edges,
         psychological_describer_nietzsche_advisor,
         # psychological_describer_ts_advisor,
         psychological_describer_lm_advisor,

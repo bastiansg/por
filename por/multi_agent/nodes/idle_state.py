@@ -1,13 +1,10 @@
-import asyncio
-
-from gpiozero import Button
 from multi_agents.graph import Node
 from common.logger import get_logger
 
 from hailo_apps.servos import Servos, ServoAngles
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
-from .utils import get_sensehat_dsp
+from .utils import get_sensehat_dsp, get_button
 
 
 logger = get_logger(__name__)
@@ -38,19 +35,14 @@ async def run(
         )
     )
 
-    idle = True
-    button = Button(16)
-    while idle:
-        await asyncio.sleep(0.01)
-        if button.is_pressed:
-            idle = False
+    button = get_button()
+    button.wait_for_active()
 
-    del button
     sensehat_dsp.stop()
     sensehat_dsp.clear()
 
     return {
-        "idle": False,
+        "button_is_active": True,
     }
 
 
