@@ -1,16 +1,19 @@
 numpy<2.0.0
 polars==1.30.0
 gpiozero==2.0.1
-logfire==3.16.1
+logfire==3.19.0
+ipython==9.3.0
 
-replicate==1.0.6
-imagekitio==4.1.0
-torchvision==0.22.0
+replicate==1.0.7
+# imagekitio==4.1.0
+torchvision==0.22.1
+torchaudio==2.7.1
 python-escpos==3.1
+sounddevice==0.5.2
 
 hailo_apps @ git+ssh://git@github.com/bastiansg/hailo-apps.git@v1.0.16
 sensehat_dsp @ git+https://github.com/bastiansg/sensehat-dsp.git@v1.0.19
 
-multi_agents @ git+https://github.com/aureka-team/agents.git@v1.1.6
+multi_agents @ git+https://github.com/aureka-team/agents.git@v1.1.8
 llm_agents @ git+ssh://git@github.com/aureka-team/llm-agents.git@v1.0.12
-rage @ git+ssh://git@github.com/bastiansg/rage.git@v1.0.10
+rage @ git+ssh://git@github.com/bastiansg/rage.git@v1.0.11

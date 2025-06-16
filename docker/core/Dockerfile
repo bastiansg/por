@@ -1,4 +1,4 @@
-ARG UV_VERSION=0.7.6
+ARG UV_VERSION=0.7.13
 FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv_source
 
 FROM debian:bookworm-slim
@@ -32,6 +32,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
     python3-sense-hat \
     hailo-all \
     pandoc \
+    libportaudio2 \
     && apt-get autoremove -y \
     && apt-get clean \
     && rm -rf /var/tmp/* /var/lib/apt/lists/*
