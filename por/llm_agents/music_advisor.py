@@ -7,32 +7,37 @@ from por.conf import llm_agents
 from llm_agents.meta.interfaces import LLMAgent
 
 
-class ImagePrompterInput(BaseModel):
+class Song(BaseModel):
+    title: StrictStr
+    artist: StrictStr
+    lyrics: StrictStr
+
+
+class MusicAdvisorInput(BaseModel):
     question: StrictStr
     psychological_profile: StrictStr
-    physical_description: StrictStr
-    clothing_description: StrictStr
+    song: Song
     output_language: LanguageName
 
 
-class ImagePrompterOutput(BaseModel):
-    image_generation_prompt: StrictStr = Field(
-        description="The prompt for the portrait image generation.",
+class MusicAdvisorOutput(BaseModel):
+    music_advice: StrictStr = Field(
+        description="A poetic and emotionally resonant piece of advice.",
         min_length=1,
     )
 
 
-class ImagePrompter(LLMAgent[ImagePrompterInput, ImagePrompterOutput]):
+class MusicAdvisor(LLMAgent[MusicAdvisorInput, MusicAdvisorOutput]):
     def __init__(
         self,
-        conf_path=f"{llm_agents.__path__[0]}/image-prompter.yml",
+        conf_path=f"{llm_agents.__path__[0]}/music-advisor.yml",
         max_concurrency: int = 10,
         cache: RedisCache = None,
     ):
         super().__init__(
             conf_path=conf_path,
-            agent_input=ImagePrompterInput,
-            agent_output=ImagePrompterOutput,
+            agent_input=MusicAdvisorInput,
+            agent_output=MusicAdvisorOutput,
             retries=3,
             max_concurrency=max_concurrency,
             cache=cache,

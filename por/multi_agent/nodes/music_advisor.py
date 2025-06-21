@@ -1,7 +1,7 @@
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from por.llm_agents import CreativeAdvisor, CreativeAdvisorInput
+from por.llm_agents import MusicAdvisor, MusicAdvisorInput, Song
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
 
@@ -15,36 +15,41 @@ async def run(
     state: StateSchema,
     config: ConfigSchema,
 ) -> StateSchema:
-    logger.info("runing creative_advisor...")
+    logger.info("runing music_advisor...")
     conf = config["configurable"]
 
     retriever = get_retriever()
     question = state.audio_transcription
 
     retriever_items = await retriever.dense_search(
-        collection_name="el-arte-del-pensamiento-creativo",
+        collection_name="lyrics",
         query=question,
         k=1,
     )
 
-    creative_advisor = CreativeAdvisor()
-    creative_capsule = retriever_items[0].text
-    creative_advisor_output = await creative_advisor.generate(
-        agent_input=CreativeAdvisorInput(
+    selected_song = Song(
+        title=retriever_items[0].metadata["title"],
+        artist=retriever_items[0].metadata["artist"],
+        lyrics=retriever_items[0].text,
+    )
+
+    music_advisor = MusicAdvisor()
+    music_advisor_output = await music_advisor.generate(
+        agent_input=MusicAdvisorInput(
             question=question,
             psychological_profile=state.psychological_profile,
-            creative_capsule=creative_capsule,
+            song=selected_song,
             output_language=conf["output_language"],
         )
     )
 
     return {
-        "creative_capsule": creative_capsule,
-        "creative_advice": creative_advisor_output.creative_advice,
+        "selected_song": selected_song,
+        "music_advice": music_advisor_output.music_advice,
     }
 
 
-creative_advisor = Node(
-    name="creative_advisor",
+music_advisor = Node(
+    name="music_advisor",
     run=run,
 )

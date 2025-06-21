@@ -11,13 +11,13 @@ class ImageDescriberInput(BaseModel):
 
 
 class ImageDescriberOutput(BaseModel):
-    people_description: StrictStr = Field(
-        description="Description of all people in the image.",
+    physical_description: StrictStr = Field(
+        description="Physical description of the people in the provided image.",
         min_length=1,
     )
 
-    scene_description: StrictStr = Field(
-        description="Description of the surrounding scene.",
+    clothing_description: StrictStr = Field(
+        description="Clothing and accessory description of the people in the provided image.",
         min_length=1,
     )
 

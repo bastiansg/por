@@ -20,13 +20,12 @@ async def run(
     conf = config["configurable"]
 
     psychological_describer_agent = PsychologicalDescriber()
-    psychological_describer_output = (
-        await psychological_describer_agent.generate(
-            agent_input=PsychologicalDescriberInput(
-                people_description=state.image_description.people_description,
-                scene_description=state.image_description.scene_description,
-                output_language=conf["output_language"],
-            )
+    psychological_describer_output = await psychological_describer_agent.generate(
+        agent_input=PsychologicalDescriberInput(
+            physical_description=state.image_description.physical_description,
+            clothing_description=state.image_description.clothing_description,
+            question=state.audio_transcription,
+            output_language=conf["output_language"],
         )
     )
 
@@ -41,7 +40,7 @@ async def run(
     )
 
     return {
-        "psychological_description": psychological_describer_output,
+        "psychological_profile": psychological_describer_output.psychological_profile,
     }
 
 

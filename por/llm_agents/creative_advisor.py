@@ -8,14 +8,15 @@ from llm_agents.meta.interfaces import LLMAgent
 
 
 class CreativeAdvisorInput(BaseModel):
-    creative_status: StrictStr
-    creative_text_chunks: list[StrictStr]
+    question: StrictStr
+    psychological_profile: StrictStr
+    creative_capsule: StrictStr
     output_language: LanguageName
 
 
 class CreativeAdvisorOutput(BaseModel):
     creative_advice: StrictStr = Field(
-        description="Symbolic and transformative creative guidance.",
+        description="A psychologically attuned and creatively inspired piece of advice.",
         min_length=1,
     )
 

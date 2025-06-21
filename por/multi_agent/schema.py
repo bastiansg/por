@@ -11,6 +11,7 @@ from pydantic import (
     BaseModel,
     ConfigDict,
     StrictStr,
+    StrictBool,
     NonNegativeInt,
     NonNegativeFloat,
     PositiveInt,
@@ -18,8 +19,8 @@ from pydantic import (
 )
 
 from por.loaders import ImageCaptionItem
+from por.llm_agents.music_advisor import Song
 from por.llm_agents.image_describer import ImageDescriberOutput
-from por.llm_agents.psychological_describer import PsychologicalDescriberOutput
 
 
 class GolColors(BaseModel):
@@ -83,13 +84,15 @@ class StateSchema(BaseModel):
     audio_buffer: BytesIO | None = None
     image_path: StrictStr | None = None
     audio_transcription: StrictStr | None = None
+    message_accepted: StrictBool | None = None
+    rejection_reason: StrictStr | None = None
     image_description: ImageDescriberOutput | None = None
-    psychological_description: PsychologicalDescriberOutput | None = None
+    psychological_profile: StrictStr | None = None
     nietzsche_text_chunks: list[StrictStr] = []
     nietzsche_advise: StrictStr | None = None
-    lm_text_chunks: list[StrictStr] = []
-    luis_miguel_advise: StrictStr | None = None
-    creative_text_chunks: list[StrictStr] = []
+    selected_song: Song | None = None
+    music_advice: StrictStr | None = None
+    creative_capsule: StrictStr | None = None
     creative_advice: StrictStr | None = None
     selected_dc_poem: StrictStr | None = None
     selected_fc_message: StrictStr | None = None

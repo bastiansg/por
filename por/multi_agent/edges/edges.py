@@ -1,4 +1,8 @@
-from multi_agents.graph import SimpleEdge
+# from langgraph.graph import END
+from multi_agents.graph import SimpleEdge, ConditionalEdge
+
+from .routers import gatekeeper_conditional_router
+
 
 idle_state_face_tracker = SimpleEdge(
     source="idle_state",
@@ -20,28 +24,32 @@ recorder_image_describer = SimpleEdge(
     target="image_describer",
 )
 
-psychological_describer_edges = SimpleEdge(
+gatekeeper_edges = SimpleEdge(
     source=[
         "audio_transcriber",
         "image_describer",
     ],
-    target="psychological_describer",
+    target="gatekeeper",
 )
 
+gatekeeper_conditional = ConditionalEdge(
+    source="gatekeeper",
+    intermediates=[
+        "random_selector",
+        "psychological_describer",
+        "printer",
+    ],
+    router=gatekeeper_conditional_router,
+)
+
+psychological_describer_image_prompter = SimpleEdge(
+    source="psychological_describer",
+    target="image_prompter",
+)
 
 psychological_describer_nietzsche_advisor = SimpleEdge(
     source="psychological_describer",
     target="nietzsche_advisor",
-)
-
-psychological_describer_ts_advisor = SimpleEdge(
-    source="psychological_describer",
-    target="ts_advisor",
-)
-
-psychological_describer_lm_advisor = SimpleEdge(
-    source="psychological_describer",
-    target="lm_advisor",
 )
 
 psychological_describer_creative_advisor = SimpleEdge(
@@ -49,32 +57,9 @@ psychological_describer_creative_advisor = SimpleEdge(
     target="creative_advisor",
 )
 
-psychological_describer_dc_selector = SimpleEdge(
+psychological_describer_music_advisor = SimpleEdge(
     source="psychological_describer",
-    target="dc_selector",
-)
-
-psychological_describer_fc_selector = SimpleEdge(
-    source="psychological_describer",
-    target="fc_selector",
-)
-
-psychological_describer_number_generator = SimpleEdge(
-    source="psychological_describer",
-    target="number_generator",
-)
-
-image_prompter_edges = SimpleEdge(
-    source=[
-        "dc_selector",
-        "fc_selector",
-        "creative_advisor",
-        "nietzsche_advisor",
-        # "ts_advisor",
-        "lm_advisor",
-        "number_generator",
-    ],
-    target="image_prompter",
+    target="music_advisor",
 )
 
 image_prompter_image_generator = SimpleEdge(
@@ -82,12 +67,13 @@ image_prompter_image_generator = SimpleEdge(
     target="image_generator",
 )
 
-image_generator_image_uploader = SimpleEdge(
-    source="image_generator",
-    target="image_uploader",
-)
-
-image_uploader_printer = SimpleEdge(
-    source="image_uploader",
+printer_edges = SimpleEdge(
+    source=[
+        "random_selector",
+        "creative_advisor",
+        "nietzsche_advisor",
+        "music_advisor",
+        "image_generator",
+    ],
     target="printer",
 )

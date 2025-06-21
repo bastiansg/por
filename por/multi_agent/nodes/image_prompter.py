@@ -36,26 +36,22 @@ async def run(
     image_prompter = ImagePrompter()
     image_prompter_output = await image_prompter.generate(
         agent_input=ImagePrompterInput(
-            people_description=state.image_description.people_description,
-            psychological_description=state.psychological_description,
+            question=state.audio_transcription,
+            psychological_profile=state.psychological_profile,
+            physical_description=state.image_description.physical_description,
+            clothing_description=state.image_description.clothing_description,
             output_language="English",
         )
     )
 
-    image_generation_prompt = (
-        f"{conf['generation_prompt_header']}\n"
-        f"People description: {image_prompter_output.people_description}\n"
-        f"Scene description: {image_prompter_output.scene_description}\n"
-        f"{conf['generation_prompt_footer']}"
-    )
-
-    num_tokens = get_num_tokens(text=image_generation_prompt)
+    prompt = image_prompter_output.image_generation_prompt
+    num_tokens = get_num_tokens(text=prompt)
     if num_tokens > MAX_TOKENS:
         logger.warning(f"image_prompt_tokens: {num_tokens} > {MAX_TOKENS}")
 
     return {
         "image_generation_prompt": {
-            "prompt": image_generation_prompt,
+            "prompt": prompt,
             "num_tokens": num_tokens,
         },
     }

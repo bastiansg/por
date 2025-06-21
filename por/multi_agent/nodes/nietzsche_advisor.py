@@ -19,20 +19,21 @@ async def run(
     conf = config["configurable"]
 
     retriever = get_retriever()
-    dreams_and_desires = state.psychological_description.dreams_and_desires
+    question = state.audio_transcription
 
     retriever_items = await retriever.dense_search(
         collection_name="nietzsche",
-        query=dreams_and_desires,
-        k=10,
+        query=question,
+        k=5,
     )
 
     nietzsche_text_chunks = [ri.text for ri in retriever_items]
     nietzsche_advisor = NietzscheAdvisor()
     nietzsche_advisor_output = await nietzsche_advisor.generate(
         agent_input=NietzscheAdvisorInput(
-            dreams_and_desires=dreams_and_desires,
-            nietzsche_text_chunks=nietzsche_text_chunks,
+            question=state.audio_transcription,
+            psychological_profile=state.psychological_profile,
+            text_chunks=nietzsche_text_chunks,
             output_language=conf["output_language"],
         )
     )
