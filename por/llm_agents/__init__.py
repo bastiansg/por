@@ -24,7 +24,7 @@ from .creative_advisor import (  # noqa
 
 from .image_prompter import (  # noqa
     ImagePrompter,
-    ImagePrompterInput,
+    ImagePrompterDeps,
     ImagePrompterOutput,
 )
 

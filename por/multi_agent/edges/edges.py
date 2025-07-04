@@ -1,4 +1,3 @@
-# from langgraph.graph import END
 from multi_agents.graph import SimpleEdge, ConditionalEdge
 
 from .routers import gatekeeper_conditional_router
@@ -42,11 +41,6 @@ gatekeeper_conditional = ConditionalEdge(
     router=gatekeeper_conditional_router,
 )
 
-psychological_describer_ascii_image_generator = SimpleEdge(
-    source="psychological_describer",
-    target="ascii_image_generator",
-)
-
 psychological_describer_nietzsche_advisor = SimpleEdge(
     source="psychological_describer",
     target="nietzsche_advisor",
@@ -62,18 +56,23 @@ psychological_describer_music_advisor = SimpleEdge(
     target="music_advisor",
 )
 
-# image_prompter_image_generator = SimpleEdge(
-#     source="image_prompter",
-#     target="image_generator",
-# )
+psychological_describer_image_prompter = SimpleEdge(
+    source="psychological_describer",
+    target="image_prompter",
+)
+
+image_prompter_image_generator = SimpleEdge(
+    source="image_prompter",
+    target="image_generator",
+)
 
 printer_edges = SimpleEdge(
     source=[
-        "random_selector",
         "creative_advisor",
         "nietzsche_advisor",
         "music_advisor",
-        "ascii_image_generator",
+        "random_selector",
+        "image_generator",
     ],
     target="printer",
 )

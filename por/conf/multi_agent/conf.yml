@@ -35,4 +35,4 @@ printer:
     por_logo_path: "/resources/ticket-images/por-logo.jpeg"
     max_text_len: 48
 
-image_generation_model: bastiansg/gerciara:ed5690fe888df414834fa77a0632eecee3c89a7ee6c86666a9f21fee152ebc89
+image_generation_model: ideogram-ai/ideogram-v2a-turbo

@@ -21,7 +21,7 @@ async def run(
 
     psychological_describer_agent = PsychologicalDescriber()
     psychological_describer_output = await psychological_describer_agent.generate(
-        user_prompt="Provide a psychological profile.",
+        user_prompt="Provide a psychological profile based on the provided information.",
         agent_deps=PsychologicalDescriberDeps(
             physical_description=state.image_description.physical_description,
             clothing_description=state.image_description.clothing_description,

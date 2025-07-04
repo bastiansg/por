@@ -31,7 +31,7 @@ async def run(
     nietzsche_advisor = NietzscheAdvisor()
     nietzsche_advisor_output = await nietzsche_advisor.generate(
         user_prompt=question,
-        agent_input=NietzscheAdvisorDeps(
+        agent_deps=NietzscheAdvisorDeps(
             psychological_profile=state.psychological_profile,
             text_chunks=nietzsche_text_chunks,
             output_language=conf["output_language"],

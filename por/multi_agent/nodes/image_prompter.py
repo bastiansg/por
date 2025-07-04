@@ -4,7 +4,7 @@ from multi_agents.graph import Node
 from common.logger import get_logger
 
 from por.utils.tokens import get_num_tokens
-from por.llm_agents import ImagePrompter, ImagePrompterInput
+from por.llm_agents import ImagePrompter, ImagePrompterDeps
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
 from .utils import get_sensehat_dsp
@@ -21,7 +21,7 @@ async def run(
     config: ConfigSchema,
 ) -> StateSchema:
     logger.info("runing image_prompter...")
-    conf = config["configurable"]
+    # conf = config["configurable"]
 
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.stop()
@@ -35,13 +35,14 @@ async def run(
 
     image_prompter = ImagePrompter()
     image_prompter_output = await image_prompter.generate(
-        agent_input=ImagePrompterInput(
+        user_prompt="Provide the prompt for the portrait image generation.",
+        agent_deps=ImagePrompterDeps(
             question=state.audio_transcription,
             psychological_profile=state.psychological_profile,
             physical_description=state.image_description.physical_description,
             clothing_description=state.image_description.clothing_description,
             output_language="English",
-        )
+        ),
     )
 
     prompt = image_prompter_output.image_generation_prompt

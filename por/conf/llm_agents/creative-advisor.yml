@@ -22,6 +22,6 @@ instructions-template: |-
     {psychological_profile}
 
     Creative capsule:
-    {creative_capsule
+    {creative_capsule}
 
     Respond with your advice in {output_language}.
