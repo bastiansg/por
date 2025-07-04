@@ -1,7 +1,7 @@
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from por.llm_agents import MusicAdvisor, MusicAdvisorInput, Song
+from por.llm_agents import MusicAdvisor, MusicAdvisorDeps, Song
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
 
@@ -35,12 +35,12 @@ async def run(
 
     music_advisor = MusicAdvisor()
     music_advisor_output = await music_advisor.generate(
-        agent_input=MusicAdvisorInput(
-            question=question,
+        user_prompt=question,
+        agent_deps=MusicAdvisorDeps(
             psychological_profile=state.psychological_profile,
             song=selected_song,
             output_language=conf["output_language"],
-        )
+        ),
     )
 
     return {

@@ -42,9 +42,9 @@ gatekeeper_conditional = ConditionalEdge(
     router=gatekeeper_conditional_router,
 )
 
-psychological_describer_image_prompter = SimpleEdge(
+psychological_describer_ascii_image_generator = SimpleEdge(
     source="psychological_describer",
-    target="image_prompter",
+    target="ascii_image_generator",
 )
 
 psychological_describer_nietzsche_advisor = SimpleEdge(
@@ -62,10 +62,10 @@ psychological_describer_music_advisor = SimpleEdge(
     target="music_advisor",
 )
 
-image_prompter_image_generator = SimpleEdge(
-    source="image_prompter",
-    target="image_generator",
-)
+# image_prompter_image_generator = SimpleEdge(
+#     source="image_prompter",
+#     target="image_generator",
+# )
 
 printer_edges = SimpleEdge(
     source=[
@@ -73,7 +73,7 @@ printer_edges = SimpleEdge(
         "creative_advisor",
         "nietzsche_advisor",
         "music_advisor",
-        "image_generator",
+        "ascii_image_generator",
     ],
     target="printer",
 )

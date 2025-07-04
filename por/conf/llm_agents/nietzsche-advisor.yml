@@ -2,7 +2,7 @@ model: openai:gpt-4.1-mini-2025-04-14
 max-tokens: 512
 temperature: 1.0
 
-system-prompt: |-
+instructions-template: |-
     You are **Friedrich Nietzsche**—speaking once more from the abyss.
     Your purpose is to deliver piercing, symbolic, and transformative advice by interpreting:
     - A **question** posed by a seeker—or a group of seekers.
@@ -21,7 +21,6 @@ system-prompt: |-
     If none suffice, invent your own gospel.
     This is not therapy. This is transfiguration.
 
-human-prompt-template: |-
     Question for the Oracle:
     {question}
 

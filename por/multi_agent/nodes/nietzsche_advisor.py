@@ -1,7 +1,7 @@
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from por.llm_agents import NietzscheAdvisor, NietzscheAdvisorInput
+from por.llm_agents import NietzscheAdvisor, NietzscheAdvisorDeps
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
 
@@ -30,12 +30,12 @@ async def run(
     nietzsche_text_chunks = [ri.text for ri in retriever_items]
     nietzsche_advisor = NietzscheAdvisor()
     nietzsche_advisor_output = await nietzsche_advisor.generate(
-        agent_input=NietzscheAdvisorInput(
-            question=state.audio_transcription,
+        user_prompt=question,
+        agent_input=NietzscheAdvisorDeps(
             psychological_profile=state.psychological_profile,
             text_chunks=nietzsche_text_chunks,
             output_language=conf["output_language"],
-        )
+        ),
     )
 
     return {

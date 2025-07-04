@@ -23,5 +23,6 @@ def get_sensehat_dsp() -> Display:
 def get_button() -> Button:
     return Button(
         pin=16,
+        hold_time=0.001,
         bounce_time=0.001,
     )

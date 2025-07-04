@@ -3,7 +3,7 @@ import asyncio
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from por.llm_agents import PsychologicalDescriber, PsychologicalDescriberInput
+from por.llm_agents import PsychologicalDescriber, PsychologicalDescriberDeps
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
 from .utils import get_sensehat_dsp
@@ -17,16 +17,16 @@ async def run(
     config: ConfigSchema,
 ) -> StateSchema:
     logger.info("runing psychological_describer...")
-    conf = config["configurable"]
+    # conf = config["configurable"]
 
     psychological_describer_agent = PsychologicalDescriber()
     psychological_describer_output = await psychological_describer_agent.generate(
-        agent_input=PsychologicalDescriberInput(
+        user_prompt="Provide a psychological profile.",
+        agent_deps=PsychologicalDescriberDeps(
             physical_description=state.image_description.physical_description,
             clothing_description=state.image_description.clothing_description,
             question=state.audio_transcription,
-            output_language=conf["output_language"],
-        )
+        ),
     )
 
     sensehat_dsp = get_sensehat_dsp()

@@ -1,8 +1,8 @@
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from por.llm_agents import CreativeAdvisor, CreativeAdvisorInput
 from por.multi_agent.schema import StateSchema, ConfigSchema
+from por.llm_agents import CreativeAdvisor, CreativeAdvisorDeps
 
 
 from .utils import get_retriever
@@ -30,12 +30,12 @@ async def run(
     creative_advisor = CreativeAdvisor()
     creative_capsule = retriever_items[0].text
     creative_advisor_output = await creative_advisor.generate(
-        agent_input=CreativeAdvisorInput(
-            question=question,
+        user_prompt=question,
+        agent_deps=CreativeAdvisorDeps(
             psychological_profile=state.psychological_profile,
             creative_capsule=creative_capsule,
             output_language=conf["output_language"],
-        )
+        ),
     )
 
     return {

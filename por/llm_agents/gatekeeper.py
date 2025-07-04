@@ -7,8 +7,7 @@ from por.conf import llm_agents
 from llm_agents.meta.interfaces import LLMAgent
 
 
-class GatekeeperInput(BaseModel):
-    message: StrictStr
+class GatekeeperDeps(BaseModel):
     output_language: LanguageName
 
 
@@ -18,11 +17,11 @@ class GatekeeperOutput(BaseModel):
     )
     rejection_reason: StrictStr | None = Field(
         default=None,
-        description="A poetic justification for why the message was rejected.",
+        description="A justification for why the message was rejected.",
     )
 
 
-class Gatekeeper(LLMAgent[GatekeeperInput, GatekeeperOutput]):
+class Gatekeeper(LLMAgent[GatekeeperDeps, GatekeeperOutput]):
     def __init__(
         self,
         conf_path=f"{llm_agents.__path__[0]}/gatekeeper.yml",
@@ -31,8 +30,8 @@ class Gatekeeper(LLMAgent[GatekeeperInput, GatekeeperOutput]):
     ):
         super().__init__(
             conf_path=conf_path,
-            agent_input=GatekeeperInput,
-            agent_output=GatekeeperOutput,
+            deps_type=GatekeeperDeps,
+            output_type=GatekeeperOutput,
             retries=3,
             max_concurrency=max_concurrency,
             cache=cache,

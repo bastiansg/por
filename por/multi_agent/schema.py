@@ -40,7 +40,6 @@ class FCMessage(BaseModel):
 
 class Printer(BaseModel):
     por_logo_path: StrictStr
-    yzn_logo_path: StrictStr
     max_text_len: PositiveInt
 
 
@@ -54,9 +53,7 @@ class ConfigSchema(BaseModel):
     face_detector_min_score: NonNegativeFloat
     images_path: StrictStr
     image_extension: StrictStr
-    model: StrictStr
-    generation_prompt_header: StrictStr
-    generation_prompt_footer: StrictStr
+    image_generation_model: StrictStr
     printer_name: StrictStr
     imagekit_url: StrictStr
     idle_angles: ServoAngles
@@ -99,5 +96,6 @@ class StateSchema(BaseModel):
     image_generation_prompt: ImageGenerationPrompt | None = None
     gen_image_path: StrictStr | None = None
     image_url: StrictStr | None = None
+    ascii_image: list[StrictStr] = []
     lucky_number: PositiveInt | None = None
     print_status: Literal["ok", "failed"] | None = None

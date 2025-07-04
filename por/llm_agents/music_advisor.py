@@ -13,8 +13,7 @@ class Song(BaseModel):
     lyrics: StrictStr
 
 
-class MusicAdvisorInput(BaseModel):
-    question: StrictStr
+class MusicAdvisorDeps(BaseModel):
     psychological_profile: StrictStr
     song: Song
     output_language: LanguageName
@@ -27,7 +26,7 @@ class MusicAdvisorOutput(BaseModel):
     )
 
 
-class MusicAdvisor(LLMAgent[MusicAdvisorInput, MusicAdvisorOutput]):
+class MusicAdvisor(LLMAgent[MusicAdvisorDeps, MusicAdvisorOutput]):
     def __init__(
         self,
         conf_path=f"{llm_agents.__path__[0]}/music-advisor.yml",
@@ -36,8 +35,8 @@ class MusicAdvisor(LLMAgent[MusicAdvisorInput, MusicAdvisorOutput]):
     ):
         super().__init__(
             conf_path=conf_path,
-            agent_input=MusicAdvisorInput,
-            agent_output=MusicAdvisorOutput,
+            deps_type=MusicAdvisorDeps,
+            output_type=MusicAdvisorOutput,
             retries=3,
             max_concurrency=max_concurrency,
             cache=cache,

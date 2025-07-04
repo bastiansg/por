@@ -17,7 +17,7 @@ image_size:
 
 image_margin: 20
 image_description_guidelines: |-
-    Carefully analyze the provided image and generate a vivid, highly detailed description.
+    Analyze primary subjects present in the provided image and generate a physical and clothing description.
 
 history_length: 90
 face_detector_min_score: 0.0
@@ -33,5 +33,6 @@ idle_angles:
 output_language: Spanish
 printer:
     por_logo_path: "/resources/ticket-images/por-logo.jpeg"
-    yzn_logo_path: "/resources/ticket-images/yzn-logo.jpeg"
     max_text_len: 48
+
+image_generation_model: bastiansg/gerciara:ed5690fe888df414834fa77a0632eecee3c89a7ee6c86666a9f21fee152ebc89

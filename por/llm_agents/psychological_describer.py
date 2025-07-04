@@ -1,17 +1,14 @@
 from pydantic import BaseModel, StrictStr, Field
-from pydantic_extra_types.language_code import LanguageName
-
-from common.cache import RedisCache
 
 from por.conf import llm_agents
+from common.cache import RedisCache
 from llm_agents.meta.interfaces import LLMAgent
 
 
-class PsychologicalDescriberInput(BaseModel):
+class PsychologicalDescriberDeps(BaseModel):
     physical_description: StrictStr
     clothing_description: StrictStr
     question: StrictStr
-    output_language: LanguageName
 
 
 class PsychologicalDescriberOutput(BaseModel):
@@ -22,7 +19,7 @@ class PsychologicalDescriberOutput(BaseModel):
 
 
 class PsychologicalDescriber(
-    LLMAgent[PsychologicalDescriberInput, PsychologicalDescriberOutput]
+    LLMAgent[PsychologicalDescriberDeps, PsychologicalDescriberOutput]
 ):
     def __init__(
         self,
@@ -32,8 +29,8 @@ class PsychologicalDescriber(
     ):
         super().__init__(
             conf_path=conf_path,
-            agent_input=PsychologicalDescriberInput,
-            agent_output=PsychologicalDescriberOutput,
+            deps_type=PsychologicalDescriberDeps,
+            output_type=PsychologicalDescriberOutput,
             retries=3,
             max_concurrency=max_concurrency,
             cache=cache,
