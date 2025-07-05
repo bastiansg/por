@@ -10,6 +10,7 @@ from llm_agents.meta.interfaces import LLMAgent
 class CreativeAdvisorDeps(BaseModel):
     psychological_profile: StrictStr
     creative_capsule: StrictStr
+    question: StrictStr
     output_language: LanguageName
 
 

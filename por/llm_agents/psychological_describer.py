@@ -1,4 +1,5 @@
 from pydantic import BaseModel, StrictStr, Field
+from pydantic_extra_types.language_code import LanguageName
 
 from por.conf import llm_agents
 from common.cache import RedisCache
@@ -9,6 +10,7 @@ class PsychologicalDescriberDeps(BaseModel):
     physical_description: StrictStr
     clothing_description: StrictStr
     question: StrictStr
+    output_language: LanguageName
 
 
 class PsychologicalDescriberOutput(BaseModel):

@@ -7,7 +7,6 @@ from .edges import (  # noqa
     psychological_describer_nietzsche_advisor,
     psychological_describer_creative_advisor,
     psychological_describer_music_advisor,
-    psychological_describer_image_prompter,
-    image_prompter_image_generator,
+    psychological_describer_image_generator,
     printer_edges,
 )

@@ -22,6 +22,7 @@ async def run(
             physical_description=state.image_description.physical_description,
             clothing_description=state.image_description.clothing_description,
             question=state.audio_transcription,
+            output_language="English",
         ),
     )
 

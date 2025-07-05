@@ -41,8 +41,10 @@ app-build:
 app-run: app-build
 	docker compose  run --rm por-app
 
-app-up: devcontainer-build
+app-up: app-build
 	docker compose up -d por-app
 
 app-stop:
 	docker stop por-app
+
+app-restart: app-stop app-up

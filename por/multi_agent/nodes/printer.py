@@ -13,7 +13,7 @@ from .utils import get_sensehat_dsp
 logger = get_logger(__name__)
 
 
-def head_pipeline(printer: Usb, conf: dict) -> None:
+def head_pipeline(printer: Usb, conf: dict, state: StateSchema) -> None:
     printer.image(img_source=conf["por_logo_path"])
     printer.text("\n\n")
     printer.text("\n\n")
@@ -36,9 +36,17 @@ def head_pipeline(printer: Usb, conf: dict) -> None:
     printer.text("------------------------------------------------")
     printer.text("\n\n")
 
+    printer.set(bold=True, align="left")
+    printer.block_text(state.audio_transcription)
+    printer.set(bold=False)
+
+    printer.text("\n\n")
+    printer.text("------------------------------------------------")
+    printer.text("\n\n")
+
 
 def rejection_pipeline(printer: Usb, conf: dict, state: StateSchema) -> None:
-    head_pipeline(printer=printer, conf=conf)
+    head_pipeline(printer=printer, conf=conf, state=state)
 
     printer.set(bold=True, align="center")
     printer.block_text("*** El Oráculo ha rechazado tu consulta ***")
@@ -56,7 +64,7 @@ def rejection_pipeline(printer: Usb, conf: dict, state: StateSchema) -> None:
 
 
 def main_pipeline(printer: Usb, conf: dict, state: StateSchema) -> None:
-    head_pipeline(printer=printer, conf=conf)
+    head_pipeline(printer=printer, conf=conf, state=state)
 
     printer.set(bold=True)
     printer.block_text("* EL ORÁCULO HA DELIBERADO:")
@@ -98,6 +106,9 @@ def main_pipeline(printer: Usb, conf: dict, state: StateSchema) -> None:
     )
 
     printer.text("\n\n")
+    printer.text("------------------------------------------------")
+    printer.text("\n\n")
+
     printer.set(bold=True)
     printer.block_text("Tu lucky number:")
     printer.set(bold=False)
@@ -137,6 +148,7 @@ async def run(
 
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.stop()
+    await asyncio.sleep(1)
     sensehat_dsp.clear()
 
     sensehat_dsp.start_color_cycle(image_name="down-arrow")
@@ -156,7 +168,6 @@ async def run(
         )
 
     sensehat_dsp.stop()
-
     await asyncio.sleep(1)
     sensehat_dsp.clear()
 

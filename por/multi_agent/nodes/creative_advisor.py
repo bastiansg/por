@@ -30,10 +30,11 @@ async def run(
     creative_advisor = CreativeAdvisor()
     creative_capsule = retriever_items[0].text
     creative_advisor_output = await creative_advisor.generate(
-        user_prompt=question,
+        user_prompt="Provide your energetic and creatively actionable insights.",
         agent_deps=CreativeAdvisorDeps(
             psychological_profile=state.psychological_profile,
             creative_capsule=creative_capsule,
+            question=question,
             output_language=conf["output_language"],
         ),
     )

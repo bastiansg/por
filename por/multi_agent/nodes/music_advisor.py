@@ -35,10 +35,11 @@ async def run(
 
     music_advisor = MusicAdvisor()
     music_advisor_output = await music_advisor.generate(
-        user_prompt=question,
+        user_prompt="Provide your pure, poetic, emotionally saturated lyrics.",
         agent_deps=MusicAdvisorDeps(
             psychological_profile=state.psychological_profile,
             song=selected_song,
+            question=question,
             output_language=conf["output_language"],
         ),
     )

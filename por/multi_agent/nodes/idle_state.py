@@ -1,3 +1,5 @@
+import asyncio
+
 from multi_agents.graph import Node
 from common.logger import get_logger
 
@@ -19,6 +21,7 @@ async def run(
 
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.stop()
+    await asyncio.sleep(1)
     sensehat_dsp.clear()
 
     sensehat_dsp.start_intermittent_image(

@@ -30,10 +30,11 @@ async def run(
     nietzsche_text_chunks = [ri.text for ri in retriever_items]
     nietzsche_advisor = NietzscheAdvisor()
     nietzsche_advisor_output = await nietzsche_advisor.generate(
-        user_prompt=question,
+        user_prompt="Deliver piercing, symbolic, and transformative insight.",
         agent_deps=NietzscheAdvisorDeps(
             psychological_profile=state.psychological_profile,
             text_chunks=nietzsche_text_chunks,
+            question=question,
             output_language=conf["output_language"],
         ),
     )

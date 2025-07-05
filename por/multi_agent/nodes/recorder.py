@@ -50,24 +50,23 @@ async def run(
 
     audio_recorder.stop()
     tracker.stop()
-    await asyncio.sleep(1)
+    await asyncio.sleep(2)
+    tracker.servos.set_angles(servo_angles=ServoAngles())
 
     audio_buffer = io.BytesIO()
     audio_recorder.save_to_file(file=audio_buffer)
     audio_buffer.seek(0)
 
-    tracker.servos.set_angles(servo_angles=ServoAngles())
     valid_history_items = [
         history_item
         for history_item in tracker.history
         if history_item.centroid is not None
     ]
 
-    first_history_item = valid_history_items[0]
-    # last_history_item = valid_history_items[-1]
+    last_history_item = valid_history_items[-1]
     image_id = state.image_id
-    pil_image = Image.fromarray(first_history_item.np_image)
 
+    pil_image = Image.fromarray(last_history_item.np_image)
     image_path = f"{conf['images_path']}/{image_id}.{conf['image_extension']}"
     pil_image.save(image_path)
 

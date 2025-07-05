@@ -52,23 +52,18 @@ class ConfigSchema(BaseModel):
     face_detector_min_score: NonNegativeFloat
     images_path: StrictStr
     image_extension: StrictStr
-    image_generation_model: StrictStr
     printer_name: StrictStr
     idle_angles: ServoAngles
     output_language: LanguageName
     dc_poems: list[DCPoem]
     fc_messages: list[FCMessage]
     printer: Printer
+    imge_generatin_prompt_template: StrictStr
 
     @field_validator("images_path", mode="after")
     def images_path_validator(cls, v: str) -> str:
         create_path(path=v)
         return v
-
-
-class ImageGenerationPrompt(BaseModel):
-    prompt: StrictStr
-    num_tokens: PositiveInt
 
 
 class StateSchema(BaseModel):
@@ -90,7 +85,7 @@ class StateSchema(BaseModel):
     creative_advice: StrictStr | None = None
     selected_dc_poem: StrictStr | None = None
     selected_fc_message: StrictStr | None = None
-    image_generation_prompt: ImageGenerationPrompt | None = None
+    image_generation_prompt: StrictStr | None = None
     gen_image_path: StrictStr | None = None
     lucky_number: PositiveInt | None = None
     print_status: Literal["ok", "failed"] | None = None

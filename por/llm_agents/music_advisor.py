@@ -16,6 +16,7 @@ class Song(BaseModel):
 class MusicAdvisorDeps(BaseModel):
     psychological_profile: StrictStr
     song: Song
+    question: StrictStr
     output_language: LanguageName
 
 

@@ -56,13 +56,8 @@ psychological_describer_music_advisor = SimpleEdge(
     target="music_advisor",
 )
 
-psychological_describer_image_prompter = SimpleEdge(
+psychological_describer_image_generator = SimpleEdge(
     source="psychological_describer",
-    target="image_prompter",
-)
-
-image_prompter_image_generator = SimpleEdge(
-    source="image_prompter",
     target="image_generator",
 )
 

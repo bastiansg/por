@@ -22,12 +22,6 @@ from .creative_advisor import (  # noqa
     CreativeAdvisorOutput,
 )
 
-from .image_prompter import (  # noqa
-    ImagePrompter,
-    ImagePrompterDeps,
-    ImagePrompterOutput,
-)
-
 from .music_advisor import (  # noqa
     MusicAdvisor,
     MusicAdvisorDeps,

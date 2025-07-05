@@ -11,7 +11,6 @@ from .nodes import (
     music_advisor,
     creative_advisor,
     random_selector,
-    image_prompter,
     image_generator,
     printer,
 )
@@ -25,8 +24,7 @@ from .edges import (
     psychological_describer_nietzsche_advisor,
     psychological_describer_creative_advisor,
     psychological_describer_music_advisor,
-    psychological_describer_image_prompter,
-    image_prompter_image_generator,
+    psychological_describer_image_generator,
     printer_edges,
 )
 
@@ -45,7 +43,6 @@ def get_multi_agent() -> MultiAgentGraph:
         music_advisor,
         creative_advisor,
         random_selector,
-        image_prompter,
         image_generator,
         printer,
     ]
@@ -59,8 +56,7 @@ def get_multi_agent() -> MultiAgentGraph:
         psychological_describer_nietzsche_advisor,
         psychological_describer_creative_advisor,
         psychological_describer_music_advisor,
-        psychological_describer_image_prompter,
-        image_prompter_image_generator,
+        psychological_describer_image_generator,
         printer_edges,
     ]
 
