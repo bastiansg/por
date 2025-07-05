@@ -14,7 +14,7 @@ async def run(
 ) -> StateSchema:
     logger.info("runing audio_transcriber...")
 
-    output = replicate.run(
+    output = await replicate.async_run(
         "vaibhavs10/incredibly-fast-whisper:3ab86df6c8f54c11309d4d1f930ac292bad43ace52d10c80d87eb258b3c9f79c",
         input={
             "task": "transcribe",
@@ -27,6 +27,7 @@ async def run(
     )
 
     return {
+        "audio_buffer": None,
         "audio_transcription": output["text"],
     }
 

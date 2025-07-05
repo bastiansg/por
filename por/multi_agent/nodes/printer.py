@@ -48,11 +48,6 @@ def rejection_pipeline(printer: Usb, conf: dict, state: StateSchema) -> None:
     printer.text("------------------------------------------------")
     printer.text("\n\n")
 
-    printer.set(bold=True, align="left")
-    printer.block_text("$$ Razones del rechazo:")
-    printer.set(bold=False)
-    printer.text("\n\n")
-
     printer.block_text(state.rejection_reason)
     printer.text("\n\n")
 
@@ -97,16 +92,12 @@ def main_pipeline(printer: Usb, conf: dict, state: StateSchema) -> None:
     printer.text("------------------------------------------------")
     printer.text("\n\n")
 
-    # printer.set(bold=True)
-    # printer.block_text("* Y HE AQUÍ TU RETRATO:")
-    # printer.text("\n")
-    # printer.set(bold=False)
-
     printer.image(
         img_source=state.gen_image_path,
         center=True,
     )
 
+    printer.text("\n\n")
     printer.set(bold=True)
     printer.block_text("Tu lucky number:")
     printer.set(bold=False)
