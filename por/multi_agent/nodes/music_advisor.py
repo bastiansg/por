@@ -1,7 +1,7 @@
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from por.llm_agents import NietzscheAdvisor, NietzscheAdvisorDeps
+from por.llm_agents import MusicAdvisor, MusicAdvisorDeps, Song
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
 
@@ -15,36 +15,41 @@ async def run(
     state: StateSchema,
     config: ConfigSchema,
 ) -> StateSchema:
-    logger.info("runing nietzsche_advisor...")
+    logger.info("runing music_advisor...")
     conf = config["configurable"]
 
     retriever = get_retriever()
     question = state.audio_transcription
 
     retriever_items = await retriever.dense_search(
-        collection_name="nietzsche",
+        collection_name="lyrics",
         query=question,
-        k=5,
+        k=1,
     )
 
-    nietzsche_text_chunks = [ri.text for ri in retriever_items]
-    nietzsche_advisor = NietzscheAdvisor()
-    nietzsche_advisor_output = await nietzsche_advisor.generate(
+    selected_song = Song(
+        title=retriever_items[0].metadata["title"],
+        artist=retriever_items[0].metadata["artist"],
+        lyrics=retriever_items[0].text,
+    )
+
+    music_advisor = MusicAdvisor()
+    music_advisor_output = await music_advisor.generate(
         user_prompt=question,
-        agent_deps=NietzscheAdvisorDeps(
+        agent_deps=MusicAdvisorDeps(
             psychological_profile=state.psychological_profile,
-            text_chunks=nietzsche_text_chunks,
+            song=selected_song,
             output_language=conf["output_language"],
         ),
     )
 
     return {
-        "nietzsche_text_chunks": nietzsche_text_chunks,
-        "nietzsche_advise": nietzsche_advisor_output.nietzsche_advise,
+        "selected_song": selected_song,
+        "music_advice": music_advisor_output.music_advice,
     }
 
 
-nietzsche_advisor = Node(
-    name="nietzsche_advisor",
+music_advisor = Node(
+    name="music_advisor",
     run=run,
 )

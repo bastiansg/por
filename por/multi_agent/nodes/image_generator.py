@@ -1,5 +1,9 @@
+import io
 import asyncio
 import replicate
+
+from PIL import Image
+from torchvision import transforms
 
 from multi_agents.graph import Node
 from common.logger import get_logger
@@ -25,34 +29,29 @@ async def run(
     await asyncio.sleep(1)
     sensehat_dsp.start_color_cycle(image_name="si-04")
 
+    await asyncio.sleep(5)
     image_extension = conf["image_extension"]
     output = replicate.run(
-        conf["model"],
+        conf["image_generation_model"],
         input={
-            "model": "dev",
             "prompt": state.image_generation_prompt.prompt,
-            "go_fast": False,
-            "lora_scale": 1.3,
-            "megapixels": "1",
-            "num_outputs": 1,
-            # "aspect_ratio": "4:5",
             "aspect_ratio": "9:16",
-            # "height": 1350,
-            # "width": 1080,
-            "output_format": image_extension,
-            "guidance_scale": 10,
-            "output_quality": 100,
-            "num_inference_steps": 28,
-            "disable_safety_checker": True,
+            "output_format": "jpg",
+            "safety_filter_level": "block_only_high",
         },
     )
 
-    images_path = conf["images_path"]
-    image_id = state.image_id
+    image_bytes = output.read()
+    image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
 
-    gen_image_path = f"{images_path}/{image_id}-gen.{image_extension}"
-    with open(gen_image_path, "wb") as f:
-        f.write(output[0].read())
+    resize_transform = transforms.Resize(size=576)
+    image = resize_transform(image)
+
+    images_path = conf["images_path"]
+    gen_image_path = f"{images_path}/{state.image_id}-gen.{image_extension}"
+    image.save(gen_image_path)
+    # with open(gen_image_path, "wb") as f:
+    #     f.write(output.read())
 
     return {
         "gen_image_path": gen_image_path,

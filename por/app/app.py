@@ -1,5 +1,6 @@
 import uuid
 import asyncio
+import logfire
 
 from rich.pretty import pprint
 from common.logger import get_logger
@@ -11,6 +12,10 @@ from por.multi_agent import get_multi_agent, get_multi_agent_config
 
 
 logger = get_logger(__name__)
+logfire.configure(service_name="por")
+
+_ = logfire.instrument_pydantic_ai()
+_ = logfire.instrument_openai()
 
 
 STORE_PATH = "/resources/states"
@@ -19,7 +24,7 @@ create_path(STORE_PATH)
 
 async def main() -> None:
     multi_agent = get_multi_agent()
-    multi_agent_config = get_multi_agent_config(model="grcra")
+    multi_agent_config = get_multi_agent_config()
 
     while True:
         image_id = uuid.uuid4().hex

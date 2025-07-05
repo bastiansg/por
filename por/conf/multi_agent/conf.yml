@@ -17,7 +17,7 @@ image_size:
 
 image_margin: 20
 image_description_guidelines: |-
-    Carefully analyze the provided image and generate a vivid, highly detailed description.
+    Analyze primary subjects present in the provided image and provide a detailed physical and clothing description.
 
 history_length: 90
 face_detector_min_score: 0.0
@@ -25,7 +25,6 @@ images_path: /resources/generated-images
 image_extension: jpg
 
 printer_name: EPSON_TM-T20IIIL
-imagekit_url: https://ik.imagekit.io/ddmoon
 idle_angles:
     x: 103
     y: 20
@@ -33,5 +32,6 @@ idle_angles:
 output_language: Spanish
 printer:
     por_logo_path: "/resources/ticket-images/por-logo.jpeg"
-    yzn_logo_path: "/resources/ticket-images/yzn-logo.jpeg"
     max_text_len: 48
+
+image_generation_model: google/imagen-4

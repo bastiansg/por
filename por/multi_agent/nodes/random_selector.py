@@ -13,15 +13,17 @@ async def run(
     state: StateSchema,
     config: ConfigSchema,
 ) -> StateSchema:
-    logger.info("runing dc_selector...")
+    logger.info("runing random_selector...")
     conf = config["configurable"]
 
     return {
+        "selected_fc_message": random.choice(conf["fc_messages"])["message"],
         "selected_dc_poem": random.choice(conf["dc_poems"])["poem"],
+        "lucky_number": random.randint(1, 22),
     }
 
 
-dc_selector = Node(
-    name="dc_selector",
+random_selector = Node(
+    name="random_selector",
     run=run,
 )

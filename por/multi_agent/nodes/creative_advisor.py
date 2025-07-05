@@ -1,8 +1,8 @@
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from por.llm_agents import CreativeAdvisor, CreativeAdvisorInput
 from por.multi_agent.schema import StateSchema, ConfigSchema
+from por.llm_agents import CreativeAdvisor, CreativeAdvisorDeps
 
 
 from .utils import get_retriever
@@ -19,26 +19,27 @@ async def run(
     conf = config["configurable"]
 
     retriever = get_retriever()
-    creative_status = state.psychological_description.creative_status
+    question = state.audio_transcription
 
     retriever_items = await retriever.dense_search(
         collection_name="el-arte-del-pensamiento-creativo",
-        query=creative_status,
-        k=10,
+        query=question,
+        k=1,
     )
 
-    creative_text_chunks = [ri.text for ri in retriever_items]
     creative_advisor = CreativeAdvisor()
+    creative_capsule = retriever_items[0].text
     creative_advisor_output = await creative_advisor.generate(
-        agent_input=CreativeAdvisorInput(
-            creative_status=creative_status,
-            creative_text_chunks=creative_text_chunks,
+        user_prompt=question,
+        agent_deps=CreativeAdvisorDeps(
+            psychological_profile=state.psychological_profile,
+            creative_capsule=creative_capsule,
             output_language=conf["output_language"],
-        )
+        ),
     )
 
     return {
-        "creative_text_chunks": creative_text_chunks,
+        "creative_capsule": creative_capsule,
         "creative_advice": creative_advisor_output.creative_advice,
     }
 

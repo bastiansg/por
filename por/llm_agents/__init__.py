@@ -1,32 +1,36 @@
+from .gatekeeper import Gatekeeper, GatekeeperDeps, GatekeeperOutput  # noqa
 from .image_describer import (  # noqa
     ImageDescriber,
-    ImageDescriberInput,
     ImageDescriberOutput,
 )
 
 from .psychological_describer import (  # noqa
     PsychologicalDescriber,
-    PsychologicalDescriberInput,
+    PsychologicalDescriberDeps,
     PsychologicalDescriberOutput,
 )
 
 from .nietzsche_advisor import (  # noqa
     NietzscheAdvisor,
-    NietzscheAdvisorInput,
+    NietzscheAdvisorDeps,
     NietzscheAdvisorOutput,
 )
 
-from .ts_advisor import TSAdvisor, TSAdvisorInput, TSAdvisorOutput  # noqa
 from .creative_advisor import (  # noqa
     CreativeAdvisor,
-    CreativeAdvisorInput,
+    CreativeAdvisorDeps,
     CreativeAdvisorOutput,
 )
 
 from .image_prompter import (  # noqa
     ImagePrompter,
-    ImagePrompterInput,
+    ImagePrompterDeps,
     ImagePrompterOutput,
 )
 
-from .lm_advisor import LMAdvisor, LMAdvisorInput, LMAdvisorOutput  # noqa
+from .music_advisor import (  # noqa
+    MusicAdvisor,
+    MusicAdvisorDeps,
+    MusicAdvisorOutput,
+    Song,
+)

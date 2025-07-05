@@ -1,3 +1,4 @@
+from io import BytesIO
 from typing import Literal
 from sensehat_dsp.display import Color
 from common.utils.path import create_path
@@ -8,6 +9,7 @@ from hailo_apps.meta.interfaces import RotatorParams, ImageSize
 from pydantic_extra_types.language_code import LanguageName
 from pydantic import (
     BaseModel,
+    ConfigDict,
     StrictStr,
     StrictBool,
     NonNegativeInt,
@@ -16,9 +18,8 @@ from pydantic import (
     field_validator,
 )
 
-from por.loaders import ImageCaptionItem
+from por.llm_agents.music_advisor import Song
 from por.llm_agents.image_describer import ImageDescriberOutput
-from por.llm_agents.psychological_describer import PsychologicalDescriberOutput
 
 
 class GolColors(BaseModel):
@@ -38,7 +39,6 @@ class FCMessage(BaseModel):
 
 class Printer(BaseModel):
     por_logo_path: StrictStr
-    yzn_logo_path: StrictStr
     max_text_len: PositiveInt
 
 
@@ -52,17 +52,13 @@ class ConfigSchema(BaseModel):
     face_detector_min_score: NonNegativeFloat
     images_path: StrictStr
     image_extension: StrictStr
-    model: StrictStr
-    generation_prompt_header: StrictStr
-    generation_prompt_footer: StrictStr
+    image_generation_model: StrictStr
     printer_name: StrictStr
-    imagekit_url: StrictStr
     idle_angles: ServoAngles
     output_language: LanguageName
     dc_poems: list[DCPoem]
     fc_messages: list[FCMessage]
     printer: Printer
-    train_image_captions: list[ImageCaptionItem]
 
     @field_validator("images_path", mode="after")
     def images_path_validator(cls, v: str) -> str:
@@ -76,23 +72,25 @@ class ImageGenerationPrompt(BaseModel):
 
 
 class StateSchema(BaseModel):
-    idle: StrictBool = True
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
     image_id: StrictStr
+    audio_buffer: BytesIO | None = None
     image_path: StrictStr | None = None
+    audio_transcription: StrictStr | None = None
+    message_accepted: StrictBool | None = None
+    rejection_reason: StrictStr | None = None
     image_description: ImageDescriberOutput | None = None
-    psychological_description: PsychologicalDescriberOutput | None = None
+    psychological_profile: StrictStr | None = None
     nietzsche_text_chunks: list[StrictStr] = []
     nietzsche_advise: StrictStr | None = None
-    # ts_text_chunks: list[StrictStr] = []
-    # taylor_swift_advise: StrictStr | None = None
-    lm_text_chunks: list[StrictStr] = []
-    luis_miguel_advise: StrictStr | None = None
-    creative_text_chunks: list[StrictStr] = []
+    selected_song: Song | None = None
+    music_advice: StrictStr | None = None
+    creative_capsule: StrictStr | None = None
     creative_advice: StrictStr | None = None
     selected_dc_poem: StrictStr | None = None
     selected_fc_message: StrictStr | None = None
     image_generation_prompt: ImageGenerationPrompt | None = None
     gen_image_path: StrictStr | None = None
-    image_url: StrictStr | None = None
     lucky_number: PositiveInt | None = None
     print_status: Literal["ok", "failed"] | None = None

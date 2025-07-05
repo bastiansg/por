@@ -7,20 +7,20 @@ from por.conf import llm_agents
 from llm_agents.meta.interfaces import LLMAgent
 
 
-class CreativeAdvisorInput(BaseModel):
-    creative_status: StrictStr
-    creative_text_chunks: list[StrictStr]
+class CreativeAdvisorDeps(BaseModel):
+    psychological_profile: StrictStr
+    creative_capsule: StrictStr
     output_language: LanguageName
 
 
 class CreativeAdvisorOutput(BaseModel):
     creative_advice: StrictStr = Field(
-        description="Symbolic and transformative creative guidance.",
+        description="A psychologically attuned and creatively inspired piece of advice.",
         min_length=1,
     )
 
 
-class CreativeAdvisor(LLMAgent[CreativeAdvisorInput, CreativeAdvisorOutput]):
+class CreativeAdvisor(LLMAgent[CreativeAdvisorDeps, CreativeAdvisorOutput]):
     def __init__(
         self,
         conf_path=f"{llm_agents.__path__[0]}/creative-advisor.yml",
@@ -29,8 +29,8 @@ class CreativeAdvisor(LLMAgent[CreativeAdvisorInput, CreativeAdvisorOutput]):
     ):
         super().__init__(
             conf_path=conf_path,
-            agent_input=CreativeAdvisorInput,
-            agent_output=CreativeAdvisorOutput,
+            deps_type=CreativeAdvisorDeps,
+            output_type=CreativeAdvisorOutput,
             retries=3,
             max_concurrency=max_concurrency,
             cache=cache,
