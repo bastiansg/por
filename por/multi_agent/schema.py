@@ -18,7 +18,6 @@ from pydantic import (
     field_validator,
 )
 
-from por.loaders import ImageCaptionItem
 from por.llm_agents.music_advisor import Song
 from por.llm_agents.image_describer import ImageDescriberOutput
 
@@ -55,13 +54,11 @@ class ConfigSchema(BaseModel):
     image_extension: StrictStr
     image_generation_model: StrictStr
     printer_name: StrictStr
-    imagekit_url: StrictStr
     idle_angles: ServoAngles
     output_language: LanguageName
     dc_poems: list[DCPoem]
     fc_messages: list[FCMessage]
     printer: Printer
-    train_image_captions: list[ImageCaptionItem]
 
     @field_validator("images_path", mode="after")
     def images_path_validator(cls, v: str) -> str:
@@ -95,7 +92,5 @@ class StateSchema(BaseModel):
     selected_fc_message: StrictStr | None = None
     image_generation_prompt: ImageGenerationPrompt | None = None
     gen_image_path: StrictStr | None = None
-    image_url: StrictStr | None = None
-    ascii_image: list[StrictStr] = []
     lucky_number: PositiveInt | None = None
     print_status: Literal["ok", "failed"] | None = None

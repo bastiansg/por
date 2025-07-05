@@ -8,7 +8,6 @@ from llm_agents.meta.interfaces import LLMAgent
 
 
 class ImagePrompterDeps(BaseModel):
-    question: StrictStr
     psychological_profile: StrictStr
     physical_description: StrictStr
     clothing_description: StrictStr

@@ -1,4 +1,4 @@
-ARG UV_VERSION=0.7.13
+ARG UV_VERSION=0.7.19
 FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv_source
 
 FROM debian:bookworm-slim
@@ -6,6 +6,8 @@ FROM debian:bookworm-slim
 ENV UV_SYSTEM_PYTHON=1
 ENV HAILORT_LOGGER_PATH=NONE
 ENV FAST_EMBED_SPARSE_CACHE=/resources/cache/fes
+ENV DENSE_EMBED_DOC_CACHE_PATH=/resources/cache/embeddings/documents
+ENV DENSE_EMBED_QUERY_CACHE_PATH=/resources/cache/embeddings/queries
 
 ENV REDIS_HOST=por-redis
 ENV QDRANT_HOST=por-qdrant

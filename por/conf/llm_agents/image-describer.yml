@@ -1,5 +1,5 @@
-model: openai:gpt-4.1-mini-2025-04-14
-max-tokens: 448
+model: openai:gpt-4.1-2025-04-14
+max-tokens: 1024
 temperature: 1.0
 
 instructions-template: |-
@@ -8,11 +8,14 @@ instructions-template: |-
 
     Generate a structured description divided into the following two parts:
     1. **physical_description**
-       - Describe the primary subjects' visible features: posture, pose, body proportions, hairstyle, facial features (if visible), and expression.
+       - Describe the primary subjects' visible features: sex, pose, posture, body proportions, hairstyle, facial detail (if any).
        - Mention any visible body modifications, makeup, nail polish, or accessories that are part of their appearance rather than their clothing (e.g., piercings, tattoos).
+       - Do not include any mention of the scene, objects around them, or lighting—focus purely on their visible anatomical features and styling.
+       - Do not describe or mention any objects held by the subjects or anything related to their hands, gestures, or hand position.
+       - Never mention microphones.
 
     2. **clothing_description**
        - Describe the garments and accessories worn: type, silhouette, layering, fabric type and texture, fit, and design details (buttons, collars, prints, trims).
-       - List all visible colors and how they are used throughout the outfit.
-       - Transcribe any readable text (e.g., brand names or slogans) visible on the clothing.
        - If visible, describe footwear, jewelry, bags, or other accessories.
+
+    Ensure both **physical_description** and **clothing_description** are detailed and focused.

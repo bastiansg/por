@@ -1,5 +1,9 @@
+import io
 import asyncio
 import replicate
+
+from PIL import Image
+from torchvision import transforms
 
 from multi_agents.graph import Node
 from common.logger import get_logger
@@ -31,19 +35,23 @@ async def run(
         conf["image_generation_model"],
         input={
             "prompt": state.image_generation_prompt.prompt,
-            "resolution": "None",
-            "style_type": "Design",
             "aspect_ratio": "9:16",
-            "magic_prompt_option": "Off",
+            "output_format": "jpg",
+            "safety_filter_level": "block_only_high",
         },
     )
 
-    images_path = conf["images_path"]
-    image_id = state.image_id
+    image_bytes = output.read()
+    image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
 
-    gen_image_path = f"{images_path}/{image_id}-gen.{image_extension}"
-    with open(gen_image_path, "wb") as f:
-        f.write(output.read())
+    resize_transform = transforms.Resize(size=576)
+    image = resize_transform(image)
+
+    images_path = conf["images_path"]
+    gen_image_path = f"{images_path}/{state.image_id}-gen.{image_extension}"
+    image.save(gen_image_path)
+    # with open(gen_image_path, "wb") as f:
+    #     f.write(output.read())
 
     return {
         "gen_image_path": gen_image_path,

@@ -37,7 +37,6 @@ async def run(
     image_prompter_output = await image_prompter.generate(
         user_prompt="Provide the prompt for the portrait image generation.",
         agent_deps=ImagePrompterDeps(
-            question=state.audio_transcription,
             psychological_profile=state.psychological_profile,
             physical_description=state.image_description.physical_description,
             clothing_description=state.image_description.clothing_description,

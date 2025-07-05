@@ -63,140 +63,75 @@ def rejection_pipeline(printer: Usb, conf: dict, state: StateSchema) -> None:
 def main_pipeline(printer: Usb, conf: dict, state: StateSchema) -> None:
     head_pipeline(printer=printer, conf=conf)
 
-    # printer.image(img_source=conf["por_logo_path"])
-    # printer.text("\n\n")
-    # printer.text("\n\n")
+    printer.set(bold=True)
+    printer.block_text("* EL ORÁCULO HA DELIBERADO:")
+    printer.set(bold=False)
+    printer.text("\n\n")
 
-    # printer.set(
-    #     bold=True,
-    #     align="center",
-    #     font=0,
-    #     double_width=False,
-    #     double_height=False,
-    # )
+    printer.set(bold=True)
+    printer.block_text("$$ Lo que dicen que Nietzsche dijo:")
+    printer.text("\n")
+    printer.set(bold=False)
 
-    # printer.block_text("*** Special Edition Yoizen ***")
-    # printer.set(bold=False)
+    printer.block_text(state.nietzsche_advise)
+    printer.text("\n\n")
 
-    # printer.text("\n\n")
-    # printer.image(img_source=conf["yzn_logo_path"])
-    # printer.text("\n\n")
-    # printer.text("\n\n")
+    printer.set(bold=True)
+    printer.block_text("$$ Aire fresco:")
+    printer.text("\n")
+    printer.set(bold=False)
 
-    # printer.set(align="left")
-    # printer.block_text("* Oráculo Robot. (2025, ∞)")
-    # printer.text("\n")
-    # printer.block_text("* @dd.moon__                All rights reserved.")
-    # printer.text("\n\n")
+    printer.block_text(state.creative_advice)
+    printer.text("\n\n")
 
-    # printer.set(bold=True)
-    # printer.block_text("* WARNING: Este Robot nunca reemplazará a tu terapeuta")
-    # printer.set(bold=False)
+    printer.set(bold=True)
+    printer.block_text(
+        f"$$ Lo que canta {state.selected_song.artist} para vos:"
+    )
+    printer.text("\n")
+    printer.set(bold=False)
 
-    # printer.text("\n\n")
-    # printer.text("------------------------------------------------")
-    # printer.text("\n\n")
+    printer.block_text(state.music_advice)
 
-    # printer.set(bold=True)
-    # printer.block_text("* EL OJO DEL ORÁCULO HA VISTO LO SIGUIENTE:")
-    # printer.set(bold=False)
-    # printer.text("\n\n")
+    printer.text("\n\n")
+    printer.text("------------------------------------------------")
+    printer.text("\n\n")
 
     # printer.set(bold=True)
-    # printer.block_text("$$ Tus deseos:")
+    # printer.block_text("* Y HE AQUÍ TU RETRATO:")
     # printer.text("\n")
     # printer.set(bold=False)
 
-    # printer.block_text(state.psychological_description.dreams_and_desires)
-    # printer.text("\n\n")
+    printer.image(
+        img_source=state.gen_image_path,
+        center=True,
+    )
 
-    # printer.set(bold=True)
-    # printer.block_text("$$ Sobre tu creatividad:")
-    # printer.text("\n")
-    # printer.set(bold=False)
+    printer.set(bold=True)
+    printer.block_text("Tu lucky number:")
+    printer.set(bold=False)
+    printer.text("\n")
+    printer.block_text(f"{state.lucky_number}")
+    printer.text("\n\n")
 
-    # printer.block_text(state.psychological_description.creative_status)
-    # printer.text("\n\n")
+    printer.set(bold=True)
+    printer.block_text("Tu poema dos corazones:")
+    printer.set(bold=False)
+    printer.text("\n")
+    printer.block_text(f"{state.selected_dc_poem}")
+    printer.text("\n\n")
 
-    # printer.set(bold=True)
-    # printer.block_text("$$ Del amor:")
-    # printer.text("\n")
-    # printer.set(bold=False)
+    printer.set(bold=True)
+    printer.block_text("Tu galleta de la fortuna:")
+    printer.set(bold=False)
+    printer.text("\n")
+    printer.block_text(f"{state.selected_fc_message}")
+    printer.text("\n\n")
+    printer.text("\n\n")
 
-    # printer.block_text(state.psychological_description.love_status)
-
-    # printer.text("\n\n")
-    # printer.text("------------------------------------------------")
-    # printer.text("\n\n")
-
-    # printer.set(bold=True)
-    # printer.block_text("* EL ORÁCULO HA DELIBERADO:")
-    # printer.set(bold=False)
-    # printer.text("\n\n")
-
-    # printer.set(bold=True)
-    # printer.block_text("$$ Sobre tus deseos, dicen que Nietzsche dijo:")
-    # printer.text("\n")
-    # printer.set(bold=False)
-
-    # printer.block_text(state.nietzsche_advise)
-    # printer.text("\n\n")
-
-    # printer.set(bold=True)
-    # printer.block_text("$$ Rod Judkins para tu creatividad:")
-    # printer.text("\n")
-    # printer.set(bold=False)
-
-    # printer.block_text(state.creative_advice)
-    # printer.text("\n\n")
-
-    # printer.set(bold=True)
-    # printer.block_text("$$ Amor — lo que canta Luis Miguel entre líneas:")
-    # printer.text("\n")
-    # printer.set(bold=False)
-
-    # printer.block_text(state.luis_miguel_advise)
-
-    # printer.text("\n\n")
-    # printer.text("------------------------------------------------")
-    # printer.text("\n\n")
-
-    # printer.set(bold=True)
-    # printer.block_text("* Y HE AQUÍ TU RETRATO POR @gervasio_ciaravino:")
-    # printer.text("\n")
-    # printer.set(bold=False)
-
-    # printer.qr(
-    #     content=state.image_url,
-    #     size=8,
-    #     center=True,
-    # )
-
-    # printer.set(bold=True)
-    # printer.block_text("Tu lucky number:")
-    # printer.set(bold=False)
-    # printer.text("\n")
-    # printer.block_text(f"{state.lucky_number}")
-    # printer.text("\n\n")
-
-    # printer.set(bold=True)
-    # printer.block_text("Tu poema dos corazones:")
-    # printer.set(bold=False)
-    # printer.text("\n")
-    # printer.block_text(f"{state.selected_dc_poem}")
-    # printer.text("\n\n")
-
-    # printer.set(bold=True)
-    # printer.block_text("Tu galleta de la fortuna:")
-    # printer.set(bold=False)
-    # printer.text("\n")
-    # printer.block_text(f"{state.selected_fc_message}")
-    # printer.text("\n\n")
-    # printer.text("\n\n")
-
-    # printer.set(align="center")
-    # printer.set(font=1)
-    # printer.block_text(":) ticket no válido como factura.")
+    printer.set(align="center")
+    printer.set(font=1)
+    printer.block_text(":) ticket no válido como factura.")
 
     printer.cut()
     printer.close()
@@ -216,12 +151,11 @@ async def run(
     sensehat_dsp.start_color_cycle(image_name="down-arrow")
     printer = get_printer()
     if state.message_accepted:
-        pass
-        # main_pipeline(
-        #     printer=printer,
-        #     conf=conf["printer"],
-        #     state=state,
-        # )
+        main_pipeline(
+            printer=printer,
+            conf=conf["printer"],
+            state=state,
+        )
 
     else:
         rejection_pipeline(
