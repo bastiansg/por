@@ -2,7 +2,6 @@ from functools import lru_cache
 
 from por.conf import multi_agent
 from por.data import dc_poems, fc_messages
-from por.loaders import image_caption_loader
 
 from common.utils.yaml_data import load_yaml
 
@@ -38,7 +37,6 @@ def get_multi_agent_config() -> ConfigSchema:
                         start=1,
                     )
                 ],
-                "train_image_captions": image_caption_loader(),
             }
         )
     )

@@ -16,7 +16,7 @@ services:
             - por
 
     por-redis:
-        image: redis:8.0.2
+        image: redis:8.0.3
         container_name: por-redis
         volumes:
             - $PWD/resources/cache/redis:/data
