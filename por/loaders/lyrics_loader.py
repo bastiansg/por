@@ -24,7 +24,7 @@ class LyricsLoader(TextLoader):
         super().__init__(cache=cache)
         self.invalid_lyrics = invalid_lyrics
 
-    async def _load(self, source_path: str) -> list[Document]:
+    def _get_documents(self, source_path: str) -> list[Document]:
         return [
             Document(
                 text=data_item["lyrics"],

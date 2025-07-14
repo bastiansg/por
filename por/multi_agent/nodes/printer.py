@@ -153,19 +153,19 @@ async def run(
 
     sensehat_dsp.start_color_cycle(image_name="down-arrow")
     printer = get_printer()
-    if state.message_accepted:
-        main_pipeline(
-            printer=printer,
-            conf=conf["printer"],
-            state=state,
-        )
+    # if state.message_accepted:
+    #     main_pipeline(
+    #         printer=printer,
+    #         conf=conf["printer"],
+    #         state=state,
+    #     )
 
-    else:
-        rejection_pipeline(
-            printer=printer,
-            conf=conf["printer"],
-            state=state,
-        )
+    # else:
+    #     rejection_pipeline(
+    #         printer=printer,
+    #         conf=conf["printer"],
+    #         state=state,
+    #     )
 
     sensehat_dsp.stop()
     await asyncio.sleep(1)

@@ -48,3 +48,18 @@ app-stop:
 	docker stop por-app
 
 app-restart: app-stop app-up
+
+
+mcp-build:
+	docker compose build por-mcp
+
+mcp-run: mcp-build
+	docker compose  run --rm por-mcp
+
+mcp-up: mcp-build
+	docker compose up -d por-mcp
+
+mcp-stop:
+	docker stop por-mcp
+
+mcp-restart: mcp-stop mcp-up
