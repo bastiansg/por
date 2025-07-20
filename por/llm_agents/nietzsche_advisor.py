@@ -9,6 +9,7 @@ from llm_agents.meta.interfaces import LLMAgent
 
 
 class NietzscheAdvisorDeps(BaseModel):
+    collection: StrictStr
     psychological_profile: StrictStr
     question: StrictStr
     output_language: LanguageName
@@ -17,6 +18,11 @@ class NietzscheAdvisorDeps(BaseModel):
 class NietzscheAdvisorOutput(BaseModel):
     nietzsche_advise: StrictStr = Field(
         description="A profound, poetic, and incisive piece of Nietzschean advice.",
+        min_length=1,
+    )
+
+    relevant_chunk_ids: list[StrictStr] = Field(
+        description="List of chunk_id values used to generate the advice.",
         min_length=1,
     )
 

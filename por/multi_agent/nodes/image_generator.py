@@ -3,7 +3,7 @@ import base64
 import asyncio
 
 from PIL import Image
-from openai import OpenAI
+from openai import AsyncOpenAI
 from torchvision import transforms
 
 from multi_agents.graph import Node
@@ -37,8 +37,8 @@ async def run(
         clothing_description=state.image_description.clothing_description,
     )
 
-    client = OpenAI()
-    response = client.responses.create(
+    client = AsyncOpenAI()
+    response = await client.responses.create(
         model="gpt-4o-mini",
         input=image_generation_prompt,
         tools=[{"type": "image_generation"}],

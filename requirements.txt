@@ -9,11 +9,12 @@ torchaudio==2.7.1
 python-escpos==3.1
 sounddevice==0.5.2
 
-fastmcp==2.10.5
+# fastmcp==2.10.5
+mcp==1.12.0
 
 hailo_apps @ git+ssh://git@github.com/bastiansg/hailo-apps.git@v1.0.17
 sensehat_dsp @ git+https://github.com/bastiansg/sensehat-dsp.git@v1.0.20
 
 multi_agents @ git+https://github.com/aureka-team/agents.git@v1.1.8
-llm_agents @ git+ssh://git@github.com/aureka-team/llm-agents.git@v1.1.1
-rage @ git+ssh://git@github.com/bastiansg/rage.git@v1.0.22
+llm_agents @ git+ssh://git@github.com/aureka-team/llm-agents.git@v1.1.3
+rage @ git+ssh://git@github.com/aureka-team/rage2.git@v1.0.31

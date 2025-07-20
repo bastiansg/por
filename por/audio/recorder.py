@@ -66,5 +66,5 @@ class AudioRecorder:
             file,
             waveform,
             self.sample_rate,
-            format="wav",
+            format="mp3",
         )
