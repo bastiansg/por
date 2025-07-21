@@ -1,3 +1,4 @@
+from functools import lru_cache
 from qdrant_client import models
 from typing import Annotated, Literal
 
@@ -11,11 +12,15 @@ from common.logger import get_logger
 logger = get_logger(__name__)
 
 
-retriever = Retriever()
 mcp = FastMCP(
     name="Oracle MCP server",
     host="0.0.0.0",
 )
+
+
+@lru_cache(maxsize=1)
+def get_retriever() -> Retriever:
+    return Retriever()
 
 
 class TextChunk(BaseModel):
@@ -38,6 +43,16 @@ class TextChunk(BaseModel):
 
     next_chunk_id: StrictStr | None = Field(
         description="The chunk_id of the following text chunk within the same collection.",
+        default=None,
+    )
+
+    artist: StrictStr | None = Field(
+        description="The artist of the song if the text chunk contains lyrics.",
+        default=None,
+    )
+
+    title: StrictStr | None = Field(
+        description="The title of the song if the text chunk contains lyrics.",
         default=None,
     )
 
@@ -70,6 +85,7 @@ async def semantic_search(
 ) -> list[SemanticSearchResult]:
     """Perform a semantic search across all text chunks in the specified collection."""
 
+    retriever = get_retriever()
     results = await retriever.dense_search(
         collection_name=collection,
         query=query,
@@ -91,6 +107,8 @@ async def semantic_search(
             chunk_id=r.metadata["chunk_id"],
             previous_chunk_id=r.metadata["previous_chunk_id"],
             next_chunk_id=r.metadata["next_chunk_id"],
+            artist=r.metadata.get("artist"),
+            title=r.metadata.get("title"),
             score=r.score,
         )
         for r in results
@@ -128,6 +146,7 @@ def get_text_chunk(
         ]
     )
 
+    retriever = get_retriever()
     results, _ = retriever.scroll(
         collection_name=collection,
         limit=1,
@@ -144,6 +163,8 @@ def get_text_chunk(
         collection=collection,
         chunk_id=result.payload["metadata"]["chunk_id"],
         previous_chunk_id=result.payload["metadata"]["previous_chunk_id"],
+        artist=result.payload["metadata"].get("artist"),
+        title=result.payload["metadata"].get("title"),
         next_chunk_id=result.payload["metadata"]["next_chunk_id"],
     )
 

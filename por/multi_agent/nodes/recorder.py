@@ -50,7 +50,7 @@ async def run(
 
     audio_recorder.stop()
     tracker.stop()
-    await asyncio.sleep(2)
+    await asyncio.sleep(1)
     tracker.servos.set_angles(servo_angles=ServoAngles())
 
     audio_buffer = io.BytesIO()
