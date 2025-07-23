@@ -1,5 +1,3 @@
-import asyncio
-
 from escpos.printer import Usb
 from multi_agents.graph import Node
 from common.logger import get_logger
@@ -7,7 +5,7 @@ from common.logger import get_logger
 from por.utils.printer import get_printer
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
-from .utils import get_sensehat_dsp
+from .utils import get_sensehat_dsp, get_dsp_images
 
 
 logger = get_logger(__name__)
@@ -116,12 +114,12 @@ def main_pipeline(printer: Usb, conf: dict, state: StateSchema) -> None:
     printer.block_text(f"{state.lucky_number}")
     printer.text("\n\n")
 
-    printer.set(bold=True)
-    printer.block_text("Tu poema dos corazones:")
-    printer.set(bold=False)
-    printer.text("\n")
-    printer.block_text(f"{state.selected_dc_poem}")
-    printer.text("\n\n")
+    # printer.set(bold=True)
+    # printer.block_text("Tu poema dos corazones:")
+    # printer.set(bold=False)
+    # printer.text("\n")
+    # printer.block_text(f"{state.selected_dc_poem}")
+    # printer.text("\n\n")
 
     printer.set(bold=True)
     printer.block_text("Tu galleta de la fortuna:")
@@ -148,27 +146,27 @@ async def run(
 
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.stop()
-    await asyncio.sleep(1)
     sensehat_dsp.clear()
 
-    sensehat_dsp.start_color_cycle(image_name="down-arrow")
-    printer = get_printer()
-    # if state.message_accepted:
-    #     main_pipeline(
-    #         printer=printer,
-    #         conf=conf["printer"],
-    #         state=state,
-    #     )
+    dsp_images = get_dsp_images()
+    sensehat_dsp.start_color_cycle(dsp_images["down-arrow"])
 
-    # else:
-    #     rejection_pipeline(
-    #         printer=printer,
-    #         conf=conf["printer"],
-    #         state=state,
-    #     )
+    printer = get_printer()
+    if state.message_accepted:
+        main_pipeline(
+            printer=printer,
+            conf=conf["printer"],
+            state=state,
+        )
+
+    else:
+        rejection_pipeline(
+            printer=printer,
+            conf=conf["printer"],
+            state=state,
+        )
 
     sensehat_dsp.stop()
-    await asyncio.sleep(1)
     sensehat_dsp.clear()
 
     return {

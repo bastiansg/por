@@ -1,12 +1,10 @@
-import asyncio
-
 from multi_agents.graph import Node
 from common.logger import get_logger
 
 from por.llm_agents import Gatekeeper, GatekeeperDeps
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
-from .utils import get_sensehat_dsp
+from .utils import get_sensehat_dsp, get_dsp_images
 
 
 logger = get_logger(__name__)
@@ -19,20 +17,23 @@ async def run(
     logger.info("runing gatekeeper...")
     conf = config["configurable"]
 
-    gatekeeper = Gatekeeper()
-    gatekeeper_output = await gatekeeper.generate(
-        user_prompt=state.audio_transcription,
-        agent_deps=GatekeeperDeps(output_language=conf["output_language"]),
-    )
-
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.stop()
     sensehat_dsp.clear()
 
-    await asyncio.sleep(1)
-    sensehat_dsp.start_intermittent_image(
-        image_name="si-02",
+    dsp_images = get_dsp_images()
+    sensehat_dsp.start_image_sequence(
+        images=[
+            dsp_images["si-03a"],
+            dsp_images["si-03b"],
+        ],
         refresh_rate=0.5,
+    )
+
+    gatekeeper = Gatekeeper()
+    gatekeeper_output = await gatekeeper.generate(
+        user_prompt=state.audio_transcription,
+        agent_deps=GatekeeperDeps(output_language=conf["output_language"]),
     )
 
     return {

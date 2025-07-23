@@ -13,7 +13,7 @@ from hailo_apps.meta.interfaces import RotatorParams, ImageSize
 from por.audio import AudioRecorder
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
-from .utils import get_sensehat_dsp, get_button
+from .utils import get_sensehat_dsp, get_button, get_dsp_images
 
 
 logger = get_logger(__name__)
@@ -27,8 +27,15 @@ async def run(
     conf = config["configurable"]
 
     sensehat_dsp = get_sensehat_dsp()
-    sensehat_dsp.start_intermittent_image(
-        image_name="heart",
+    sensehat_dsp.stop()
+    sensehat_dsp.clear()
+
+    dsp_images = get_dsp_images()
+    sensehat_dsp.start_image_sequence(
+        images=[
+            dsp_images["heart-01"],
+            dsp_images["heart-02"],
+        ],
         refresh_rate=0.5,
     )
 
@@ -71,11 +78,13 @@ async def run(
     pil_image.save(image_path)
 
     sensehat_dsp.stop()
-    await asyncio.sleep(1)
     sensehat_dsp.clear()
 
-    sensehat_dsp.start_intermittent_image(
-        image_name="space-invader-2",
+    sensehat_dsp.start_image_sequence(
+        images=[
+            dsp_images["si-02a"],
+            dsp_images["si-02b"],
+        ],
         refresh_rate=0.5,
     )
 

@@ -1,6 +1,5 @@
 import io
 import base64
-import asyncio
 
 from PIL import Image
 from openai import AsyncOpenAI
@@ -9,8 +8,6 @@ from torchvision import transforms
 from multi_agents.graph import Node
 from common.logger import get_logger
 from por.multi_agent.schema import StateSchema, ConfigSchema
-
-from .utils import get_sensehat_dsp
 
 
 logger = get_logger(__name__)
@@ -22,13 +19,6 @@ async def run(
 ) -> StateSchema:
     logger.info("runing image_generator...")
     conf = config["configurable"]
-
-    sensehat_dsp = get_sensehat_dsp()
-    sensehat_dsp.stop()
-    sensehat_dsp.clear()
-
-    await asyncio.sleep(1)
-    sensehat_dsp.start_color_cycle(image_name="si-04")
 
     image_extension = conf["image_extension"]
     image_generation_prompt = conf["imge_generatin_prompt_template"].format(
