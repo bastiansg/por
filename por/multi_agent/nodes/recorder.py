@@ -1,5 +1,4 @@
 import io
-import asyncio
 
 from PIL import Image
 
@@ -57,8 +56,7 @@ async def run(
 
     audio_recorder.stop()
     tracker.stop()
-    await asyncio.sleep(1)
-    tracker.servos.set_angles(servo_angles=ServoAngles())
+    tracker.servos.set_angles(servo_angles=ServoAngles(y=40))
 
     audio_buffer = io.BytesIO()
     audio_recorder.save_to_file(file=audio_buffer)

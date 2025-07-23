@@ -2,10 +2,9 @@ from escpos.printer import Usb
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from por.utils.printer import get_printer
 from por.multi_agent.schema import StateSchema, ConfigSchema
 
-from .utils import get_sensehat_dsp, get_dsp_images
+from .utils import get_sensehat_dsp, get_dsp_images, get_printer
 
 
 logger = get_logger(__name__)
