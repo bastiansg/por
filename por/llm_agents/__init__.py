@@ -26,5 +26,4 @@ from .music_advisor import (  # noqa
     MusicAdvisor,
     MusicAdvisorDeps,
     MusicAdvisorOutput,
-    Song,
 )

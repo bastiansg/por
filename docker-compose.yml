@@ -52,6 +52,20 @@ services:
         networks:
             - por
 
+    por-mcp:
+        image: por-mcp
+        container_name: por-mcp
+        build:
+            context: .
+            dockerfile: ./docker/mcp/Dockerfile
+        volumes:
+            - $PWD/resources:/resources
+        env_file:
+            - .env
+        restart: unless-stopped
+        networks:
+            - por
+
 networks:
     por:
         name: por

@@ -1,4 +1,4 @@
-import replicate
+from openai import AsyncOpenAI
 
 from multi_agents.graph import Node
 from common.logger import get_logger
@@ -14,21 +14,18 @@ async def run(
 ) -> StateSchema:
     logger.info("runing audio_transcriber...")
 
-    output = await replicate.async_run(
-        "vaibhavs10/incredibly-fast-whisper:3ab86df6c8f54c11309d4d1f930ac292bad43ace52d10c80d87eb258b3c9f79c",
-        input={
-            "task": "transcribe",
-            "audio": state.audio_buffer,
-            "language": "None",
-            "timestamp": "chunk",
-            "batch_size": 64,
-            "diarise_audio": False,
-        },
+    audio_buffer = state.audio_buffer
+    audio_buffer.name = "audio.mp3"
+
+    client = AsyncOpenAI()
+    transcription = await client.audio.transcriptions.create(
+        model="gpt-4o-transcribe",
+        file=state.audio_buffer,
     )
 
     return {
         "audio_buffer": None,
-        "audio_transcription": output["text"],
+        "audio_transcription": transcription.text,
     }
 
 

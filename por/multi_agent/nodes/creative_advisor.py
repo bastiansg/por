@@ -1,11 +1,11 @@
 from multi_agents.graph import Node
 from common.logger import get_logger
+from pydantic_ai.mcp import MCPServerStreamableHTTP
 
+from por.mcp.server import get_text_chunk
+from por.mcp.utils import process_tool_call
 from por.multi_agent.schema import StateSchema, ConfigSchema
 from por.llm_agents import CreativeAdvisor, CreativeAdvisorDeps
-
-
-from .utils import get_retriever
 
 
 logger = get_logger(__name__)
@@ -18,30 +18,39 @@ async def run(
     logger.info("runing creative_advisor...")
     conf = config["configurable"]
 
-    retriever = get_retriever()
-    question = state.audio_transcription
-
-    retriever_items = await retriever.dense_search(
-        collection_name="el-arte-del-pensamiento-creativo",
-        query=question,
-        k=1,
+    collection = "el-arte-del-pensamiento-creativo"
+    mcp = MCPServerStreamableHTTP(
+        url="http://por-mcp:8000/mcp",
+        process_tool_call=process_tool_call,
     )
 
-    creative_advisor = CreativeAdvisor()
-    creative_capsule = retriever_items[0].text
-    creative_advisor_output = await creative_advisor.generate(
-        user_prompt="Provide your energetic and creatively actionable insights.",
-        agent_deps=CreativeAdvisorDeps(
-            psychological_profile=state.psychological_profile,
-            creative_capsule=creative_capsule,
-            question=question,
-            output_language=conf["output_language"],
-        ),
+    creative_advisor = CreativeAdvisor(mcp_servers=[mcp])
+    async with creative_advisor.agent.run_mcp_servers():
+        creative_advisor_output = await creative_advisor.generate(
+            user_prompt="Provide your energetic and creatively actionable insights.",
+            agent_deps=CreativeAdvisorDeps(
+                collection=collection,
+                psychological_profile=state.psychological_profile,
+                question=state.audio_transcription,
+                output_language=conf["output_language"],
+            ),
+        )
+
+    creative_text_chunks = (
+        get_text_chunk(
+            collection=collection,
+            chunk_id=chunk_id,
+        )
+        for chunk_id in creative_advisor_output.relevant_chunk_ids
     )
+
+    creative_text_chunks = [
+        ctc.text for ctc in creative_text_chunks if ctc is not None
+    ]
 
     return {
-        "creative_capsule": creative_capsule,
         "creative_advice": creative_advisor_output.creative_advice,
+        "creative_text_chunks": creative_text_chunks,
     }
 
 

@@ -1,17 +1,15 @@
 from gpiozero import Button
 from functools import lru_cache
+
 from common.logger import get_logger
 
-from rage.retriever import Retriever
+from sensehat_dsp.display import Image
 from sensehat_dsp.display import Display
+
+from por.dsp_images import dsp_images
 
 
 logger = get_logger(__name__)
-
-
-@lru_cache(maxsize=1)
-def get_retriever() -> Retriever:
-    return Retriever()
 
 
 @lru_cache(maxsize=1)
@@ -26,3 +24,8 @@ def get_button() -> Button:
         hold_time=0.001,
         bounce_time=0.001,
     )
+
+
+@lru_cache(maxsize=1)
+def get_dsp_images():
+    return {dsp_image["name"]: Image(**dsp_image) for dsp_image in dsp_images}

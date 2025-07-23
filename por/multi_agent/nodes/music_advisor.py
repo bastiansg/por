@@ -1,11 +1,11 @@
 from multi_agents.graph import Node
 from common.logger import get_logger
+from pydantic_ai.mcp import MCPServerStreamableHTTP
 
-from por.llm_agents import MusicAdvisor, MusicAdvisorDeps, Song
+from por.mcp.server import get_text_chunk
+from por.mcp.utils import process_tool_call
+from por.llm_agents import MusicAdvisor, MusicAdvisorDeps
 from por.multi_agent.schema import StateSchema, ConfigSchema
-
-
-from .utils import get_retriever
 
 
 logger = get_logger(__name__)
@@ -18,35 +18,36 @@ async def run(
     logger.info("runing music_advisor...")
     conf = config["configurable"]
 
-    retriever = get_retriever()
-    question = state.audio_transcription
-
-    retriever_items = await retriever.dense_search(
-        collection_name="lyrics",
-        query=question,
-        k=1,
+    collection = "lyrics"
+    mcp = MCPServerStreamableHTTP(
+        url="http://por-mcp:8000/mcp",
+        process_tool_call=process_tool_call,
     )
 
-    selected_song = Song(
-        title=retriever_items[0].metadata["title"],
-        artist=retriever_items[0].metadata["artist"],
-        lyrics=retriever_items[0].text,
-    )
+    music_advisor = MusicAdvisor(mcp_servers=[mcp])
+    async with music_advisor.agent.run_mcp_servers():
+        music_advisor_output = await music_advisor.generate(
+            user_prompt="Provide your pure, poetic, emotionally saturated lyrics.",
+            agent_deps=MusicAdvisorDeps(
+                collection=collection,
+                psychological_profile=state.psychological_profile,
+                question=state.audio_transcription,
+                output_language=conf["output_language"],
+            ),
+        )
 
-    music_advisor = MusicAdvisor()
-    music_advisor_output = await music_advisor.generate(
-        user_prompt="Provide your pure, poetic, emotionally saturated lyrics.",
-        agent_deps=MusicAdvisorDeps(
-            psychological_profile=state.psychological_profile,
-            song=selected_song,
-            question=question,
-            output_language=conf["output_language"],
-        ),
+    relevant_chunk = get_text_chunk(
+        collection=collection,
+        chunk_id=music_advisor_output.relevant_chunk_id,
     )
 
     return {
-        "selected_song": selected_song,
         "music_advice": music_advisor_output.music_advice,
+        "selected_song": {
+            "title": relevant_chunk.title,
+            "artist": relevant_chunk.artist,
+            "lyrics": relevant_chunk.text,
+        },
     }
 
 

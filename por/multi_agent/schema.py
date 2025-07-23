@@ -18,7 +18,6 @@ from pydantic import (
     field_validator,
 )
 
-from por.llm_agents.music_advisor import Song
 from por.llm_agents.image_describer import ImageDescriberOutput
 
 
@@ -66,6 +65,12 @@ class ConfigSchema(BaseModel):
         return v
 
 
+class SelectedSong(BaseModel):
+    title: StrictStr
+    artist: StrictStr
+    lyrics: StrictStr
+
+
 class StateSchema(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
@@ -77,12 +82,12 @@ class StateSchema(BaseModel):
     rejection_reason: StrictStr | None = None
     image_description: ImageDescriberOutput | None = None
     psychological_profile: StrictStr | None = None
-    nietzsche_text_chunks: list[StrictStr] = []
     nietzsche_advise: StrictStr | None = None
-    selected_song: Song | None = None
-    music_advice: StrictStr | None = None
-    creative_capsule: StrictStr | None = None
+    nietzsche_text_chunks: list[StrictStr] = []
     creative_advice: StrictStr | None = None
+    creative_text_chunks: list[StrictStr] = []
+    music_advice: StrictStr | None = None
+    selected_song: SelectedSong | None = None
     selected_dc_poem: StrictStr | None = None
     selected_fc_message: StrictStr | None = None
     image_generation_prompt: StrictStr | None = None

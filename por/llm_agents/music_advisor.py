@@ -1,3 +1,4 @@
+from pydantic_ai.mcp import MCPServer
 from pydantic import BaseModel, StrictStr, Field
 from pydantic_extra_types.language_code import LanguageName
 
@@ -7,15 +8,9 @@ from por.conf import llm_agents
 from llm_agents.meta.interfaces import LLMAgent
 
 
-class Song(BaseModel):
-    title: StrictStr
-    artist: StrictStr
-    lyrics: StrictStr
-
-
 class MusicAdvisorDeps(BaseModel):
+    collection: StrictStr
     psychological_profile: StrictStr
-    song: Song
     question: StrictStr
     output_language: LanguageName
 
@@ -26,11 +21,17 @@ class MusicAdvisorOutput(BaseModel):
         min_length=1,
     )
 
+    relevant_chunk_id: StrictStr = Field(
+        description="The `chunk_id` of the chunk used as inspiration for the lyrics.",
+        min_length=1,
+    )
+
 
 class MusicAdvisor(LLMAgent[MusicAdvisorDeps, MusicAdvisorOutput]):
     def __init__(
         self,
         conf_path=f"{llm_agents.__path__[0]}/music-advisor.yml",
+        mcp_servers: list[MCPServer] = [],
         max_concurrency: int = 10,
         cache: RedisCache = None,
     ):
@@ -38,6 +39,7 @@ class MusicAdvisor(LLMAgent[MusicAdvisorDeps, MusicAdvisorOutput]):
             conf_path=conf_path,
             deps_type=MusicAdvisorDeps,
             output_type=MusicAdvisorOutput,
+            mcp_servers=mcp_servers,
             retries=3,
             max_concurrency=max_concurrency,
             cache=cache,
