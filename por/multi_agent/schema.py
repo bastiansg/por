@@ -45,19 +45,17 @@ class ConfigSchema(BaseModel):
     servo_angles: ServoAngles
     rotator_params: RotatorParams
     image_size: ImageSize
-    image_margin: NonNegativeInt
     image_description_guidelines: StrictStr
     history_length: NonNegativeInt
     face_detector_min_score: NonNegativeFloat
     images_path: StrictStr
     image_extension: StrictStr
-    printer_name: StrictStr
     idle_angles: ServoAngles
     output_language: LanguageName
     dc_poems: list[DCPoem]
     fc_messages: list[FCMessage]
     printer: Printer
-    imge_generatin_prompt_template: StrictStr
+    image_generation_prompt_template: StrictStr
 
     @field_validator("images_path", mode="after")
     def images_path_validator(cls, v: str) -> str:

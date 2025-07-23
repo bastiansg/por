@@ -21,7 +21,7 @@ async def run(
     conf = config["configurable"]
 
     image_extension = conf["image_extension"]
-    image_generation_prompt = conf["imge_generatin_prompt_template"].format(
+    image_generation_prompt = conf["image_generation_prompt_template"].format(
         psychological_profile=state.psychological_profile,
         physical_description=state.image_description.physical_description,
         clothing_description=state.image_description.clothing_description,

@@ -15,16 +15,11 @@ image_size:
     width: 1024
     height: 1024
 
-image_margin: 20
-image_description_guidelines: |-
-    Analyze primary subjects present in the provided image and provide a detailed physical and clothing description.
-
 history_length: 90
 face_detector_min_score: 0.0
 images_path: /resources/generated-images
 image_extension: jpg
 
-printer_name: EPSON_TM-T20IIIL
 idle_angles:
     x: 103
     y: 20
@@ -34,7 +29,10 @@ printer:
     por_logo_path: "/resources/ticket-images/por-logo.jpeg"
     max_text_len: 48
 
-imge_generatin_prompt_template: |-
+image_description_guidelines: |-
+    Analyze primary subjects present in the provided image and provide a detailed physical and clothing description.
+
+image_generation_prompt_template: |-
     You are a **Visionary Line Oracle**, an interpreter of human essence through surreal, symbolic contour sketches.
     You work in the tradition of mystical line artists—Jean Cocteau, Egon Schiele, Hilma af Klint—who saw truth in the curve of a neck,
     the tremble of white space, the whisper of gesture.
