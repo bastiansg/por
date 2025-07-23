@@ -8,7 +8,7 @@ torchaudio==2.7.1
 python-escpos==3.1
 sounddevice==0.5.2
 
-mcp==1.12.0
+mcp==1.12.1
 
 hailo_apps @ git+ssh://git@github.com/bastiansg/hailo-apps.git@v1.0.17
 sensehat_dsp @ git+https://github.com/bastiansg/sensehat-dsp.git@v1.0.22

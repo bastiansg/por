@@ -3,15 +3,6 @@ FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv_source
 
 FROM debian:bookworm-slim
 
-ENV UV_SYSTEM_PYTHON=1
-ENV HAILORT_LOGGER_PATH=NONE
-ENV FAST_EMBED_SPARSE_CACHE=/resources/cache/fes
-ENV DENSE_EMBED_DOC_CACHE_PATH=/resources/cache/embeddings/documents
-ENV DENSE_EMBED_QUERY_CACHE_PATH=/resources/cache/embeddings/queries
-
-ENV REDIS_HOST=por-redis
-ENV QDRANT_HOST=por-qdrant
-
 RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates gpg \
     && curl -fsSL https://archive.raspberrypi.org/debian/raspberrypi.gpg.key | gpg --dearmor -o /usr/share/keyrings/raspberrypi-archive-keyring.gpg \
     && echo "deb [signed-by=/usr/share/keyrings/raspberrypi-archive-keyring.gpg] http://archive.raspberrypi.org/debian bookworm main" > /etc/apt/sources.list.d/raspi.list \
@@ -43,6 +34,7 @@ RUN rm /usr/lib/python${PYTHON_VERSION}/EXTERNALLY-MANAGED
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1 \
     && update-alternatives --install /usr/bin/python3 python3 /usr/bin/python${PYTHON_VERSION} 1
 
+ENV UV_SYSTEM_PYTHON=1
 COPY --from=uv_source /uv /uvx /bin/
 
 WORKDIR /tmp
@@ -55,3 +47,11 @@ RUN --mount=type=ssh \
 
 RUN rm -rf /tmp/*
 WORKDIR /root
+
+ENV HAILORT_LOGGER_PATH=NONE
+ENV FAST_EMBED_SPARSE_CACHE=/resources/cache/fes
+ENV DENSE_EMBED_DOC_CACHE_PATH=/resources/cache/embeddings/documents
+ENV DENSE_EMBED_QUERY_CACHE_PATH=/resources/cache/embeddings/queries
+
+ENV REDIS_HOST=por-redis
+ENV QDRANT_HOST=por-qdrant

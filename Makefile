@@ -21,6 +21,9 @@ redis-stop:
 redis-flush:
 	docker compose exec por-redis redis-cli FLUSHALL
 
+redis-restart: redis-stop
+	docker compose up -d por-redis
+
 
 qdrant-start:
 	docker compose up -d por-qdrant
@@ -35,7 +38,7 @@ qdrant-flush:
 qdrant-restart: qdrant-stop qdrant-start
 
 
-app-build:
+app-build: core-build
 	docker compose build por-app
 
 app-run: app-build
