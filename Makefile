@@ -31,9 +31,10 @@ qdrant-start:
 qdrant-stop:
 	docker compose stop por-qdrant
 
-qdrant-flush:
+qdrant-flush: qdrant-stop
 	sudo rm -r ./resources/db/qdrant
 	$(info *** WARNING you are deleting all data from qdrant ***)
+	docker compose up -d por-qdrant
 
 qdrant-restart: qdrant-stop qdrant-start
 
