@@ -1,14 +1,21 @@
+import os
 import uuid
+import logfire
 import asyncio
-
 
 from rich.pretty import pprint
 from common.logger import get_logger
 from common.utils.path import create_path
 from common.utils.json_data import save_json
 
-from por.multi_agent.schema import StateSchema
-from por.multi_agent import get_multi_agent, get_multi_agent_config
+from por.multi_agent import get_multi_agent, get_multi_agent_context
+
+
+if os.getenv("LOGFIRE_TOKEN") is not None:
+    logfire.configure(service_name="por")
+    logfire.instrument_pydantic_ai()
+    logfire.instrument_mcp()
+    logfire.instrument_openai()
 
 
 logger = get_logger(__name__)
@@ -20,7 +27,7 @@ create_path(STORE_PATH)
 
 async def main() -> None:
     multi_agent = get_multi_agent()
-    multi_agent_config = get_multi_agent_config()
+    context = get_multi_agent_context()
 
     while True:
         image_id = uuid.uuid4().hex
@@ -28,11 +35,11 @@ async def main() -> None:
             input_state={
                 "image_id": image_id,
             },
-            config=multi_agent_config,
+            context=context,
             thread_id=image_id,
         )
 
-        state = StateSchema(**state)
+        assert state is not None
         state = state.model_dump()
         pprint(state)
 

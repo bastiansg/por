@@ -35,7 +35,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     client = AsyncOpenAI()
     response = await client.responses.create(
-        model="gpt-4o-mini",
+        model="gpt-4o",
         input=image_generation_prompt,
         tools=[{"type": "image_generation"}],
     )

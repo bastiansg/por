@@ -154,7 +154,7 @@ def main_pipeline(
 
     printer.set(align="center")
     printer.set(font=1)  # type: ignore
-    printer.block_text(":) ticket no válido como factura.")
+    printer.block_text("Ticket no válido como factura :)")
 
     printer.cut()
     printer.close()
