@@ -1,4 +1,4 @@
-ARG UV_VERSION=0.7.22
+ARG UV_VERSION=0.8.22
 FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv_source
 
 FROM debian:bookworm-slim
@@ -39,11 +39,10 @@ COPY --from=uv_source /uv /uvx /bin/
 
 WORKDIR /tmp
 
+COPY uv.toml .
 COPY ./requirements.txt requirements.txt
-RUN --mount=type=ssh \
-    mkdir -p -m 0600 ~/.ssh \
-    && ssh-keyscan github.com >> ~/.ssh/known_hosts \
-    && uv pip install -r requirements.txt --system
+RUN --mount=type=cache,target=/root/.cache \
+    uv pip install -r requirements.txt
 
 RUN rm -rf /tmp/*
 WORKDIR /root
