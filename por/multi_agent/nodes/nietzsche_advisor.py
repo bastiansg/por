@@ -1,22 +1,23 @@
+from typing import Any
+from langgraph.runtime import get_runtime
+
 from multi_agents.graph import Node
 from common.logger import get_logger
 from pydantic_ai.mcp import MCPServerStreamableHTTP
 
-from por.mcp.server import get_text_chunk
+from por.mcp.server import _get_text_chunk
 from por.mcp.utils import process_tool_call
-from por.multi_agent.schema import StateSchema, ConfigSchema
+from por.multi_agent.schema import StateSchema, ContextSchema
 from por.llm_agents import NietzscheAdvisor, NietzscheAdvisorDeps
 
 
 logger = get_logger(__name__)
 
 
-async def run(
-    state: StateSchema,
-    config: ConfigSchema,
-) -> StateSchema:
+async def run(state: StateSchema) -> dict[str, Any]:
     logger.info("runing nietzsche_advisor...")
-    conf = config["configurable"]
+    runtime = get_runtime(ContextSchema)
+    runtime_context = runtime.context
 
     collection = "nietzsche"
     mcp = MCPServerStreamableHTTP(
@@ -24,28 +25,34 @@ async def run(
         process_tool_call=process_tool_call,
     )
 
+    psychological_profile = state.psychological_profile
+    audio_transcription = state.audio_transcription
+
+    assert psychological_profile is not None
+    assert audio_transcription is not None
+
     nietzsche_advisor = NietzscheAdvisor(mcp_servers=[mcp])
-    async with nietzsche_advisor.agent.run_mcp_servers():
+    async with nietzsche_advisor.agent:
         nietzsche_advisor_output = await nietzsche_advisor.generate(
             user_prompt="Deliver piercing, symbolic, and transformative insight.",
             agent_deps=NietzscheAdvisorDeps(
                 collection=collection,
-                psychological_profile=state.psychological_profile,
-                question=state.audio_transcription,
-                output_language=conf["output_language"],
+                psychological_profile=psychological_profile,
+                question=audio_transcription,
+                output_language=runtime_context.output_language,
             ),
         )
 
-    nietzsche_text_chunks = (
-        get_text_chunk(
-            collection=collection,
-            chunk_id=chunk_id,
-        )
-        for chunk_id in nietzsche_advisor_output.relevant_chunk_ids
+    relevant_chunk_ids = nietzsche_advisor_output.relevant_chunk_ids
+    logger.info(f"relevant_chunk_ids: {len(relevant_chunk_ids)}")
+    chunk_records = (
+        _get_text_chunk(chunk_id=chunk_id) for chunk_id in relevant_chunk_ids
     )
 
     nietzsche_text_chunks = [
-        ntc.text for ntc in nietzsche_text_chunks if ntc is not None
+        chunk_record.payload["page_content"]
+        for chunk_record in chunk_records
+        if chunk_record is not None and chunk_record.payload is not None
     ]
 
     return {

@@ -1,8 +1,11 @@
+from typing import Any
+from pydantic_extra_types.language_code import LanguageName
+
 from multi_agents.graph import Node
 from common.logger import get_logger
 
+from por.multi_agent.schema import StateSchema
 from por.llm_agents import PsychologicalDescriber, PsychologicalDescriberDeps
-from por.multi_agent.schema import StateSchema, ConfigSchema
 
 from .utils import get_sensehat_dsp, get_dsp_images
 
@@ -10,12 +13,8 @@ from .utils import get_sensehat_dsp, get_dsp_images
 logger = get_logger(__name__)
 
 
-async def run(
-    state: StateSchema,
-    config: ConfigSchema,
-) -> StateSchema:
+async def run(state: StateSchema) -> dict[str, Any]:
     logger.info("runing psychological_describer...")
-    # conf = config["configurable"]
 
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.stop()
@@ -30,14 +29,20 @@ async def run(
         refresh_rate=0.5,
     )
 
+    image_description = state.image_description
+    assert image_description is not None
+
+    question = state.audio_transcription
+    assert question is not None
+
     psychological_describer_agent = PsychologicalDescriber()
     psychological_describer_output = await psychological_describer_agent.generate(
         user_prompt="Provide a psychological profile based on the provided information.",
         agent_deps=PsychologicalDescriberDeps(
-            physical_description=state.image_description.physical_description,
-            clothing_description=state.image_description.clothing_description,
-            question=state.audio_transcription,
-            output_language="English",
+            physical_description=image_description.physical_description,
+            clothing_description=image_description.clothing_description,
+            question=question,
+            output_language=LanguageName("English"),
         ),
     )
 

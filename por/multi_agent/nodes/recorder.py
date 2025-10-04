@@ -1,16 +1,17 @@
 import io
 
 from PIL import Image
+from typing import Any
+from langgraph.runtime import get_runtime
 
 from multi_agents.graph import Node
 from common.logger import get_logger
 
 from hailo_apps.apps import FaceTracker
 from hailo_apps.servos import ServoAngles
-from hailo_apps.meta.interfaces import RotatorParams, ImageSize
 
 from por.audio import AudioRecorder
-from por.multi_agent.schema import StateSchema, ConfigSchema
+from por.multi_agent.schema import StateSchema, ContextSchema
 
 from .utils import get_sensehat_dsp, get_button, get_dsp_images
 
@@ -18,12 +19,10 @@ from .utils import get_sensehat_dsp, get_button, get_dsp_images
 logger = get_logger(__name__)
 
 
-async def run(
-    state: StateSchema,
-    config: ConfigSchema,
-) -> StateSchema:
+async def run(state: StateSchema) -> dict[str, Any]:
     logger.info("runing recorder...")
-    conf = config["configurable"]
+    runtime = get_runtime(ContextSchema)
+    runtime_context = runtime.context
 
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.stop()
@@ -39,13 +38,13 @@ async def run(
     )
 
     audio_recorder = AudioRecorder()
-    history_length = conf["history_length"]
+    history_length = runtime_context.history_length
     tracker = FaceTracker(
-        init_servo_angles=ServoAngles(**conf["servo_angles"]),
-        rotator_params=RotatorParams(**conf["rotator_params"]),
-        image_size=ImageSize(**conf["image_size"]),
+        init_servo_angles=runtime_context.servo_angles,
+        rotator_params=runtime_context.rotator_params,
+        image_size=runtime_context.image_size,
         history_length=history_length,
-        min_score=conf["face_detector_min_score"],
+        min_score=runtime_context.face_detector_min_score,
     )
 
     audio_recorder.start()
@@ -72,7 +71,7 @@ async def run(
     image_id = state.image_id
 
     pil_image = Image.fromarray(last_history_item.np_image)
-    image_path = f"{conf['images_path']}/{image_id}.{conf['image_extension']}"
+    image_path = f"{runtime_context.images_path}/{image_id}.{runtime_context.image_extension}"
     pil_image.save(image_path)
 
     sensehat_dsp.stop()
