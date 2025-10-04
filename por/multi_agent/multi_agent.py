@@ -28,7 +28,7 @@ from .edges import (
     printer_edges,
 )
 
-from .schema import StateSchema, ConfigSchema
+from .schema import StateSchema, ContextSchema
 
 
 def get_multi_agent() -> MultiAgentGraph:
@@ -62,7 +62,7 @@ def get_multi_agent() -> MultiAgentGraph:
 
     multi_agent = MultiAgentGraph(
         state_schema=StateSchema,
-        config_schema=ConfigSchema,
+        context_schema=ContextSchema,
         nodes=nodes,
         edges=edges,
         with_memory=False,

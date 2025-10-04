@@ -41,7 +41,7 @@ class Printer(BaseModel):
     max_text_len: PositiveInt
 
 
-class ConfigSchema(BaseModel):
+class ContextSchema(BaseModel):
     servo_angles: ServoAngles
     rotator_params: RotatorParams
     image_size: ImageSize

@@ -1,8 +1,11 @@
+from typing import Any
+from langgraph.runtime import get_runtime
+
 from escpos.printer import Usb
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from por.multi_agent.schema import StateSchema, ConfigSchema
+from por.multi_agent.schema import StateSchema, ContextSchema
 
 from .utils import get_sensehat_dsp, get_dsp_images, get_printer
 
@@ -10,15 +13,19 @@ from .utils import get_sensehat_dsp, get_dsp_images, get_printer
 logger = get_logger(__name__)
 
 
-def head_pipeline(printer: Usb, conf: dict, state: StateSchema) -> None:
-    printer.image(img_source=conf["por_logo_path"])
+def head_pipeline(
+    printer: Usb,
+    por_logo_path: str,
+    state: StateSchema,
+) -> None:
+    printer.image(img_source=por_logo_path)
     printer.text("\n\n")
     printer.text("\n\n")
 
     printer.set(
         bold=True,
         align="center",
-        font=0,
+        font=0,  # type: ignore
         double_width=False,
         double_height=False,
     )
@@ -42,8 +49,16 @@ def head_pipeline(printer: Usb, conf: dict, state: StateSchema) -> None:
     printer.text("\n\n")
 
 
-def rejection_pipeline(printer: Usb, conf: dict, state: StateSchema) -> None:
-    head_pipeline(printer=printer, conf=conf, state=state)
+def rejection_pipeline(
+    printer: Usb,
+    por_logo_path: str,
+    state: StateSchema,
+) -> None:
+    head_pipeline(
+        printer=printer,
+        por_logo_path=por_logo_path,
+        state=state,
+    )
 
     printer.set(bold=True, align="center")
     printer.block_text("*** El Oráculo ha rechazado tu consulta ***")
@@ -60,8 +75,16 @@ def rejection_pipeline(printer: Usb, conf: dict, state: StateSchema) -> None:
     printer.close()
 
 
-def main_pipeline(printer: Usb, conf: dict, state: StateSchema) -> None:
-    head_pipeline(printer=printer, conf=conf, state=state)
+def main_pipeline(
+    printer: Usb,
+    por_logo_path: str,
+    state: StateSchema,
+) -> None:
+    head_pipeline(
+        printer=printer,
+        por_logo_path=por_logo_path,
+        state=state,
+    )
 
     printer.set(bold=True)
     printer.block_text("* EL ORÁCULO HA DELIBERADO:")
@@ -84,10 +107,11 @@ def main_pipeline(printer: Usb, conf: dict, state: StateSchema) -> None:
     printer.block_text(state.creative_advice)
     printer.text("\n\n")
 
+    selected_song = state.selected_song
+    assert selected_song is not None
+
     printer.set(bold=True)
-    printer.block_text(
-        f"$$ Lo que canta {state.selected_song.artist} para vos:"
-    )
+    printer.block_text(f"$$ Lo que canta {selected_song.artist} para vos:")
     printer.text("\n")
     printer.set(bold=False)
 
@@ -129,19 +153,17 @@ def main_pipeline(printer: Usb, conf: dict, state: StateSchema) -> None:
     printer.text("\n\n")
 
     printer.set(align="center")
-    printer.set(font=1)
+    printer.set(font=1)  # type: ignore
     printer.block_text(":) ticket no válido como factura.")
 
     printer.cut()
     printer.close()
 
 
-async def run(
-    state: StateSchema,
-    config: ConfigSchema,
-) -> StateSchema:
+async def run(state: StateSchema) -> dict[str, Any]:
     logger.info("runing printer...")
-    conf = config["configurable"]
+    runtime = get_runtime(ContextSchema)
+    runtime_context = runtime.context
 
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.stop()
@@ -151,17 +173,18 @@ async def run(
     sensehat_dsp.start_color_cycle(dsp_images["down-arrow"])
 
     printer = get_printer()
+    por_logo_path = runtime_context.printer.por_logo_path
     if state.message_accepted:
         main_pipeline(
             printer=printer,
-            conf=conf["printer"],
+            por_logo_path=por_logo_path,
             state=state,
         )
 
     else:
         rejection_pipeline(
             printer=printer,
-            conf=conf["printer"],
+            por_logo_path=por_logo_path,
             state=state,
         )
 

@@ -1,26 +1,32 @@
+from typing import Annotated
 from functools import lru_cache
-from qdrant_client import models
-from typing import Annotated, Literal
 
-from mcp.server.fastmcp import FastMCP
-from pydantic import BaseModel, StrictStr, NonNegativeFloat, Field
+from qdrant_client import models
+from qdrant_client.models import Record
+
+from fastmcp.server import FastMCP
+from pydantic import BaseModel, StrictStr, Field
+
+from common.logger import get_logger
 
 from rage.retriever import Retriever
-from common.logger import get_logger
+from rage.utils.embeddings import get_openai_embeddings
+
+from .utils import ToolCallLimitMiddleware
 
 
 logger = get_logger(__name__)
 
 
+SEARCH_TOP_K = 5
+SEARCH_SCORE_THRESHOLD = 0.3
+
+
+retriever = Retriever(dense_embeddings=get_openai_embeddings())
 mcp = FastMCP(
     name="Oracle MCP server",
     host="0.0.0.0",
 )
-
-
-@lru_cache(maxsize=1)
-def get_retriever() -> Retriever:
-    return Retriever()
 
 
 class TextChunk(BaseModel):
@@ -28,8 +34,14 @@ class TextChunk(BaseModel):
         description="The actual textual content of the chunk."
     )
 
-    collection: StrictStr = Field(
-        description="The name of the collection to which this text chunk belongs."
+    artist: StrictStr | None = Field(
+        description="The artist of the song if the text chunk contains lyrics.",
+        default=None,
+    )
+
+    title: StrictStr | None = Field(
+        description="The title of the song if the text chunk contains lyrics.",
+        default=None,
     )
 
     chunk_id: StrictStr = Field(
@@ -46,97 +58,48 @@ class TextChunk(BaseModel):
         default=None,
     )
 
-    artist: StrictStr | None = Field(
-        description="The artist of the song if the text chunk contains lyrics.",
-        default=None,
-    )
 
-    title: StrictStr | None = Field(
-        description="The title of the song if the text chunk contains lyrics.",
-        default=None,
-    )
+@lru_cache(maxsize=1)
+def get_collections() -> list[str]:
+    collections = retriever.qadrant_client.get_collections()
+    return [c.name for c in collections.collections]
 
 
-class SemanticSearchResult(TextChunk):
-    score: NonNegativeFloat = Field(
-        description="The similarity score between the query and this chunk."
-    )
-
-
-@mcp.tool(
-    name="semantic_search",
-    description="Perform a semantic search across all text chunks in the specified collection.",
-)
-async def semantic_search(
-    collection: Annotated[
-        Literal[
-            "nietzsche",
-            "el-arte-del-pensamiento-creativo",
-            "lyrics",
-        ],
-        Field(description="The collection of documents to search within."),
-    ],
-    query: Annotated[
-        str,
-        Field(
-            description="The natural language query to search for relevant text chunks."
-        ),
-    ],
-) -> list[SemanticSearchResult]:
-    """Perform a semantic search across all text chunks in the specified collection."""
-
-    retriever = get_retriever()
+async def _search(
+    query: str,
+    collection_name: str,
+    search_filter: models.Filter | None = None,
+) -> list[TextChunk]:
     results = await retriever.dense_search(
-        collection_name=collection,
+        collection_name=collection_name,
         query=query,
-        k=5,
+        k=SEARCH_TOP_K,
+        score_threshold=SEARCH_SCORE_THRESHOLD,
+        search_filter=search_filter,
     )
 
     results = sorted(
         results,
-        key=lambda r: (
-            r.metadata["document_index"],
-            r.metadata["chunk_index"],
+        key=lambda x: (
+            x.metadata["document_index"],
+            x.metadata["chunk_index"],
         ),
     )
 
     return [
-        SemanticSearchResult(
+        TextChunk(
             text=r.text,
-            collection=collection,
+            artist=r.metadata.get("artist"),
+            title=r.metadata.get("title"),
             chunk_id=r.metadata["chunk_id"],
             previous_chunk_id=r.metadata["previous_chunk_id"],
             next_chunk_id=r.metadata["next_chunk_id"],
-            artist=r.metadata.get("artist"),
-            title=r.metadata.get("title"),
-            score=r.score,
         )
         for r in results
     ]
 
 
-@mcp.tool(
-    name="get_text_chunk",
-    description="Retrieve a specific text chunk from a collection using its unique chunk_id.",
-)
-def get_text_chunk(
-    collection: Annotated[
-        Literal[
-            "nietzsche",
-            "el-arte-del-pensamiento-creativo",
-            "lyrics",
-        ],
-        Field(
-            description="The collection from which to retrieve the text chunk."
-        ),
-    ],
-    chunk_id: Annotated[
-        str,
-        Field(description="The unique chunk_id of the text chunk to retrieve."),
-    ],
-) -> TextChunk | None:
-    """Retrieve a specific text chunk from a collection using its unique chunk_id."""
-
+def _get_text_chunk(chunk_id: str) -> Record | None:
     scroll_filter = models.Filter(
         must=[
             models.FieldCondition(
@@ -146,28 +109,113 @@ def get_text_chunk(
         ]
     )
 
-    retriever = get_retriever()
-    results, _ = retriever.scroll(
-        collection_name=collection,
-        limit=1,
-        scroll_filter=scroll_filter,
-    )
+    # FIXME: This is temporal!
+    results = []
+    collections = get_collections()
+    for collection in collections:
+        results = retriever.scroll(
+            collection_name=collection,
+            limit=1,
+            scroll_filter=scroll_filter,
+        )
 
-    if not results:
+        if len(results):
+            break
+
+    if not len(results):
         logger.error(f"no results found for chunk_id: {chunk_id}")
         return None
 
     result = results[0]
+    return result
+
+
+@mcp.tool(
+    name="nietzsche_search",
+    description="Run a semantic search across Nietzsche sources.",
+)
+async def nietzsche_search(
+    query: Annotated[
+        str,
+        Field(
+            description="The natural language query in Spanish to search for relevant text chunks."
+        ),
+    ],
+) -> list[TextChunk]:
+    """Run a semantic search across Nietzsche sources."""
+
+    return await _search(
+        query=query,
+        collection_name="nietzsche",
+    )
+
+
+@mcp.tool(
+    name="lyrics_search",
+    description="Run a semantic search across Lyrics sources.",
+)
+async def lyrics_search(
+    query: Annotated[
+        str,
+        Field(
+            description="The natural language query in English to search for relevant text chunks."
+        ),
+    ],
+) -> list[TextChunk]:
+    """Run a semantic search across Lyrics sources."""
+
+    return await _search(
+        query=query,
+        collection_name="lyrics",
+    )
+
+
+@mcp.tool(
+    name="the_art_of_thinking_search",
+    description="Run a semantic search across The Art of Thinking book sources.",
+)
+async def the_art_of_thinking_search(
+    query: Annotated[
+        str,
+        Field(
+            description="The natural language query in Spanish to search for relevant text chunks."
+        ),
+    ],
+) -> list[TextChunk]:
+    """Run a semantic search across The Art of Thinking book sources."""
+
+    return await _search(
+        query=query,
+        collection_name="el-arte-del-pensamiento-creativo",
+    )
+
+
+@mcp.tool(
+    name="get_text_chunk",
+    description="Retrieve a specific text chunk using its `chunk_id`.",
+)
+def get_text_chunk(
+    chunk_id: Annotated[
+        str, Field(description="The `chunk_id` of the chunk to retrieve.")
+    ],
+) -> TextChunk | None:
+    """Retrieve a specific text chunk using its `chunk_id`."""
+
+    result = _get_text_chunk(chunk_id=chunk_id)
+    if result is None:
+        return
+
+    assert result.payload is not None
     return TextChunk(
         text=result.payload["page_content"],
-        collection=collection,
-        chunk_id=result.payload["metadata"]["chunk_id"],
-        previous_chunk_id=result.payload["metadata"]["previous_chunk_id"],
         artist=result.payload["metadata"].get("artist"),
         title=result.payload["metadata"].get("title"),
+        chunk_id=result.payload["metadata"]["chunk_id"],
+        previous_chunk_id=result.payload["metadata"]["previous_chunk_id"],
         next_chunk_id=result.payload["metadata"]["next_chunk_id"],
     )
 
 
 if __name__ == "__main__":
+    mcp.add_middleware(ToolCallLimitMiddleware())
     mcp.run(transport="streamable-http")

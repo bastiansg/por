@@ -1,8 +1,11 @@
+from typing import Any
+from langgraph.runtime import get_runtime
+
 from multi_agents.graph import Node
 from common.logger import get_logger
 
 from hailo_apps.servos import Servos, ServoAngles
-from por.multi_agent.schema import StateSchema, ConfigSchema
+from por.multi_agent.schema import StateSchema, ContextSchema
 
 from .utils import get_sensehat_dsp, get_button, get_dsp_images
 
@@ -10,12 +13,10 @@ from .utils import get_sensehat_dsp, get_button, get_dsp_images
 logger = get_logger(__name__)
 
 
-async def run(
-    state: StateSchema,
-    config: ConfigSchema,
-) -> StateSchema:
+async def run(state: StateSchema) -> dict[str, Any]:
     logger.info("runing idle_state...")
-    conf = config["configurable"]
+    runtime = get_runtime(ContextSchema)
+    runtime_context = runtime.context
 
     sensehat_dsp = get_sensehat_dsp()
     dsp_images = get_dsp_images()
@@ -28,11 +29,11 @@ async def run(
     )
 
     servos = Servos()
-    idle_angles = conf["idle_angles"]
+    idle_angles = runtime_context.idle_angles
     servos.set_angles(
         servo_angles=ServoAngles(
-            x=idle_angles["x"],
-            y=idle_angles["y"],
+            x=idle_angles.x,
+            y=idle_angles.y,
         )
     )
 
