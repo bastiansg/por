@@ -1,11 +1,10 @@
 from typing import Any
-from langgraph.runtime import get_runtime
 
 from multi_agents.graph import Node
 from common.logger import get_logger
 
 from por.llm_agents import Gatekeeper, GatekeeperDeps
-from por.multi_agent.schema import StateSchema, ContextSchema
+from por.multi_agent.schema import StateSchema
 
 from .utils import get_sensehat_dsp, get_dsp_images
 
@@ -15,8 +14,6 @@ logger = get_logger(__name__)
 
 async def run(state: StateSchema) -> dict[str, Any]:
     logger.info("runing gatekeeper...")
-    runtime = get_runtime(ContextSchema)
-    runtime_context = runtime.context
 
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.stop()
@@ -34,12 +31,13 @@ async def run(state: StateSchema) -> dict[str, Any]:
     audio_transcription = state.audio_transcription
     assert audio_transcription is not None
 
+    detected_language = state.detected_language
+    assert detected_language is not None
+
     gatekeeper = Gatekeeper()
     gatekeeper_output = await gatekeeper.generate(
         user_prompt=f"Persons's Message: {audio_transcription}",
-        agent_deps=GatekeeperDeps(
-            output_language=runtime_context.output_language
-        ),
+        agent_deps=GatekeeperDeps(output_language=detected_language),
     )
 
     return {

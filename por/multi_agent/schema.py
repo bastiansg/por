@@ -51,7 +51,6 @@ class ContextSchema(BaseModel):
     images_path: StrictStr
     image_extension: StrictStr
     idle_angles: ServoAngles
-    output_language: LanguageName
     dc_poems: list[DCPoem]
     fc_messages: list[FCMessage]
     printer: Printer
@@ -76,6 +75,7 @@ class StateSchema(BaseModel):
     audio_buffer: BytesIO | None = None
     image_path: StrictStr | None = None
     audio_transcription: StrictStr | None = None
+    detected_language: LanguageName | None = None
     message_accepted: StrictBool | None = None
     rejection_reason: StrictStr | None = None
     image_description: ImageDescriberOutput | None = None

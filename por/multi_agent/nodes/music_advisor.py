@@ -1,5 +1,4 @@
 from typing import Any
-from langgraph.runtime import get_runtime
 
 from multi_agents.graph import Node
 from common.logger import get_logger
@@ -8,7 +7,7 @@ from pydantic_ai.mcp import MCPServerStreamableHTTP
 from por.mcp.server import _get_text_chunk
 from por.mcp.utils import process_tool_call
 from por.llm_agents import MusicAdvisor, MusicAdvisorDeps
-from por.multi_agent.schema import StateSchema, ContextSchema
+from por.multi_agent.schema import StateSchema
 
 
 logger = get_logger(__name__)
@@ -16,8 +15,6 @@ logger = get_logger(__name__)
 
 async def run(state: StateSchema) -> dict[str, Any]:
     logger.info("runing music_advisor...")
-    runtime = get_runtime(ContextSchema)
-    runtime_context = runtime.context
 
     collection = "lyrics"
     mcp = MCPServerStreamableHTTP(
@@ -31,6 +28,9 @@ async def run(state: StateSchema) -> dict[str, Any]:
     assert psychological_profile is not None
     assert audio_transcription is not None
 
+    detected_language = state.detected_language
+    assert detected_language is not None
+
     music_advisor = MusicAdvisor(mcp_servers=[mcp])
     async with music_advisor.agent:
         music_advisor_output = await music_advisor.generate(
@@ -39,7 +39,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
                 collection=collection,
                 psychological_profile=psychological_profile,
                 question=audio_transcription,
-                output_language=runtime_context.output_language,
+                output_language=detected_language,
             ),
         )
 

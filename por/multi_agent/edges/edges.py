@@ -1,6 +1,6 @@
 from multi_agents.graph import SimpleEdge, ConditionalEdge
 
-from .routers import gatekeeper_conditional_router
+from .routers import validation_checkpoint_conditional_router
 
 
 idle_state_face_tracker = SimpleEdge(
@@ -23,22 +23,32 @@ recorder_image_describer = SimpleEdge(
     target="image_describer",
 )
 
-gatekeeper_edges = SimpleEdge(
-    source=[
-        "audio_transcriber",
-        "image_describer",
-    ],
+audio_transcriber_language_detector = SimpleEdge(
+    source="audio_transcriber",
+    target="language_detector",
+)
+
+language_detector_gatekeeper = SimpleEdge(
+    source="language_detector",
     target="gatekeeper",
 )
 
-gatekeeper_conditional = ConditionalEdge(
-    source="gatekeeper",
+validation_checkpoint_edges = SimpleEdge(
+    source=[
+        "gatekeeper",
+        "image_describer",
+    ],
+    target="validation_checkpoint",
+)
+
+validation_checkpoint_conditional = ConditionalEdge(
+    source="validation_checkpoint",
     intermediates=[
         "random_selector",
         "psychological_describer",
         "printer",
     ],
-    router=gatekeeper_conditional_router,
+    router=validation_checkpoint_conditional_router,
 )
 
 psychological_describer_nietzsche_advisor = SimpleEdge(

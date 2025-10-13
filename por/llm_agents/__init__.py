@@ -27,3 +27,5 @@ from .music_advisor import (  # noqa
     MusicAdvisorDeps,
     MusicAdvisorOutput,
 )
+
+from .language_detector import LanguageDetector, LanguageDetectorOutput  # noqa
