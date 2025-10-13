@@ -34,24 +34,38 @@ async def run(state: StateSchema) -> dict[str, Any]:
     )
 
     client = AsyncOpenAI()
-    response = await client.responses.create(
-        model="gpt-4o-mini",
-        input=image_generation_prompt,
-        tools=[
-            {"type": "image_generation"},
-        ],
+    # response = await client.responses.create(
+    #     # model="gpt-4o",
+    #     model="gpt-image-1-mini",
+    #     input=image_generation_prompt,
+    #     tools=[
+    #         {"type": "image_generation"},
+    #     ],
+    # )
+
+    response = await client.images.generate(
+        model="gpt-image-1-mini",
+        prompt=image_generation_prompt,
+        n=1,
+        moderation="low",
+        size="1024x1536",
+        quality="low",
     )
 
-    image_data = [
-        output.result
-        for output in response.output
-        if output.type == "image_generation_call"
-    ]
+    assert response.data is not None
+    image_data = response.data[0].b64_json
+    assert image_data is not None
 
-    image_base64 = image_data[0]
-    assert image_base64 is not None
+    # image_data = [
+    #     output.result
+    #     for output in response.output
+    #     if output.type == "image_generation_call"
+    # ]
 
-    io_bytes = io.BytesIO(base64.b64decode(image_base64))
+    # image_base64 = image_data[0]
+    # assert image_base64 is not None
+
+    io_bytes = io.BytesIO(base64.b64decode(image_data))
     image = Image.open(io_bytes).convert("RGB")
 
     resize_transform = transforms.Resize(size=576)

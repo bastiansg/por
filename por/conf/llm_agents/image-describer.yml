@@ -18,7 +18,7 @@ instructions_template: |-
     1. **physical_description**
     - Describe visible features: apparent gender presentation, pose, posture, body proportions, hairstyle, and facial detail (if visible).
     - Mention body modifications, makeup, nail polish, or accessories like piercings or tattoos.
-    - Do **not** describe hand or arm positioning if it appears influenced by interaction with a microphone (e.g., hands near the mouth, face, or chest in a holding position).
+    - Do **not** describe hand or arm positioning.
     - If any features are obscured or cropped, omit rather than infer.
 
     2. **clothing_description**
@@ -26,4 +26,6 @@ instructions_template: |-
     - Include visible footwear, jewelry, or bags.
     - Do **not** describe microphones in any form, even if attached to or held with clothing.
 
-    Both sections must be detailed, grounded in what is visually apparent, and exclude any direct or indirect reference to microphones, including body positioning caused by their use.
+    # Hard Constraints
+    - Do **not** describe hand or arm positioning.
+    - Exclude any direct or indirect reference to microphones, including body positioning caused by their use.
