@@ -34,7 +34,10 @@ class LyricsLoader(TextLoader):
             if data_item["lyrics"] not in self.invalid_lyrics
         ]
 
-    async def get_documents(self, source_path: str) -> list[Document]:
+    async def get_documents(
+        self, source_path: str | None = None
+    ) -> list[Document]:
+        assert source_path is not None
         return await asyncio.to_thread(
             self._get_documents,
             source_path=source_path,
