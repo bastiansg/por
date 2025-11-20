@@ -21,8 +21,8 @@ images_path: /resources/generated-images
 image_extension: jpg
 
 idle_angles:
-    x: 103
-    y: 20
+    x: 100
+    y: 30
 
 printer:
     por_logo_path: "/resources/ticket-images/por-logo.jpeg"

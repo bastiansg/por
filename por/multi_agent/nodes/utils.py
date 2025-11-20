@@ -22,7 +22,7 @@ def get_sensehat_dsp() -> Display:
 def get_button() -> Button:
     return Button(
         pin=16,
-        hold_time=0.001,
+        hold_time=0.001,  # type: ignore
         bounce_time=0.001,
     )
 
@@ -36,6 +36,6 @@ def get_printer(profile: str = "TM-T20II") -> Usb:
     return Usb(
         0x04B8,
         0x0E27,
-        0,
+        0,  # type: ignore
         profile=profile,
     )
