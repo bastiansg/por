@@ -61,7 +61,7 @@ class ToolCallLimitMiddleware(Middleware):
         ctx = context.fastmcp_context
         assert ctx is not None
 
-        meta = ctx.request_context.meta
+        meta = ctx.request_context.meta  # type: ignore
         assert meta is not None
 
         session_id = ctx.session_id
