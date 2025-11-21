@@ -7,16 +7,54 @@ from por.conf import llm_agents  # type: ignore
 from llm_agents.meta.interfaces import LLMAgent
 
 
+# from .image_describer import PhysicalDescription, ClothingDescription
+
+
 class PsychologicalDescriberDeps(BaseModel):
-    physical_description: StrictStr
-    clothing_description: StrictStr
+    # physical_description: PhysicalDescription
+    # clothing_description: ClothingDescription
     question: StrictStr
     output_language: LanguageName
 
 
 class PsychologicalDescriberOutput(BaseModel):
-    psychological_profile: StrictStr = Field(
-        description="A psychological profile based on the provided information.",
+    posture: StrictStr = Field(
+        description="Visible body stance (e.g., upright, slouched, tense).",
+        min_length=1,
+    )
+
+    emotional_tone: StrictStr = Field(
+        description="Symbolic mood suggested by appearance (e.g., contemplative, determined, reserved).",
+        min_length=1,
+    )
+
+    composure: StrictStr = Field(
+        description="Visible level of physical tension or ease (e.g., composed, tense, relaxed).",
+        min_length=1,
+    )
+
+    facial_expression: StrictStr = Field(
+        description="Basic expression category (e.g., neutral, smiling, serious).",
+        min_length=1,
+    )
+
+    gaze: StrictStr = Field(
+        description="Direction/quality of gaze (e.g., direct, downward, distant).",
+        min_length=1,
+    )
+
+    archetype_hint: StrictStr = Field(
+        description="Symbolic impression suggested by appearance (e.g., seeker, warrior, sage).",
+        min_length=1,
+    )
+
+    question_theme: StrictStr = Field(
+        description="Core theme extracted from the question (e.g., direction, conflict, desire).",
+        min_length=1,
+    )
+
+    synthesis: StrictStr = Field(
+        description="A one-sentence integration of appearance + question theme.",
         min_length=1,
     )
 

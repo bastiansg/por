@@ -19,6 +19,7 @@ from pydantic import (
 )
 
 from por.llm_agents.image_describer import ImageDescriberOutput
+from por.llm_agents.psychological_describer import PsychologicalDescriberOutput
 
 
 class GolColors(BaseModel):
@@ -45,7 +46,6 @@ class ContextSchema(BaseModel):
     servo_angles: ServoAngles
     rotator_params: RotatorParams
     image_size: ImageSize
-    image_description_guidelines: StrictStr
     history_length: NonNegativeInt
     face_detector_min_score: NonNegativeFloat
     images_path: StrictStr
@@ -79,11 +79,9 @@ class StateSchema(BaseModel):
     message_accepted: StrictBool | None = None
     rejection_reason: StrictStr | None = None
     image_description: ImageDescriberOutput | None = None
-    psychological_profile: StrictStr | None = None
+    psychological_profile: PsychologicalDescriberOutput | None = None
     nietzsche_advise: StrictStr | None = None
     nietzsche_text_chunks: list[StrictStr] = []
-    creative_advice: StrictStr | None = None
-    creative_text_chunks: list[StrictStr] = []
     music_advice: StrictStr | None = None
     selected_song: SelectedSong | None = None
     selected_dc_poem: StrictStr | None = None

@@ -18,11 +18,6 @@ recorder_audio_transcriber = SimpleEdge(
     target="audio_transcriber",
 )
 
-recorder_image_describer = SimpleEdge(
-    source="recorder",
-    target="image_describer",
-)
-
 audio_transcriber_language_detector = SimpleEdge(
     source="audio_transcriber",
     target="language_detector",
@@ -33,18 +28,24 @@ language_detector_gatekeeper = SimpleEdge(
     target="gatekeeper",
 )
 
-validation_checkpoint_edges = SimpleEdge(
-    source=[
-        "gatekeeper",
-        "image_describer",
-    ],
+gatekeeper_validation_checkpoint = SimpleEdge(
+    source="gatekeeper",
     target="validation_checkpoint",
 )
+
+# validation_checkpoint_edges = SimpleEdge(
+#     source=[
+#         "gatekeeper",
+#         "image_describer",
+#     ],
+#     target="validation_checkpoint",
+# )
 
 validation_checkpoint_conditional = ConditionalEdge(
     source="validation_checkpoint",
     intermediates=[
         "random_selector",
+        "image_describer",
         "psychological_describer",
         "printer",
     ],
@@ -56,14 +57,23 @@ psychological_describer_nietzsche_advisor = SimpleEdge(
     target="nietzsche_advisor",
 )
 
-psychological_describer_creative_advisor = SimpleEdge(
-    source="psychological_describer",
-    target="creative_advisor",
-)
 
 psychological_describer_music_advisor = SimpleEdge(
     source="psychological_describer",
     target="music_advisor",
+)
+
+image_describer_image_generator = SimpleEdge(
+    source="image_describer",
+    target="image_generator",
+)
+
+image_generator_edges = SimpleEdge(
+    source=[
+        "image_describer",
+        "psychological_describer",
+    ],
+    target="image_generator",
 )
 
 psychological_describer_image_generator = SimpleEdge(
@@ -73,7 +83,6 @@ psychological_describer_image_generator = SimpleEdge(
 
 printer_edges = SimpleEdge(
     source=[
-        "creative_advisor",
         "nietzsche_advisor",
         "music_advisor",
         "random_selector",

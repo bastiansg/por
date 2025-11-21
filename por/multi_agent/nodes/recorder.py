@@ -55,7 +55,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     audio_recorder.stop()
     tracker.stop()
-    tracker.servos.set_angles(servo_angles=ServoAngles(y=40))
+    tracker.servos.set_angles(servo_angles=ServoAngles(x=90, y=30))
 
     audio_buffer = io.BytesIO()
     audio_recorder.save_to_file(file=audio_buffer)

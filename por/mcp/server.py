@@ -170,24 +170,24 @@ async def lyrics_search(
     )
 
 
-@mcp.tool(
-    name="the_art_of_thinking_search",
-    description="Run a semantic search across The Art of Thinking book sources.",
-)
-async def the_art_of_thinking_search(
-    query: Annotated[
-        str,
-        Field(
-            description="The natural language query in Spanish to search for relevant text chunks."
-        ),
-    ],
-) -> list[TextChunk]:
-    """Run a semantic search across The Art of Thinking book sources."""
+# @mcp.tool(
+#     name="the_art_of_thinking_search",
+#     description="Run a semantic search across The Art of Thinking book sources.",
+# )
+# async def the_art_of_thinking_search(
+#     query: Annotated[
+#         str,
+#         Field(
+#             description="The natural language query in Spanish to search for relevant text chunks."
+#         ),
+#     ],
+# ) -> list[TextChunk]:
+#     """Run a semantic search across The Art of Thinking book sources."""
 
-    return await _search(
-        query=query,
-        collection_name="el-arte-del-pensamiento-creativo",
-    )
+#     return await _search(
+#         query=query,
+#         collection_name="el-arte-del-pensamiento-creativo",
+#     )
 
 
 @mcp.tool(

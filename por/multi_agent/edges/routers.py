@@ -8,6 +8,7 @@ def validation_checkpoint_conditional_router(
     if state.message_accepted:
         return [
             "random_selector",
+            "image_describer",
             "psychological_describer",
         ]
 

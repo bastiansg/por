@@ -1,6 +1,6 @@
 servo_angles:
-    x: 103
-    y: 80
+    x: 90
+    y: 30
 
 rotator_params:
     update_angle: 5
@@ -21,15 +21,12 @@ images_path: /resources/generated-images
 image_extension: jpg
 
 idle_angles:
-    x: 103
-    y: 20
+    x: 90
+    y: 0
 
 printer:
     por_logo_path: "/resources/ticket-images/por-logo.jpeg"
     max_text_len: 48
-
-image_description_guidelines: |-
-    Analyze primary subjects present in the provided image and provide a detailed physical and clothing description.
 
 image_generation_prompt_template: |-
     # Role and Objective

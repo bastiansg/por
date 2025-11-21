@@ -1,6 +1,8 @@
 from .gatekeeper import Gatekeeper, GatekeeperDeps, GatekeeperOutput  # noqa
 from .image_describer import (  # noqa
     ImageDescriber,
+    PhysicalDescription,
+    ClothingDescription,
     ImageDescriberOutput,
 )
 
@@ -16,11 +18,6 @@ from .nietzsche_advisor import (  # noqa
     NietzscheAdvisorOutput,
 )
 
-from .creative_advisor import (  # noqa
-    CreativeAdvisor,
-    CreativeAdvisorDeps,
-    CreativeAdvisorOutput,
-)
 
 from .music_advisor import (  # noqa
     MusicAdvisor,
