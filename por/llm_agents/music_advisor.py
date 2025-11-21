@@ -8,9 +8,12 @@ from por.conf import llm_agents  # type: ignore
 from llm_agents.meta.interfaces import LLMAgent
 
 
+from .psychological_describer import PsychologicalDescriberOutput
+
+
 class MusicAdvisorDeps(BaseModel):
     collection: StrictStr
-    psychological_profile: StrictStr
+    psychological_profile: PsychologicalDescriberOutput
     question: StrictStr
     output_language: LanguageName
 

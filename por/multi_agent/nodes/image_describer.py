@@ -24,7 +24,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     image_describer_agent = ImageDescriber()
     with open(image_path, "rb") as image_file:
         image_describer_output = await image_describer_agent.generate(
-            user_prompt=runtime_context.image_description_guidelines,
+            user_prompt="Analyze primary subjects present in the provided image and provide a detailed physical and clothing description.",
             user_content=BinaryContent(
                 data=image_file.read(),
                 media_type=f"image/{runtime_context.image_extension}",

@@ -99,14 +99,6 @@ def main_pipeline(
     printer.block_text(state.nietzsche_advise)
     printer.text("\n\n")
 
-    printer.set(bold=True)
-    printer.block_text("$$ Aire fresco:")
-    printer.text("\n")
-    printer.set(bold=False)
-
-    printer.block_text(state.creative_advice)
-    printer.text("\n\n")
-
     selected_song = state.selected_song
     assert selected_song is not None
 

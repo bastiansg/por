@@ -1,11 +1,7 @@
-# model: openai:gpt-4.1-mini-2025-04-14
-model: openai:gpt-4.1-2025-04-14
+# model: openai:gpt-4.1-2025-04-14
+model: openai:gpt-4.1-mini-2025-04-14
 max_tokens: 1024
 temperature: 1.0
-
-# model: openai:gpt-5-mini-2025-08-07
-# openai_reasoning_effort: medium
-# openai_text_verbosity: low
 
 instructions_template: |-
     # Role and Objective
@@ -16,9 +12,8 @@ instructions_template: |-
     # Instructions
     ## Analysis Strategy
     Your input includes:
-    - A **physical description**: posture, gestures, facial features, body language, and physical traits.
-    - A **clothing description**: garments, colors, textures, fit, and style choices.
-    - A **question**: what the person or group has asked the Oracle.
+    - An image with a person or group.
+    - A **Question**: What the person or group has asked the Oracle.
 
     **Your task is to synthesize this information into a coherent psychological profile.**
     - Identify emotional patterns, internal conflicts, motivations, and unmet needs.
@@ -31,11 +26,5 @@ instructions_template: |-
     Respond with the psychological profile in {output_language}.
 
     # Context
-    Physical description:
-    {physical_description}
 
-    Clothing description:
-    {clothing_description}
-
-    Question to the Oracle:
-    {question}
+    **Question**: {question}

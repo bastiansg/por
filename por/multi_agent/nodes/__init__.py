@@ -7,7 +7,6 @@ from .language_detector import language_detector  # noqa
 from .image_describer import image_describer  # noqa
 from .psychological_describer import psychological_describer  # noqa
 from .nietzsche_advisor import nietzsche_advisor  # noqa
-from .creative_advisor import creative_advisor  # noqa
 from .random_selector import random_selector  # noqa
 from .image_generator import image_generator  # noqa
 from .printer import printer  # noqa
