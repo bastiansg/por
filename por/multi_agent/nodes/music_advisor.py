@@ -13,6 +13,10 @@ from por.multi_agent.schema import StateSchema
 logger = get_logger(__name__)
 
 
+def clean_music_advice(music_advice: str) -> str:
+    return " ".join(music_advice.split())
+
+
 async def run(state: StateSchema) -> dict[str, Any]:
     logger.info("runing music_advisor...")
 
@@ -53,7 +57,9 @@ async def run(state: StateSchema) -> dict[str, Any]:
     assert payload is not None
 
     return {
-        "music_advice": music_advisor_output.music_advice,
+        "music_advice": clean_music_advice(
+            music_advice=music_advisor_output.music_advice
+        ),
         "selected_song": {
             "title": payload["metadata"].get("title"),
             "artist": payload["metadata"].get("artist"),

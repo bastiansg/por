@@ -22,39 +22,17 @@ async def run(state: StateSchema) -> dict[str, Any]:
     runtime_context = runtime.context
 
     image_extension = runtime_context.image_extension
-    image_description = state.image_description
-    assert image_description is not None
-
-    image_generation_prompt = (
-        runtime_context.image_generation_prompt_template.format(
-            psychological_profile=state.psychological_profile,
-            physical_description=image_description.physical_description,
-            clothing_description=image_description.clothing_description,
-        )
-    )
+    image_generation_prompt = state.image_generation_prompt
+    assert image_generation_prompt is not None
 
     client = AsyncOpenAI()
     response = await client.responses.create(
         model="gpt-4o",
-        # model="gpt-image-1-mini",
-        input=image_generation_prompt,
+        input=f"Draw the following: {image_generation_prompt}",
         tools=[
             {"type": "image_generation"},
         ],
     )
-
-    # response = await client.images.generate(
-    #     model="gpt-image-1-mini",
-    #     prompt=image_generation_prompt,
-    #     n=1,
-    #     moderation="low",
-    #     size="1024x1536",
-    #     quality="medium",
-    # )
-
-    # assert response.data is not None
-    # image_data = response.data[0].b64_json
-    # assert image_data is not None
 
     image_data = [
         output.result

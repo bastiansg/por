@@ -129,12 +129,12 @@ def main_pipeline(
     printer.block_text(f"{state.lucky_number}")
     printer.text("\n\n")
 
-    # printer.set(bold=True)
-    # printer.block_text("Tu poema dos corazones:")
-    # printer.set(bold=False)
-    # printer.text("\n")
-    # printer.block_text(f"{state.selected_dc_poem}")
-    # printer.text("\n\n")
+    printer.set(bold=True)
+    printer.block_text("Tu poema dos corazones:")
+    printer.set(bold=False)
+    printer.text("\n")
+    printer.block_text(f"{state.selected_dc_poem}")
+    printer.text("\n\n")
 
     printer.set(bold=True)
     printer.block_text("Tu galleta de la fortuna:")

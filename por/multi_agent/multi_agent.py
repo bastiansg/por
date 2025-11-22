@@ -12,6 +12,7 @@ from .nodes import (
     nietzsche_advisor,
     music_advisor,
     random_selector,
+    image_prompter,
     image_generator,
     printer,
 )
@@ -19,15 +20,14 @@ from .nodes import (
 from .edges import (
     idle_state_recorder,
     recorder_audio_transcriber,
-    image_describer_image_generator,
-    image_generator_edges,
+    image_prompter_edges,
+    image_prompter_image_generator,
     audio_transcriber_language_detector,
     language_detector_gatekeeper,
     gatekeeper_validation_checkpoint,
     validation_checkpoint_conditional,
     psychological_describer_nietzsche_advisor,
     psychological_describer_music_advisor,
-    psychological_describer_image_generator,
     printer_edges,
 )
 
@@ -47,6 +47,7 @@ def get_multi_agent() -> MultiAgentGraph:
         nietzsche_advisor,
         music_advisor,
         random_selector,
+        image_prompter,
         image_generator,
         printer,
     ]
@@ -54,15 +55,14 @@ def get_multi_agent() -> MultiAgentGraph:
     edges = [
         idle_state_recorder,
         recorder_audio_transcriber,
-        image_describer_image_generator,
-        image_generator_edges,
+        image_prompter_edges,
+        image_prompter_image_generator,
         audio_transcriber_language_detector,
         language_detector_gatekeeper,
         gatekeeper_validation_checkpoint,
         validation_checkpoint_conditional,
         psychological_describer_nietzsche_advisor,
         psychological_describer_music_advisor,
-        psychological_describer_image_generator,
         printer_edges,
     ]
 

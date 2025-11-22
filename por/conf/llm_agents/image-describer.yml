@@ -20,4 +20,4 @@ instructions_template: |-
     - Include visible footwear, jewelry, or bags.
 
     # Hard Constraints
-    - **Exclude** any direct or indirect reference to microphones.
+    - **Exclude** any direct or indirect reference to microphones or cables.

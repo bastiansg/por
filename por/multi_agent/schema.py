@@ -54,7 +54,6 @@ class ContextSchema(BaseModel):
     dc_poems: list[DCPoem]
     fc_messages: list[FCMessage]
     printer: Printer
-    image_generation_prompt_template: StrictStr
 
     @field_validator("images_path", mode="after")
     def images_path_validator(cls, v: str) -> str:

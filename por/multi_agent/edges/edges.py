@@ -33,14 +33,6 @@ gatekeeper_validation_checkpoint = SimpleEdge(
     target="validation_checkpoint",
 )
 
-# validation_checkpoint_edges = SimpleEdge(
-#     source=[
-#         "gatekeeper",
-#         "image_describer",
-#     ],
-#     target="validation_checkpoint",
-# )
-
 validation_checkpoint_conditional = ConditionalEdge(
     source="validation_checkpoint",
     intermediates=[
@@ -63,21 +55,16 @@ psychological_describer_music_advisor = SimpleEdge(
     target="music_advisor",
 )
 
-image_describer_image_generator = SimpleEdge(
-    source="image_describer",
-    target="image_generator",
-)
-
-image_generator_edges = SimpleEdge(
+image_prompter_edges = SimpleEdge(
     source=[
         "image_describer",
         "psychological_describer",
     ],
-    target="image_generator",
+    target="image_prompter",
 )
 
-psychological_describer_image_generator = SimpleEdge(
-    source="psychological_describer",
+image_prompter_image_generator = SimpleEdge(
+    source="image_prompter",
     target="image_generator",
 )
 

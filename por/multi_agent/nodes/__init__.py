@@ -11,3 +11,4 @@ from .random_selector import random_selector  # noqa
 from .image_generator import image_generator  # noqa
 from .printer import printer  # noqa
 from .music_advisor import music_advisor  # noqa
+from .image_prompter import image_prompter  # noqa

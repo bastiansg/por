@@ -59,7 +59,7 @@ class ClothingDescription(BaseModel):
     )
 
     accessories: StrictStr = Field(
-        description="Fashion accessories: jewelry, hats, eyewear, belts, bags (excluding any microphones).",
+        description="Fashion accessories: jewelry, hats, eyewear, belts, bags (excluding any microphones or cables).",
         min_length=1,
     )
 
