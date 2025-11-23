@@ -51,20 +51,29 @@ async def run(state: StateSchema) -> dict[str, Any]:
         chunk_id=music_advisor_output.relevant_chunk_id
     )
 
-    assert relevant_chunk is not None
+    # FIXME: Do not use if / else!
+    if relevant_chunk is not None:
+        payload = relevant_chunk.payload
+        assert payload is not None
 
-    payload = relevant_chunk.payload
-    assert payload is not None
+        selected_song = {
+            "title": payload["metadata"].get("title"),
+            "artist": payload["metadata"].get("artist"),
+            "lyrics": payload["page_content"],
+        }
+
+    else:
+        selected_song = {
+            "title": "Unknown",
+            "artist": "Unknown",
+            "lyrics": "Unknown",
+        }
 
     return {
         "music_advice": clean_music_advice(
             music_advice=music_advisor_output.music_advice
         ),
-        "selected_song": {
-            "title": payload["metadata"].get("title"),
-            "artist": payload["metadata"].get("artist"),
-            "lyrics": payload["page_content"],
-        },
+        "selected_song": selected_song,
     }
 
 

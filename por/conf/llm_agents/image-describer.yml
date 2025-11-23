@@ -1,3 +1,4 @@
+# model: openai:gpt-4o-2024-08-06
 # model: openai:gpt-4o-mini-2024-07-18
 model: openai:gpt-4.1-mini-2025-04-14
 max_tokens: 1024
@@ -20,4 +21,4 @@ instructions_template: |-
     - Include visible footwear, jewelry, or bags.
 
     # Hard Constraints
-    - **Exclude** any direct or indirect reference to microphones or cables.
+    - In your descriptions, **ALWAYS** exclude microphones and cables.

@@ -24,7 +24,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     ip = ImagePrompter()
     ip_output = await ip.generate(
-        user_prompt="Provide the Flux image-generation prompt.",
+        user_prompt="Provide your surreal Flux image-generation prompt.",
         agent_deps=ImagePrompterDeps(
             question=audio_transcription,
             psychological_profile=psychological_profile,
@@ -33,8 +33,9 @@ async def run(state: StateSchema) -> dict[str, Any]:
         ),
     )
 
+    prompt_prefix = "In the tradition of mystical line artists—Jean Cocteau, Egon Schiele, Hilma af Klint—who."
     return {
-        "image_generation_prompt": ip_output.flux_prompt,
+        "image_generation_prompt": f"{prompt_prefix} {ip_output.flux_prompt}",
     }
 
 

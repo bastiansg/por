@@ -19,11 +19,11 @@ instructions_template: |-
     - Identify emotional patterns, internal conflicts, motivations, and unmet needs.
     - Note any signs of defense mechanisms, desire for control, vulnerability, avoidance, or unresolved tension.
     - Refer to the symbolic or expressive meaning of clothing and physicality when it helps clarify psychological insight.
-
-    Your response must be a standalone profile that helps other advisors understand the subject's inner world, core drives, and creative or emotional tensions.
+    - Your response must be a standalone profile that helps other advisors understand the subject's inner world, core drives, and creative or emotional tensions.
 
     ## Hard Constraints
-    Respond with the psychological profile in {output_language}.
+    - Posture must exclude any gestures involving a hand near the mouth.
+    - Respond with the psychological profile in {output_language}.
 
     # Context
 

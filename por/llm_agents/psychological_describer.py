@@ -19,7 +19,7 @@ class PsychologicalDescriberDeps(BaseModel):
 
 class PsychologicalDescriberOutput(BaseModel):
     posture: StrictStr = Field(
-        description="Visible body stance (e.g., upright, slouched, tense).",
+        description="Visible body stance (e.g., upright, slouched, tense), excluding gestures involving a hand near the mouth.",
         min_length=1,
     )
 
