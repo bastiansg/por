@@ -87,8 +87,11 @@ def main_pipeline(
     )
 
     printer.set(bold=True)
-    printer.block_text("* EL ORÁCULO HA DELIBERADO:")
+    printer.block_text("$$ La voz del Oráculo:")
+    printer.text("\n")
     printer.set(bold=False)
+
+    printer.block_text(state.oracle_prophecy)
     printer.text("\n\n")
 
     printer.set(bold=True)

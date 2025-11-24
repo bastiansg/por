@@ -10,6 +10,7 @@ from .nodes import (
     image_describer,
     psychological_describer,
     nietzsche_advisor,
+    oracle,
     music_advisor,
     random_selector,
     image_prompter,
@@ -27,6 +28,7 @@ from .edges import (
     gatekeeper_validation_checkpoint,
     validation_checkpoint_conditional,
     psychological_describer_nietzsche_advisor,
+    nietzsche_advisor_oracle,
     psychological_describer_music_advisor,
     printer_edges,
 )
@@ -45,6 +47,7 @@ def get_multi_agent() -> MultiAgentGraph:
         image_describer,
         psychological_describer,
         nietzsche_advisor,
+        oracle,
         music_advisor,
         random_selector,
         image_prompter,
@@ -62,6 +65,7 @@ def get_multi_agent() -> MultiAgentGraph:
         gatekeeper_validation_checkpoint,
         validation_checkpoint_conditional,
         psychological_describer_nietzsche_advisor,
+        nietzsche_advisor_oracle,
         psychological_describer_music_advisor,
         printer_edges,
     ]

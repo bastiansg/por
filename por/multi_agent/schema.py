@@ -81,6 +81,7 @@ class StateSchema(BaseModel):
     psychological_profile: PsychologicalDescriberOutput | None = None
     nietzsche_advise: StrictStr | None = None
     nietzsche_text_chunks: list[StrictStr] = []
+    oracle_prophecy: StrictStr | None = None
     music_advice: StrictStr | None = None
     selected_song: SelectedSong | None = None
     selected_dc_poem: StrictStr | None = None

@@ -68,9 +68,14 @@ image_prompter_image_generator = SimpleEdge(
     target="image_generator",
 )
 
+nietzsche_advisor_oracle = SimpleEdge(
+    source="nietzsche_advisor",
+    target="oracle",
+)
+
 printer_edges = SimpleEdge(
     source=[
-        "nietzsche_advisor",
+        "oracle",
         "music_advisor",
         "random_selector",
         "image_generator",

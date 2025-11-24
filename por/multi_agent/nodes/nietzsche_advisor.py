@@ -34,7 +34,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     nietzsche_advisor = NietzscheAdvisor(mcp_servers=[mcp])
     async with nietzsche_advisor.agent:
         nietzsche_advisor_output = await nietzsche_advisor.generate(
-            user_prompt="Deliver piercing, symbolic, and transformative insight.",
+            user_prompt="Deliver piercing, symbolic, and transformative insight in the style of Nietzsche.",
             agent_deps=NietzscheAdvisorDeps(
                 collection=collection,
                 psychological_profile=psychological_profile,
