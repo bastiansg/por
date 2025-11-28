@@ -29,10 +29,8 @@
                 "notebook.formatOnSave.enabled": true,
                 "notebook.output.scrolling": true,
                 "ruff.lineLength": 80
-                // "python.pyrefly.disableLanguageServices": true
             },
             "extensions": [
-                // "meta.pyrefly@0.35.0",
                 "charliermarsh.ruff",
                 "esbenp.prettier-vscode",
                 "eamodio.gitlens",

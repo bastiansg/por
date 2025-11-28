@@ -13,7 +13,7 @@ fastmcp==2.13.1
 
 # Bas packages
 hailo_apps==1.0.23
-sensehat_dsp==1.0.24
+sensehat_dsp==1.0.25
 
 # Aureka packages
 multi_agents==1.1.14

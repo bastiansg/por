@@ -12,6 +12,8 @@ from multi_agents.graph import Node
 from common.logger import get_logger
 from por.multi_agent.schema import StateSchema, ContextSchema
 
+from .utils import get_sensehat_dsp, get_dsp_images
+
 
 logger = get_logger(__name__)
 
@@ -20,6 +22,13 @@ async def run(state: StateSchema) -> dict[str, Any]:
     logger.info("runing image_generator...")
     runtime = get_runtime(ContextSchema)
     runtime_context = runtime.context
+
+    sensehat_dsp = get_sensehat_dsp()
+    sensehat_dsp.stop()
+    sensehat_dsp.clear()
+
+    dsp_images = get_dsp_images()
+    sensehat_dsp.start_color_cycle(dsp_images["si-05"])
 
     image_extension = runtime_context.image_extension
     image_generation_prompt = state.image_generation_prompt

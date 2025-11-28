@@ -87,14 +87,6 @@ def main_pipeline(
     )
 
     printer.set(bold=True)
-    printer.block_text("$$ La voz del Oráculo:")
-    printer.text("\n")
-    printer.set(bold=False)
-
-    printer.block_text(state.oracle_prophecy)
-    printer.text("\n\n")
-
-    printer.set(bold=True)
     printer.block_text("$$ Lo que dicen que Nietzsche dijo:")
     printer.text("\n")
     printer.set(bold=False)
@@ -111,8 +103,16 @@ def main_pipeline(
     printer.set(bold=False)
 
     printer.block_text(state.music_advice)
-
     printer.text("\n\n")
+
+    printer.set(bold=True)
+    printer.block_text("$$ Dicho para vos y solo para vos:")
+    printer.text("\n")
+    printer.set(bold=False)
+
+    printer.block_text(state.oracle_prophecy)
+    printer.text("\n\n")
+
     printer.text("------------------------------------------------")
     printer.text("\n\n")
 

@@ -1,3 +1,5 @@
+import re
+
 from typing import Any
 
 from multi_agents.graph import Node
@@ -14,7 +16,7 @@ logger = get_logger(__name__)
 
 
 def clean_music_advice(music_advice: str) -> str:
-    return " ".join(music_advice.split())
+    return re.sub(r"\s+", " ", music_advice).strip()
 
 
 async def run(state: StateSchema) -> dict[str, Any]:

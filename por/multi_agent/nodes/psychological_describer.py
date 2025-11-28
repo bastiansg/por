@@ -34,9 +34,6 @@ async def run(state: StateSchema) -> dict[str, Any]:
         refresh_rate=0.5,
     )
 
-    # image_description = state.image_description
-    # assert image_description is not None
-
     question = state.audio_transcription
     assert question is not None
 
@@ -48,8 +45,6 @@ async def run(state: StateSchema) -> dict[str, Any]:
         psychological_describer_output = await psychological_describer_agent.generate(
             user_prompt="Provide a psychological profile based on the provided information.",
             agent_deps=PsychologicalDescriberDeps(
-                # physical_description=image_description.physical_description,
-                # clothing_description=image_description.clothing_description,
                 question=question,
                 output_language=LanguageName("English"),
             ),
@@ -61,7 +56,13 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     sensehat_dsp.stop()
     sensehat_dsp.clear()
-    sensehat_dsp.start_color_cycle(dsp_images["si-05"])
+    sensehat_dsp.start_image_sequence(
+        images=[
+            dsp_images["si-06a"],
+            dsp_images["si-06b"],
+        ],
+        refresh_rate=0.4,
+    )
 
     return {
         "psychological_profile": psychological_describer_output,
