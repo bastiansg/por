@@ -98,19 +98,19 @@ def main_pipeline(
     assert selected_song is not None
 
     printer.set(bold=True)
+    printer.block_text("$$ Lo que opina Carrie Bradshaw:")
+    printer.text("\n")
+    printer.set(bold=False)
+
+    printer.block_text(state.satc_advice)
+    printer.text("\n\n")
+
+    printer.set(bold=True)
     printer.block_text(f"$$ Lo que canta {selected_song.artist} para vos:")
     printer.text("\n")
     printer.set(bold=False)
 
     printer.block_text(state.music_advice)
-    printer.text("\n\n")
-
-    printer.set(bold=True)
-    printer.block_text("$$ Dicho para vos y solo para vos:")
-    printer.text("\n")
-    printer.set(bold=False)
-
-    printer.block_text(state.oracle_prophecy)
     printer.text("\n\n")
 
     printer.text("------------------------------------------------")

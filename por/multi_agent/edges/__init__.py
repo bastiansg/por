@@ -8,7 +8,7 @@ from .edges import (  # noqa
     gatekeeper_validation_checkpoint,
     validation_checkpoint_conditional,
     psychological_describer_nietzsche_advisor,
-    nietzsche_advisor_oracle,
+    psychological_describer_satc_advisor,
     psychological_describer_music_advisor,
     printer_edges,
 )

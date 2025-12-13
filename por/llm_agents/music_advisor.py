@@ -12,7 +12,6 @@ from .psychological_describer import PsychologicalDescriberOutput
 
 
 class MusicAdvisorDeps(BaseModel):
-    collection: StrictStr
     psychological_profile: PsychologicalDescriberOutput
     question: StrictStr
     output_language: LanguageName

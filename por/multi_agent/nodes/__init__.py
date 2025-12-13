@@ -13,3 +13,4 @@ from .printer import printer  # noqa
 from .music_advisor import music_advisor  # noqa
 from .image_prompter import image_prompter  # noqa
 from .oracle import oracle  # noqa
+from .satc_advisor import satc_advisor  # noqa

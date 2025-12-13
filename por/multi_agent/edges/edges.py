@@ -49,6 +49,10 @@ psychological_describer_nietzsche_advisor = SimpleEdge(
     target="nietzsche_advisor",
 )
 
+psychological_describer_satc_advisor = SimpleEdge(
+    source="psychological_describer",
+    target="satc_advisor",
+)
 
 psychological_describer_music_advisor = SimpleEdge(
     source="psychological_describer",
@@ -68,14 +72,10 @@ image_prompter_image_generator = SimpleEdge(
     target="image_generator",
 )
 
-nietzsche_advisor_oracle = SimpleEdge(
-    source="nietzsche_advisor",
-    target="oracle",
-)
-
 printer_edges = SimpleEdge(
     source=[
-        "oracle",
+        "nietzsche_advisor",
+        "satc_advisor",
         "music_advisor",
         "random_selector",
         "image_generator",
