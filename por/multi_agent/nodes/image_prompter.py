@@ -33,10 +33,8 @@ async def run(state: StateSchema) -> dict[str, Any]:
         ),
     )
 
-    # prompt_prefix = "In the tradition of mystical line artists—Jean Cocteau, Egon Schiele, Hilma af Klint."
-    prompt_prefix = "In the tradition of Kenneth Paul Block—defined by elegant, economical line work, refined fashion illustration sensibility, confident contours, and expressive use of negative space."
     return {
-        "image_generation_prompt": f"{prompt_prefix} {ip_output.flux_prompt}",
+        "image_generation_prompt": ip_output.flux_prompt,
     }
 
 
