@@ -101,7 +101,7 @@ def main_pipeline(
     assert selected_song is not None
 
     printer.set(bold=True)
-    printer.block_text("$$ Lo que opina Carrie Bradshaw:")
+    printer.block_text("$$ Lo que escribe Carrie Bradshaw:")
     printer.text("\n")
     printer.set(bold=False)
 
