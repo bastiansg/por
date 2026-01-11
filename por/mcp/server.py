@@ -171,6 +171,26 @@ async def lyrics_search(
 
 
 @mcp.tool(
+    name="satc_search",
+    description="Run a semantic search across Sex and the City scripts.",
+)
+async def satc_search(
+    query: Annotated[
+        str,
+        Field(
+            description="The natural language query in English to search for relevant text chunks."
+        ),
+    ],
+) -> list[TextChunk]:
+    """Run a semantic search across Sex and the City scripts."""
+
+    return await _search(
+        query=query,
+        collection_name="satc",
+    )
+
+
+@mcp.tool(
     name="get_text_chunk",
     description="Retrieve a specific text chunk using its `chunk_id`.",
 )

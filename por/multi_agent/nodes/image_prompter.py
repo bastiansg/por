@@ -33,9 +33,8 @@ async def run(state: StateSchema) -> dict[str, Any]:
         ),
     )
 
-    prompt_prefix = "In the tradition of mystical line artists—Jean Cocteau, Egon Schiele, Hilma af Klint—who."
     return {
-        "image_generation_prompt": f"{prompt_prefix} {ip_output.flux_prompt}",
+        "image_generation_prompt": ip_output.flux_prompt,
     }
 
 

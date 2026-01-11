@@ -35,13 +35,20 @@ async def run(state: StateSchema) -> dict[str, Any]:
     assert image_generation_prompt is not None
 
     client = AsyncOpenAI()
-    response = await client.responses.create(
-        model="gpt-4o",
-        input=image_generation_prompt,
-        tools=[
-            {"type": "image_generation"},
-        ],
-    )
+
+    try:
+        response = await client.responses.create(
+            model="gpt-4o",
+            # model="gpt-5.2",
+            input=image_generation_prompt,
+            tools=[
+                {"type": "image_generation"},
+            ],
+        )
+
+    except Exception:
+        logger.error(f"rejected prompt: {image_generation_prompt}")
+        raise
 
     image_data = [
         output.result

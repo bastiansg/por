@@ -36,11 +36,13 @@ def head_pipeline(
     printer.block_text("* @dd.moon__                All rights reserved.")
     printer.text("\n\n")
 
-    printer.text("\n\n")
-    printer.text("------------------------------------------------")
-    printer.text("\n\n")
+    printer.text("\n")
+    printer.image(
+        img_source="/resources/ticket-images/la-curva-especial-edition-pixel-576.jpeg"
+    )
 
-    printer.set(bold=True, align="left")
+    printer.text("\n\n")
+    printer.set(bold=True, align="center")
     printer.block_text(state.audio_transcription)
     printer.set(bold=False)
 
@@ -86,6 +88,7 @@ def main_pipeline(
         state=state,
     )
 
+    printer.set(bold=True, align="left")
     printer.set(bold=True)
     printer.block_text("$$ Lo que dicen que Nietzsche dijo:")
     printer.text("\n")
@@ -98,19 +101,19 @@ def main_pipeline(
     assert selected_song is not None
 
     printer.set(bold=True)
+    printer.block_text("$$ Lo que escribe Carrie Bradshaw:")
+    printer.text("\n")
+    printer.set(bold=False)
+
+    printer.block_text(state.satc_advice)
+    printer.text("\n\n")
+
+    printer.set(bold=True)
     printer.block_text(f"$$ Lo que canta {selected_song.artist} para vos:")
     printer.text("\n")
     printer.set(bold=False)
 
     printer.block_text(state.music_advice)
-    printer.text("\n\n")
-
-    printer.set(bold=True)
-    printer.block_text("$$ Dicho para vos y solo para vos:")
-    printer.text("\n")
-    printer.set(bold=False)
-
-    printer.block_text(state.oracle_prophecy)
     printer.text("\n\n")
 
     printer.text("------------------------------------------------")

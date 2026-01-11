@@ -28,3 +28,5 @@ from .music_advisor import (  # noqa
 from .language_detector import LanguageDetector, LanguageDetectorOutput  # noqa
 from .image_prompter import ImagePrompter, ImagePrompterDeps  # noqa
 from .oracle import Oracle, OracleDeps, OrcaleOutput  # noqa
+
+from .satc_advisor import SATCAdvisor, SATCAdvisorDeps, SATCAdvisorOutput  # noqa

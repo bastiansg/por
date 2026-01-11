@@ -22,7 +22,6 @@ def clean_music_advice(music_advice: str) -> str:
 async def run(state: StateSchema) -> dict[str, Any]:
     logger.info("runing music_advisor...")
 
-    collection = "lyrics"
     mcp = MCPServerStreamableHTTP(
         url="http://por-mcp:8000/mcp",
         process_tool_call=process_tool_call,
@@ -42,7 +41,6 @@ async def run(state: StateSchema) -> dict[str, Any]:
         music_advisor_output = await music_advisor.generate(
             user_prompt="Provide your pure, poetic, emotionally saturated lyrics.",
             agent_deps=MusicAdvisorDeps(
-                collection=collection,
                 psychological_profile=psychological_profile,
                 question=audio_transcription,
                 output_language=detected_language,

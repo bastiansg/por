@@ -29,6 +29,7 @@ instructions_template: |-
     ## Hard Constraints
     - **ALWAYS** include the `chunk_id` of the lyrics used as inspiration.
     - Respond with your insight in {output_language}.
+    - The response MUST NOT contain newline characters (\n, \r) or tab characters (\t).
 
     # Context
     **Psychological profile**: {psychological_profile}
