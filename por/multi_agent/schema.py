@@ -71,6 +71,7 @@ class StateSchema(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     image_id: StrictStr
+    is_recording: StrictBool = False
     audio_buffer: BytesIO | None = None
     image_path: StrictStr | None = None
     audio_transcription: StrictStr | None = None
@@ -81,7 +82,6 @@ class StateSchema(BaseModel):
     psychological_profile: PsychologicalDescriberOutput | None = None
     nietzsche_advise: StrictStr | None = None
     nietzsche_text_chunks: list[StrictStr] = []
-    # oracle_prophecy: StrictStr | None = None
     satc_advice: StrictStr | None = None
     satc_text_chunks: list[StrictStr] = []
     music_advice: StrictStr | None = None

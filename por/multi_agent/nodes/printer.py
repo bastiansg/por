@@ -34,14 +34,19 @@ def head_pipeline(
     printer.block_text("* Oráculo Robot. (2025, ∞)")
     printer.text("\n")
     printer.block_text("* @dd.moon__                All rights reserved.")
+    # printer.text("\n\n")
+
+    # printer.text("\n")
+    # printer.image(
+    #     img_source="/resources/ticket-images/la-curva-especial-edition-pixel-576.jpeg"
+    # )
+
+    # printer.text("\n\n")
+
+    printer.text("\n\n")
+    printer.text("------------------------------------------------")
     printer.text("\n\n")
 
-    printer.text("\n")
-    printer.image(
-        img_source="/resources/ticket-images/la-curva-especial-edition-pixel-576.jpeg"
-    )
-
-    printer.text("\n\n")
     printer.set(bold=True, align="center")
     printer.block_text(state.audio_transcription)
     printer.set(bold=False)
