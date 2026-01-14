@@ -4,8 +4,8 @@ servo_angles:
 
 rotator_params:
     update_angle: 5
-    min_delta_x_angle: 80
-    min_delta_y_angle: 100
+    min_delta_x_angle: 100
+    min_delta_y_angle: 120
     min_x_angle: 20
     max_x_angle: 160
     min_y_angle: 30

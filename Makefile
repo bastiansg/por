@@ -1,4 +1,4 @@
-.PHONY: core-build devcontainer-build
+.PHONY: core-build app-build devcontainer-build
 
 
 core-build:
