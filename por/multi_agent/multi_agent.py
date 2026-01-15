@@ -12,6 +12,7 @@ from .nodes import (
     nietzsche_advisor,
     satc_advisor,
     music_advisor,
+    machiavellian_advisor,
     random_selector,
     image_prompter,
     image_generator,
@@ -30,6 +31,7 @@ from .edges import (
     psychological_describer_nietzsche_advisor,
     psychological_describer_satc_advisor,
     psychological_describer_music_advisor,
+    psychological_describer_machiavellian_advisor,
     printer_edges,
 )
 
@@ -49,6 +51,7 @@ def get_multi_agent() -> MultiAgentGraph:
         nietzsche_advisor,
         satc_advisor,
         music_advisor,
+        machiavellian_advisor,
         random_selector,
         image_prompter,
         image_generator,
@@ -67,6 +70,7 @@ def get_multi_agent() -> MultiAgentGraph:
         psychological_describer_nietzsche_advisor,
         psychological_describer_satc_advisor,
         psychological_describer_music_advisor,
+        psychological_describer_machiavellian_advisor,
         printer_edges,
     ]
 

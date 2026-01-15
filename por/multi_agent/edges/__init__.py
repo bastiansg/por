@@ -10,5 +10,6 @@ from .edges import (  # noqa
     psychological_describer_nietzsche_advisor,
     psychological_describer_satc_advisor,
     psychological_describer_music_advisor,
+    psychological_describer_machiavellian_advisor,
     printer_edges,
 )

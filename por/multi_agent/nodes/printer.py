@@ -121,6 +121,15 @@ def main_pipeline(
     printer.block_text(state.music_advice)
     printer.text("\n\n")
 
+    if state.machiavellian_advice:
+        printer.set(bold=True)
+        printer.block_text("$$ La Estrategia de Maquiavelo:")
+        printer.text("\n")
+        printer.set(bold=False)
+
+        printer.block_text(state.machiavellian_advice)
+        printer.text("\n\n")
+
     printer.text("------------------------------------------------")
     printer.text("\n\n")
 

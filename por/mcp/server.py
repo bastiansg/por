@@ -191,6 +191,27 @@ async def satc_search(
 
 
 @mcp.tool(
+    name="machiavelli_search",
+    description="Run a semantic search across Machiavelli sources (The Prince, etc).",
+)
+async def machiavelli_search(
+    query: Annotated[
+        str,
+        Field(
+            description="The natural language query in Spanish to search for relevant text chunks."
+        ),
+    ],
+) -> list[TextChunk]:
+    """Run a semantic search across Machiavelli sources."""
+
+    return await _search(
+        query=query,
+        collection_name="machiavelli",
+    )
+
+
+@mcp.tool
+(
     name="get_text_chunk",
     description="Retrieve a specific text chunk using its `chunk_id`.",
 )
