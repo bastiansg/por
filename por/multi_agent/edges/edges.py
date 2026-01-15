@@ -64,8 +64,7 @@ psychological_describer_machiavellian_advisor = SimpleEdge(
     target="machiavellian_advisor",
 )
 
-image_prompter_edges = SimpleEdge
-(
+image_prompter_edges = SimpleEdge(
     source=[
         "image_describer",
         "psychological_describer",

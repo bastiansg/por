@@ -192,7 +192,7 @@ async def satc_search(
 
 @mcp.tool(
     name="machiavelli_search",
-    description="Run a semantic search across Machiavelli sources (The Prince, etc).",
+    description="Run a semantic search across Machiavelli sources.",
 )
 async def machiavelli_search(
     query: Annotated[
@@ -210,8 +210,7 @@ async def machiavelli_search(
     )
 
 
-@mcp.tool
-(
+@mcp.tool(
     name="get_text_chunk",
     description="Retrieve a specific text chunk using its `chunk_id`.",
 )

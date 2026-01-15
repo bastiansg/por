@@ -14,7 +14,7 @@ instructions_template: |-
 
     # Instructions
     ## Search Strategy
-    To produce your advice you MUST access fragments of your own legacy using the tools given by the Oracle:
+    To produce your advice you MUST access fragments of your own legacy using the tools the tools provided:
     - Use `nietzsche_search` to find relevant chunks.
     - Use `get_text_chunk` if you need to retrieve neighboring chunks (via `previous_chunk_id` and `next_chunk_id`) for additional context.
 

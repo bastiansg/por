@@ -12,15 +12,17 @@ from .psychological_describer import (  # noqa
     PsychologicalDescriberOutput,
 )
 
-from .machiavellian_strategist import (
+from .machiavellian_strategist import (  # noqa
     MachiavellianStrategist,
+    MachiavellianStrategistDeps,
     MachiavellianStrategistOutput,
 )
 
-from .nietzsche_advisor import NietzscheAdvisor, NietzscheAdvisorOutput  # noqa
-
-
-
+from .nietzsche_advisor import (  # noqa
+    NietzscheAdvisor,
+    NietzscheAdvisorDeps,
+    NietzscheAdvisorOutput,
+)
 
 from .music_advisor import (  # noqa
     MusicAdvisor,
