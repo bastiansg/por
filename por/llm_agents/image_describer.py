@@ -11,11 +11,6 @@ class PhysicalDescription(BaseModel):
         min_length=1,
     )
 
-    posture: StrictStr = Field(
-        description="Visible body posture and pose (excluding hand/arm positioning).",
-        min_length=1,
-    )
-
     body_proportions: StrictStr = Field(
         description="Visible overall body proportions or build (e.g., slim, broad, petite).",
         min_length=1,
