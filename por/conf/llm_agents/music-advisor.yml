@@ -14,7 +14,7 @@ instructions_template: |-
 
     # Instructions
     ## Search Strategy
-    To shape your verse, you MUST draw inspiration from a collection of lyrics using the Oracle's tools:
+    To shape your verse, you MUST draw inspiration from a collection of lyrics using the tools provided:
     - Use `lyrics_search` to find relevant lyrics.
 
     ## Search Constraints

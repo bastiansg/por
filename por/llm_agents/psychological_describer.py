@@ -7,12 +7,7 @@ from por.conf import llm_agents  # type: ignore
 from llm_agents.meta.interfaces import LLMAgent
 
 
-# from .image_describer import PhysicalDescription, ClothingDescription
-
-
 class PsychologicalDescriberDeps(BaseModel):
-    # physical_description: PhysicalDescription
-    # clothing_description: ClothingDescription
     question: StrictStr
     output_language: LanguageName
 
@@ -39,7 +34,7 @@ class PsychologicalDescriberOutput(BaseModel):
     )
 
     gaze: StrictStr = Field(
-        description="Direction/quality of gaze (e.g., direct, downward, distant).",
+        description="Gaze direction or quality only (e.g., direct, downward, distant); never include the gaze target.",
         min_length=1,
     )
 
