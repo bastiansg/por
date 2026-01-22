@@ -19,13 +19,18 @@ from .nietzsche_advisor import (  # noqa
 )
 
 
-from .music_advisor import (  # noqa
-    MusicAdvisor,
-    MusicAdvisorDeps,
-    MusicAdvisorOutput,
-)
+# from .music_advisor import (  # noqa
+#     MusicAdvisor,
+#     MusicAdvisorDeps,
+#     MusicAdvisorOutput,
+# )
 
 from .language_detector import LanguageDetector, LanguageDetectorOutput  # noqa
 from .image_prompter import ImagePrompter, ImagePrompterDeps  # noqa
 
 from .satc_advisor import SATCAdvisor, SATCAdvisorDeps, SATCAdvisorOutput  # noqa
+from .machiavelli_advisor import (  # noqa
+    MachiavelliAdvisor,
+    MachiavelliAdvisorDeps,
+    MachiavelliAdvisorOutput,
+)

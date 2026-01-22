@@ -102,8 +102,8 @@ def main_pipeline(
     printer.block_text(state.nietzsche_advise)
     printer.text("\n\n")
 
-    selected_song = state.selected_song
-    assert selected_song is not None
+    # selected_song = state.selected_song
+    # assert selected_song is not None
 
     printer.set(bold=True)
     printer.block_text("$$ Lo que escribe Carrie Bradshaw:")
@@ -113,12 +113,17 @@ def main_pipeline(
     printer.block_text(state.satc_advice)
     printer.text("\n\n")
 
+    # printer.set(bold=True)
+    # printer.block_text(f"$$ Lo que canta {selected_song.artist} para vos:")
+    # printer.text("\n")
+    # printer.set(bold=False)
+
     printer.set(bold=True)
-    printer.block_text(f"$$ Lo que canta {selected_song.artist} para vos:")
+    printer.block_text("$$ El plan de Maquiavelo:")
     printer.text("\n")
     printer.set(bold=False)
 
-    printer.block_text(state.music_advice)
+    printer.block_text(state.machiavelli_advice)
     printer.text("\n\n")
 
     printer.text("------------------------------------------------")

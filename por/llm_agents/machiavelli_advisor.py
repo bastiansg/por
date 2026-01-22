@@ -7,21 +7,23 @@ from pydantic_extra_types.language_code import LanguageName
 from por.conf import llm_agents  # type: ignore
 from llm_agents.meta.interfaces import LLMAgent
 
+from .psychological_describer import PsychologicalDescriberOutput
+from .tools import machiavelli_search_tool, get_text_chunk_tool
 from .utils import tool_logging_handler
-from .tools import satc_search_tool, get_text_chunk_tool
 
 
 TOOL_CALL_LIMIT = 5
 
 
-class SATCAdvisorDeps(BaseModel):
+class MachiavelliAdvisorDeps(BaseModel):
+    psychological_profile: PsychologicalDescriberOutput
     question: StrictStr
     output_language: LanguageName
 
 
-class SATCAdvisorOutput(BaseModel):
-    satc_advice: StrictStr = Field(
-        description="Advice written in Carrie Bradshaw's voice, as if speaking to a close friend at a restaurant.",
+class MachiavelliAdvisorOutput(BaseModel):
+    machiavellian_advice: StrictStr = Field(
+        description="Ruthless, strategic advice focusing on power and leverage.",
         min_length=1,
     )
 
@@ -31,19 +33,21 @@ class SATCAdvisorOutput(BaseModel):
     )
 
 
-class SATCAdvisor(LLMAgent[SATCAdvisorDeps, SATCAdvisorOutput]):
+class MachiavelliAdvisor(
+    LLMAgent[MachiavelliAdvisorDeps, MachiavelliAdvisorOutput]
+):
     def __init__(
         self,
-        conf_path=f"{llm_agents.__path__[0]}/satc-advisor.yml",
+        conf_path=f"{llm_agents.__path__[0]}/machiavellian-advisor.yml",
         max_concurrency: int = 10,
     ):
         super().__init__(
             conf_path=conf_path,
-            deps_type=SATCAdvisorDeps,
-            output_type=ToolOutput(SATCAdvisorOutput),  # type: ignore
+            deps_type=MachiavelliAdvisorDeps,
+            output_type=ToolOutput(MachiavelliAdvisorOutput),  # type: ignore
             retries=3,
             max_concurrency=max_concurrency,
             usage_limits=UsageLimits(tool_calls_limit=TOOL_CALL_LIMIT),
-            tools=[satc_search_tool, get_text_chunk_tool],
+            tools=[machiavelli_search_tool, get_text_chunk_tool],
             event_stream_handler=tool_logging_handler,  # type: ignore
         )

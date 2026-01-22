@@ -1,4 +1,3 @@
-from typing import Annotated
 from functools import lru_cache
 
 from qdrant_client import models
@@ -28,15 +27,15 @@ class TextChunk(BaseModel):
         description="The actual textual content of the chunk."
     )
 
-    artist: StrictStr | None = Field(
-        description="The artist of the song if the text chunk contains lyrics.",
-        default=None,
-    )
+    # artist: StrictStr | None = Field(
+    #     description="The artist of the song if the text chunk contains lyrics.",
+    #     default=None,
+    # )
 
-    title: StrictStr | None = Field(
-        description="The title of the song if the text chunk contains lyrics.",
-        default=None,
-    )
+    # title: StrictStr | None = Field(
+    #     description="The title of the song if the text chunk contains lyrics.",
+    #     default=None,
+    # )
 
     chunk_id: StrictStr = Field(
         description="A unique identifier for this text chunk within the collection."
@@ -83,8 +82,8 @@ async def _search(
     return [
         TextChunk(
             text=r.text,
-            artist=r.metadata.get("artist"),
-            title=r.metadata.get("title"),
+            # artist=r.metadata.get("artist"),
+            # title=r.metadata.get("title"),
             chunk_id=r.metadata["chunk_id"],
             previous_chunk_id=r.metadata["previous_chunk_id"],
             next_chunk_id=r.metadata["next_chunk_id"],
@@ -125,12 +124,9 @@ def _get_text_chunk(chunk_id: str) -> Record | None:
 
 
 async def nietzsche_search(
-    query: Annotated[
-        str,
-        Field(
-            description="The natural language query in Spanish to search for relevant text chunks."
-        ),
-    ],
+    query: str = Field(
+        description="The natural language query in Spanish to search for relevant text chunks."
+    ),
 ) -> list[TextChunk]:
     """Run a semantic search across Nietzsche sources."""
 
@@ -140,29 +136,26 @@ async def nietzsche_search(
     )
 
 
-async def lyrics_search(
-    query: Annotated[
-        str,
-        Field(
-            description="The natural language query in English to search for relevant text chunks."
-        ),
-    ],
-) -> list[TextChunk]:
-    """Run a semantic search across Lyrics sources."""
+# async def lyrics_search(
+#     query: Annotated[
+#         str,
+#         Field(
+#             description="The natural language query in English to search for relevant text chunks."
+#         ),
+#     ],
+# ) -> list[TextChunk]:
+#     """Run a semantic search across Lyrics sources."""
 
-    return await _search(
-        query=query,
-        collection_name="lyrics",
-    )
+#     return await _search(
+#         query=query,
+#         collection_name="lyrics",
+#     )
 
 
 async def satc_search(
-    query: Annotated[
-        str,
-        Field(
-            description="The natural language query in English to search for relevant text chunks."
-        ),
-    ],
+    query: str = Field(
+        description="The natural language query in English to search for relevant text chunks."
+    ),
 ) -> list[TextChunk]:
     """Run a semantic search across Sex and the City scripts."""
 
@@ -172,10 +165,23 @@ async def satc_search(
     )
 
 
+async def machiavelli_search(
+    query: str = Field(
+        description="The natural language query in Spanish to search for relevant text chunks."
+    ),
+) -> list[TextChunk]:
+    """Run a semantic search across Machiavelli sources."""
+
+    return await _search(
+        query=query,
+        collection_name="machiavelli",
+    )
+
+
 def get_text_chunk(
-    chunk_id: Annotated[
-        str, Field(description="The `chunk_id` of the chunk to retrieve.")
-    ],
+    chunk_id: str = Field(
+        description="The `chunk_id` of the chunk to retrieve."
+    ),
 ) -> TextChunk | None:
     """Retrieve a specific text chunk using its `chunk_id`."""
 
@@ -186,8 +192,8 @@ def get_text_chunk(
     assert result.payload is not None
     return TextChunk(
         text=result.payload["page_content"],
-        artist=result.payload["metadata"].get("artist"),
-        title=result.payload["metadata"].get("title"),
+        # artist=result.payload["metadata"].get("artist"),
+        # title=result.payload["metadata"].get("title"),
         chunk_id=result.payload["metadata"]["chunk_id"],
         previous_chunk_id=result.payload["metadata"]["previous_chunk_id"],
         next_chunk_id=result.payload["metadata"]["next_chunk_id"],
@@ -199,14 +205,19 @@ nietzsche_search_tool = Tool(
     description="The natural language query in Spanish to search for relevant text chunks.",
 )
 
-lyrics_search_tool = Tool(
-    function=lyrics_search,
-    description="The natural language query to search for relevant text chunks.",
-)
+# lyrics_search_tool = Tool(
+#     function=lyrics_search,
+#     description="The natural language query to search for relevant text chunks.",
+# )
 
 satc_search_tool = Tool(
     function=satc_search,
     description="The natural language query in English to search for relevant text chunks.",
+)
+
+machiavelli_search_tool = Tool(
+    function=machiavelli_search,
+    description="The natural language query in Spanish to search for relevant text chunks.",
 )
 
 get_text_chunk_tool = Tool(

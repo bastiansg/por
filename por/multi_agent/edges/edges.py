@@ -54,9 +54,14 @@ psychological_describer_satc_advisor = SimpleEdge(
     target="satc_advisor",
 )
 
-psychological_describer_music_advisor = SimpleEdge(
+# psychological_describer_music_advisor = SimpleEdge(
+#     source="psychological_describer",
+#     target="music_advisor",
+# )
+
+psychological_describer_machiavelli_advisor = SimpleEdge(
     source="psychological_describer",
-    target="music_advisor",
+    target="machiavelli_advisor",
 )
 
 image_prompter_edges = SimpleEdge(
@@ -76,7 +81,8 @@ printer_edges = SimpleEdge(
     source=[
         "nietzsche_advisor",
         "satc_advisor",
-        "music_advisor",
+        # "music_advisor",
+        "machiavelli_advisor",
         "random_selector",
         "image_generator",
     ],
