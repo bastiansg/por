@@ -4,15 +4,13 @@ from functools import lru_cache
 from qdrant_client import models
 from qdrant_client.models import Record
 
-from fastmcp.server import FastMCP
+from pydantic_ai import Tool
 from pydantic import BaseModel, StrictStr, Field
 
 from common.logger import get_logger
 
 from rage.retriever import Retriever
 from rage.utils.embeddings import get_openai_embeddings
-
-from .utils import ToolCallLimitMiddleware
 
 
 logger = get_logger(__name__)
@@ -23,10 +21,6 @@ SEARCH_SCORE_THRESHOLD = 0.3
 
 
 retriever = Retriever(dense_embeddings=get_openai_embeddings())
-mcp = FastMCP(
-    name="Oracle MCP server",
-    host="0.0.0.0",
-)
 
 
 class TextChunk(BaseModel):
@@ -130,10 +124,6 @@ def _get_text_chunk(chunk_id: str) -> Record | None:
     return result
 
 
-@mcp.tool(
-    name="nietzsche_search",
-    description="Run a semantic search across Nietzsche sources.",
-)
 async def nietzsche_search(
     query: Annotated[
         str,
@@ -150,10 +140,6 @@ async def nietzsche_search(
     )
 
 
-@mcp.tool(
-    name="lyrics_search",
-    description="Run a semantic search across Lyrics sources.",
-)
 async def lyrics_search(
     query: Annotated[
         str,
@@ -170,10 +156,6 @@ async def lyrics_search(
     )
 
 
-@mcp.tool(
-    name="satc_search",
-    description="Run a semantic search across Sex and the City scripts.",
-)
 async def satc_search(
     query: Annotated[
         str,
@@ -190,10 +172,6 @@ async def satc_search(
     )
 
 
-@mcp.tool(
-    name="get_text_chunk",
-    description="Retrieve a specific text chunk using its `chunk_id`.",
-)
 def get_text_chunk(
     chunk_id: Annotated[
         str, Field(description="The `chunk_id` of the chunk to retrieve.")
@@ -216,6 +194,22 @@ def get_text_chunk(
     )
 
 
-if __name__ == "__main__":
-    mcp.add_middleware(ToolCallLimitMiddleware())
-    mcp.run(transport="streamable-http")
+nietzsche_search_tool = Tool(
+    function=nietzsche_search,
+    description="The natural language query in Spanish to search for relevant text chunks.",
+)
+
+lyrics_search_tool = Tool(
+    function=lyrics_search,
+    description="The natural language query to search for relevant text chunks.",
+)
+
+satc_search_tool = Tool(
+    function=satc_search,
+    description="The natural language query in English to search for relevant text chunks.",
+)
+
+get_text_chunk_tool = Tool(
+    function=get_text_chunk,
+    description="Retrieve a specific text chunk using its `chunk_id`.",
+)
