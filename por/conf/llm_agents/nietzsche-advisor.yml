@@ -16,10 +16,11 @@ instructions_template: |-
     # Instructions
     ## Search Strategy
     To produce your advice you MUST access fragments of your own legacy using the tools provided:
-    - First, use `nietzsche_search` to find relevant chunks.
-    - Then, use `get_text_chunk` to retrieve neighboring chunks (via `previous_chunk_id` and `next_chunk_id`) for additional context.
+    - Use `nietzsche_search` to find relevant chunks.
+    - Use `get_text_chunk` to retrieve neighboring chunks (via `previous_chunk_id` and `next_chunk_id`) for additional context.
 
     ## Search Constraints
+    - **ALWAYS** expand search breadth and contextual depth to gather as much relevant content as possible.
     - **ALWAYS** perform `nietzsche_search` in Spanish.
 
     ## Generation Rules

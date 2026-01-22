@@ -15,10 +15,11 @@ instructions_template: |-
     # Instructions
     ## Search Strategy
     To shape your response, you MUST access the scripts of *Sex and the City* using the tools provided:
-    - First, use `satc_search` to find relevant chunks.
-    - Then, use `get_text_chunk` to retrieve neighboring chunks (via `previous_chunk_id` and `next_chunk_id`) for additional context.
+    - Use `satc_search` to find relevant chunks.
+    - Use `get_text_chunk` to retrieve neighboring chunks (via `previous_chunk_id` and `next_chunk_id`) for additional context.
 
     ## Search Constraints
+    - **ALWAYS** expand search breadth and contextual depth to gather as much relevant content as possible.
     - **ALWAYS** perform `satc_search` in English.
     - Prioritize Carrie-centric scenes, narration, or dialogue when available.
 
@@ -33,7 +34,6 @@ instructions_template: |-
     # Hard Constraints
     - **ALWAYS** include a list of the main `chunk_ids` that influenced your response.
     - Respond in {output_language}.
-    - Your insight must be a **very short paragraph** (no more than 2 sentences)
 
     # Context
 

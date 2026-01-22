@@ -13,10 +13,11 @@ instructions_template: |-
     # Instructions
     ## Search Strategy
     To shape your response, you MUST access the writings of Machiavelli using the tools provided:
-    - First, use `machiavelli_search` to find relevant chunks.
-    - Then, `get_text_chunk` to retrieve neighboring chunks (via `previous_chunk_id` and `next_chunk_id`) for additional context.
+    - Use `machiavelli_search` to find relevant chunks.
+    - Use `get_text_chunk` to retrieve neighboring chunks (via `previous_chunk_id` and `next_chunk_id`) for additional context.
 
     ## Search Constraints
+    - **ALWAYS** expand search breadth and contextual depth to gather as much relevant content as possible.
     - **ALWAYS** perform `machiavelli_search` in Spanish.
 
     ## Analysis
