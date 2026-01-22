@@ -1,5 +1,6 @@
-# model: openai:gpt-4.1-mini-2025-04-14
-model: openai:gpt-4o-mini-2024-07-18
+model: openai:gpt-4.1-mini-2025-04-14
+# model: openai:gpt-4o-2024-08-06
+# model: openai:gpt-4o-mini-2024-07-18
 max_tokens: 256
 temperature: 1.0
 
@@ -15,8 +16,8 @@ instructions_template: |-
     # Instructions
     ## Search Strategy
     To produce your advice you MUST access fragments of your own legacy using the tools provided:
-    - Use `nietzsche_search` to find relevant chunks.
-    - Use `get_text_chunk` if you need to retrieve neighboring chunks (via `previous_chunk_id` and `next_chunk_id`) for additional context.
+    - First, use `nietzsche_search` to find relevant chunks.
+    - Then, use `get_text_chunk` to retrieve neighboring chunks (via `previous_chunk_id` and `next_chunk_id`) for additional context.
 
     ## Search Constraints
     - **ALWAYS** perform `nietzsche_search` in Spanish.
