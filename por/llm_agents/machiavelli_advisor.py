@@ -1,5 +1,4 @@
 from pydantic_ai import ToolOutput
-from pydantic_ai.usage import UsageLimits
 
 from pydantic import BaseModel, StrictStr, Field
 from pydantic_extra_types.language_code import LanguageName
@@ -9,10 +8,7 @@ from llm_agents.meta.interfaces import LLMAgent
 
 from .psychological_describer import PsychologicalDescriberOutput
 from .tools import machiavelli_search_tool, get_text_chunk_tool
-from .utils import tool_logging_handler
-
-
-TOOL_CALL_LIMIT = 5
+from .utils import tool_logging_handler, hide_tools_after_limit
 
 
 class MachiavelliAdvisorDeps(BaseModel):
@@ -47,7 +43,7 @@ class MachiavelliAdvisor(
             output_type=ToolOutput(MachiavelliAdvisorOutput),  # type: ignore
             retries=3,
             max_concurrency=max_concurrency,
-            usage_limits=UsageLimits(tool_calls_limit=TOOL_CALL_LIMIT),
+            prepare_tools=hide_tools_after_limit,
             tools=[machiavelli_search_tool, get_text_chunk_tool],
             event_stream_handler=tool_logging_handler,  # type: ignore
         )

@@ -1,5 +1,4 @@
 from pydantic_ai import ToolOutput
-from pydantic_ai.usage import UsageLimits
 
 from pydantic import BaseModel, StrictStr, Field
 from pydantic_extra_types.language_code import LanguageName
@@ -7,11 +6,8 @@ from pydantic_extra_types.language_code import LanguageName
 from por.conf import llm_agents  # type: ignore
 from llm_agents.meta.interfaces import LLMAgent
 
-from .utils import tool_logging_handler
 from .tools import satc_search_tool, get_text_chunk_tool
-
-
-TOOL_CALL_LIMIT = 5
+from .utils import tool_logging_handler, hide_tools_after_limit
 
 
 class SATCAdvisorDeps(BaseModel):
@@ -43,7 +39,7 @@ class SATCAdvisor(LLMAgent[SATCAdvisorDeps, SATCAdvisorOutput]):
             output_type=ToolOutput(SATCAdvisorOutput),  # type: ignore
             retries=3,
             max_concurrency=max_concurrency,
-            usage_limits=UsageLimits(tool_calls_limit=TOOL_CALL_LIMIT),
+            prepare_tools=hide_tools_after_limit,
             tools=[satc_search_tool, get_text_chunk_tool],
             event_stream_handler=tool_logging_handler,  # type: ignore
         )
