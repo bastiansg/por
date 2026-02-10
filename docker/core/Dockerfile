@@ -1,11 +1,13 @@
-ARG UV_VERSION=0.9.25
+ARG UV_VERSION=0.9.30
 FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv_source
 
 FROM debian:bookworm-slim
+# FROM debian:trixie-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates gpg \
     && curl -fsSL https://archive.raspberrypi.org/debian/raspberrypi.gpg.key | gpg --dearmor -o /usr/share/keyrings/raspberrypi-archive-keyring.gpg \
     && echo "deb [signed-by=/usr/share/keyrings/raspberrypi-archive-keyring.gpg] http://archive.raspberrypi.org/debian bookworm main" > /etc/apt/sources.list.d/raspi.list \
+    # && echo "deb [trusted=yes] http://archive.raspberrypi.org/debian trixie main" > /etc/apt/sources.list.d/raspi.list \
     && apt-get update
 
 ARG PYTHON_VERSION=3.11
