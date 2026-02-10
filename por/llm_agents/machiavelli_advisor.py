@@ -24,7 +24,7 @@ class MachiavelliAdvisorOutput(BaseModel):
     )
 
     relevant_chunk_ids: list[StrictStr] = Field(
-        description="List of chunk_id values used to generate the advice.",
+        description="List of `chunk_id` values used to generate the advice.",
         min_length=1,
     )
 
