@@ -3,7 +3,7 @@ from typing import Any
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from por.llm_agents.tools import _get_text_chunk
+from por.db.qdrant import get_text_chunk
 from por.multi_agent.schema import StateSchema
 from por.llm_agents import MachiavelliAdvisor, MachiavelliAdvisorDeps
 
@@ -36,9 +36,14 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     relevant_chunk_ids = advisor_output.relevant_chunk_ids
     logger.info(f"relevant_chunk_ids: {len(relevant_chunk_ids)}")
-    chunk_records = (
-        _get_text_chunk(chunk_id=chunk_id) for chunk_id in relevant_chunk_ids
-    )
+    chunk_records = [
+        await get_text_chunk(
+            collection_name="machiavelli",
+            key="chunk_id",
+            value=chunk_id,
+        )
+        for chunk_id in relevant_chunk_ids
+    ]
 
     machiavellian_text_chunks = [
         chunk_record.payload["page_content"]
