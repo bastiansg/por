@@ -1,16 +1,15 @@
-polars==1.37.1
+polars==1.38.1
 gpiozero==2.0.1
-ipython==9.9.0
+ipython==9.10.0
 
 # Do not touch this versions
 torchvision==0.23.0
 torchaudio==2.8.0
 
 python-escpos==3.1
-sounddevice==0.5.3
+sounddevice==0.5.5
 
-fastmcp==2.14.3
-parsel==1.10.0
+parsel==1.11.0
 aiohttp==3.13.3
 
 # Bas packages
@@ -18,6 +17,6 @@ hailo_apps==1.0.26
 sensehat_dsp==1.0.25
 
 # Aureka packages
-multi_agents==1.1.15
-llm_agents==1.1.21
-rage==1.1.0
+multi_agents==1.1.16
+llm_agents==1.1.27
+rage==1.1.1

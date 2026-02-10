@@ -1,0 +1,90 @@
+from qdrant_client import models
+from qdrant_client.models import Record
+
+from common.logger import get_logger
+
+from rage.retriever import Retriever
+from rage.utils.embeddings import get_openai_embeddings
+
+from por.meta.schema import TextChunk
+
+
+logger = get_logger(__name__)
+
+
+SEARCH_TOP_K = 5
+SEARCH_SCORE_THRESHOLD = 0.3
+
+
+retriever = Retriever(dense_embeddings=get_openai_embeddings())
+
+
+async def dense_search(
+    query: str,
+    collection_name: str,
+    search_filter: models.Filter | None = None,
+) -> list[TextChunk]:
+    results = await retriever.dense_search(
+        collection_name=collection_name,
+        query=query,
+        k=SEARCH_TOP_K,
+        score_threshold=SEARCH_SCORE_THRESHOLD,
+        search_filter=search_filter,
+    )
+
+    results = sorted(
+        results,
+        key=lambda x: (
+            x.metadata["document_index"],
+            x.metadata["chunk_index"],
+        ),
+    )
+
+    return [TextChunk(**r.model_dump()) for r in results]
+
+
+async def get_text_chunk(
+    collection_name: str,
+    key: str,
+    value: str | int,
+) -> Record | None:
+    scroll_filter = models.Filter(
+        must=[
+            models.FieldCondition(
+                key=f"metadata.{key}",
+                match=models.MatchValue(value=value),
+            )
+        ]
+    )
+
+    results = await retriever.scroll(
+        collection_name=collection_name,
+        limit=1,
+        scroll_filter=scroll_filter,
+    )
+
+    if not len(results):
+        return None
+
+    return results[0]
+
+
+async def get_text_chunk_from_collections(
+    key: str,
+    value: str | int,
+) -> Record | None:
+    collections = await retriever.qadrant_async_client.get_collections()
+    collections_names = [c.name for c in collections.collections]
+
+    for collection_name in collections_names:
+        record = await get_text_chunk(
+            collection_name=collection_name,
+            key=key,
+            value=value,
+        )
+
+        if record is not None:
+            return record
+
+    k_v = {"key": key, "value": value}
+    logger.error(f"no results found for: {k_v}")

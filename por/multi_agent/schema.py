@@ -84,8 +84,10 @@ class StateSchema(BaseModel):
     nietzsche_text_chunks: list[StrictStr] = []
     satc_advice: StrictStr | None = None
     satc_text_chunks: list[StrictStr] = []
-    music_advice: StrictStr | None = None
-    selected_song: SelectedSong | None = None
+    machiavelli_advice: StrictStr | None = None
+    machiavelli_text_chunks: list[StrictStr] = []
+    # music_advice: StrictStr | None = None
+    # selected_song: SelectedSong | None = None
     selected_dc_poem: StrictStr | None = None
     selected_fc_message: StrictStr | None = None
     image_generation_prompt: StrictStr | None = None

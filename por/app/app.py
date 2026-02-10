@@ -14,7 +14,6 @@ from por.multi_agent import get_multi_agent, get_multi_agent_context
 if os.getenv("LOGFIRE_TOKEN") is not None:
     logfire.configure(service_name="por")
     logfire.instrument_pydantic_ai()
-    logfire.instrument_mcp()
     logfire.instrument_openai()
 
 

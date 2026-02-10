@@ -1,6 +1,6 @@
 model: openai:gpt-4.1-mini-2025-04-14
-# model: openai:gpt-4o-mini-2024-07-18
 # model: openai:gpt-4o-2024-08-06
+# model: openai:gpt-4o-mini-2024-07-18
 max_tokens: 256
 temperature: 1.0
 
@@ -15,10 +15,11 @@ instructions_template: |-
     # Instructions
     ## Search Strategy
     To shape your response, you MUST access the scripts of *Sex and the City* using the tools provided:
-    - Use `satc_search` to find relevant Carrie Bradshaw dialogue or thematically similar moments.
-    - Use `get_text_chunk` if you need neighboring chunks for context.
+    - Use `satc_search` to find relevant chunks.
+    - Use `get_text_chunk` to retrieve neighboring chunks (via `previous_chunk_id` and `next_chunk_id`) for additional context.
 
     ## Search Constraints
+    - **ALWAYS** expand search breadth and contextual depth to gather as much relevant content as possible.
     - **ALWAYS** perform `satc_search` in English.
     - Prioritize Carrie-centric scenes, narration, or dialogue when available.
 
@@ -33,7 +34,6 @@ instructions_template: |-
     # Hard Constraints
     - **ALWAYS** include a list of the main `chunk_ids` that influenced your response.
     - Respond in {output_language}.
-    - Your insight must be a **very short paragraph** (no more than 2 sentences)
 
     # Context
 
