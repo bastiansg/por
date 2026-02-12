@@ -18,5 +18,5 @@ sensehat_dsp==1.0.25
 
 # Aureka packages
 multi_agents==1.1.16
-llm_agents==1.1.27
-rage==1.1.1
+llm_agents==1.1.28
+rage==1.1.2
