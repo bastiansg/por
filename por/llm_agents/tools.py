@@ -33,22 +33,6 @@ async def nietzsche_search(
     )
 
 
-# async def lyrics_search(
-#     query: Annotated[
-#         str,
-#         Field(
-#             description="The natural language query in English to search for relevant text chunks."
-#         ),
-#     ],
-# ) -> list[TextChunk]:
-#     """Run a semantic search across Lyrics sources."""
-
-#     return await _search(
-#         query=query,
-#         collection_name="lyrics",
-#     )
-
-
 async def satc_search(
     query: str = Field(
         description="The natural language query in English to search for relevant text chunks."
@@ -72,6 +56,32 @@ async def machiavelli_search(
     return await dense_search(
         query=query,
         collection_name="machiavelli",
+    )
+
+
+async def matter_search(
+    query: str = Field(
+        description="The natural language query to search for relevant text chunks."
+    ),
+) -> list[TextChunk]:
+    """Run a semantic search across Matter sources."""
+
+    return await dense_search(
+        query=query,
+        collection_name="matter",
+    )
+
+
+async def borges_search(
+    query: str = Field(
+        description="The natural language query in Spanish to search for relevant text chunks."
+    ),
+) -> list[TextChunk]:
+    """Run a semantic search across Borges sources."""
+
+    return await dense_search(
+        query=query,
+        collection_name="borges",
     )
 
 
@@ -104,19 +114,25 @@ nietzsche_search_tool = Tool(
     description="The natural language query in Spanish to search for relevant text chunks.",
 )
 
-# lyrics_search_tool = Tool(
-#     function=lyrics_search,
-#     description="The natural language query to search for relevant text chunks.",
-# )
 
 satc_search_tool = Tool(
     function=satc_search,
-    description="The natural language query in English to search for relevant text chunks.",
+    description="Run a semantic search across Nietzsche sources.",
 )
 
 machiavelli_search_tool = Tool(
     function=machiavelli_search,
-    description="The natural language query in Spanish to search for relevant text chunks.",
+    description="Run a semantic search across Machiavelli sources.",
+)
+
+matter_search_tool = Tool(
+    function=matter_search,
+    description="Run a semantic search across Matter sources.",
+)
+
+borges_search_tool = Tool(
+    function=borges_search,
+    description="Run a semantic search across Borges sources.",
 )
 
 get_text_chunk_tool = Tool(

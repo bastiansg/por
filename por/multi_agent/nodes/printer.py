@@ -95,35 +95,19 @@ def main_pipeline(
 
     printer.set(bold=True, align="left")
     printer.set(bold=True)
-    printer.block_text("$$ Lo que dicen que Nietzsche dijo:")
+    printer.block_text("$$ Lo que dice la Materia:")
     printer.text("\n")
     printer.set(bold=False)
 
-    printer.block_text(state.nietzsche_advise)
+    printer.block_text(state.matter_advise)
     printer.text("\n\n")
 
-    # selected_song = state.selected_song
-    # assert selected_song is not None
-
     printer.set(bold=True)
-    printer.block_text("$$ Lo que escribe Carrie Bradshaw:")
+    printer.block_text("$$ Interacciones (Im)posibles | Borges:")
     printer.text("\n")
     printer.set(bold=False)
 
-    printer.block_text(state.satc_advice)
-    printer.text("\n\n")
-
-    # printer.set(bold=True)
-    # printer.block_text(f"$$ Lo que canta {selected_song.artist} para vos:")
-    # printer.text("\n")
-    # printer.set(bold=False)
-
-    printer.set(bold=True)
-    printer.block_text("$$ El plan de Maquiavelo:")
-    printer.text("\n")
-    printer.set(bold=False)
-
-    printer.block_text(state.machiavelli_advice)
+    printer.block_text(state.borges_matter_advise)
     printer.text("\n\n")
 
     printer.text("------------------------------------------------")

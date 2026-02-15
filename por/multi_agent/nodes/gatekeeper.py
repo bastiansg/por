@@ -3,6 +3,7 @@ from typing import Any
 from multi_agents.graph import Node
 from common.logger import get_logger
 
+from por.conf import llm_agents  # type: ignore
 from por.llm_agents import Gatekeeper, GatekeeperDeps
 from por.multi_agent.schema import StateSchema
 
@@ -34,7 +35,10 @@ async def run(state: StateSchema) -> dict[str, Any]:
     detected_language = state.detected_language
     assert detected_language is not None
 
-    gatekeeper = Gatekeeper()
+    gatekeeper = Gatekeeper(
+        conf_path=f"{llm_agents.__path__[0]}/matter-gatekeeper.yml",
+    )
+
     gatekeeper_output = await gatekeeper.generate(
         user_prompt=f"Persons's Message: {audio_transcription}",
         agent_deps=GatekeeperDeps(output_language=detected_language),

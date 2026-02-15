@@ -14,6 +14,7 @@ class GatekeeperOutput(BaseModel):
     message_accepted: StrictBool = Field(
         description="Whether the message is accepted to be delivered to the Oracle."
     )
+
     rejection_reason: StrictStr | None = Field(
         default=None,
         description="A justification for why the message was rejected.",

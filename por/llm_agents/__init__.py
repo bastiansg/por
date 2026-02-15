@@ -18,13 +18,6 @@ from .nietzsche_advisor import (  # noqa
     NietzscheAdvisorOutput,
 )
 
-
-# from .music_advisor import (  # noqa
-#     MusicAdvisor,
-#     MusicAdvisorDeps,
-#     MusicAdvisorOutput,
-# )
-
 from .language_detector import LanguageDetector, LanguageDetectorOutput  # noqa
 from .image_prompter import ImagePrompter, ImagePrompterDeps  # noqa
 
@@ -33,4 +26,16 @@ from .machiavelli_advisor import (  # noqa
     MachiavelliAdvisor,
     MachiavelliAdvisorDeps,
     MachiavelliAdvisorOutput,
+)
+
+from .borges_matter_advisor import (  # noqa
+    BorgesMatterAdvisor,
+    BorgesMatterAdvisorDeps,
+    BorgesMatterAdvisorOutput,
+)
+
+from .matter_advisor import (  # noqa
+    MatterAdvisor,
+    MatterAdvisorDeps,
+    MatterAdvisorOutput,
 )

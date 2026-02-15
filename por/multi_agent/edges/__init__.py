@@ -7,9 +7,7 @@ from .edges import (  # noqa
     language_detector_gatekeeper,
     gatekeeper_validation_checkpoint,
     validation_checkpoint_conditional,
-    psychological_describer_nietzsche_advisor,
-    psychological_describer_satc_advisor,
-    # psychological_describer_music_advisor,
-    psychological_describer_machiavelli_advisor,
+    psychological_describer_matter_advisor,
+    psychological_describer_borges_matter_advisor,
     printer_edges,
 )
