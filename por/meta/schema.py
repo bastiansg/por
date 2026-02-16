@@ -2,15 +2,8 @@ from pydantic import BaseModel, StrictStr, Field
 
 
 class ChunkMetadata(BaseModel):
-    # artist: StrictStr | None = Field(
-    #     description="The artist of the song if the text chunk contains lyrics.",
-    #     default=None,
-    # )
-
-    # title: StrictStr | None = Field(
-    #     description="The title of the song if the text chunk contains lyrics.",
-    #     default=None,
-    # )
+    author: StrictStr = Field(description="")
+    title: StrictStr = Field(description="")
 
     chunk_id: StrictStr = Field(
         description="A unique identifier for this text chunk within the collection."
@@ -28,8 +21,5 @@ class ChunkMetadata(BaseModel):
 
 
 class TextChunk(BaseModel):
-    text: StrictStr = Field(
-        description="The actual textual content of the chunk."
-    )
-
+    text: StrictStr = Field(description="The textual content of the chunk.")
     metadata: ChunkMetadata

@@ -1,7 +1,8 @@
 from typing import Literal
 
-from pydantic_ai import Tool
 from pydantic import Field
+from pydantic_ai import Tool
+from qdrant_client import models
 
 from common.logger import get_logger
 
@@ -73,9 +74,19 @@ async def matter_search(
 ) -> list[TextChunk]:
     """Run a semantic search across Matter sources."""
 
+    search_filter = models.Filter(
+        must=[
+            models.FieldCondition(
+                key="metadata.language",
+                match=models.MatchValue(value=query_language),
+            )
+        ],
+    )
+
     return await dense_search(
         query=query,
         collection_name="matter",
+        search_filter=search_filter,
     )
 
 

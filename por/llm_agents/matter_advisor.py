@@ -20,12 +20,12 @@ class MatterAdvisorDeps(BaseModel):
 
 class MatterAdvisorOutput(BaseModel):
     matter_advise: StrictStr = Field(
-        description="A profound, poetic, and transformative piece of advice from Matter itself.",
+        description="Your profound, poetic, and transformative piece of advice.",
         min_length=1,
     )
 
     relevant_chunk_ids: list[StrictStr] = Field(
-        description="List of `chunk_id` values used to generate the advice.",
+        description="List of unique `chunk_id` values that influenced your advice.",
         min_length=1,
     )
 
