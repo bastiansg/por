@@ -52,7 +52,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     return {
         "borges_matter_advise": ma_output.borges_matter_advise,
-        "matter_text_chunks": borges_matter_text_chunks,
+        "borges_matter_text_chunks": borges_matter_text_chunks,
     }
 
 

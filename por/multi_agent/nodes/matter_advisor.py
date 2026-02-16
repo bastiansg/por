@@ -32,6 +32,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
             search_languages=[  # type: ignore
                 "English",
                 "Spanish",
+                "French",
             ],
             output_language=detected_language,
         ),

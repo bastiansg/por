@@ -7,7 +7,7 @@ from por.conf import llm_agents  # type: ignore
 from llm_agents.meta.interfaces import LLMAgent
 
 from .psychological_describer import PsychologicalDescriberOutput
-from .tools import machiavelli_search_tool, get_text_chunk_tool
+from .tools import matter_search_tool, get_text_chunk_tool
 from .utils import tool_logging_handler, hide_tools_after_limit
 
 
@@ -43,6 +43,6 @@ class MatterAdvisor(LLMAgent[MatterAdvisorDeps, MatterAdvisorOutput]):
             retries=3,
             max_concurrency=max_concurrency,
             prepare_tools=hide_tools_after_limit,
-            tools=[machiavelli_search_tool, get_text_chunk_tool],
+            tools=[matter_search_tool, get_text_chunk_tool],
             event_stream_handler=tool_logging_handler,  # type: ignore
         )

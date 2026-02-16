@@ -1,3 +1,5 @@
+from typing import Literal
+
 from pydantic_ai import Tool
 from pydantic import Field
 
@@ -63,6 +65,11 @@ async def matter_search(
     query: str = Field(
         description="The natural language query to search for relevant text chunks."
     ),
+    query_language: Literal[
+        "English",
+        "Spanish",
+        "French",
+    ] = Field(description="The language of the input query."),
 ) -> list[TextChunk]:
     """Run a semantic search across Matter sources."""
 
