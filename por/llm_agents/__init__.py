@@ -38,3 +38,9 @@ from .matter_advisor import (  # noqa
     MatterAdvisorDeps,
     MatterAdvisorOutput,
 )
+
+from .retrieval_assistant import (  # noqa
+    RetrievalAssistant,
+    RetrievalAssistantDeps,
+    RetrievalAssistantOutput,
+)

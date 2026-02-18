@@ -11,8 +11,8 @@ from .schema import ContextSchema
 CONF_PATH = multi_agent.__path__[0]
 
 
-@lru_cache(maxsize=1)
-def get_multi_agent_context() -> ContextSchema:
+@lru_cache()
+def get_multi_agent_context(test_mode: bool = False) -> ContextSchema:
     return ContextSchema(
         **(
             load_yaml(file_path=f"{CONF_PATH}/conf.yml")
@@ -37,6 +37,7 @@ def get_multi_agent_context() -> ContextSchema:
                         start=1,
                     )
                 ],
+                "test_mode": test_mode,
             }
         )
     )

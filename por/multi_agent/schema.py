@@ -18,6 +18,7 @@ from pydantic import (
     field_validator,
 )
 
+from por.meta.schema import TextChunk
 from por.llm_agents.image_describer import ImageDescriberOutput
 from por.llm_agents.psychological_describer import PsychologicalDescriberOutput
 
@@ -54,6 +55,7 @@ class ContextSchema(BaseModel):
     dc_poems: list[DCPoem]
     fc_messages: list[FCMessage]
     printer: Printer
+    test_mode: StrictBool
 
     @field_validator("images_path", mode="after")
     def images_path_validator(cls, v: str) -> str:
@@ -81,9 +83,9 @@ class StateSchema(BaseModel):
     image_description: ImageDescriberOutput | None = None
     psychological_profile: PsychologicalDescriberOutput | None = None
     matter_advise: StrictStr | None = None
-    matter_text_chunks: list[StrictStr] = []
+    matter_text_chunks: list[TextChunk] = []
     borges_matter_advise: StrictStr | None = None
-    borges_matter_text_chunks: list[StrictStr] = []
+    borges_matter_text_chunks: list[TextChunk] = []
     selected_dc_poem: StrictStr | None = None
     selected_fc_message: StrictStr | None = None
     image_generation_prompt: StrictStr | None = None

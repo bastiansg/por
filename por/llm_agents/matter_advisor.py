@@ -3,29 +3,29 @@ from pydantic_ai import ToolOutput
 from pydantic import BaseModel, StrictStr, Field
 from pydantic_extra_types.language_code import LanguageName
 
-from por.conf import llm_agents  # type: ignore
 from llm_agents.meta.interfaces import LLMAgent
 
+from por.conf import llm_agents  # type: ignore
+from por.meta.schema import TextChunk
+
 from .psychological_describer import PsychologicalDescriberOutput
-from .tools import matter_search_tool, get_text_chunk_tool
-from .utils import tool_logging_handler, hide_tools_after_limit
 
 
 class MatterAdvisorDeps(BaseModel):
     psychological_profile: PsychologicalDescriberOutput
     question: StrictStr
-    search_languages: list[LanguageName]
+    text_chunks: list[TextChunk]
     output_language: LanguageName
 
 
 class MatterAdvisorOutput(BaseModel):
-    matter_advise: StrictStr = Field(
-        description="Your profound, poetic, and transformative piece of advice.",
+    answer: StrictStr = Field(
+        description="Your profound, poetic, and transformative message.",
         min_length=1,
     )
 
     relevant_chunk_ids: list[StrictStr] = Field(
-        description="List of unique `chunk_id` values that influenced your advice.",
+        description="List of unique `chunk_id` values that influenced your answer.",
         min_length=1,
     )
 
@@ -42,7 +42,4 @@ class MatterAdvisor(LLMAgent[MatterAdvisorDeps, MatterAdvisorOutput]):
             output_type=ToolOutput(MatterAdvisorOutput),  # type: ignore
             retries=3,
             max_concurrency=max_concurrency,
-            prepare_tools=hide_tools_after_limit,
-            tools=[matter_search_tool, get_text_chunk_tool],
-            event_stream_handler=tool_logging_handler,  # type: ignore
         )

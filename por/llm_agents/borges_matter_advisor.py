@@ -3,23 +3,24 @@ from pydantic_ai import ToolOutput
 from pydantic import BaseModel, StrictStr, Field
 from pydantic_extra_types.language_code import LanguageName
 
-from por.conf import llm_agents  # type: ignore
 from llm_agents.meta.interfaces import LLMAgent
 
+from por.conf import llm_agents  # type: ignore
+from por.meta.schema import TextChunk
+
 from .psychological_describer import PsychologicalDescriberOutput
-from .tools import borges_search_tool, get_text_chunk_tool
-from .utils import tool_logging_handler, hide_tools_after_limit
 
 
 class BorgesMatterAdvisorDeps(BaseModel):
     psychological_profile: PsychologicalDescriberOutput
     question: StrictStr
+    text_chunks: list[TextChunk]
     output_language: LanguageName
 
 
 class BorgesMatterAdvisorOutput(BaseModel):
-    borges_matter_advise: StrictStr = Field(
-        description="Your profound, poetic, and metaphysical piece of advice.",
+    answer: StrictStr = Field(
+        description="Your profound, poetic, and metaphysical message.",
         min_length=1,
     )
 
@@ -43,7 +44,4 @@ class BorgesMatterAdvisor(
             output_type=ToolOutput(BorgesMatterAdvisorOutput),  # type: ignore
             retries=3,
             max_concurrency=max_concurrency,
-            prepare_tools=hide_tools_after_limit,
-            tools=[borges_search_tool, get_text_chunk_tool],
-            event_stream_handler=tool_logging_handler,  # type: ignore
         )

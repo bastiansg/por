@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Test Multi Agent",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "por.scripts.multi_agent.run_multi_agent",
+            "jinja": true,
+            "justMyCode": true
+        }
+    ]
+}
