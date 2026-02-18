@@ -35,5 +35,4 @@ instructions_template: |-
     - Respond in {output_language}.
 
     # Context
-
     **Question**: {question}

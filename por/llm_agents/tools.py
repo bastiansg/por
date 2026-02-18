@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Annotated, Literal
 
 from pydantic import Field
 from pydantic_ai import Tool
@@ -24,9 +24,12 @@ retriever = Retriever(dense_embeddings=get_openai_embeddings())
 
 
 async def nietzsche_search(
-    query: str = Field(
-        description="The natural language query in Spanish to search for relevant text chunks."
-    ),
+    query: Annotated[
+        str,
+        Field(
+            description="The natural language query in Spanish to search for relevant text chunks."
+        ),
+    ],
 ) -> list[TextChunk]:
     """Run a semantic search across Nietzsche sources."""
 
@@ -37,9 +40,12 @@ async def nietzsche_search(
 
 
 async def satc_search(
-    query: str = Field(
-        description="The natural language query in English to search for relevant text chunks."
-    ),
+    query: Annotated[
+        str,
+        Field(
+            description="The natural language query in English to search for relevant text chunks."
+        ),
+    ],
 ) -> list[TextChunk]:
     """Run a semantic search across Sex and the City scripts."""
 
@@ -50,9 +56,12 @@ async def satc_search(
 
 
 async def machiavelli_search(
-    query: str = Field(
-        description="The natural language query in Spanish to search for relevant text chunks."
-    ),
+    query: Annotated[
+        str,
+        Field(
+            description="The natural language query in Spanish to search for relevant text chunks."
+        ),
+    ],
 ) -> list[TextChunk]:
     """Run a semantic search across Machiavelli sources."""
 
@@ -63,14 +72,20 @@ async def machiavelli_search(
 
 
 async def matter_search(
-    query: str = Field(
-        description="The natural language query to search for relevant text chunks."
-    ),
-    query_language: Literal[
-        "English",
-        "Spanish",
-        "French",
-    ] = Field(description="The language of the input query."),
+    query: Annotated[
+        str,
+        Field(
+            description="The natural language query to search for relevant text chunks."
+        ),
+    ],
+    query_language: Annotated[
+        Literal[
+            "English",
+            "Spanish",
+            "French",
+        ],
+        Field(description="The language of the input query."),
+    ] = "English",
 ) -> list[TextChunk]:
     """Run a semantic search across Matter sources."""
 
@@ -91,9 +106,12 @@ async def matter_search(
 
 
 async def borges_search(
-    query: str = Field(
-        description="The natural language query in Spanish to search for relevant text chunks."
-    ),
+    query: Annotated[
+        str,
+        Field(
+            description="The natural language query in Spanish to search for relevant text chunks."
+        ),
+    ],
 ) -> list[TextChunk]:
     """Run a semantic search across Borges sources."""
 
@@ -104,9 +122,10 @@ async def borges_search(
 
 
 async def get_text_chunk(
-    chunk_id: str = Field(
-        description="The `chunk_id` of the chunk to retrieve."
-    ),
+    chunk_id: Annotated[
+        str,
+        Field(description="The `chunk_id` of the chunk to retrieve."),
+    ],
 ) -> TextChunk | None:
     """Retrieve a specific text chunk using its `chunk_id`."""
 
@@ -131,7 +150,6 @@ nietzsche_search_tool = Tool(
     function=nietzsche_search,
     description="The natural language query in Spanish to search for relevant text chunks.",
 )
-
 
 satc_search_tool = Tool(
     function=satc_search,

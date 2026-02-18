@@ -27,5 +27,4 @@ instructions_template: |-
     - Respond with the psychological profile in {output_language}.
 
     # Context
-
     **Question**: {question}

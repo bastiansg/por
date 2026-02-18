@@ -19,9 +19,13 @@ logger = get_logger(__name__)
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
-    logger.info("runing image_generator...")
     runtime = get_runtime(ContextSchema)
     runtime_context = runtime.context
+
+    if runtime_context.test_mode:
+        return {}
+
+    logger.info("runing image_generator...")
 
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.stop()

@@ -3,7 +3,9 @@ import uuid
 import logfire
 import asyncio
 
-from rich.pretty import pprint
+from tqdm import tqdm
+# from rich.pretty import pprint
+
 from common.logger import get_logger
 from common.utils.path import create_path
 from common.utils.json_data import save_json
@@ -20,37 +22,53 @@ if os.getenv("LOGFIRE_TOKEN") is not None:
 logger = get_logger(__name__)
 
 
-STORE_PATH = "/resources/states"
-create_path(STORE_PATH)
-
+RESULTS_FILE_PATH = "/resources/test-results/results.json"
 TEST_IMAGE_PATH = (
     "/resources/test-images/7202c5f8-6c10-410c-b064-761662aaf545.jpeg"
 )
-QURESTION = "Como esta asociada la idea de movimiento con el concepto de lo vivo o de la vida?"
+
+TEST_QURESTIONS = [
+    "I'm a material designer, and I've been questioning what does it mean for a material to be alive? How can living and lifelike materials explore their potential influence on design culture?",
+    "¿Qué implica para el futuro de nuestra sociedad el pensar una nueva especie del diseño desde una perspectiva material?",
+    "Que significa el movimiento en el mundo biomaterial?",
+    "What kind of animals have inspired active materials?",
+    "Como esta asociada la idea de movimiento con el concepto de lo vivo o de la vida?",
+]
 
 
 async def main() -> None:
     multi_agent = get_multi_agent()
     context = get_multi_agent_context(test_mode=True)
-    image_id = uuid.uuid4().hex
 
-    state = await multi_agent.run(
-        input_state={
-            "image_id": image_id,
-            "image_path": TEST_IMAGE_PATH,
-            "audio_transcription": QURESTION,
-        },
-        context=context,
-        thread_id=image_id,
-    )
+    states = []
+    for test_question in tqdm(TEST_QURESTIONS, ascii=True):
+        image_id = uuid.uuid4().hex
+        state = await multi_agent.run(
+            input_state={
+                "image_id": image_id,
+                "image_path": TEST_IMAGE_PATH,
+                "audio_transcription": test_question,
+            },
+            context=context,
+            thread_id=image_id,
+        )
 
-    assert state is not None
-    state = state.model_dump()
-    pprint(state)
+        states.append(state)
 
+    results = [
+        {
+            "question": state.audio_transcription,
+            "matter_advise": state.matter_advise,
+            "borges_advise": state.borges_matter_advise,
+        }
+        for state in states
+    ]
+
+    # pprint(results)
+    create_path(os.path.dirname(RESULTS_FILE_PATH))
     save_json(
-        obj=state,
-        file_path=f"{STORE_PATH}/{image_id}.json",
+        obj=results,
+        file_path=RESULTS_FILE_PATH,
     )
 
 
