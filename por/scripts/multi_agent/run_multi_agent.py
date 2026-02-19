@@ -28,11 +28,12 @@ TEST_IMAGE_PATH = (
 )
 
 TEST_QURESTIONS = [
-    "I'm a material designer, and I've been questioning what does it mean for a material to be alive? How can living and lifelike materials explore their potential influence on design culture?",
-    "¿Qué implica para el futuro de nuestra sociedad el pensar una nueva especie del diseño desde una perspectiva material?",
-    "Que significa el movimiento en el mundo biomaterial?",
-    "What kind of animals have inspired active materials?",
-    "Como esta asociada la idea de movimiento con el concepto de lo vivo o de la vida?",
+    # "I'm a material designer, and I've been questioning what does it mean for a material to be alive? How can living and lifelike materials explore their potential influence on design culture?",
+    # "¿Qué implica para el futuro de nuestra sociedad el pensar una nueva especie del diseño desde una perspectiva material?",
+    # "Que significa el movimiento en el mundo biomaterial?",
+    # "What kind of animals have inspired active materials?",
+    # "Como esta asociada la idea de movimiento con el concepto de lo vivo o de la vida?",
+    "Que suecede cuando la materia deja de ebedecer y empieza a manifestar comportamientos propios?",
 ]
 
 

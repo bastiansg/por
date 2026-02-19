@@ -34,16 +34,16 @@ def head_pipeline(
     printer.block_text("* Oráculo Robot. (2025, ∞)")
     printer.text("\n")
     printer.block_text("* @dd.moon__                All rights reserved.")
-    # printer.text("\n\n")
-
-    # printer.text("\n")
-    # printer.image(
-    #     img_source="/resources/ticket-images/la-curva-especial-edition-pixel-576.jpeg"
-    # )
-
-    # printer.text("\n\n")
-
     printer.text("\n\n")
+
+    printer.text("\n")
+    printer.image(
+        img_source="/resources/ticket-images/material-interactions.png"
+    )
+
+    # printer.text("\n\n")
+
+    # printer.text("\n\n")
     printer.text("------------------------------------------------")
     printer.text("\n\n")
 
@@ -95,20 +95,20 @@ def main_pipeline(
 
     printer.set(bold=True, align="left")
     printer.set(bold=True)
-    printer.block_text("$$ Lo que dice la Materia:")
+    printer.block_text("$$ Interacciones (im)posibles con la Materia:")
     printer.text("\n")
     printer.set(bold=False)
 
     printer.block_text(state.matter_advise)
     printer.text("\n\n")
 
-    printer.set(bold=True)
-    printer.block_text("$$ Interacciones (Im)posibles | Borges:")
-    printer.text("\n")
-    printer.set(bold=False)
+    # printer.set(bold=True)
+    # printer.block_text("$$ Interacciones (Im)posibles | Borges:")
+    # printer.text("\n")
+    # printer.set(bold=False)
 
-    printer.block_text(state.borges_matter_advise)
-    printer.text("\n\n")
+    # printer.block_text(state.borges_matter_advise)
+    # printer.text("\n\n")
 
     printer.text("------------------------------------------------")
     printer.text("\n\n")

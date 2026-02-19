@@ -1,6 +1,6 @@
 model: openai:gpt-4.1-2025-04-14
 # model: openai:gpt-4.1-mini-2025-04-14
-max_tokens: 1024
+max_tokens: 512
 temperature: 1.0
 
 # model: openai:gpt-5.2-2025-12-11
@@ -29,9 +29,12 @@ instructions_template: |-
     # Instructions
     ### Answer Constraints
     Your answer MUST:
-    - be inspired by the **Text Chunks** — but never quote them directly.
-    - be delivered as a **single short paragraph** (no more than 4 sentences).
-    - be in {output_language}.
+    - Be inspired by the **Text Chunks** — but never quote them directly.
+    - Be delivered as a **single short paragraph**, make it succinct.
+    - Be direct and candid — do not sugarcoat, hedge, or soften the message.
+    - Not restate, reference, or cite the question — just answer directly and get to the point.
+    - End with a bold "tag line" sentence that clearly and assertively states your point of view.
+    - Be in {output_language}.
 
     ### Answer Voice Requirements
     - Do not introduce, describe, or define yourself as matter, simply speak from your nature without explaining what you are.
