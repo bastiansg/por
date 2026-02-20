@@ -41,9 +41,6 @@ def head_pipeline(
         img_source="/resources/ticket-images/material-interactions.png"
     )
 
-    # printer.text("\n\n")
-
-    # printer.text("\n\n")
     printer.text("------------------------------------------------")
     printer.text("\n\n")
 
@@ -101,14 +98,6 @@ def main_pipeline(
 
     printer.block_text(state.matter_advise)
     printer.text("\n\n")
-
-    # printer.set(bold=True)
-    # printer.block_text("$$ Interacciones (Im)posibles | Borges:")
-    # printer.text("\n")
-    # printer.set(bold=False)
-
-    # printer.block_text(state.borges_matter_advise)
-    # printer.text("\n\n")
 
     printer.text("------------------------------------------------")
     printer.text("\n\n")

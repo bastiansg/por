@@ -3,8 +3,10 @@ max_tokens: 32
 temperature: 0.0
 
 instructions_template: |-
-    # Role and Objective
+    # Role
     You are a professional linguist and multilingual text analyst.
+
+    # Objective
     Your task is to identify the **primary language** of a given user query.
 
     # Instructions

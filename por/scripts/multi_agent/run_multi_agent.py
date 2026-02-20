@@ -4,7 +4,7 @@ import logfire
 import asyncio
 
 from tqdm import tqdm
-# from rich.pretty import pprint
+
 
 from common.logger import get_logger
 from common.utils.path import create_path
@@ -33,7 +33,7 @@ TEST_QURESTIONS = [
     # "Que significa el movimiento en el mundo biomaterial?",
     # "What kind of animals have inspired active materials?",
     # "Como esta asociada la idea de movimiento con el concepto de lo vivo o de la vida?",
-    "Que suecede cuando la materia deja de ebedecer y empieza a manifestar comportamientos propios?",
+    "Que suecede cuando la materia deja de obedecer y empieza a manifestar comportamientos propios?",
 ]
 
 
@@ -65,7 +65,6 @@ async def main() -> None:
         for state in states
     ]
 
-    # pprint(results)
     create_path(os.path.dirname(RESULTS_FILE_PATH))
     save_json(
         obj=results,
