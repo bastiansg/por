@@ -1,21 +1,15 @@
 from functools import lru_cache
-
-from por.conf import multi_agent  # type: ignore
 from por.data import dc_poems, fc_messages
 
-from common.utils.yaml_data import load_yaml
-
 from .schema import ContextSchema
-
-
-CONF_PATH = multi_agent.__path__[0]
+from .config import MultiAgentConfig
 
 
 @lru_cache()
 def get_multi_agent_context(test_mode: bool = False) -> ContextSchema:
     return ContextSchema(
         **(
-            load_yaml(file_path=f"{CONF_PATH}/conf.yml")
+            MultiAgentConfig().model_dump()
             | {
                 "dc_poems": [
                     {

@@ -3,8 +3,9 @@ from pydantic import BaseModel, StrictStr, Field
 
 from pydantic_extra_types.language_code import LanguageName
 
-from por.conf import llm_agents  # type: ignore
 from llm_agents.meta.interfaces import LLMAgent
+
+from por.llm_agents import psychological_describer
 
 
 class PsychologicalDescriberDeps(BaseModel):
@@ -59,7 +60,7 @@ class PsychologicalDescriber(
 ):
     def __init__(
         self,
-        conf_path=f"{llm_agents.__path__[0]}/psychological-describer.yml",
+        conf_path=f"{psychological_describer.__path__[0]}/psychological-describer.yml",
         max_concurrency: int = 10,
     ):
         super().__init__(

@@ -5,10 +5,12 @@ from pydantic_extra_types.language_code import LanguageName
 
 from llm_agents.meta.interfaces import LLMAgent
 
-from por.conf import llm_agents  # type: ignore
+from por.llm_agents import matter_advisor
 from por.meta.schema import TextChunk
 
-from .psychological_describer import PsychologicalDescriberOutput
+from ..psychological_describer.psychological_describer import (
+    PsychologicalDescriberOutput,
+)
 
 
 class MatterAdvisorDeps(BaseModel):
@@ -33,7 +35,7 @@ class MatterAdvisorOutput(BaseModel):
 class MatterAdvisor(LLMAgent[MatterAdvisorDeps, MatterAdvisorOutput]):
     def __init__(
         self,
-        conf_path=f"{llm_agents.__path__[0]}/matter-advisor.yml",
+        conf_path=f"{matter_advisor.__path__[0]}/matter-advisor.yml",
         max_concurrency: int = 10,
     ):
         super().__init__(

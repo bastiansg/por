@@ -5,8 +5,9 @@ from pydantic_ai import ToolOutput, Tool
 
 from llm_agents.meta.interfaces import LLMAgent
 
-from por.conf import llm_agents  # type: ignore
-from .utils import hide_tools_after_limit, tool_logging_handler
+from por.llm_agents import retrieval_assistant
+
+from ..utils import hide_tools_after_limit, tool_logging_handler
 
 
 class RetrievalAssistantDeps(BaseModel):
@@ -26,7 +27,7 @@ class RetrievalAssistant(
 ):
     def __init__(
         self,
-        conf_path=f"{llm_agents.__path__[0]}/retrieval-assistant.yml",
+        conf_path=f"{retrieval_assistant.__path__[0]}/retrieval-assistant.yml",
         max_concurrency: int = 10,
         retries: int = 3,
         tools: list[Tool] = [],

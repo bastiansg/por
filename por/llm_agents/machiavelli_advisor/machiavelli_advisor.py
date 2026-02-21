@@ -3,12 +3,15 @@ from pydantic_ai import ToolOutput
 from pydantic import BaseModel, StrictStr, Field
 from pydantic_extra_types.language_code import LanguageName
 
-from por.conf import llm_agents  # type: ignore
 from llm_agents.meta.interfaces import LLMAgent
+from por.llm_agents import machiavelli_advisor
 
-from .psychological_describer import PsychologicalDescriberOutput
-from .tools import machiavelli_search_tool, get_text_chunk_tool
-from .utils import tool_logging_handler, hide_tools_after_limit
+from ..psychological_describer.psychological_describer import (
+    PsychologicalDescriberOutput,
+)
+
+from ..tools import machiavelli_search_tool, get_text_chunk_tool
+from ..utils import tool_logging_handler, hide_tools_after_limit
 
 
 class MachiavelliAdvisorDeps(BaseModel):
@@ -34,7 +37,7 @@ class MachiavelliAdvisor(
 ):
     def __init__(
         self,
-        conf_path=f"{llm_agents.__path__[0]}/machiavellian-advisor.yml",
+        conf_path=f"{machiavelli_advisor.__path__[0]}/machiavellian-advisor.yml",
         max_concurrency: int = 10,
     ):
         super().__init__(

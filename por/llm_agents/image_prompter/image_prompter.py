@@ -2,11 +2,17 @@ from pydantic_ai import ToolOutput
 
 from pydantic import BaseModel, StrictStr, Field
 
-from por.conf import llm_agents  # type: ignore
 from llm_agents.meta.interfaces import LLMAgent
 
-from .psychological_describer import PsychologicalDescriberOutput
-from .image_describer import PhysicalDescription, ClothingDescription
+from por.llm_agents import image_prompter
+
+from ..psychological_describer.psychological_describer import (
+    PsychologicalDescriberOutput,
+)
+from ..image_describer.image_describer import (
+    PhysicalDescription,
+    ClothingDescription,
+)
 
 
 class ImagePrompterDeps(BaseModel):
@@ -26,7 +32,7 @@ class ImagePrompterOutput(BaseModel):
 class ImagePrompter(LLMAgent[ImagePrompterDeps, ImagePrompterOutput]):
     def __init__(
         self,
-        conf_path=f"{llm_agents.__path__[0]}/image-prompter.yml",
+        conf_path=f"{image_prompter.__path__[0]}/image-prompter.yml",
         max_concurrency: int = 10,
     ):
         super().__init__(

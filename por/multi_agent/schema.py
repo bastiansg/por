@@ -19,8 +19,7 @@ from pydantic import (
 )
 
 from por.meta.schema import TextChunk
-from por.llm_agents.image_describer import ImageDescriberOutput
-from por.llm_agents.psychological_describer import PsychologicalDescriberOutput
+from por.llm_agents import ImageDescriberOutput, PsychologicalDescriberOutput
 
 
 class GolColors(BaseModel):
