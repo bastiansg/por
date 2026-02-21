@@ -4,7 +4,7 @@ import logfire
 import asyncio
 
 from tqdm import tqdm
-
+from rich.pretty import pprint
 
 from common.logger import get_logger
 from common.utils.path import create_path
@@ -39,6 +39,8 @@ TEST_QURESTIONS = [
 
 async def main() -> None:
     multi_agent = get_multi_agent()
+    multi_agent.display_graph()
+
     context = get_multi_agent_context(test_mode=True)
 
     states = []
@@ -60,10 +62,11 @@ async def main() -> None:
         {
             "question": state.audio_transcription,
             "matter_advise": state.matter_advise,
-            "borges_advise": state.borges_matter_advise,
         }
         for state in states
     ]
+
+    pprint(results)
 
     create_path(os.path.dirname(RESULTS_FILE_PATH))
     save_json(

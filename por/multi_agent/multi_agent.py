@@ -10,7 +10,6 @@ from .nodes import (
     image_describer,
     psychological_describer,
     matter_advisor,
-    borges_matter_advisor,
     random_selector,
     image_prompter,
     image_generator,
@@ -27,7 +26,6 @@ from .edges import (
     gatekeeper_validation_checkpoint,
     validation_checkpoint_conditional,
     psychological_describer_matter_advisor,
-    psychological_describer_borges_matter_advisor,
     printer_edges,
 )
 
@@ -45,7 +43,6 @@ def get_multi_agent() -> MultiAgentGraph:
         image_describer,
         psychological_describer,
         matter_advisor,
-        borges_matter_advisor,
         random_selector,
         image_prompter,
         image_generator,
@@ -62,7 +59,6 @@ def get_multi_agent() -> MultiAgentGraph:
         gatekeeper_validation_checkpoint,
         validation_checkpoint_conditional,
         psychological_describer_matter_advisor,
-        psychological_describer_borges_matter_advisor,
         printer_edges,
     ]
 

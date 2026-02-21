@@ -27,12 +27,6 @@ from .machiavelli_advisor import (  # noqa
     MachiavelliAdvisorOutput,
 )
 
-from .borges_matter_advisor import (  # noqa
-    BorgesMatterAdvisor,
-    BorgesMatterAdvisorDeps,
-    BorgesMatterAdvisorOutput,
-)
-
 from .matter_advisor import (  # noqa
     MatterAdvisor,
     MatterAdvisorDeps,

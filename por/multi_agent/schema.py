@@ -84,8 +84,6 @@ class StateSchema(BaseModel):
     psychological_profile: PsychologicalDescriberOutput | None = None
     matter_advise: StrictStr | None = None
     matter_text_chunks: list[TextChunk] = []
-    borges_matter_advise: StrictStr | None = None
-    borges_matter_text_chunks: list[TextChunk] = []
     selected_dc_poem: StrictStr | None = None
     selected_fc_message: StrictStr | None = None
     image_generation_prompt: StrictStr | None = None
