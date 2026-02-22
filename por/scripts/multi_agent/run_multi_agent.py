@@ -33,7 +33,8 @@ TEST_QURESTIONS = [
     # "Que significa el movimiento en el mundo biomaterial?",
     # "What kind of animals have inspired active materials?",
     # "Como esta asociada la idea de movimiento con el concepto de lo vivo o de la vida?",
-    "Que suecede cuando la materia deja de obedecer y empieza a manifestar comportamientos propios?",
+    # "Que suecede cuando la materia deja de obedecer y empieza a manifestar comportamientos propios?",
+    "Como puedo convertirme en un verdadero artista?"
 ]
 
 
@@ -50,6 +51,7 @@ async def main() -> None:
             input_state={
                 "image_id": image_id,
                 "image_path": TEST_IMAGE_PATH,
+                "recorder_ok": True,
                 "audio_transcription": test_question,
             },
             context=context,
@@ -61,7 +63,9 @@ async def main() -> None:
     results = [
         {
             "question": state.audio_transcription,
-            "matter_advise": state.matter_advise,
+            "nietzsche_advise": state.nietzsche_advise,
+            "satc_advice": state.satc_advice,
+            "machiavelli_advice": state.machiavelli_advice,
         }
         for state in states
     ]

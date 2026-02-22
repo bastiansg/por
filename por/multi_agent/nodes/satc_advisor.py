@@ -3,9 +3,16 @@ from typing import Any
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from por.db.qdrant import get_text_chunk
+from por.llm_agents.tools import satc_search_tool, get_text_chunk_tool
 from por.multi_agent.schema import StateSchema
-from por.llm_agents import SATCAdvisor, SATCAdvisorDeps
+from por.llm_agents import (
+    SATCAdvisor,
+    SATCAdvisorDeps,
+    RetrievalAssistant,
+    RetrievalAssistantDeps,
+)
+
+from .utils import get_text_chunks
 
 
 logger = get_logger(__name__)
@@ -14,46 +21,54 @@ logger = get_logger(__name__)
 async def run(state: StateSchema) -> dict[str, Any]:
     logger.info("runing satc_advisor...")
 
-    # psychological_profile = state.psychological_profile
-    # assert psychological_profile is not None
-
+    psychological_profile = state.psychological_profile
     audio_transcription = state.audio_transcription
+
+    assert psychological_profile is not None
     assert audio_transcription is not None
 
     detected_language = state.detected_language
     assert detected_language is not None
 
-    satc_advisor = SATCAdvisor()
-    async with satc_advisor.agent:
-        satc_advisor_output = await satc_advisor.generate(
-            user_prompt="Speak like Carrie Bradshaw, thinking out loud with a close friend at a restaurant.",
-            agent_deps=SATCAdvisorDeps(
-                # psychological_profile=psychological_profile,
-                question=audio_transcription,
-                output_language=detected_language,
-            ),
-        )
+    ra = RetrievalAssistant(
+        tools=[
+            satc_search_tool,
+            get_text_chunk_tool,
+        ]
+    )
 
-    relevant_chunk_ids = satc_advisor_output.relevant_chunk_ids
-    logger.info(f"relevant_chunk_ids: {len(relevant_chunk_ids)}")
-    chunk_records = [
-        await get_text_chunk(
-            collection_name="satc",
-            key="chunk_id",
-            value=chunk_id,
-        )
-        for chunk_id in relevant_chunk_ids
-    ]
+    ra_output = await ra.generate(
+        user_prompt=f"**Question**: {audio_transcription}",
+        agent_deps=RetrievalAssistantDeps(
+            search_tool="satc_search",
+            search_languages=["English"],  # type: ignore
+        ),
+    )
 
-    satc_text_chunks = [
-        chunk_record.payload["page_content"]
-        for chunk_record in chunk_records
-        if chunk_record is not None and chunk_record.payload is not None
-    ]
+    ra_text_chunks = await get_text_chunks(
+        relevant_chunk_ids=ra_output.relevant_chunk_ids,
+        collection_name="satc",
+    )
+
+    sa = SATCAdvisor()
+    satc_output = await sa.generate(
+        user_prompt="Provide your message as if speaking to a close friend at a restaurant.",
+        agent_deps=SATCAdvisorDeps(
+            psychological_profile=psychological_profile,
+            question=audio_transcription,
+            text_chunks=ra_text_chunks,
+            output_language=detected_language,
+        ),
+    )
+
+    sa_text_chunks = await get_text_chunks(
+        relevant_chunk_ids=satc_output.relevant_chunk_ids,
+        collection_name="nietzsche",
+    )
 
     return {
-        "satc_advice": satc_advisor_output.satc_advice,
-        "satc_text_chunks": satc_text_chunks,
+        "satc_advice": satc_output.answer,
+        "satc_text_chunks": sa_text_chunks,
     }
 
 

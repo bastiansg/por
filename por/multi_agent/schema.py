@@ -81,8 +81,12 @@ class StateSchema(BaseModel):
     rejection_reason: StrictStr | None = None
     image_description: ImageDescriberOutput | None = None
     psychological_profile: PsychologicalDescriberOutput | None = None
-    matter_advise: StrictStr | None = None
-    matter_text_chunks: list[TextChunk] = []
+    nietzsche_advise: StrictStr | None = None
+    nietzsche_text_chunks: list[TextChunk] = []
+    satc_advice: StrictStr | None = None
+    satc_text_chunks: list[TextChunk] = []
+    machiavelli_advice: StrictStr | None = None
+    machiavelli_text_chunks: list[TextChunk] = []
     selected_dc_poem: StrictStr | None = None
     selected_fc_message: StrictStr | None = None
     image_generation_prompt: StrictStr | None = None

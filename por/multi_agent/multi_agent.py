@@ -9,7 +9,9 @@ from .nodes import (
     language_detector,
     image_describer,
     psychological_describer,
-    matter_advisor,
+    nietzsche_advisor,
+    satc_advisor,
+    machiavelli_advisor,
     random_selector,
     image_prompter,
     image_generator,
@@ -25,7 +27,9 @@ from .edges import (
     language_detector_gatekeeper,
     gatekeeper_validation_checkpoint,
     validation_checkpoint_conditional,
-    psychological_describer_matter_advisor,
+    psychological_describer_nietzsche_advisor,
+    psychological_describer_satc_advisor,
+    psychological_describer_machiavelli_advisor,
     printer_edges,
 )
 
@@ -42,7 +46,9 @@ def get_multi_agent() -> MultiAgentGraph:
         language_detector,
         image_describer,
         psychological_describer,
-        matter_advisor,
+        nietzsche_advisor,
+        satc_advisor,
+        machiavelli_advisor,
         random_selector,
         image_prompter,
         image_generator,
@@ -58,7 +64,9 @@ def get_multi_agent() -> MultiAgentGraph:
         language_detector_gatekeeper,
         gatekeeper_validation_checkpoint,
         validation_checkpoint_conditional,
-        psychological_describer_matter_advisor,
+        psychological_describer_nietzsche_advisor,
+        psychological_describer_satc_advisor,
+        psychological_describer_machiavelli_advisor,
         printer_edges,
     ]
 

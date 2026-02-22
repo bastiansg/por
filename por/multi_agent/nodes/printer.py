@@ -36,10 +36,10 @@ def head_pipeline(
     printer.block_text("* @dd.moon__                All rights reserved.")
     printer.text("\n\n")
 
-    printer.text("\n")
-    printer.image(
-        img_source="/resources/ticket-images/material-interactions-576.jpg"
-    )
+    # printer.text("\n")
+    # printer.image(
+    #     img_source="/resources/ticket-images/material-interactions-576.jpg"
+    # )
 
     printer.text("\n\n")
     printer.text("------------------------------------------------")
@@ -93,11 +93,29 @@ def main_pipeline(
 
     printer.set(bold=True, align="left")
     printer.set(bold=True)
-    printer.block_text("$$ Interacciones (im)posibles con la Materia:")
+    printer.block_text("$$ Lo que dicen que Nietzsche dijo:")
     printer.text("\n")
     printer.set(bold=False)
 
-    printer.block_text(state.matter_advise)
+    printer.block_text(state.nietzsche_advise)
+    printer.text("\n\n")
+
+    printer.set(bold=True, align="left")
+    printer.set(bold=True)
+    printer.block_text("$$ Lo que escribe Carrie Bradshaw:")
+    printer.text("\n")
+    printer.set(bold=False)
+
+    printer.block_text(state.satc_advice)
+    printer.text("\n\n")
+
+    printer.set(bold=True, align="left")
+    printer.set(bold=True)
+    printer.block_text("$$ El plan de Maquiavelo:")
+    printer.text("\n")
+    printer.set(bold=False)
+
+    printer.block_text(state.machiavelli_advice)
     printer.text("\n\n")
 
     printer.text("------------------------------------------------")

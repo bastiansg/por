@@ -3,9 +3,16 @@ from typing import Any
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from por.db.qdrant import get_text_chunk
 from por.multi_agent.schema import StateSchema
-from por.llm_agents import MachiavelliAdvisor, MachiavelliAdvisorDeps
+from por.llm_agents.tools import machiavelli_search_tool, get_text_chunk_tool
+from por.llm_agents import (
+    MachiavelliAdvisor,
+    MachiavelliAdvisorDeps,
+    RetrievalAssistant,
+    RetrievalAssistantDeps,
+)
+
+from .utils import get_text_chunks
 
 
 logger = get_logger(__name__)
@@ -23,37 +30,45 @@ async def run(state: StateSchema) -> dict[str, Any]:
     detected_language = state.detected_language
     assert detected_language is not None
 
-    machiavelli_advisor = MachiavelliAdvisor()
-    async with machiavelli_advisor.agent:
-        advisor_output = await machiavelli_advisor.generate(
-            user_prompt="Offer ruthless, strategic advice focusing on power and leverage.",
-            agent_deps=MachiavelliAdvisorDeps(
-                psychological_profile=psychological_profile,
-                question=audio_transcription,
-                output_language=detected_language,
-            ),
-        )
+    ra = RetrievalAssistant(
+        tools=[
+            machiavelli_search_tool,
+            get_text_chunk_tool,
+        ]
+    )
 
-    relevant_chunk_ids = advisor_output.relevant_chunk_ids
-    logger.info(f"relevant_chunk_ids: {len(relevant_chunk_ids)}")
-    chunk_records = [
-        await get_text_chunk(
-            collection_name="machiavelli",
-            key="chunk_id",
-            value=chunk_id,
-        )
-        for chunk_id in relevant_chunk_ids
-    ]
+    ra_output = await ra.generate(
+        user_prompt=f"**Question**: {audio_transcription}",
+        agent_deps=RetrievalAssistantDeps(
+            search_tool="machiavelli_search",
+            search_languages=["Spanish"],  # type: ignore
+        ),
+    )
 
-    machiavellian_text_chunks = [
-        chunk_record.payload["page_content"]
-        for chunk_record in chunk_records
-        if chunk_record is not None and chunk_record.payload is not None
-    ]
+    ra_text_chunks = await get_text_chunks(
+        relevant_chunk_ids=ra_output.relevant_chunk_ids,
+        collection_name="machiavelli",
+    )
+
+    ma = MachiavelliAdvisor()
+    ma_output = await ma.generate(
+        user_prompt="Offer ruthless, strategic advice focusing on power and leverage.",
+        agent_deps=MachiavelliAdvisorDeps(
+            psychological_profile=psychological_profile,
+            question=audio_transcription,
+            text_chunks=ra_text_chunks,
+            output_language=detected_language,
+        ),
+    )
+
+    ma_text_chunks = await get_text_chunks(
+        relevant_chunk_ids=ma_output.relevant_chunk_ids,
+        collection_name="machiavelli",
+    )
 
     return {
-        "machiavelli_advice": advisor_output.machiavellian_advice,
-        "machiavelli_text_chunks": machiavellian_text_chunks,
+        "machiavelli_advice": ma_output.answer,
+        "machiavelli_text_chunks": ma_text_chunks,
     }
 
 
