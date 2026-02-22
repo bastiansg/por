@@ -32,7 +32,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     sensehat_dsp.clear()
 
     dsp_images = get_dsp_images()
-    sensehat_dsp.start_color_cycle(dsp_images["si-05"])
+    sensehat_dsp.start_color_cycle(dsp_images["si-07"])
 
     image_extension = runtime_context.image_extension
     image_generation_prompt = state.image_generation_prompt

@@ -38,9 +38,10 @@ def head_pipeline(
 
     printer.text("\n")
     printer.image(
-        img_source="/resources/ticket-images/material-interactions.png"
+        img_source="/resources/ticket-images/material-interactions-576.jpg"
     )
 
+    printer.text("\n\n")
     printer.text("------------------------------------------------")
     printer.text("\n\n")
 
