@@ -18,7 +18,7 @@ from .nodes import (
 
 from .edges import (
     idle_state_recorder,
-    recorder_audio_transcriber,
+    recorder_conditional,
     image_prompter_edges,
     image_prompter_image_generator,
     audio_transcriber_language_detector,
@@ -51,7 +51,7 @@ def get_multi_agent() -> MultiAgentGraph:
 
     edges = [
         idle_state_recorder,
-        recorder_audio_transcriber,
+        recorder_conditional,
         image_prompter_edges,
         image_prompter_image_generator,
         audio_transcriber_language_detector,

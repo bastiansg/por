@@ -70,11 +70,11 @@ class SelectedSong(BaseModel):
 
 class StateSchema(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
-
+    button_is_active: StrictBool = False
     image_id: StrictStr
-    is_recording: StrictBool = False
     audio_buffer: BytesIO | None = None
     image_path: StrictStr | None = None
+    recorder_ok: StrictBool = False
     audio_transcription: StrictStr | None = None
     detected_language: LanguageName | None = None
     message_accepted: StrictBool | None = None

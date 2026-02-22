@@ -43,10 +43,9 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     button = get_button()
     button.wait_for_active()
-    button.wait_for_inactive()
 
     return {
-        "is_recording": True,
+        "button_is_active": True,
     }
 
 

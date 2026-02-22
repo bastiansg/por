@@ -3,11 +3,14 @@ import uuid
 import logfire
 import asyncio
 
+from functools import lru_cache
+
 from rich.pretty import pprint
 from common.logger import get_logger
 from common.utils.path import create_path
 from common.utils.json_data import save_json
 
+from multi_agents.graph import MultiAgentGraph
 from por.multi_agent import get_multi_agent, get_multi_agent_context
 
 
@@ -24,8 +27,16 @@ STORE_PATH = "/resources/states"
 create_path(STORE_PATH)
 
 
-async def main() -> None:
+@lru_cache()
+def _get_multi_agent() -> MultiAgentGraph:
     multi_agent = get_multi_agent()
+    multi_agent.display_graph()
+
+    return multi_agent
+
+
+async def main() -> None:
+    multi_agent = _get_multi_agent()
     context = get_multi_agent_context()
 
     while True:

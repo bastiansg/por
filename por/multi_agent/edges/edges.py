@@ -1,6 +1,10 @@
+from langgraph.graph import END
 from multi_agents.graph import SimpleEdge, ConditionalEdge
 
-from .routers import validation_checkpoint_conditional_router
+from .routers import (
+    validation_checkpoint_conditional_router,
+    recorder_conditional_router,
+)
 
 
 idle_state_face_tracker = SimpleEdge(
@@ -13,9 +17,13 @@ idle_state_recorder = SimpleEdge(
     target="recorder",
 )
 
-recorder_audio_transcriber = SimpleEdge(
+recorder_conditional = ConditionalEdge(
     source="recorder",
-    target="audio_transcriber",
+    intermediates=[
+        "audio_transcriber",
+        END,
+    ],
+    router=recorder_conditional_router,
 )
 
 audio_transcriber_language_detector = SimpleEdge(
