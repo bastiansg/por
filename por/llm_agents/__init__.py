@@ -30,16 +30,22 @@ from .satc_advisor.satc_advisor import (  # noqa
     SATCAdvisorOutput,
 )
 
-from .machiavelli_advisor.machiavelli_advisor import (  # noqa
-    MachiavelliAdvisor,
-    MachiavelliAdvisorDeps,
-    MachiavelliAdvisorOutput,
-)
+# from .machiavelli_advisor.machiavelli_advisor import (  # noqa
+#     MachiavelliAdvisor,
+#     MachiavelliAdvisorDeps,
+#     MachiavelliAdvisorOutput,
+# )
 
 from .matter_advisor.matter_advisor import (  # noqa
     MatterAdvisor,
     MatterAdvisorDeps,
     MatterAdvisorOutput,
+)
+
+from .lyrics_advisor.lyrics_advisor import (  # noqa
+    LyricsAdvisor,
+    LyricsAdvisorDeps,
+    LyricsAdvisorOutput,
 )
 
 from .retrieval_assistant.retrieval_assistant import (  # noqa

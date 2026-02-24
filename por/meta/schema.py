@@ -1,7 +1,13 @@
 from pathlib import Path
 
-from pydantic import BaseModel, StrictStr, Field, model_validator
 from pydantic_extra_types.language_code import LanguageName
+from pydantic import (
+    BaseModel,
+    StrictStr,
+    Field,
+    NonNegativeInt,
+    model_validator,
+)
 
 
 class ChunkMetadata(BaseModel):
@@ -49,3 +55,19 @@ class FileItem(BaseModel):
         self.metadata.extension = p.suffix
 
         return self
+
+
+class Song(BaseModel):
+    title: StrictStr = Field(
+        description="Recommended song title.",
+        min_length=1,
+    )
+
+    artist: StrictStr = Field(
+        description="Artist of the recommended song.",
+        min_length=1,
+    )
+
+    year: NonNegativeInt = Field(
+        description="Release year of the recommended song.",
+    )

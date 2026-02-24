@@ -55,19 +55,53 @@ async def satc_search(
     )
 
 
-async def machiavelli_search(
+# async def machiavelli_search(
+#     query: Annotated[
+#         str,
+#         Field(
+#             description="The natural language query in Spanish to search for relevant text chunks."
+#         ),
+#     ],
+# ) -> list[TextChunk]:
+#     """Run a semantic search across Machiavelli sources."""
+
+#     return await dense_search(
+#         query=query,
+#         collection_name="machiavelli",
+#     )
+
+
+async def lyrics_search(
     query: Annotated[
         str,
         Field(
-            description="The natural language query in Spanish to search for relevant text chunks."
+            description="The natural language query to search for relevant lyrics chunks."
         ),
     ],
+    query_language: Annotated[
+        Literal[
+            "English",
+            "Spanish",
+            "French",
+        ],
+        Field(description="The language of the input query."),
+    ] = "English",
 ) -> list[TextChunk]:
-    """Run a semantic search across Machiavelli sources."""
+    """Run a semantic search across lyrics sources."""
+
+    search_filter = models.Filter(
+        must=[
+            models.FieldCondition(
+                key="metadata.language",
+                match=models.MatchValue(value=query_language),
+            )
+        ],
+    )
 
     return await dense_search(
         query=query,
-        collection_name="machiavelli",
+        collection_name="lyrics",
+        search_filter=search_filter,
     )
 
 
@@ -156,9 +190,14 @@ satc_search_tool = Tool(
     description="Run a semantic search across Nietzsche sources.",
 )
 
-machiavelli_search_tool = Tool(
-    function=machiavelli_search,
-    description="Run a semantic search across Machiavelli sources.",
+# machiavelli_search_tool = Tool(
+#     function=machiavelli_search,
+#     description="Run a semantic search across Machiavelli sources.",
+# )
+
+lyrics_search_tool = Tool(
+    function=lyrics_search,
+    description="Run a semantic search across lyrics sources.",
 )
 
 matter_search_tool = Tool(

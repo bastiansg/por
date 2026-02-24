@@ -112,42 +112,42 @@ files = [
         },
     },
     #################### Machiavelli ####################
-    {
-        "name": "del-arte-de-la-guerra.pdf",
-        "metadata": {
-            "title": "Del arte de la guerra",
-            "collection": "machiavelli",
-            "language": "Spanish",
-            "author": "Niccolo Machiavelli",
-        },
-    },
-    {
-        "name": "discurso-sobre-la-primera-decada-de-tito-livio.pdf",
-        "metadata": {
-            "title": "Discursos sobre la primera década de Tito Livio",
-            "collection": "machiavelli",
-            "language": "Spanish",
-            "author": "Niccolo Machiavelli",
-        },
-    },
-    {
-        "name": "el-principe.pdf",
-        "metadata": {
-            "title": "El príncipe",
-            "collection": "machiavelli",
-            "language": "Spanish",
-            "author": "Niccolo Machiavelli",
-        },
-    },
-    {
-        "name": "la-mandragora.pdf",
-        "metadata": {
-            "title": "La mandrágora",
-            "collection": "machiavelli",
-            "language": "Spanish",
-            "author": "Niccolo Machiavelli",
-        },
-    },
+    # {
+    #     "name": "del-arte-de-la-guerra.pdf",
+    #     "metadata": {
+    #         "title": "Del arte de la guerra",
+    #         "collection": "machiavelli",
+    #         "language": "Spanish",
+    #         "author": "Niccolo Machiavelli",
+    #     },
+    # },
+    # {
+    #     "name": "discurso-sobre-la-primera-decada-de-tito-livio.pdf",
+    #     "metadata": {
+    #         "title": "Discursos sobre la primera década de Tito Livio",
+    #         "collection": "machiavelli",
+    #         "language": "Spanish",
+    #         "author": "Niccolo Machiavelli",
+    #     },
+    # },
+    # {
+    #     "name": "el-principe.pdf",
+    #     "metadata": {
+    #         "title": "El príncipe",
+    #         "collection": "machiavelli",
+    #         "language": "Spanish",
+    #         "author": "Niccolo Machiavelli",
+    #     },
+    # },
+    # {
+    #     "name": "la-mandragora.pdf",
+    #     "metadata": {
+    #         "title": "La mandrágora",
+    #         "collection": "machiavelli",
+    #         "language": "Spanish",
+    #         "author": "Niccolo Machiavelli",
+    #     },
+    # },
 ]
 
 

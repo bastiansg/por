@@ -65,7 +65,8 @@ async def main() -> None:
             "question": state.audio_transcription,
             "nietzsche_advise": state.nietzsche_advise,
             "satc_advice": state.satc_advice,
-            "machiavelli_advice": state.machiavelli_advice,
+            "song": state.song.model_dump(),
+            "lyrics_advise": state.lyrics_advise,
         }
         for state in states
     ]

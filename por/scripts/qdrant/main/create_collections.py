@@ -56,8 +56,8 @@ async def main() -> None:
     satc_docs = await satc_loader.load()
     logger.info(f"satc documents: {len(satc_docs)}")
 
-    ly_laoder = LyricsLoader()
-    ly_documents = await ly_laoder.get_documents(
+    ly_loader = LyricsLoader()
+    ly_documents = await ly_loader.load(
         source_path="/resources/documents/lyrics/lyrics.json"
     )
 

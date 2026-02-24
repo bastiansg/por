@@ -18,7 +18,7 @@ from pydantic import (
     field_validator,
 )
 
-from por.meta.schema import TextChunk
+from por.meta.schema import TextChunk, Song
 from por.llm_agents import ImageDescriberOutput, PsychologicalDescriberOutput
 
 
@@ -85,6 +85,9 @@ class StateSchema(BaseModel):
     nietzsche_text_chunks: list[TextChunk] = []
     satc_advice: StrictStr | None = None
     satc_text_chunks: list[TextChunk] = []
+    song: Song | None = None
+    lyrics_advise: StrictStr | None = None
+    lyrics_text_chunks: list[TextChunk] = []
     machiavelli_advice: StrictStr | None = None
     machiavelli_text_chunks: list[TextChunk] = []
     selected_dc_poem: StrictStr | None = None
