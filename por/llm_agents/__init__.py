@@ -47,3 +47,8 @@ from .retrieval_assistant.retrieval_assistant import (  # noqa
     RetrievalAssistantDeps,
     RetrievalAssistantOutput,
 )
+
+from .lyrics_validator.lyrics_validator import (  # noqa
+    LyricsValidator,
+    LyricsValidatorOutput,
+)

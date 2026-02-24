@@ -35,7 +35,7 @@ class FileMetadata(BaseModel):
     title: StrictStr | None = None
     extension: StrictStr | None = None
     collection: StrictStr
-    language: LanguageName
+    language: LanguageName | None = None
     author: StrictStr | None = None
 
 

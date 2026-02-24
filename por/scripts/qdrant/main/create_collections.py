@@ -14,7 +14,7 @@ from rage.splitters import MarkdownSplitter, TokenSplitter
 from rage.utils.embeddings import get_openai_embeddings
 from rage.loaders import PDFMarkdownLoader
 
-from por.loaders import SATCLoader
+from por.loaders import SATCLoader, LyricsLoader
 
 from .file_items import file_items
 
@@ -54,16 +54,27 @@ async def main() -> None:
 
     satc_loader = SATCLoader()
     satc_docs = await satc_loader.load()
-
     logger.info(f"satc documents: {len(satc_docs)}")
+
+    ly_laoder = LyricsLoader()
+    ly_documents = await ly_laoder.get_documents(
+        source_path="/resources/documents/lyrics/lyrics.json"
+    )
+
+    logger.info(f"lyrics documents: {len(ly_documents)}")
 
     md_splitter = MarkdownSplitter()
     tk_splitter = TokenSplitter()
+    tk_splitter_128 = TokenSplitter(
+        chunk_size=128,
+        chunk_overlap=16,
+    )
 
     text_chunks = md_splitter.split_documents(documents=documents)
     satc_text_chunks = tk_splitter.split_documents(documents=satc_docs)
+    ly_text_chunks = tk_splitter_128.split_documents(documents=ly_documents)
 
-    text_chunks = text_chunks + satc_text_chunks
+    text_chunks = text_chunks + satc_text_chunks + ly_text_chunks
     logger.info(f"text_chunks: {len(text_chunks)}")
 
     text_chunks = sorted(
