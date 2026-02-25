@@ -1,7 +1,9 @@
 import io
 
-from PIL import Image
 from typing import Any
+from asyncio import sleep
+
+from PIL import Image
 from langgraph.runtime import get_runtime
 
 from multi_agents.graph import Node
@@ -20,9 +22,13 @@ logger = get_logger(__name__)
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
-    logger.info("runing recorder...")
     runtime = get_runtime(ContextSchema)
     runtime_context = runtime.context
+
+    if runtime_context.test_mode:
+        return {}
+
+    logger.info("runing recorder...")
 
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.stop()
@@ -51,22 +57,39 @@ async def run(state: StateSchema) -> dict[str, Any]:
     tracker.run()
 
     button = get_button()
-    button.wait_for_active()
     button.wait_for_inactive()
 
     audio_recorder.stop()
     tracker.stop()
     tracker.servos.set_angles(servo_angles=ServoAngles(x=90, y=30))
 
-    audio_buffer = io.BytesIO()
-    audio_recorder.save_to_file(file=audio_buffer)
-    audio_buffer.seek(0)
-
     valid_history_items = [
         history_item
         for history_item in tracker.history
         if history_item.centroid is not None
     ]
+
+    if not valid_history_items:
+        logger.error(f"valid_history_items: {len(valid_history_items)}")
+        sensehat_dsp.stop()
+        sensehat_dsp.start_image_sequence(
+            images=[
+                dsp_images["si-01c"],
+                dsp_images["si-01d"],
+            ]
+        )
+
+        await sleep(3)
+        sensehat_dsp.stop()
+
+        return {
+            "button_is_active": False,
+            "recorder_ok": False,
+        }
+
+    audio_buffer = io.BytesIO()
+    audio_recorder.save_to_file(file=audio_buffer)
+    audio_buffer.seek(0)
 
     last_history_item = valid_history_items[-1]
     image_id = state.image_id
@@ -87,6 +110,8 @@ async def run(state: StateSchema) -> dict[str, Any]:
     )
 
     return {
+        "button_is_active": False,
+        "recorder_ok": True,
         "audio_buffer": audio_buffer,
         "image_path": image_path,
     }

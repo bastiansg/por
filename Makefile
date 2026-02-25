@@ -52,3 +52,7 @@ app-stop:
 	docker stop por-app
 
 app-restart: app-stop app-up
+
+
+create-qdrant-collections:
+	docker compose -f .devcontainer/docker-compose.yml run --rm --entrypoint="python -m por.scripts.qdrant.main.create_collections" por-devcontainer

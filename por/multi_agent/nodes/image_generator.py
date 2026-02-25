@@ -19,16 +19,20 @@ logger = get_logger(__name__)
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
-    logger.info("runing image_generator...")
     runtime = get_runtime(ContextSchema)
     runtime_context = runtime.context
+
+    if runtime_context.test_mode:
+        return {}
+
+    logger.info("runing image_generator...")
 
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.stop()
     sensehat_dsp.clear()
 
     dsp_images = get_dsp_images()
-    sensehat_dsp.start_color_cycle(dsp_images["si-05"])
+    sensehat_dsp.start_color_cycle(dsp_images["si-07"])
 
     image_extension = runtime_context.image_extension
     image_generation_prompt = state.image_generation_prompt
@@ -38,11 +42,12 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     try:
         response = await client.responses.create(
-            # model="gpt-4o",
             model="gpt-5.2",
             input=image_generation_prompt,
             tools=[
-                {"type": "image_generation"},
+                {
+                    "type": "image_generation",
+                },
             ],
         )
 

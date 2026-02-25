@@ -3,22 +3,16 @@ import aiohttp
 
 from tqdm import tqdm
 from parsel import Selector
-from pydantic import BaseModel, StrictStr, PositiveInt
 
 from common.logger import get_logger
 from common.cache import cache, RedisCache
 
 from rage.meta.interfaces import TextLoader, Document
 
+from por.meta.schema import FileMetadata
+
 
 logger = get_logger(__name__)
-
-
-class Metadata(BaseModel):
-    title: StrictStr
-    tag: StrictStr
-    artist: StrictStr
-    year: PositiveInt
 
 
 class SATCLoader(TextLoader):
@@ -100,7 +94,13 @@ class SATCLoader(TextLoader):
         documents = [
             Document(
                 text=script,
-                metadata={"url": script_url},
+                metadata=FileMetadata(
+                    title="Sex and the City",
+                    extension=None,
+                    collection="satc",
+                    language="English",  # type: ignore
+                    author=None,
+                ).model_dump(),
             )
             for script, script_url in zip(scripts, script_urls)
             if self.filter_script(script=script)

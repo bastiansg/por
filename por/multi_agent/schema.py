@@ -18,8 +18,8 @@ from pydantic import (
     field_validator,
 )
 
-from por.llm_agents.image_describer import ImageDescriberOutput
-from por.llm_agents.psychological_describer import PsychologicalDescriberOutput
+from por.meta.schema import TextChunk, Song
+from por.llm_agents import ImageDescriberOutput, PsychologicalDescriberOutput
 
 
 class GolColors(BaseModel):
@@ -54,6 +54,7 @@ class ContextSchema(BaseModel):
     dc_poems: list[DCPoem]
     fc_messages: list[FCMessage]
     printer: Printer
+    test_mode: StrictBool
 
     @field_validator("images_path", mode="after")
     def images_path_validator(cls, v: str) -> str:
@@ -69,11 +70,11 @@ class SelectedSong(BaseModel):
 
 class StateSchema(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
-
+    button_is_active: StrictBool = False
     image_id: StrictStr
-    is_recording: StrictBool = False
     audio_buffer: BytesIO | None = None
     image_path: StrictStr | None = None
+    recorder_ok: StrictBool = False
     audio_transcription: StrictStr | None = None
     detected_language: LanguageName | None = None
     message_accepted: StrictBool | None = None
@@ -81,13 +82,14 @@ class StateSchema(BaseModel):
     image_description: ImageDescriberOutput | None = None
     psychological_profile: PsychologicalDescriberOutput | None = None
     nietzsche_advise: StrictStr | None = None
-    nietzsche_text_chunks: list[StrictStr] = []
+    nietzsche_text_chunks: list[TextChunk] = []
     satc_advice: StrictStr | None = None
-    satc_text_chunks: list[StrictStr] = []
+    satc_text_chunks: list[TextChunk] = []
+    song: Song | None = None
+    lyrics_advise: StrictStr | None = None
+    lyrics_text_chunks: list[TextChunk] = []
     machiavelli_advice: StrictStr | None = None
-    machiavelli_text_chunks: list[StrictStr] = []
-    # music_advice: StrictStr | None = None
-    # selected_song: SelectedSong | None = None
+    machiavelli_text_chunks: list[TextChunk] = []
     selected_dc_poem: StrictStr | None = None
     selected_fc_message: StrictStr | None = None
     image_generation_prompt: StrictStr | None = None

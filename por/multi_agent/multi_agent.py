@@ -11,8 +11,8 @@ from .nodes import (
     psychological_describer,
     nietzsche_advisor,
     satc_advisor,
-    # music_advisor,
-    machiavelli_advisor,
+    lyrics_advisor,
+    # machiavelli_advisor,
     random_selector,
     image_prompter,
     image_generator,
@@ -21,7 +21,7 @@ from .nodes import (
 
 from .edges import (
     idle_state_recorder,
-    recorder_audio_transcriber,
+    recorder_conditional,
     image_prompter_edges,
     image_prompter_image_generator,
     audio_transcriber_language_detector,
@@ -30,8 +30,8 @@ from .edges import (
     validation_checkpoint_conditional,
     psychological_describer_nietzsche_advisor,
     psychological_describer_satc_advisor,
-    psychological_describer_machiavelli_advisor,
-    # psychological_describer_music_advisor,
+    psychological_describer_lyrics_advisor,
+    # psychological_describer_machiavelli_advisor,
     printer_edges,
 )
 
@@ -50,8 +50,8 @@ def get_multi_agent() -> MultiAgentGraph:
         psychological_describer,
         nietzsche_advisor,
         satc_advisor,
-        # music_advisor,
-        machiavelli_advisor,
+        lyrics_advisor,
+        # machiavelli_advisor,
         random_selector,
         image_prompter,
         image_generator,
@@ -60,7 +60,7 @@ def get_multi_agent() -> MultiAgentGraph:
 
     edges = [
         idle_state_recorder,
-        recorder_audio_transcriber,
+        recorder_conditional,
         image_prompter_edges,
         image_prompter_image_generator,
         audio_transcriber_language_detector,
@@ -69,8 +69,8 @@ def get_multi_agent() -> MultiAgentGraph:
         validation_checkpoint_conditional,
         psychological_describer_nietzsche_advisor,
         psychological_describer_satc_advisor,
-        # psychological_describer_music_advisor,
-        psychological_describer_machiavelli_advisor,
+        psychological_describer_lyrics_advisor,
+        # psychological_describer_machiavelli_advisor,
         printer_edges,
     ]
 

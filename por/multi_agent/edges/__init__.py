@@ -1,6 +1,6 @@
 from .edges import (  # noqa
     idle_state_recorder,
-    recorder_audio_transcriber,
+    recorder_conditional,
     image_prompter_edges,
     image_prompter_image_generator,
     audio_transcriber_language_detector,
@@ -9,7 +9,7 @@ from .edges import (  # noqa
     validation_checkpoint_conditional,
     psychological_describer_nietzsche_advisor,
     psychological_describer_satc_advisor,
-    # psychological_describer_music_advisor,
-    psychological_describer_machiavelli_advisor,
+    psychological_describer_lyrics_advisor,
+    # psychological_describer_machiavelli_advisor,
     printer_edges,
 )

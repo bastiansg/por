@@ -1,15 +1,23 @@
 from typing import Any
 from openai import AsyncOpenAI
 
+from langgraph.runtime import get_runtime
+
 from multi_agents.graph import Node
 from common.logger import get_logger
-from por.multi_agent.schema import StateSchema
+from por.multi_agent.schema import StateSchema, ContextSchema
 
 
 logger = get_logger(__name__)
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
+    runtime = get_runtime(ContextSchema)
+    runtime_context = runtime.context
+
+    if runtime_context.test_mode:
+        return {}
+
     logger.info("runing audio_transcriber...")
 
     audio_buffer = state.audio_buffer

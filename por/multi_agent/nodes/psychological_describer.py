@@ -58,8 +58,8 @@ async def run(state: StateSchema) -> dict[str, Any]:
     sensehat_dsp.clear()
     sensehat_dsp.start_image_sequence(
         images=[
-            dsp_images["si-06a"],
-            dsp_images["si-06b"],
+            dsp_images["si-05a"],
+            dsp_images["si-05b"],
         ],
         refresh_rate=0.4,
     )

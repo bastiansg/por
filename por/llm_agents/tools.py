@@ -1,5 +1,8 @@
-from pydantic_ai import Tool
+from typing import Annotated, Literal
+
 from pydantic import Field
+from pydantic_ai import Tool
+from qdrant_client import models
 
 from common.logger import get_logger
 
@@ -21,9 +24,12 @@ retriever = Retriever(dense_embeddings=get_openai_embeddings())
 
 
 async def nietzsche_search(
-    query: str = Field(
-        description="The natural language query in Spanish to search for relevant text chunks."
-    ),
+    query: Annotated[
+        str,
+        Field(
+            description="The natural language query in Spanish to search for relevant text chunks."
+        ),
+    ],
 ) -> list[TextChunk]:
     """Run a semantic search across Nietzsche sources."""
 
@@ -33,26 +39,13 @@ async def nietzsche_search(
     )
 
 
-# async def lyrics_search(
-#     query: Annotated[
-#         str,
-#         Field(
-#             description="The natural language query in English to search for relevant text chunks."
-#         ),
-#     ],
-# ) -> list[TextChunk]:
-#     """Run a semantic search across Lyrics sources."""
-
-#     return await _search(
-#         query=query,
-#         collection_name="lyrics",
-#     )
-
-
 async def satc_search(
-    query: str = Field(
-        description="The natural language query in English to search for relevant text chunks."
-    ),
+    query: Annotated[
+        str,
+        Field(
+            description="The natural language query in English to search for relevant text chunks."
+        ),
+    ],
 ) -> list[TextChunk]:
     """Run a semantic search across Sex and the City scripts."""
 
@@ -62,23 +55,111 @@ async def satc_search(
     )
 
 
-async def machiavelli_search(
-    query: str = Field(
-        description="The natural language query in Spanish to search for relevant text chunks."
-    ),
+# async def machiavelli_search(
+#     query: Annotated[
+#         str,
+#         Field(
+#             description="The natural language query in Spanish to search for relevant text chunks."
+#         ),
+#     ],
+# ) -> list[TextChunk]:
+#     """Run a semantic search across Machiavelli sources."""
+
+#     return await dense_search(
+#         query=query,
+#         collection_name="machiavelli",
+#     )
+
+
+async def lyrics_search(
+    query: Annotated[
+        str,
+        Field(
+            description="The natural language query to search for relevant lyrics chunks."
+        ),
+    ],
+    query_language: Annotated[
+        Literal[
+            "English",
+            "Spanish",
+            "French",
+        ],
+        Field(description="The language of the input query."),
+    ] = "English",
 ) -> list[TextChunk]:
-    """Run a semantic search across Machiavelli sources."""
+    """Run a semantic search across lyrics sources."""
+
+    search_filter = models.Filter(
+        must=[
+            models.FieldCondition(
+                key="metadata.language",
+                match=models.MatchValue(value=query_language),
+            )
+        ],
+    )
 
     return await dense_search(
         query=query,
-        collection_name="machiavelli",
+        collection_name="lyrics",
+        search_filter=search_filter,
+    )
+
+
+async def matter_search(
+    query: Annotated[
+        str,
+        Field(
+            description="The natural language query to search for relevant text chunks."
+        ),
+    ],
+    query_language: Annotated[
+        Literal[
+            "English",
+            "Spanish",
+            "French",
+        ],
+        Field(description="The language of the input query."),
+    ] = "English",
+) -> list[TextChunk]:
+    """Run a semantic search across Matter sources."""
+
+    search_filter = models.Filter(
+        must=[
+            models.FieldCondition(
+                key="metadata.language",
+                match=models.MatchValue(value=query_language),
+            )
+        ],
+    )
+
+    return await dense_search(
+        query=query,
+        collection_name="matter",
+        search_filter=search_filter,
+    )
+
+
+async def borges_search(
+    query: Annotated[
+        str,
+        Field(
+            description="The natural language query in Spanish to search for relevant text chunks."
+        ),
+    ],
+) -> list[TextChunk]:
+    """Run a semantic search across Borges sources."""
+
+    return await dense_search(
+        query=query,
+        collection_name="borges",
     )
 
 
 async def get_text_chunk(
-    chunk_id: str = Field(
-        description="The `chunk_id` of the chunk to retrieve."
-    ),
+    chunk_id: Annotated[
+        str,
+        Field(description="The `chunk_id` of the chunk to retrieve."),
+    ],
 ) -> TextChunk | None:
     """Retrieve a specific text chunk using its `chunk_id`."""
 
@@ -104,19 +185,29 @@ nietzsche_search_tool = Tool(
     description="The natural language query in Spanish to search for relevant text chunks.",
 )
 
-# lyrics_search_tool = Tool(
-#     function=lyrics_search,
-#     description="The natural language query to search for relevant text chunks.",
-# )
-
 satc_search_tool = Tool(
     function=satc_search,
-    description="The natural language query in English to search for relevant text chunks.",
+    description="Run a semantic search across Nietzsche sources.",
 )
 
-machiavelli_search_tool = Tool(
-    function=machiavelli_search,
-    description="The natural language query in Spanish to search for relevant text chunks.",
+# machiavelli_search_tool = Tool(
+#     function=machiavelli_search,
+#     description="Run a semantic search across Machiavelli sources.",
+# )
+
+lyrics_search_tool = Tool(
+    function=lyrics_search,
+    description="Run a semantic search across lyrics sources.",
+)
+
+matter_search_tool = Tool(
+    function=matter_search,
+    description="Run a semantic search across Matter sources.",
+)
+
+borges_search_tool = Tool(
+    function=borges_search,
+    description="Run a semantic search across Borges sources.",
 )
 
 get_text_chunk_tool = Tool(

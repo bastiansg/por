@@ -1,14 +1,14 @@
 import asyncio
 
-from pydantic import BaseModel, StrictStr, PositiveInt
+from pydantic import StrictStr, PositiveInt
 
 from common.utils.json_data import load_json
 from rage.meta.interfaces import TextLoader, Document
 
+from por.meta.schema import FileMetadata
 
-class Metadata(BaseModel):
-    title: StrictStr
-    tag: StrictStr
+
+class Metadata(FileMetadata):
     artist: StrictStr
     year: PositiveInt
 
@@ -28,7 +28,10 @@ class LyricsLoader(TextLoader):
         return [
             Document(
                 text=data_item["lyrics"],
-                metadata=Metadata(**data_item).model_dump(),
+                metadata=Metadata(
+                    **data_item,
+                    collection="lyrics",
+                ).model_dump(),
             )
             for data_item in load_json(json_file_path=source_path)
             if data_item["lyrics"] not in self.invalid_lyrics
@@ -38,7 +41,9 @@ class LyricsLoader(TextLoader):
         self, source_path: str | None = None
     ) -> list[Document]:
         assert source_path is not None
-        return await asyncio.to_thread(
+        documets = await asyncio.to_thread(
             self._get_documents,
             source_path=source_path,
         )
+
+        return documets

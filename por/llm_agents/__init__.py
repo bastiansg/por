@@ -1,36 +1,60 @@
-from .gatekeeper import Gatekeeper, GatekeeperDeps, GatekeeperOutput  # noqa
-from .image_describer import (  # noqa
+from .gatekeeper.gatekeeper import Gatekeeper, GatekeeperDeps, GatekeeperOutput  # noqa
+from .image_describer.image_describer import (  # noqa
     ImageDescriber,
     PhysicalDescription,
     ClothingDescription,
     ImageDescriberOutput,
 )
 
-from .psychological_describer import (  # noqa
+from .psychological_describer.psychological_describer import (  # noqa
     PsychologicalDescriber,
     PsychologicalDescriberDeps,
     PsychologicalDescriberOutput,
 )
 
-from .nietzsche_advisor import (  # noqa
+from .nietzsche_advisor.nietzsche_advisor import (  # noqa
     NietzscheAdvisor,
     NietzscheAdvisorDeps,
     NietzscheAdvisorOutput,
 )
 
+from .language_detector.language_detector import (  # noqa
+    LanguageDetector,
+    LanguageDetectorOutput,
+)
 
-# from .music_advisor import (  # noqa
-#     MusicAdvisor,
-#     MusicAdvisorDeps,
-#     MusicAdvisorOutput,
+from .image_prompter.image_prompter import ImagePrompter, ImagePrompterDeps  # noqa
+from .satc_advisor.satc_advisor import (  # noqa
+    SATCAdvisor,
+    SATCAdvisorDeps,
+    SATCAdvisorOutput,
+)
+
+# from .machiavelli_advisor.machiavelli_advisor import (  # noqa
+#     MachiavelliAdvisor,
+#     MachiavelliAdvisorDeps,
+#     MachiavelliAdvisorOutput,
 # )
 
-from .language_detector import LanguageDetector, LanguageDetectorOutput  # noqa
-from .image_prompter import ImagePrompter, ImagePrompterDeps  # noqa
+from .matter_advisor.matter_advisor import (  # noqa
+    MatterAdvisor,
+    MatterAdvisorDeps,
+    MatterAdvisorOutput,
+)
 
-from .satc_advisor import SATCAdvisor, SATCAdvisorDeps, SATCAdvisorOutput  # noqa
-from .machiavelli_advisor import (  # noqa
-    MachiavelliAdvisor,
-    MachiavelliAdvisorDeps,
-    MachiavelliAdvisorOutput,
+from .lyrics_advisor.lyrics_advisor import (  # noqa
+    LyricsAdvisor,
+    LyricsAdvisorDeps,
+    LyricsAdvisorOutput,
+)
+
+from .retrieval_assistant.retrieval_assistant import (  # noqa
+    RetrievalAssistant,
+    RetrievalAssistantDeps,
+    RetrievalAssistantOutput,
+)
+
+from .lyrics_validator.lyrics_validator import (  # noqa
+    LyricsValidator,
+    LyricsValidatorOutput,
 )

@@ -36,7 +36,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     gatekeeper = Gatekeeper()
     gatekeeper_output = await gatekeeper.generate(
-        user_prompt=f"Persons's Message: {audio_transcription}",
+        user_prompt=f"Message: {audio_transcription}",
         agent_deps=GatekeeperDeps(output_language=detected_language),
     )
 

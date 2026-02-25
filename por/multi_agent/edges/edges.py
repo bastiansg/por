@@ -1,6 +1,10 @@
+from langgraph.graph import END
 from multi_agents.graph import SimpleEdge, ConditionalEdge
 
-from .routers import validation_checkpoint_conditional_router
+from .routers import (
+    validation_checkpoint_conditional_router,
+    recorder_conditional_router,
+)
 
 
 idle_state_face_tracker = SimpleEdge(
@@ -13,9 +17,13 @@ idle_state_recorder = SimpleEdge(
     target="recorder",
 )
 
-recorder_audio_transcriber = SimpleEdge(
+recorder_conditional = ConditionalEdge(
     source="recorder",
-    target="audio_transcriber",
+    intermediates=[
+        "audio_transcriber",
+        END,
+    ],
+    router=recorder_conditional_router,
 )
 
 audio_transcriber_language_detector = SimpleEdge(
@@ -54,15 +62,15 @@ psychological_describer_satc_advisor = SimpleEdge(
     target="satc_advisor",
 )
 
-# psychological_describer_music_advisor = SimpleEdge(
-#     source="psychological_describer",
-#     target="music_advisor",
-# )
-
-psychological_describer_machiavelli_advisor = SimpleEdge(
+psychological_describer_lyrics_advisor = SimpleEdge(
     source="psychological_describer",
-    target="machiavelli_advisor",
+    target="lyrics_advisor",
 )
+
+# psychological_describer_machiavelli_advisor = SimpleEdge(
+#     source="psychological_describer",
+#     target="machiavelli_advisor",
+# )
 
 image_prompter_edges = SimpleEdge(
     source=[
@@ -81,8 +89,8 @@ printer_edges = SimpleEdge(
     source=[
         "nietzsche_advisor",
         "satc_advisor",
-        # "music_advisor",
-        "machiavelli_advisor",
+        "lyrics_advisor",
+        # "machiavelli_advisor",
         "random_selector",
         "image_generator",
     ],

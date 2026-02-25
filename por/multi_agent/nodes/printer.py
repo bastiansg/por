@@ -34,14 +34,12 @@ def head_pipeline(
     printer.block_text("* Oráculo Robot. (2025, ∞)")
     printer.text("\n")
     printer.block_text("* @dd.moon__                All rights reserved.")
-    # printer.text("\n\n")
+    printer.text("\n\n")
 
     # printer.text("\n")
     # printer.image(
-    #     img_source="/resources/ticket-images/la-curva-especial-edition-pixel-576.jpeg"
+    #     img_source="/resources/ticket-images/material-interactions-576.jpg"
     # )
-
-    # printer.text("\n\n")
 
     printer.text("\n\n")
     printer.text("------------------------------------------------")
@@ -102,9 +100,7 @@ def main_pipeline(
     printer.block_text(state.nietzsche_advise)
     printer.text("\n\n")
 
-    # selected_song = state.selected_song
-    # assert selected_song is not None
-
+    printer.set(bold=True, align="left")
     printer.set(bold=True)
     printer.block_text("$$ Lo que escribe Carrie Bradshaw:")
     printer.text("\n")
@@ -113,18 +109,27 @@ def main_pipeline(
     printer.block_text(state.satc_advice)
     printer.text("\n\n")
 
+    printer.set(bold=True, align="left")
+    printer.set(bold=True)
+    printer.block_text("$$ Si tuvieramos que musicalizar este momento:")
+    printer.set(bold=False)
+    printer.text("\n\n")
+
+    song_text = f"{state.song.title} | {state.song.artist} | {state.song.year}"  # type: ignore
+    printer.block_text(song_text)
+    printer.text("\n\n")
+    printer.text(state.lyrics_advise)  # type: ignore
+
+    printer.text("\n\n")
+
+    # printer.set(bold=True, align="left")
     # printer.set(bold=True)
-    # printer.block_text(f"$$ Lo que canta {selected_song.artist} para vos:")
+    # printer.block_text("$$ El plan de Maquiavelo:")
     # printer.text("\n")
     # printer.set(bold=False)
 
-    printer.set(bold=True)
-    printer.block_text("$$ El plan de Maquiavelo:")
-    printer.text("\n")
-    printer.set(bold=False)
-
-    printer.block_text(state.machiavelli_advice)
-    printer.text("\n\n")
+    # printer.block_text(state.machiavelli_advice)
+    # printer.text("\n\n")
 
     printer.text("------------------------------------------------")
     printer.text("\n\n")
@@ -169,9 +174,13 @@ def main_pipeline(
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
-    logger.info("runing printer...")
     runtime = get_runtime(ContextSchema)
     runtime_context = runtime.context
+
+    if runtime_context.test_mode:
+        return {}
+
+    logger.info("runing printer...")
 
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.stop()
