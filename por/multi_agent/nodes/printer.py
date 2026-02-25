@@ -111,7 +111,7 @@ def main_pipeline(
 
     printer.set(bold=True, align="left")
     printer.set(bold=True)
-    printer.block_text("$$ Si tuvieramos que musicalizar este momento:")
+    printer.block_text("$$ Lo que tenés que escuchar:")
     printer.set(bold=False)
     printer.text("\n\n")
 
