@@ -26,7 +26,7 @@ class LyricsAdvisorOutput(BaseModel):
     )
 
     reason: StrictStr = Field(
-        description="A very short, sharp, funny, sarcastic, slightly bully-ish reason.",
+        description="A very short, ironic and lightly teasing reason, without adjectives for the user.",
         min_length=1,
     )
 

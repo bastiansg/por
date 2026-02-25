@@ -12,6 +12,11 @@ from pydantic import (
 
 class ChunkMetadata(BaseModel):
     title: StrictStr = Field(description="")
+    artist: StrictStr | None = Field(
+        description="",
+        default=None,
+    )
+
     author: StrictStr | None = Field(
         description="",
         default=None,

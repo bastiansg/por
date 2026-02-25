@@ -111,25 +111,25 @@ def main_pipeline(
 
     printer.set(bold=True, align="left")
     printer.set(bold=True)
-    printer.block_text("$$ La cancion que TENÉS que escuchar:")
-    printer.text("\n")
+    printer.block_text("$$ Si tuvieramos que musicalizar este momento:")
     printer.set(bold=False)
+    printer.text("\n\n")
 
     song_text = f"{state.song.title} | {state.song.artist} | {state.song.year}"  # type: ignore
     printer.block_text(song_text)
-    printer.text("\n")
+    printer.text("\n\n")
     printer.text(state.lyrics_advise)  # type: ignore
 
     printer.text("\n\n")
 
-    printer.set(bold=True, align="left")
-    printer.set(bold=True)
-    printer.block_text("$$ El plan de Maquiavelo:")
-    printer.text("\n")
-    printer.set(bold=False)
+    # printer.set(bold=True, align="left")
+    # printer.set(bold=True)
+    # printer.block_text("$$ El plan de Maquiavelo:")
+    # printer.text("\n")
+    # printer.set(bold=False)
 
-    printer.block_text(state.machiavelli_advice)
-    printer.text("\n\n")
+    # printer.block_text(state.machiavelli_advice)
+    # printer.text("\n\n")
 
     printer.text("------------------------------------------------")
     printer.text("\n\n")

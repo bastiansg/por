@@ -34,4 +34,5 @@ instructions_template: |-
     - interactions between humans and matter.
 
     ## Hard Constraints
-    Output your decision in {output_language}.
+    - Output your decision in {output_language}.
+    - Be ironic, but never use adjectives to describe the user.
