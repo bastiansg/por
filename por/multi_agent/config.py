@@ -10,7 +10,7 @@ from pydantic import (
 
 class ServoAngles(BaseModel):
     x: NonNegativeInt = 90
-    y: NonNegativeInt = 30
+    y: NonNegativeInt = 50
 
 
 class RotatorParams(BaseModel):
