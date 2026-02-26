@@ -67,6 +67,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     io_bytes = io.BytesIO(base64.b64decode(image_data))
     image = Image.open(io_bytes).convert("RGB")
 
+    # TODO: Aspect ratio 4:3
     resize_transform = transforms.Resize(size=576)
     image = resize_transform(image)
 

@@ -81,6 +81,10 @@ class StateSchema(BaseModel):
     rejection_reason: StrictStr | None = None
     image_description: ImageDescriberOutput | None = None
     psychological_profile: PsychologicalDescriberOutput | None = None
+    selected_material_code: StrictStr | None = None
+    selected_material_title: StrictStr | None = None
+    selected_material_image_path: StrictStr | None = None
+    selected_material_justification: StrictStr | None = None
     matter_advise: StrictStr | None = None
     matter_text_chunks: list[TextChunk] = []
     selected_dc_poem: StrictStr | None = None

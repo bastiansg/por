@@ -8,6 +8,7 @@ from .image_describer import image_describer  # noqa
 from .psychological_describer import psychological_describer  # noqa
 from .image_prompter import image_prompter  # noqa
 from .matter_advisor import matter_advisor  # noqa
+from .material_selector import material_selector  # noqa
 from .random_selector import random_selector  # noqa
 from .image_generator import image_generator  # noqa
 from .printer import printer  # noqa

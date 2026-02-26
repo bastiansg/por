@@ -23,3 +23,11 @@ class ChunkMetadata(BaseModel):
 class TextChunk(BaseModel):
     text: StrictStr = Field(description="The textual content of the chunk.")
     metadata: ChunkMetadata
+
+
+class Material(BaseModel):
+    code: StrictStr
+    title: StrictStr
+    material: StrictStr
+    description: StrictStr
+    image_path: StrictStr

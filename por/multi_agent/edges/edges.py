@@ -57,6 +57,11 @@ psychological_describer_matter_advisor = SimpleEdge(
     target="matter_advisor",
 )
 
+psychological_describer_material_selector = SimpleEdge(
+    source="psychological_describer",
+    target="material_selector",
+)
+
 image_prompter_edges = SimpleEdge(
     source=[
         "image_describer",
@@ -73,6 +78,7 @@ image_prompter_image_generator = SimpleEdge(
 printer_edges = SimpleEdge(
     source=[
         "matter_advisor",
+        "material_selector",
         "random_selector",
         "image_generator",
     ],

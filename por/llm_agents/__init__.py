@@ -47,3 +47,9 @@ from .retrieval_assistant.retrieval_assistant import (  # noqa
     RetrievalAssistantDeps,
     RetrievalAssistantOutput,
 )
+
+from .material_selector import (  # noqa
+    MaterialSelector,
+    MaterialSelectorDeps,
+    MaterialSelectorOutput,
+)
