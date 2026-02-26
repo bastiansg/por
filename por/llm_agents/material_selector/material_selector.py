@@ -33,8 +33,8 @@ class MaterialSelectorOutput(BaseModel):
         min_length=1,
     )
 
-    selection_justification: StrictStr = Field(
-        description="Very short justification explaining why the selected material fits the user and question.",
+    selection_reason: StrictStr = Field(
+        description="Very short standalone reason for the selection.",
         min_length=1,
     )
 

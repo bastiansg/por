@@ -39,7 +39,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
         "selected_material_code": material_code,
         "selected_material_title": material_map[material_code].title,
         "selected_material_image_path": material_map[material_code].image_path,
-        "selected_material_justification": ms_output.selection_justification,
+        "selected_material_reason": ms_output.selection_reason,
     }
 
 

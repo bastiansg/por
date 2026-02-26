@@ -5,11 +5,11 @@ from pydantic_extra_types.language_code import LanguageName
 
 
 class FileMetadata(BaseModel):
-    title: StrictStr | None = None
-    extension: StrictStr | None = None
+    title: StrictStr
+    author: StrictStr
     collection: StrictStr
     language: LanguageName
-    author: StrictStr | None = None
+    extension: StrictStr | None = None
 
 
 class FileItem(BaseModel):
@@ -19,9 +19,7 @@ class FileItem(BaseModel):
     @model_validator(mode="after")
     def set_extension(self):
         p = Path(self.name)
-
         self.metadata.extension = p.suffix
-        self.metadata.title = p.stem.replace("-", " ").title()
 
         return self
 
@@ -31,6 +29,7 @@ files = [
     {
         "name": "a-bio-inspired-perspective-on-materials-sustainability.pdf",
         "metadata": {
+            "title": "A Bio-Inspired Perspective on Materials Sustainability",
             "collection": "matter",
             "language": "English",
             "author": "Advanced Materials",
@@ -39,30 +38,25 @@ files = [
     {
         "name": "actualicing-material-capacities.pdf",
         "metadata": {
+            "title": "Actualicing (Overlooked) Material Capacities",
             "collection": "matter",
             "language": "English",
             "author": "Branko Kolarevic",
         },
     },
-    # NOTE: Broken?
-    # {
-    #     "name": "a-guide-to-the-new-materials-revolution.epub",
-    #     "metadata": {
-    #         "collection": "matter",
-    #         "language": "English",
-    #     },
-    # },
     {
         "name": "al-bosque-lo-que-es-del-bosque.pdf",
         "metadata": {
+            "title": "Al bosque lo que es del bosque (Phallus indusiatus)",
             "collection": "matter",
             "language": "Spanish",
-            "author": "??",
+            "author": "Marta Zatonyi",
         },
     },
     {
         "name": "amphibious-transport-of-fluids-and-solids-by-soft-magnetic-carpets.pdf",
         "metadata": {
+            "title": "Amphibious Transport of Fluids and Solids by Soft Magnetic Carpets",
             "collection": "matter",
             "language": "English",
             "author": "Advanced Science",
@@ -71,6 +65,7 @@ files = [
     {
         "name": "animate-materials-report.pdf",
         "metadata": {
+            "title": "Animate materials",
             "collection": "matter",
             "language": "English",
             "author": "The Royal Society",
@@ -79,6 +74,7 @@ files = [
     {
         "name": "arte-y-creacion.pdf",
         "metadata": {
+            "title": "Arte y Creación",
             "collection": "matter",
             "language": "Spanish",
             "author": "Marta Zálon",
@@ -87,6 +83,7 @@ files = [
     {
         "name": "bringing-things-to-life.pdf",
         "metadata": {
+            "title": "Bringing Things to Life: Creative Entanglements in a World of Materials",
             "collection": "matter",
             "language": "English",
             "author": "Tim Ingold",
@@ -95,6 +92,7 @@ files = [
     {
         "name": "designerly-ways-of-knowing.pdf",
         "metadata": {
+            "title": "Designerly Ways of Knowing",
             "collection": "matter",
             "language": "English",
             "author": "Claudia Mareis",
@@ -103,6 +101,7 @@ files = [
     {
         "name": "heidi-jalkh-thesis-refes.txt",
         "metadata": {
+            "title": "Heidi Jalkh Thesis Refes",
             "collection": "matter",
             "language": "English",
             "author": "Heidi Jalkh",
@@ -111,6 +110,7 @@ files = [
     {
         "name": "being-alive.pdf",
         "metadata": {
+            "title": "Being Alive",
             "collection": "matter",
             "language": "English",
             "author": "Tim Ingold",
@@ -119,14 +119,16 @@ files = [
     {
         "name": "la-magna-auxetic.pdf",
         "metadata": {
+            "title": "La Magna Auxetic",
             "collection": "matter",
             "language": "English",
-            "author": "??",
+            "author": "Roderic Lakes",
         },
     },
     {
         "name": "le-probleme-technique.pdf",
         "metadata": {
+            "title": "Le Probleme Technique",
             "collection": "matter",
             "language": "French",
             "author": "Irlande Saurin",
@@ -135,6 +137,7 @@ files = [
     {
         "name": "making-matter-active-through-form.pdf",
         "metadata": {
+            "title": "Making Matter Active Through Form",
             "collection": "matter",
             "language": "English",
             "author": "Heidi Jalkh",
@@ -143,15 +146,16 @@ files = [
     {
         "name": "material-intelligence.pdf",
         "metadata": {
+            "title": "Material Intelligence",
             "collection": "matter",
             "language": "English",
             "author": "Glenn Adamson",
         },
     },
     {
-        # NOTE: What does "moa" mean?
         "name": "moa-chat-heidi-ai.rtf",
         "metadata": {
+            "title": "Moa Chat Heidi Ai",
             "collection": "matter",
             "language": "English",
             "author": "Heidi Jalkh",
@@ -160,6 +164,7 @@ files = [
     {
         "name": "new-materialism.pdf",
         "metadata": {
+            "title": "New Materialism",
             "collection": "matter",
             "language": "English",
             "author": "Rick Dolphijn & Iris van der Tuin",
@@ -168,6 +173,7 @@ files = [
     {
         "name": "no-cosas.epub",
         "metadata": {
+            "title": "No Cosas",
             "collection": "matter",
             "language": "Spanish",
             "author": "Byung-Chul Han",
@@ -176,6 +182,7 @@ files = [
     {
         "name": "on-material-grammar.pdf",
         "metadata": {
+            "title": "On Material Grammar",
             "collection": "matter",
             "language": "English",
             "author": "Lorenzo Guiducci & Heidi Jalkh",
@@ -184,6 +191,7 @@ files = [
     {
         "name": "parallel-minds.epub",
         "metadata": {
+            "title": "Parallel Minds",
             "collection": "matter",
             "language": "English",
             "author": "Laura Tripaldi",
@@ -192,6 +200,7 @@ files = [
     {
         "name": "quotes-compilation.rtf",
         "metadata": {
+            "title": "Quotes Compilation",
             "collection": "matter",
             "language": "English",
             "author": "Heidi Jalkh",
@@ -200,6 +209,7 @@ files = [
     {
         "name": "stuff-matters.pdf",
         "metadata": {
+            "title": "Stuff Matters",
             "collection": "matter",
             "language": "English",
             "author": "Mark Miodownik",
@@ -208,6 +218,7 @@ files = [
     {
         "name": "survival-of-the-cheapest.pdf",
         "metadata": {
+            "title": "Survival of the Cheapest",
             "collection": "matter",
             "language": "English",
             "author": "Julian F. V. Vincent",
@@ -216,6 +227,7 @@ files = [
     {
         "name": "the-limits-of-fabrication.pdf",
         "metadata": {
+            "title": "The Limits of Fabrication",
             "collection": "matter",
             "language": "English",
             "author": "Nathan Brown",
@@ -224,23 +236,16 @@ files = [
     {
         "name": "the-new-materiality.pdf",
         "metadata": {
+            "title": "The New Materiality",
             "collection": "matter",
             "language": "English",
             "author": "Manuel DeLanda",
         },
     },
-    # NOTE: Duplicate
-    # {
-    #     "name": "the-new-materiality-corrected.pdf",
-    #     "metadata": {
-    #         "collection": "matter",
-    #         "language": "English",
-    #         "author": "Manuel DeLanda",
-    #     },
-    # },
     {
         "name": "the-positive-side-of-being-negative.pdf",
         "metadata": {
+            "title": "The Positive Side of Being Negative",
             "collection": "matter",
             "language": "English",
             "author": "K. E. Evans & K. L. Alderson",
@@ -249,6 +254,7 @@ files = [
     {
         "name": "towarda-new-materialism.pdf",
         "metadata": {
+            "title": "Toward a New Materialism",
             "collection": "matter",
             "language": "English",
             "author": "Rachel Tillman",
@@ -257,22 +263,25 @@ files = [
     {
         "name": "ultra-knowledge-and-gestaltung.pdf",
         "metadata": {
+            "title": "Ultra Knowledge and Gestaltung",
             "collection": "matter",
             "language": "English",
-            "author": "??",
+            "author": "Nikola Doll, Horst Bredekamp & Wolfgang Schaffner",
         },
     },
     {
         "name": "vehlken-friedman-krauthausen-fratzl-essays.pdf",
         "metadata": {
+            "title": "Vehlken Friedman Krauthausen Fratzl Essays",
             "collection": "matter",
             "language": "English",
-            "author": "??",
+            "author": "Michael Friedman & Karin Krauthausen",
         },
     },
     {
         "name": "vibrant-matter.epub",
         "metadata": {
+            "title": "Vibrant Matter",
             "collection": "matter",
             "language": "English",
             "author": "Jane Bennett",
@@ -281,50 +290,19 @@ files = [
     {
         "name": "vincent-quotes.docx",
         "metadata": {
+            "title": "Vincent Quotes",
             "collection": "matter",
             "language": "English",
-            "author": "??",
+            "author": "Julian F. V. Vincent",
         },
     },
     {
         "name": "wholeness-and-the-implicate-order.pdf",
         "metadata": {
+            "title": "Wholeness and the Implicate Order",
             "collection": "matter",
             "language": "English",
             "author": "David Bohm",
-        },
-    },
-    #################### Borges ####################
-    {
-        "name": "el-hacedor.epub",
-        "metadata": {
-            "collection": "borges",
-            "language": "Spanish",
-            "author": "Jorge Luis Borges",
-        },
-    },
-    {
-        "name": "el-libro-de-arena.epub",
-        "metadata": {
-            "collection": "borges",
-            "language": "Spanish",
-            "author": "Jorge Luis Borges",
-        },
-    },
-    {
-        "name": "ficciones.epub",
-        "metadata": {
-            "collection": "borges",
-            "language": "Spanish",
-            "author": "Jorge Luis Borges",
-        },
-    },
-    {
-        "name": "el-aleph.epub",
-        "metadata": {
-            "collection": "borges",
-            "language": "Spanish",
-            "author": "Jorge Luis Borges",
         },
     },
 ]

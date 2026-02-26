@@ -118,7 +118,7 @@ def main_pipeline(
     printer.text("\n\n")
     printer.image(img_source=state.selected_material_image_path)
     printer.text("\n")
-    printer.block_text(state.selected_material_justification)
+    printer.block_text(state.selected_material_reason)
 
     printer.text("\n\n")
     printer.text("------------------------------------------------")
