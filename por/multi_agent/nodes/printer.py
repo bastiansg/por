@@ -113,7 +113,7 @@ def main_pipeline(
     printer.text("\n\n")
 
     printer.set(bold=True)
-    printer.block_text(f"$$ Tu material es: {state.selected_material_title}")
+    printer.block_text(f"$$ Tu interacción es: {state.selected_material_title}")
     printer.set(bold=False)
     printer.text("\n\n")
     printer.image(img_source=state.selected_material_image_path)
@@ -121,6 +121,8 @@ def main_pipeline(
     printer.block_text(state.selected_material_justification)
 
     printer.text("\n\n")
+    printer.text("------------------------------------------------")
+    printer.text("\n")
     printer.text("------------------------------------------------")
     printer.text("\n\n")
 

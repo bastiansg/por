@@ -32,5 +32,3 @@ instructions_template: |-
     **Question**: {question}
 
     **Materials**: {materials}
-
-    **Output language**: {output_language}
