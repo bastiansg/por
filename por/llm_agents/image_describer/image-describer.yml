@@ -14,7 +14,7 @@ instructions_template: |-
     Output two sections:
 
     1. **physical_description**
-    - Describe visible features: apparent gender presentation, pose, posture, body proportions, hairstyle, and facial detail.
+    - Describe visible features: apparent gender presentation, pose, posture, body proportions, hairstyle, and facial details.
     - Mention body modifications, makeup, nail polish, or accessories like piercings or tattoos.
 
     2. **clothing_description**

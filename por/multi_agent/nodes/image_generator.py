@@ -67,8 +67,14 @@ async def run(state: StateSchema) -> dict[str, Any]:
     io_bytes = io.BytesIO(base64.b64decode(image_data))
     image = Image.open(io_bytes).convert("RGB")
 
-    resize_transform = transforms.Resize(size=576)
-    image = resize_transform(image)
+    side = max(image.width, image.height)
+    padded = Image.new("RGB", (side, side), color=(255, 255, 255))
+
+    x_offset = (side - image.width) // 2
+    y_offset = (side - image.height) // 2
+
+    padded.paste(image, (x_offset, y_offset))
+    image = padded.resize((576, 576), Image.Resampling.LANCZOS)
 
     images_path = runtime_context.images_path
     gen_image_path = f"{images_path}/{state.image_id}-gen.{image_extension}"

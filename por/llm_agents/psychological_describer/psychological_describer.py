@@ -1,5 +1,3 @@
-# from typing import Literal
-
 from pydantic_ai import ToolOutput
 from pydantic import BaseModel, StrictStr, Field
 
@@ -40,34 +38,6 @@ class PsychologicalDescriberOutput(BaseModel):
         description="Gaze direction or quality only (e.g., direct, downward, distant); never include the gaze target.",
         min_length=1,
     )
-
-    # major_arcana_archetype: Literal[
-    #     "The Fool",
-    #     "The Magician",
-    #     "The High Priestess",
-    #     "The Empress",
-    #     "The Emperor",
-    #     "The Hierophant",
-    #     "The Lovers",
-    #     "The Chariot",
-    #     "Strength",
-    #     "The Hermit",
-    #     "Wheel of Fortune",
-    #     "Justice",
-    #     "The Hanged Man",
-    #     "Death",
-    #     "Temperance",
-    #     "The Devil",
-    #     "The Tower",
-    #     "The Star",
-    #     "The Moon",
-    #     "The Sun",
-    #     "Judgement",
-    #     "The World",
-    # ] = Field(
-    #     description="Archetypal essence aligned with one of the 22 Major Arcana of Tarot.",
-    #     min_length=1,
-    # )
 
     question_theme: StrictStr = Field(
         description="Core theme extracted from the question (e.g., direction, conflict, desire).",
