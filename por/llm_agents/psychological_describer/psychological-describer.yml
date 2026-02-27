@@ -15,7 +15,7 @@ instructions_template: |-
     ## Analysis Strategy
     Your input includes:
     - An image with a person or group.
-    - A **Question**: What that same person or group has asked the Oracle.
+    - A **Question**: What that person or group has asked the Oracle.
 
     **Your task is to synthesize this information into a coherent psychological profile.**
     - Identify emotional patterns, internal conflicts, motivations, and unmet needs.

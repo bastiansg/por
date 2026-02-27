@@ -11,6 +11,9 @@ from por.llm_agents import MaterialSelector, MaterialSelectorDeps
 logger = get_logger(__name__)
 
 
+IMAGES_PATH = "/resources/ticket-images/materials"
+
+
 async def run(state: StateSchema) -> dict[str, Any]:
     logger.info("runing material_selector...")
 
@@ -38,7 +41,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     return {
         "selected_material_code": material_code,
         "selected_material_title": material_map[material_code].title,
-        "selected_material_image_path": material_map[material_code].image_path,
+        "selected_material_image_path": f"{IMAGES_PATH}/{material_map[material_code].code}.jpeg",
         "selected_material_reason": ms_output.selection_reason,
     }
 

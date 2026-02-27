@@ -30,4 +30,3 @@ class Material(BaseModel):
     title: StrictStr
     material: StrictStr
     description: StrictStr
-    image_path: StrictStr

@@ -6,7 +6,6 @@ from langgraph.runtime import get_runtime
 
 from PIL import Image
 from openai import AsyncOpenAI
-from torchvision import transforms
 
 from multi_agents.graph import Node
 from common.logger import get_logger
@@ -47,6 +46,8 @@ async def run(state: StateSchema) -> dict[str, Any]:
             tools=[
                 {
                     "type": "image_generation",
+                    "size": "1024x1536",
+                    # "size": "1024x1024",
                 },
             ],
         )
@@ -66,10 +67,12 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     io_bytes = io.BytesIO(base64.b64decode(image_data))
     image = Image.open(io_bytes).convert("RGB")
+    # image = image.resize((576, 576), Image.Resampling.LANCZOS)
 
-    # TODO: Aspect ratio 4:3
-    resize_transform = transforms.Resize(size=576)
-    image = resize_transform(image)
+    padded = Image.new("RGB", (1152, 1536), color=(255, 255, 255))
+    x_offset = (1152 - image.width) // 2
+    padded.paste(image, (x_offset, 0))
+    image = padded.resize((576, 768), Image.Resampling.LANCZOS)
 
     images_path = runtime_context.images_path
     gen_image_path = f"{images_path}/{state.image_id}-gen.{image_extension}"

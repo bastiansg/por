@@ -16,7 +16,6 @@ materials = [
             "entrelazados que una vez unidos, forman una geometría perfecta: una orbe "
             "reimaginada capaz de rodar, detenerse y recuperar su equilibrio."
         ),
-        "image_path": "/resources/ticket-images/materials/BM.01.jpeg",
     },
     {
         "code": "GM.02",
@@ -35,7 +34,6 @@ materials = [
             "simple recipiente se convierte en un santuario silencioso donde la vida se "
             "congrega y crece siguiendo el pulso de una forma en constante transformación."
         ),
-        "image_path": "/resources/ticket-images/materials/GM.02.jpeg",
     },
     {
         "code": "MC.03",
@@ -55,7 +53,6 @@ materials = [
             "flotaran sobre una multitud.Un sistema de transporte sofisticado, donde ondas de  "
             "energía trasladan la materia a través de un suave relevo sincronizado."
         ),
-        "image_path": "/resources/ticket-images/materials/MC.03.jpeg",
     },
     {
         "code": "AS.04",
@@ -74,7 +71,6 @@ materials = [
             "suavemente, asegurándolo y liberándolo mediante una deformación inteligente que "
             "evoca el instinto de un organismo vivo."
         ),
-        "image_path": "/resources/ticket-images/materials/AS.04.jpeg",
     },
     {
         "code": "MF.05",
@@ -91,7 +87,6 @@ materials = [
             "planos verticales con una gracia sin esfuerzo. Es una coreografía palpitante: una "
             "secuencia fluida de atracción, entrega y ascenso."
         ),
-        "image_path": "/resources/ticket-images/materials/MF.05.jpeg",
     },
 ]
 
