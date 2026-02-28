@@ -23,12 +23,17 @@ class PhysicalDescription(BaseModel):
     )
 
     facial_features: StrictStr = Field(
-        description="Visible facial details: expression category, makeup, piercings, tattoos, or notable features.",
+        description="Visible facial details such as expression, structure, and other notable facial features.",
+        min_length=1,
+    )
+
+    makeup_and_nails: StrictStr = Field(
+        description="Visible makeup, nail polish, or other cosmetic presentation details.",
         min_length=1,
     )
 
     visible_modifications: StrictStr = Field(
-        description="Visible body modifications such as tattoos, piercings, or cosmetic enhancements.",
+        description="Visible body modifications such as tattoos, piercings, or other non-clothing adornments.",
         min_length=1,
     )
 
