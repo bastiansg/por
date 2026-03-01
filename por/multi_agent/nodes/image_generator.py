@@ -41,7 +41,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     try:
         response = await client.images.generate(
-            model="gpt-image-1.5",
+            model="gpt-image-1",
             prompt=image_generation_prompt,
             moderation="low",
             quality="high",

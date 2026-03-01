@@ -24,6 +24,10 @@ from .language_detector.language_detector import (  # noqa
 )
 
 from .image_prompter.image_prompter import ImagePrompter, ImagePrompterDeps  # noqa
+from .image_caption_generator.image_caption_generator import (  # noqa
+    ImageCaptionGenerator,
+    ImageCaptionGeneratorOutput,
+)
 from .satc_advisor.satc_advisor import (  # noqa
     SATCAdvisor,
     SATCAdvisorDeps,
