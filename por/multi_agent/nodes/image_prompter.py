@@ -32,7 +32,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     ip = ImagePrompter()
     ip_output = await ip.generate(
-        user_prompt="Provide your surreal Flux image-generation prompt.",
+        user_prompt="Provide your surreal image-generation prompt.",
         agent_deps=ImagePrompterDeps(
             question=audio_transcription,
             psychological_profile=psychological_profile,
