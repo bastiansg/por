@@ -24,7 +24,7 @@ class ImagePrompterDeps(BaseModel):
 
 class ImagePrompterOutput(BaseModel):
     flux_prompt: StrictStr = Field(
-        description="Flux image-generation prompt.",
+        description="The surreal image-generation prompt.",
         min_length=1,
     )
 

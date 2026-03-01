@@ -40,40 +40,40 @@ async def run(state: StateSchema) -> dict[str, Any]:
     client = AsyncOpenAI()
 
     try:
-        response = await client.responses.create(
-            model="gpt-5.2",
-            input=image_generation_prompt,
-            tools=[
-                {
-                    "type": "image_generation",
-                },
-            ],
+        response = await client.images.generate(
+            model="gpt-image-1",
+            prompt=image_generation_prompt,
+            moderation="low",
+            quality="high",
+            size="1024x1536",
         )
 
     except Exception:
         logger.error(f"rejected prompt: {image_generation_prompt}")
         raise
 
-    image_data = [
-        output.result
-        for output in response.output
-        if output.type == "image_generation_call"
-    ]
+    response_data = response.data
+    assert response_data is not None
 
-    image_data = image_data[0]
+    image_data = response_data[0].b64_json
     assert image_data is not None
 
     io_bytes = io.BytesIO(base64.b64decode(image_data))
     image = Image.open(io_bytes).convert("RGB")
 
-    side = max(image.width, image.height)
-    padded = Image.new("RGB", (side, side), color=(255, 255, 255))
+    resized_width = 400
+    padded_width = 576
 
-    x_offset = (side - image.width) // 2
-    y_offset = (side - image.height) // 2
+    target_height = round(image.height * resized_width / image.width)
+    image = image.resize(
+        (resized_width, target_height),
+        Image.Resampling.LANCZOS,
+    )
 
-    padded.paste(image, (x_offset, y_offset))
-    image = padded.resize((576, 576), Image.Resampling.LANCZOS)
+    padded_image = Image.new("RGB", (padded_width, target_height), "white")
+    x_offset = (padded_width - resized_width) // 2
+    padded_image.paste(image, (x_offset, 0))
+    image = padded_image
 
     images_path = runtime_context.images_path
     gen_image_path = f"{images_path}/{state.image_id}-gen.{image_extension}"
