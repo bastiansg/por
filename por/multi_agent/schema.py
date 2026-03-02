@@ -82,7 +82,7 @@ class StateSchema(BaseModel):
     image_description: ImageDescriberOutput | None = None
     psychological_profile: PsychologicalDescriberOutput | None = None
     selected_material_code: StrictStr | None = None
-    selected_material_title: StrictStr | None = None
+    selected_material_interaction: StrictStr | None = None
     selected_material_image_path: StrictStr | None = None
     selected_material_reason: StrictStr | None = None
     matter_advise: StrictStr | None = None

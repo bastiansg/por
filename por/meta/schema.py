@@ -26,7 +26,7 @@ class TextChunk(BaseModel):
 
 
 class Material(BaseModel):
-    code: StrictStr
-    title: StrictStr
-    material: StrictStr
+    name: StrictStr
+    interaction: StrictStr
     description: StrictStr
+    code: StrictStr

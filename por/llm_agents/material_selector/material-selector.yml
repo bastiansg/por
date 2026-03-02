@@ -1,5 +1,5 @@
-# model: openai:gpt-4.1-2025-04-14
-model: openai:gpt-4.1-mini-2025-04-14
+model: openai:gpt-4.1-2025-04-14
+# model: openai:gpt-4.1-mini-2025-04-14
 max_tokens: 256
 temperature: 1.0
 
@@ -15,20 +15,24 @@ instructions_template: |-
     - A **Question**: what that person or group has asked.
     - **Materials**: a small catalog of candidate material pieces.
 
-    Your task is to choose the single material that best fits the person.
+    Your task is to answer the question: if the same person or group were a material, which one would it be?
+
+    ## Required Output
+    - `selected_material_code`: The `code` of the selected material.
+    - `selection_reason`: Very short impersonal standalone sentence that suggests why the selection fits.
 
     # Selection Rules
     - You MUST select exactly one material from **Materials**.
     - Prioritize psychological fit first, then practical fit with the question.
 
-    ## Required Output
-    - `selected_material_code`: The `code` of the selected material.
-    - `selection_reason`: Very short standalone reason for the selection.
-
-    # Hard Constraints
-    - Write your reason in `{output_language}`.
-    - **NEVER** mention the selected material in the `selection_reason`.
-    - **NEVER** reference the person or the question in the `selection_reason`.
+    ## Selection Reason Rules
+    - Write it in `{output_language}`.
+    - It MUST be poetic, evocative, and image-rich.
+    - It MUST reference the selected material and its associated interaction.
+    - It should suggest why the selection fits, without stating it explicitly.
+    - It MUST remain impersonal and must not address the user.
+    - It MUST NOT reference the person or the question directly.
+    - Keep it very short despite the poetic tone.
 
     # Context
     **Psychological Profile**: {psychological_profile}

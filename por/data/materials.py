@@ -4,10 +4,10 @@ from por.meta.schema import Material
 materials = [
     {
         "code": "BM.01",
-        "title": "Unir",
+        "interaction": "Unir",
         "year": 2026,
         "authors": "Heidi Jalkh and Nadya Suvorova",
-        "material": "Conchas marinas trituradas (cholgas, navajas y ostras) con biopolímero de algas.",
+        "name": "Conchas marinas trituradas (cholgas, navajas y ostras) con biopolímero de algas.",
         "material_origin": "Ultramarinos (AR)",
         "description": (
             "Pieza por pieza, esta esfera-rompecabezas cobra existencia. Fabricada con "
@@ -19,10 +19,10 @@ materials = [
     },
     {
         "code": "GM.02",
-        "title": "Crecer",
+        "interaction": "Crecer",
         "year": 2026,
         "authors": "Heidi Jalkh and Nadya Suvorova",
-        "material": "Bioaglomerado de micelio de Pycnoporus sanguineus y Ganoderma lucidum",
+        "name": "Bioaglomerado de micelio de Pycnoporus sanguineus y Ganoderma lucidum",
         "fungus_inoculation": (
             "Dr. Leonardo M. Majul, Lab. de Micología Experimental y Liquenología "
             "(INMIBO-UBA)"
@@ -37,10 +37,10 @@ materials = [
     },
     {
         "code": "MC.03",
-        "title": "Magnetizar",
+        "interaction": "Magnetizar",
         "year": 2026,
         "authors": "Heidi Jalkh and Nadya Suvorova",
-        "material": "Compuesto de caucho siliconado con partículas de aleación de neodimio-hierro-boro (NdFeB)",
+        "name": "Compuesto de caucho siliconado con partículas de aleación de neodimio-hierro-boro (NdFeB)",
         "material_origin": (
             "Dr Ahmet Demirörs (CH), Material Science Department, Complex Materials Group, "
             "ETH Zurich"
@@ -56,10 +56,10 @@ materials = [
     },
     {
         "code": "AS.04",
-        "title": "Tensar",
+        "interaction": "Tensar",
         "year": 2026,
         "authors": "Heidi Jalkh and Nadya Suvorova",
-        "material": "Estructura auxética de goma eva",
+        "name": "Estructura auxética de goma eva",
         "collaborators": "Dr. Lorenzo Guiducci, Matters of Activity (DE)",
         "source_url": "https://www.degruyterbrill.com/document/doi/10.1515/9783110714883-007/html?lang=en&srsltid=AfmBOoo9wxIljnyrYrmJaGI8kRl3NtZ8VYouM8-AUtRgN3BviMpitVGa",
         "description": (
@@ -74,10 +74,10 @@ materials = [
     },
     {
         "code": "MF.05",
-        "title": "Atraer",
+        "interaction": "Atraer",
         "year": 2026,
         "authors": "Heidi Jalkh and Nadya Suvorova",
-        "material": "Polvo de acero",
+        "name": "Polvo de acero",
         "material_origin": "Apheros AG (CH), Material Science Department, Complex Materials Group, ETH Zurich",
         "source_url": "https://advanced.onlinelibrary.wiley.com/doi/full/10.1002/adma.202207181",
         "description": (

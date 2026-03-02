@@ -40,7 +40,9 @@ async def run(state: StateSchema) -> dict[str, Any]:
     material_code = ms_output.selected_material_code
     return {
         "selected_material_code": material_code,
-        "selected_material_title": material_map[material_code].title,
+        "selected_material_interaction": material_map[
+            material_code
+        ].interaction,
         "selected_material_image_path": f"{IMAGES_PATH}/{material_map[material_code].code}.jpeg",
         "selected_material_reason": ms_output.selection_reason,
     }

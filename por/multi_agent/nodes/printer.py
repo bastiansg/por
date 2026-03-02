@@ -33,7 +33,7 @@ def head_pipeline(
     printer.set(align="left")
     printer.block_text("* Oráculo Robot. (2025, ∞)")
     printer.text("\n")
-    printer.block_text("* @dd.moon__                All rights reserved.")
+    printer.block_text("* @dd.moon__                All rights unreserved.")
     printer.text("\n\n")
 
     printer.text("\n")
@@ -112,9 +112,11 @@ def main_pipeline(
     printer.text("------------------------------------------------")
     printer.text("\n\n")
 
+    material_interaction = state.selected_material_interaction
     printer.set(bold=True)
-    printer.block_text(f"$$ Tu interacción es: {state.selected_material_title}")
+    printer.block_text(f"$$ Tu interacción material es: {material_interaction}")
     printer.set(bold=False)
+
     printer.text("\n\n")
     printer.image(img_source=state.selected_material_image_path)
     printer.text("\n")
