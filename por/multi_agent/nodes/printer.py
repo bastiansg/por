@@ -33,7 +33,7 @@ def head_pipeline(
     printer.set(align="left")
     printer.block_text("* Oráculo Robot. (2025, ∞)")
     printer.text("\n")
-    printer.block_text("* @dd.moon__                All rights reserved.")
+    printer.block_text("* @dd.moon__                All rights unreserved.")
     printer.text("\n\n")
 
     # printer.text("\n")
