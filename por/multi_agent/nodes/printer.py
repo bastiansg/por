@@ -1,16 +1,28 @@
 from typing import Any
+from datetime import datetime
 from langgraph.runtime import get_runtime
 
 from escpos.printer import Usb
 from multi_agents.graph import Node
 from common.logger import get_logger
 
+from por.data import get_copyright
 from por.multi_agent.schema import StateSchema, ContextSchema
 
 from .utils import get_sensehat_dsp, get_dsp_images, get_printer
 
 
 logger = get_logger(__name__)
+
+
+RIGHTS_NOTICE_LENGTH = 36
+
+
+def get_copyright_line():
+    _copyright = get_copyright()
+    padding_length = RIGHTS_NOTICE_LENGTH - len(_copyright)
+
+    return f"* @dd.moon__{' ' * padding_length}{_copyright}"
 
 
 def head_pipeline(
@@ -31,9 +43,12 @@ def head_pipeline(
     )
 
     printer.set(align="left")
-    printer.block_text("* Oráculo Robot. (2025, ∞)")
+    current_year = datetime.now().year
+    printer.block_text(f"* Oráculo Robot. ({current_year}, ∞)")
     printer.text("\n")
-    printer.block_text("* @dd.moon__                All rights unreserved.")
+
+    copyright_line = get_copyright_line()
+    printer.block_text(copyright_line)
     printer.text("\n\n")
 
     printer.text("\n")

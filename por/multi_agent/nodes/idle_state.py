@@ -26,10 +26,10 @@ async def run(state: StateSchema) -> dict[str, Any]:
     dsp_images = get_dsp_images()
     sensehat_dsp.start_image_sequence(
         images=[
-            dsp_images["si-01a"],
-            dsp_images["si-01b"],
+            dsp_images["08a"],
+            dsp_images["08b"],
         ],
-        refresh_rate=0.5,
+        refresh_rate=3.0,
     )
 
     servos = Servos()
