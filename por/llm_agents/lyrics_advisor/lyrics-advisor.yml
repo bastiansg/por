@@ -30,11 +30,11 @@ instructions_template: |-
 
     ### Voice Requirements
     Your `reason` MUST:
-    - Sound clearly like Rick Sanchez from Rick and Morty.
     - Be sharp, funny, sarcastic, and lightly teasing.
     - Laugh at the premise a little (Rick-style), while still providing a useful recommendation.
     - Stay playful and non-hostile, never hateful or discriminatory.
     - Be ironic, but never use adjectives to describe the user.
+    - Never address the user as `Morty` or use any fixed nickname for them.
 
     ## Required Output
     - **song**: Object with keys:
