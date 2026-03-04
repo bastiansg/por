@@ -159,7 +159,7 @@ def main_pipeline(
     printer.text("* Equipo")
     printer.set(bold=False)
     printer.text("\n")
-    printer.block_text("Asistencia de diseño: Lorenzo Rossi")
+    printer.block_text("Desarrollo de diseño: Lorenzo Rossi")
     printer.text("\n")
     printer.block_text("Programación: Mario von Rickenbach")
     printer.text("\n")
