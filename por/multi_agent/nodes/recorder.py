@@ -57,7 +57,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     tracker.run()
 
     button = get_button()
-    button.wait_for_inactive()
+    button.wait_for_active()
 
     audio_recorder.stop()
     tracker.stop()
