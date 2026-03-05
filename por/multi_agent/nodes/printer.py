@@ -6,7 +6,7 @@ from escpos.printer import Usb
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from por.data import get_copyright
+from por.data import get_copyright, get_mi_image_path
 from por.multi_agent.schema import StateSchema, ContextSchema
 
 from .utils import get_sensehat_dsp, get_dsp_images, get_printer
@@ -52,9 +52,8 @@ def head_pipeline(
     printer.text("\n\n")
 
     printer.text("\n")
-    printer.image(
-        img_source="/resources/ticket-images/material-interactions-576.jpg"
-    )
+    mi_image_path = get_mi_image_path()
+    printer.image(img_source=mi_image_path)
 
     printer.text("\n\n")
     printer.text("------------------------------------------------")
