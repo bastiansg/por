@@ -64,10 +64,15 @@ psychological_describer_material_selector = SimpleEdge(
 
 image_prompter_edges = SimpleEdge(
     source=[
-        "image_describer",
+        "microphone_remover",
         "psychological_describer",
     ],
     target="image_prompter",
+)
+
+image_describer_microphone_remove = SimpleEdge(
+    source="image_describer",
+    target="microphone_remover",
 )
 
 image_prompter_image_generator = SimpleEdge(

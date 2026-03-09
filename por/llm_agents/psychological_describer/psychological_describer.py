@@ -1,4 +1,4 @@
-# from typing import Literal
+from typing import Literal
 
 from pydantic_ai import ToolOutput
 from pydantic import BaseModel, StrictStr, Field
@@ -16,68 +16,75 @@ class PsychologicalDescriberDeps(BaseModel):
 
 
 class PsychologicalDescriberOutput(BaseModel):
-    posture: StrictStr = Field(
-        description="Visible body stance (e.g., upright, slouched, tense), excluding gestures involving a hand near the mouth.",
-        min_length=1,
-    )
+    posture: Literal[
+        "open",
+        "closed",
+        "tense",
+        "relaxed",
+        "collapsed",
+        "expansive",
+    ] = Field(description="Body alignment and engagement level.")
 
-    emotional_tone: StrictStr = Field(
-        description="Symbolic mood suggested by appearance (e.g., contemplative, determined, reserved).",
-        min_length=1,
-    )
+    facial_expression: Literal[
+        "neutral",
+        "smile",
+        "serious",
+        "pensive",
+        "flat",
+        "tense",
+    ] = Field(description="Expression category.")
 
-    composure: StrictStr = Field(
-        description="Visible level of physical tension or ease (e.g., composed, tense, relaxed).",
-        min_length=1,
-    )
+    gaze: Literal[
+        "steady",
+        "intense",
+        "defocused",
+        "soft",
+        "guarded",
+        "alert",
+        "vacant",
+        "searching",
+        "hesitant",
+        "piercing",
+        "warm",
+    ] = Field(description="Gaze quality only, excluding direction.")
 
-    facial_expression: StrictStr = Field(
-        description="Basic expression category (e.g., neutral, smiling, serious).",
-        min_length=1,
-    )
+    emotional_tone: Literal[
+        "hopeful",
+        "anxious",
+        "conflicted",
+        "determined",
+        "melancholic",
+        "resigned",
+        "yearning",
+        "defiant",
+        "curious",
+        "numb",
+    ] = Field(description="Dominant felt emotional state.")
 
-    gaze: StrictStr = Field(
-        description="Gaze direction or quality only (e.g., direct, downward, distant); never include the gaze target.",
-        min_length=1,
-    )
+    composure: Literal[
+        "settled",
+        "guarded",
+        "fragile",
+        "controlled",
+        "restless",
+        "overwhelmed",
+        "dissociated",
+    ] = Field(description="Emotional self-regulation capacity in this moment.")
 
-    # major_arcana_archetype: Literal[
-    #     "The Fool",
-    #     "The Magician",
-    #     "The High Priestess",
-    #     "The Empress",
-    #     "The Emperor",
-    #     "The Hierophant",
-    #     "The Lovers",
-    #     "The Chariot",
-    #     "Strength",
-    #     "The Hermit",
-    #     "Wheel of Fortune",
-    #     "Justice",
-    #     "The Hanged Man",
-    #     "Death",
-    #     "Temperance",
-    #     "The Devil",
-    #     "The Tower",
-    #     "The Star",
-    #     "The Moon",
-    #     "The Sun",
-    #     "Judgement",
-    #     "The World",
-    # ] = Field(
-    #     description="Archetypal essence aligned with one of the 22 Major Arcana of Tarot.",
-    #     min_length=1,
-    # )
-
-    question_theme: StrictStr = Field(
-        description="Core theme extracted from the question (e.g., direction, conflict, desire).",
-        min_length=1,
-    )
-
-    synthesis: StrictStr = Field(
-        description="A one-sentence integration of appearance + question theme.",
-        min_length=1,
-    )
+    question_theme: Literal[
+        "direction",
+        "conflict",
+        "desire",
+        "identity",
+        "fear",
+        "purpose",
+        "change",
+        "belonging",
+        "loss",
+        "worthiness",
+        "trust",
+        "timing",
+    ] = Field(description="Core existential concern behind the question.")
 
 
 class PsychologicalDescriber(

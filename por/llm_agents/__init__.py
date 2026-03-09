@@ -6,6 +6,11 @@ from .image_describer.image_describer import (  # noqa
     ImageDescriberOutput,
 )
 
+from .microphone_remover.microphone_remover import (  # noqa
+    MicrophoneRemover,
+    MicrophoneRemoverDeps,
+)
+
 from .psychological_describer.psychological_describer import (  # noqa
     PsychologicalDescriber,
     PsychologicalDescriberDeps,

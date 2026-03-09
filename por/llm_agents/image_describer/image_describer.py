@@ -6,6 +6,80 @@ from llm_agents.meta.interfaces import LLMAgent
 from por.llm_agents import image_describer
 
 
+class FacialFeatures(BaseModel):
+    face_shape: StrictStr = Field(
+        description="Visible face shape.",
+        min_length=1,
+    )
+
+    eyes: StrictStr = Field(
+        description="Visible eye characteristics only, excluding gaze direction.",
+        min_length=1,
+    )
+
+    jawline: StrictStr = Field(
+        description="Visible jawline characteristics.",
+        min_length=1,
+    )
+
+    nose: StrictStr = Field(
+        description="Visible nose characteristics.",
+        min_length=1,
+    )
+
+    lips: StrictStr = Field(
+        description="Visible lip characteristics.",
+        min_length=1,
+    )
+
+    beard: StrictStr = Field(
+        description="Visible beard characteristics.",
+        min_length=1,
+    )
+
+    mustache: StrictStr = Field(
+        description="Visible mustache characteristics.",
+        min_length=1,
+    )
+
+    brows: StrictStr = Field(
+        description="Visible eyebrow characteristics.",
+        min_length=1,
+    )
+
+    cheekbones: StrictStr = Field(
+        description="Visible cheekbone characteristics.",
+        min_length=1,
+    )
+
+    chin: StrictStr = Field(
+        description="Visible chin characteristics.",
+        min_length=1,
+    )
+
+
+class Hairstyle(BaseModel):
+    length: StrictStr = Field(
+        description="Visible hair length.",
+        min_length=1,
+    )
+
+    texture: StrictStr = Field(
+        description="Visible hair texture.",
+        min_length=1,
+    )
+
+    styling: StrictStr = Field(
+        description="Visible hair styling.",
+        min_length=1,
+    )
+
+    color: StrictStr = Field(
+        description="Visible hair color.",
+        min_length=1,
+    )
+
+
 class PhysicalDescription(BaseModel):
     gender_presentation: StrictStr = Field(
         description="Apparent gender presentation based only on visible style cues.",
@@ -17,18 +91,15 @@ class PhysicalDescription(BaseModel):
         min_length=1,
     )
 
-    hairstyle: StrictStr = Field(
-        description="Visible hairstyle: length, texture, styling, color.",
+    silhouette_shape: StrictStr = Field(
+        description="Overall silhouette impression from body and clothing (e.g., boxy, A-line, column, triangular, elongated).",
         min_length=1,
     )
 
-    facial_features: StrictStr = Field(
-        description="Visible facial details: expression category, makeup, piercings, tattoos, or notable features.",
-        min_length=1,
-    )
-
+    hairstyle: Hairstyle
+    facial_features: FacialFeatures
     visible_modifications: StrictStr = Field(
-        description="Visible body modifications such as tattoos, piercings, or cosmetic enhancements.",
+        description="Visible body modifications such as tattoos, piercings, makeup, or cosmetic enhancements.",
         min_length=1,
     )
 
@@ -55,7 +126,7 @@ class ClothingDescription(BaseModel):
     )
 
     accessories: StrictStr = Field(
-        description="Fashion accessories: jewelry, hats, eyewear, belts, bags (excluding any microphones or cables).",
+        description="Fashion accessories: jewelry, hats, eyewear, belts, bags.",
         min_length=1,
     )
 

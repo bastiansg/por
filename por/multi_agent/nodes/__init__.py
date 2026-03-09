@@ -5,6 +5,7 @@ from .gatekeeper import gatekeeper  # noqa
 from .validation_checkpoint import validation_checkpoint  # noqa
 from .language_detector import language_detector  # noqa
 from .image_describer import image_describer  # noqa
+from .microphone_remove import microphone_remove  # noqa
 from .psychological_describer import psychological_describer  # noqa
 from .image_prompter import image_prompter  # noqa
 from .matter_advisor import matter_advisor  # noqa
