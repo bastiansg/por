@@ -1,10 +1,11 @@
 polars==1.38.1
 gpiozero==2.0.1
+
 ipython==9.10.0
+# ipython==9.11.0
 
 # Do not touch this version
 torchaudio==2.8.0
-# torchaudio==2.9.1
 
 python-escpos==3.1
 sounddevice==0.5.5

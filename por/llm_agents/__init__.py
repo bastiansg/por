@@ -6,6 +6,11 @@ from .image_describer.image_describer import (  # noqa
     ImageDescriberOutput,
 )
 
+from .microphone_remover.microphone_remover import (  # noqa
+    MicrophoneRemover,
+    MicrophoneRemoverDeps,
+)
+
 from .psychological_describer.psychological_describer import (  # noqa
     PsychologicalDescriber,
     PsychologicalDescriberDeps,
@@ -24,32 +29,22 @@ from .language_detector.language_detector import (  # noqa
 )
 
 from .image_prompter.image_prompter import ImagePrompter, ImagePrompterDeps  # noqa
-from .image_caption_generator.image_caption_generator import (  # noqa
-    ImageCaptionGenerator,
-    ImageCaptionGeneratorOutput,
-)
 from .satc_advisor.satc_advisor import (  # noqa
     SATCAdvisor,
     SATCAdvisorDeps,
     SATCAdvisorOutput,
 )
 
-# from .machiavelli_advisor.machiavelli_advisor import (  # noqa
-#     MachiavelliAdvisor,
-#     MachiavelliAdvisorDeps,
-#     MachiavelliAdvisorOutput,
-# )
+from .machiavelli_advisor.machiavelli_advisor import (  # noqa
+    MachiavelliAdvisor,
+    MachiavelliAdvisorDeps,
+    MachiavelliAdvisorOutput,
+)
 
 from .matter_advisor.matter_advisor import (  # noqa
     MatterAdvisor,
     MatterAdvisorDeps,
     MatterAdvisorOutput,
-)
-
-from .lyrics_advisor.lyrics_advisor import (  # noqa
-    LyricsAdvisor,
-    LyricsAdvisorDeps,
-    LyricsAdvisorOutput,
 )
 
 from .retrieval_assistant.retrieval_assistant import (  # noqa
@@ -58,7 +53,8 @@ from .retrieval_assistant.retrieval_assistant import (  # noqa
     RetrievalAssistantOutput,
 )
 
-from .lyrics_validator.lyrics_validator import (  # noqa
-    LyricsValidator,
-    LyricsValidatorOutput,
+from .material_selector import (  # noqa
+    MaterialSelector,
+    MaterialSelectorDeps,
+    MaterialSelectorOutput,
 )

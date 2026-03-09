@@ -52,32 +52,27 @@ validation_checkpoint_conditional = ConditionalEdge(
     router=validation_checkpoint_conditional_router,
 )
 
-psychological_describer_nietzsche_advisor = SimpleEdge(
+psychological_describer_matter_advisor = SimpleEdge(
     source="psychological_describer",
-    target="nietzsche_advisor",
+    target="matter_advisor",
 )
 
-psychological_describer_satc_advisor = SimpleEdge(
+psychological_describer_material_selector = SimpleEdge(
     source="psychological_describer",
-    target="satc_advisor",
+    target="material_selector",
 )
-
-psychological_describer_lyrics_advisor = SimpleEdge(
-    source="psychological_describer",
-    target="lyrics_advisor",
-)
-
-# psychological_describer_machiavelli_advisor = SimpleEdge(
-#     source="psychological_describer",
-#     target="machiavelli_advisor",
-# )
 
 image_prompter_edges = SimpleEdge(
     source=[
-        "image_describer",
+        "microphone_remover",
         "psychological_describer",
     ],
     target="image_prompter",
+)
+
+image_describer_microphone_remove = SimpleEdge(
+    source="image_describer",
+    target="microphone_remover",
 )
 
 image_prompter_image_generator = SimpleEdge(
@@ -87,10 +82,8 @@ image_prompter_image_generator = SimpleEdge(
 
 printer_edges = SimpleEdge(
     source=[
-        "nietzsche_advisor",
-        "satc_advisor",
-        "lyrics_advisor",
-        # "machiavelli_advisor",
+        "matter_advisor",
+        "material_selector",
         "random_selector",
         "image_generator",
     ],
