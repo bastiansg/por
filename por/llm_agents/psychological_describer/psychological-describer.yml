@@ -21,7 +21,6 @@ instructions_template: |-
     - Identify emotional patterns, internal conflicts, motivations, and unmet needs.
     - Note any signs of defense mechanisms, desire for control, vulnerability, avoidance, or unresolved tension.
     - Your response must be a standalone profile that helps other advisors understand the subject's inner world, core drives, and creative or emotional tensions.
-    - For `gaze`, describe only the quality of the gaze, never its direction.
 
     ## Hard Constraints
     - Respond with the psychological profile in {output_language}.
