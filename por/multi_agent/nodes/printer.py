@@ -133,7 +133,7 @@ def main_pipeline(
     song_text = f"{state.song.title} | {state.song.artist} | {state.song.year}"  # type: ignore
     printer.block_text(song_text)
     printer.text("\n\n")
-    printer.text(state.lyrics_advise)  # type: ignore
+    printer.block_text(state.lyrics_advise)  # type: ignore
 
     printer.text("\n\n")
 
