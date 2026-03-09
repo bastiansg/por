@@ -6,7 +6,7 @@ from escpos.printer import Usb
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from por.data import get_copyright, get_mi_image_path
+from por.data import get_copyright
 from por.multi_agent.schema import StateSchema, ContextSchema
 
 from .utils import get_sensehat_dsp, get_dsp_images, get_printer
@@ -51,9 +51,10 @@ def head_pipeline(
     printer.block_text(copyright_line)
     printer.text("\n\n")
 
-    printer.text("\n")
-    mi_image_path = get_mi_image_path()
-    printer.image(img_source=mi_image_path)
+    # printer.text("\n")
+    # printer.image(
+    #     img_source="/resources/ticket-images/material-interactions-576.jpg"
+    # )
 
     printer.text("\n\n")
     printer.text("------------------------------------------------")
@@ -107,12 +108,43 @@ def main_pipeline(
 
     printer.set(bold=True, align="left")
     printer.set(bold=True)
-    printer.block_text("$$ Interacciones (im)posibles con la Materia:")
+    printer.block_text("$$ Lo que dicen que Nietzsche dijo:")
     printer.text("\n")
     printer.set(bold=False)
 
-    printer.block_text(state.matter_advise)
+    printer.block_text(state.nietzsche_advise)
     printer.text("\n\n")
+
+    printer.set(bold=True, align="left")
+    printer.set(bold=True)
+    printer.block_text("$$ Lo que escribe Carrie Bradshaw:")
+    printer.text("\n")
+    printer.set(bold=False)
+
+    printer.block_text(state.satc_advice)
+    printer.text("\n\n")
+
+    printer.set(bold=True, align="left")
+    printer.set(bold=True)
+    printer.block_text("$$ Lo que tenés que escuchar:")
+    printer.set(bold=False)
+    printer.text("\n\n")
+
+    song_text = f"{state.song.title} | {state.song.artist} | {state.song.year}"  # type: ignore
+    printer.block_text(song_text)
+    printer.text("\n\n")
+    printer.text(state.lyrics_advise)  # type: ignore
+
+    printer.text("\n\n")
+
+    # printer.set(bold=True, align="left")
+    # printer.set(bold=True)
+    # printer.block_text("$$ El plan de Maquiavelo:")
+    # printer.text("\n")
+    # printer.set(bold=False)
+
+    # printer.block_text(state.machiavelli_advice)
+    # printer.text("\n\n")
 
     printer.text("------------------------------------------------")
     printer.text("\n\n")
@@ -126,72 +158,28 @@ def main_pipeline(
     printer.text("------------------------------------------------")
     printer.text("\n\n")
 
-    material_interaction = state.selected_material_interaction
     printer.set(bold=True)
-    printer.block_text(f"$$ Tu interacción material es: {material_interaction}")
+    printer.block_text("Tu lucky number:")
     printer.set(bold=False)
-
-    printer.text("\n\n")
-    printer.image(img_source=state.selected_material_image_path)
     printer.text("\n")
-    printer.block_text(state.selected_material_reason)
-
-    printer.text("\n\n")
-    printer.text("------------------------------------------------")
-    printer.text("\n")
-    printer.text("------------------------------------------------")
+    printer.block_text(f"{state.lucky_number}")
     printer.text("\n\n")
 
     printer.set(bold=True)
-    printer.block_text("Interacciones Materiales")
-    printer.text("\n")
-    printer.block_text("Una nueva especie de diseño")
+    printer.block_text("Tu poema dos corazones:")
     printer.set(bold=False)
     printer.text("\n")
-    printer.block_text("Nadya Suvorova y Heidi Jalkh")
-
-    printer.text("\n\n")
-    printer.block_text("@Artlab | 5 al 28 de Marzo, 2026")
+    printer.block_text(f"{state.selected_dc_poem}")
     printer.text("\n\n")
 
     printer.set(bold=True)
-    printer.text("* Equipo")
+    printer.block_text("Tu galleta de la fortuna:")
     printer.set(bold=False)
     printer.text("\n")
-    printer.block_text("Desarrollo de diseño: Lorenzo Rossi")
-    printer.text("\n")
-    printer.block_text("Programación: Mario von Rickenbach")
-    printer.text("\n")
-    printer.block_text("Electrónica: Santiago Clancy")
-    printer.text("\n")
-    printer.block_text("Composición sonora: Ailin Grad")
-    printer.text("\n")
-    printer.block_text("Edición de video: Andres Aguiló")
-    printer.text("\n")
-    printer.block_text("Fotografía: Laura Macias y Vicky Rey")
-    printer.text("\n")
-    printer.block_text("Comunicación científica: Dr Exequiel Rodriguez")
-    printer.text("\n")
-    printer.block_text("DJ + VJ set: Aldo Benitez y Ro Murua")
-    printer.text("\n")
-    printer.block_text("Tipografía: Synt by Dinamo Typefaces")
-    printer.text("\n")
-    printer.block_text("Texto curatorial: Caroline Hirt")
-
+    printer.block_text(f"{state.selected_fc_message}")
     printer.text("\n\n")
-    printer.text("------------------------------------------------")
     printer.text("\n\n")
 
-    # printer.text("\n\n")
-    printer.block_text(
-        "Interacciones Materiales cuenta con el apoyo de la Fundación Suiza para la Cultura Pro Helvetia, Artlab, Hydro Argentina, Embajada de Suiza en Argentina y Print-a-Lot."
-    )
-
-    printer.text("\n")
-
-    printer.text("\n\n")
-    printer.image(img_source="/resources/ticket-images/qr-web.jpeg")
-    printer.text("\n\n")
     printer.set(align="center")
     printer.set(font=1)  # type: ignore
     printer.block_text("Ticket no válido como factura :)")

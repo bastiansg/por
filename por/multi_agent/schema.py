@@ -18,7 +18,7 @@ from pydantic import (
     field_validator,
 )
 
-from por.meta.schema import TextChunk
+from por.meta.schema import TextChunk, Song
 from por.llm_agents import ImageDescriberOutput, PsychologicalDescriberOutput
 
 
@@ -81,12 +81,15 @@ class StateSchema(BaseModel):
     rejection_reason: StrictStr | None = None
     image_description: ImageDescriberOutput | None = None
     psychological_profile: PsychologicalDescriberOutput | None = None
-    selected_material_code: StrictStr | None = None
-    selected_material_interaction: StrictStr | None = None
-    selected_material_image_path: StrictStr | None = None
-    selected_material_reason: StrictStr | None = None
-    matter_advise: StrictStr | None = None
-    matter_text_chunks: list[TextChunk] = []
+    nietzsche_advise: StrictStr | None = None
+    nietzsche_text_chunks: list[TextChunk] = []
+    satc_advice: StrictStr | None = None
+    satc_text_chunks: list[TextChunk] = []
+    song: Song | None = None
+    lyrics_advise: StrictStr | None = None
+    lyrics_text_chunks: list[TextChunk] = []
+    machiavelli_advice: StrictStr | None = None
+    machiavelli_text_chunks: list[TextChunk] = []
     selected_dc_poem: StrictStr | None = None
     selected_fc_message: StrictStr | None = None
     image_generation_prompt: StrictStr | None = None

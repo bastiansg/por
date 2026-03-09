@@ -58,3 +58,9 @@ from .material_selector import (  # noqa
     MaterialSelectorDeps,
     MaterialSelectorOutput,
 )
+
+from .lyrics_advisor.lyrics_advisor import (  # noqa
+    LyricsAdvisor,
+    LyricsAdvisorDeps,
+    LyricsAdvisorOutput,
+)
