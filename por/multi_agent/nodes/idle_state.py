@@ -42,7 +42,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     )
 
     button = get_button()
-    button.wait_for_inactive()
+    button.wait_for_active()
 
     return {
         "button_is_active": True,
