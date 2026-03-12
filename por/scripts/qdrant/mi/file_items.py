@@ -13,12 +13,12 @@ class FileMetadata(BaseModel):
 
 
 class FileItem(BaseModel):
-    name: StrictStr
+    source: StrictStr
     metadata: FileMetadata
 
     @model_validator(mode="after")
     def set_extension(self):
-        p = Path(self.name)
+        p = Path(self.source)
         self.metadata.extension = p.suffix
 
         return self
@@ -27,291 +27,408 @@ class FileItem(BaseModel):
 files = [
     #################### Matter ####################
     {
-        "name": "a-bio-inspired-perspective-on-materials-sustainability.pdf",
+        "source": "a-bio-inspired-perspective-on-materials-sustainability.pdf",
         "metadata": {
-            "title": "A Bio-Inspired Perspective on Materials Sustainability",
             "collection": "matter",
+            "title": "A Bio-Inspired Perspective on Materials Sustainability",
             "language": "English",
             "author": "Advanced Materials",
         },
     },
     {
-        "name": "actualicing-material-capacities.pdf",
+        "source": "actualicing-material-capacities.pdf",
         "metadata": {
-            "title": "Actualicing (Overlooked) Material Capacities",
             "collection": "matter",
+            "title": "Actualicing (Overlooked) Material Capacities",
             "language": "English",
             "author": "Branko Kolarevic",
         },
     },
     {
-        "name": "al-bosque-lo-que-es-del-bosque.pdf",
+        "source": "al-bosque-lo-que-es-del-bosque.pdf",
         "metadata": {
-            "title": "Al bosque lo que es del bosque (Phallus indusiatus)",
             "collection": "matter",
+            "title": "Al bosque lo que es del bosque (Phallus indusiatus)",
             "language": "Spanish",
             "author": "Marta Zatonyi",
         },
     },
     {
-        "name": "amphibious-transport-of-fluids-and-solids-by-soft-magnetic-carpets.pdf",
+        "source": "amphibious-transport-of-fluids-and-solids-by-soft-magnetic-carpets.pdf",
         "metadata": {
-            "title": "Amphibious Transport of Fluids and Solids by Soft Magnetic Carpets",
             "collection": "matter",
+            "title": "Amphibious Transport of Fluids and Solids by Soft Magnetic Carpets",
             "language": "English",
             "author": "Advanced Science",
         },
     },
     {
-        "name": "animate-materials-report.pdf",
+        "source": "animate-materials-report.pdf",
         "metadata": {
-            "title": "Animate materials",
             "collection": "matter",
+            "title": "Animate materials",
             "language": "English",
             "author": "The Royal Society",
         },
     },
     {
-        "name": "arte-y-creacion.pdf",
+        "source": "arte-y-creacion.pdf",
         "metadata": {
-            "title": "Arte y Creación",
             "collection": "matter",
+            "title": "Arte y Creación",
             "language": "Spanish",
             "author": "Marta Zálon",
         },
     },
     {
-        "name": "bringing-things-to-life.pdf",
+        "source": "bringing-things-to-life.pdf",
         "metadata": {
-            "title": "Bringing Things to Life: Creative Entanglements in a World of Materials",
             "collection": "matter",
+            "title": "Bringing Things to Life: Creative Entanglements in a World of Materials",
             "language": "English",
             "author": "Tim Ingold",
         },
     },
     {
-        "name": "designerly-ways-of-knowing.pdf",
+        "source": "designerly-ways-of-knowing.pdf",
         "metadata": {
-            "title": "Designerly Ways of Knowing",
             "collection": "matter",
+            "title": "Designerly Ways of Knowing",
             "language": "English",
             "author": "Claudia Mareis",
         },
     },
     {
-        "name": "heidi-jalkh-thesis-refes.txt",
+        "source": "heidi-jalkh-thesis-refes.txt",
         "metadata": {
-            "title": "Heidi Jalkh Thesis Refes",
             "collection": "matter",
+            "title": "Heidi Jalkh Thesis Refes",
             "language": "English",
             "author": "Heidi Jalkh",
         },
     },
     {
-        "name": "being-alive.pdf",
+        "source": "being-alive.pdf",
         "metadata": {
-            "title": "Being Alive",
             "collection": "matter",
+            "title": "Being Alive",
             "language": "English",
             "author": "Tim Ingold",
         },
     },
     {
-        "name": "la-magna-auxetic.pdf",
+        "source": "la-magna-auxetic.pdf",
         "metadata": {
-            "title": "La Magna Auxetic",
             "collection": "matter",
+            "title": "La Magna Auxetic",
             "language": "English",
             "author": "Roderic Lakes",
         },
     },
     {
-        "name": "le-probleme-technique.pdf",
+        "source": "le-probleme-technique.pdf",
         "metadata": {
-            "title": "Le Probleme Technique",
             "collection": "matter",
+            "title": "Le Probleme Technique",
             "language": "French",
             "author": "Irlande Saurin",
         },
     },
     {
-        "name": "making-matter-active-through-form.pdf",
+        "source": "making-matter-active-through-form.pdf",
         "metadata": {
-            "title": "Making Matter Active Through Form",
             "collection": "matter",
+            "title": "Making Matter Active Through Form",
             "language": "English",
             "author": "Heidi Jalkh",
         },
     },
     {
-        "name": "material-intelligence.pdf",
+        "source": "material-intelligence.pdf",
         "metadata": {
-            "title": "Material Intelligence",
             "collection": "matter",
+            "title": "Material Intelligence",
             "language": "English",
             "author": "Glenn Adamson",
         },
     },
     {
-        "name": "moa-chat-heidi-ai.rtf",
+        "source": "moa-chat-heidi-ai.rtf",
         "metadata": {
-            "title": "Moa Chat Heidi Ai",
             "collection": "matter",
+            "title": "Moa Chat Heidi Ai",
             "language": "English",
             "author": "Heidi Jalkh",
         },
     },
     {
-        "name": "new-materialism.pdf",
+        "source": "new-materialism.pdf",
         "metadata": {
-            "title": "New Materialism",
             "collection": "matter",
+            "title": "New Materialism",
             "language": "English",
             "author": "Rick Dolphijn & Iris van der Tuin",
         },
     },
     {
-        "name": "no-cosas.epub",
+        "source": "no-cosas.epub",
         "metadata": {
-            "title": "No Cosas",
             "collection": "matter",
+            "title": "No Cosas",
             "language": "Spanish",
             "author": "Byung-Chul Han",
         },
     },
     {
-        "name": "on-material-grammar.pdf",
+        "source": "on-material-grammar.pdf",
         "metadata": {
-            "title": "On Material Grammar",
             "collection": "matter",
+            "title": "On Material Grammar",
             "language": "English",
             "author": "Lorenzo Guiducci & Heidi Jalkh",
         },
     },
     {
-        "name": "parallel-minds.epub",
+        "source": "parallel-minds.epub",
         "metadata": {
-            "title": "Parallel Minds",
             "collection": "matter",
+            "title": "Parallel Minds",
             "language": "English",
             "author": "Laura Tripaldi",
         },
     },
     {
-        "name": "quotes-compilation.rtf",
+        "source": "quotes-compilation.rtf",
         "metadata": {
-            "title": "Quotes Compilation",
             "collection": "matter",
+            "title": "Quotes Compilation",
             "language": "English",
             "author": "Heidi Jalkh",
         },
     },
     {
-        "name": "stuff-matters.pdf",
+        "source": "stuff-matters.pdf",
         "metadata": {
-            "title": "Stuff Matters",
             "collection": "matter",
+            "title": "Stuff Matters",
             "language": "English",
             "author": "Mark Miodownik",
         },
     },
     {
-        "name": "survival-of-the-cheapest.pdf",
+        "source": "survival-of-the-cheapest.pdf",
         "metadata": {
-            "title": "Survival of the Cheapest",
             "collection": "matter",
+            "title": "Survival of the Cheapest",
             "language": "English",
             "author": "Julian F. V. Vincent",
         },
     },
     {
-        "name": "the-limits-of-fabrication.pdf",
+        "source": "the-limits-of-fabrication.pdf",
         "metadata": {
-            "title": "The Limits of Fabrication",
             "collection": "matter",
+            "title": "The Limits of Fabrication",
             "language": "English",
             "author": "Nathan Brown",
         },
     },
     {
-        "name": "the-new-materiality.pdf",
+        "source": "the-new-materiality.pdf",
         "metadata": {
-            "title": "The New Materiality",
             "collection": "matter",
+            "title": "The New Materiality",
             "language": "English",
             "author": "Manuel DeLanda",
         },
     },
     {
-        "name": "the-positive-side-of-being-negative.pdf",
+        "source": "the-positive-side-of-being-negative.pdf",
         "metadata": {
-            "title": "The Positive Side of Being Negative",
             "collection": "matter",
+            "title": "The Positive Side of Being Negative",
             "language": "English",
             "author": "K. E. Evans & K. L. Alderson",
         },
     },
     {
-        "name": "towarda-new-materialism.pdf",
+        "source": "towarda-new-materialism.pdf",
         "metadata": {
-            "title": "Toward a New Materialism",
             "collection": "matter",
+            "title": "Toward a New Materialism",
             "language": "English",
             "author": "Rachel Tillman",
         },
     },
     {
-        "name": "ultra-knowledge-and-gestaltung.pdf",
+        "source": "ultra-knowledge-and-gestaltung.pdf",
         "metadata": {
-            "title": "Ultra Knowledge and Gestaltung",
             "collection": "matter",
+            "title": "Ultra Knowledge and Gestaltung",
             "language": "English",
             "author": "Nikola Doll, Horst Bredekamp & Wolfgang Schaffner",
         },
     },
     {
-        "name": "vehlken-friedman-krauthausen-fratzl-essays.pdf",
+        "source": "vehlken-friedman-krauthausen-fratzl-essays.pdf",
         "metadata": {
-            "title": "Vehlken Friedman Krauthausen Fratzl Essays",
             "collection": "matter",
+            "title": "Vehlken Friedman Krauthausen Fratzl Essays",
             "language": "English",
             "author": "Michael Friedman & Karin Krauthausen",
         },
     },
     {
-        "name": "vibrant-matter.epub",
+        "source": "vibrant-matter.epub",
         "metadata": {
-            "title": "Vibrant Matter",
             "collection": "matter",
+            "title": "Vibrant Matter",
             "language": "English",
             "author": "Jane Bennett",
         },
     },
     {
-        "name": "vincent-quotes.docx",
+        "source": "vincent-quotes.docx",
         "metadata": {
-            "title": "Vincent Quotes",
             "collection": "matter",
+            "title": "Vincent Quotes",
             "language": "English",
             "author": "Julian F. V. Vincent",
         },
     },
     {
-        "name": "wholeness-and-the-implicate-order.pdf",
+        "source": "wholeness-and-the-implicate-order.pdf",
         "metadata": {
-            "title": "Wholeness and the Implicate Order",
             "collection": "matter",
+            "title": "Wholeness and the Implicate Order",
             "language": "English",
             "author": "David Bohm",
         },
     },
     {
-        "name": "things-fall-together.pdf",
+        "source": "things-fall-together.pdf",
         "metadata": {
-            "title": "Things Fall Together",
             "collection": "matter",
+            "title": "Things Fall Together",
             "language": "English",
             "author": "Skylar Tibbits",
+        },
+    },
+    {
+        "source": "trazos-edicion-biomateriales-01.pdf",
+        "metadata": {
+            "collection": "matter",
+            "title": "Trazos edición biomateriales. Sistemas Materiales.",
+            "language": "Spanish",
+            "author": "Pozzetti, G., Jalkh, H.",
+        },
+    },
+    {
+        "source": "trazos-edicion-biomateriales-02.pdf",
+        "metadata": {
+            "collection": "matter",
+            "title": "Trazos edición biomateriales. Sistemas Materiales.",
+            "language": "Spanish",
+            "author": "Pozzetti, G., Jalkh, H.",
+        },
+    },
+    {
+        "source": "trazos-edicion-biomateriales-03.pdf",
+        "metadata": {
+            "collection": "matter",
+            "title": "Trazos edición biomateriales. Sistemas Materiales.",
+            "language": "Spanish",
+            "author": "Pozzetti, G., Jalkh, H.",
+        },
+    },
+    {
+        "source": "trazos-edicion-biomateriales-04.pdf",
+        "metadata": {
+            "collection": "matter",
+            "title": "Trazos edición biomateriales. Sistemas Materiales.",
+            "language": "Spanish",
+            "author": "Pozzetti, G., Jalkh, H.",
+        },
+    },
+    {
+        "source": "trazos-edicion-biomateriales-05.pdf",
+        "metadata": {
+            "collection": "matter",
+            "title": "Trazos edición biomateriales. Sistemas Materiales.",
+            "language": "Spanish",
+            "author": "Pozzetti, G., Jalkh, H.",
+        },
+    },
+    {
+        "source": "trazos-edicion-biomateriales-06.pdf",
+        "metadata": {
+            "collection": "matter",
+            "title": "Trazos edición biomateriales. Sistemas Materiales.",
+            "language": "Spanish",
+            "author": "Pozzetti, G., Jalkh, H.",
+        },
+    },
+    {
+        "source": "trazos-edicion-biomateriales-07.pdf",
+        "metadata": {
+            "collection": "matter",
+            "title": "Trazos edición biomateriales. Sistemas Materiales.",
+            "language": "Spanish",
+            "author": "Pozzetti, G., Jalkh, H.",
+        },
+    },
+    {
+        "source": "trazos-edicion-biomateriales-08.pdf",
+        "metadata": {
+            "collection": "matter",
+            "title": "Trazos edición biomateriales. Sistemas Materiales.",
+            "language": "Spanish",
+            "author": "Pozzetti, G., Jalkh, H.",
+        },
+    },
+    {
+        "source": "trazos-edicion-biomateriales-09.pdf",
+        "metadata": {
+            "collection": "matter",
+            "title": "Trazos edición biomateriales. Sistemas Materiales.",
+            "language": "Spanish",
+            "author": "Pozzetti, G., Jalkh, H.",
+        },
+    },
+    {
+        "source": "trazos-edicion-biomateriales-10.pdf",
+        "metadata": {
+            "collection": "matter",
+            "title": "Trazos edición biomateriales. Sistemas Materiales.",
+            "language": "Spanish",
+            "author": "Pozzetti, G., Jalkh, H.",
+        },
+    },
+    {
+        "source": "shells-from-aquaculture.pdf",
+        "metadata": {
+            "collection": "matter",
+            "title": "Shells from aquaculture: a valuable biomaterial, not a nuisance waste product",
+            "language": "English",
+            "author": "James P. Morris, Thierry Backeljau, Gauthier Chapelle",
+        },
+    },
+    {
+        "source": "mdpi.pdf",
+        "metadata": {
+            "collection": "matter",
+            "title": "Trends and Opportunities of Bivalve Shells' Waste Valorization in a Prospect of Circular Blue Bioeconomy",
+            "language": "English",
+            "author": "Daniela Summa, Mattia Lanzoni, Giuseppe Castaldelli, Elisa Anna Fano, Elena Tamburini",
+        },
+    },
+    {
+        "source": "marine-biobased-materials-and-networks.pdf",
+        "metadata": {
+            "collection": "matter",
+            "title": "Crosslinked. Marine biobased materials and networks.",
+            "language": "English",
+            "author": "Heidi Jalkh",
         },
     },
 ]

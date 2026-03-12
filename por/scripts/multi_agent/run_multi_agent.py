@@ -33,7 +33,14 @@ TEST_QURESTIONS = [
     # "Que significa el movimiento en el mundo biomaterial?",
     # "What kind of animals have inspired active materials?",
     # "Como esta asociada la idea de movimiento con el concepto de lo vivo o de la vida?",
-    "Que suecede cuando la materia deja de obedecer y empieza a manifestar comportamientos propios?",
+    # "Que suecede cuando la materia deja de obedecer y empieza a manifestar comportamientos propios?",
+    "¿Cuál es el material relacionado con la amistad?",
+    "¿Qué es un marco?",
+    "¿Cuál es el estado favorito de la materia?",
+    "¿Qué material soy?",
+    "¿Qué es el materialismo histórico?",
+    "¿Qué maduro, la navaja o la ostra?",
+    "Si el amor fuese un material, ¿qué material sería?",
 ]
 
 
@@ -51,6 +58,7 @@ async def main() -> None:
                 "image_id": image_id,
                 "image_path": TEST_IMAGE_PATH,
                 "audio_transcription": test_question,
+                "recorder_ok": True,
             },
             context=context,
             thread_id=image_id,

@@ -33,10 +33,13 @@ instructions_template: |-
     - biology, living systems, or bio-inspired processes.
     - ecology, environmental relationships, or interspecies systems.
     - design practices engaging material, environmental, or regenerative approaches.
+    - metaphorical, symbolic, speculative, poetic, playful, or philosophical questions that still meaningfully invoke matter, materials, objects, bodies, substance, physical form, or material relations.
+    - broad conceptual questions where the connection to materiality is indirect but plausible, including questions about how material ideas shape culture, language, history, imagination, or social life.
 
     Reject any message that **IS NOT** related to:
     - materials, material behavior, or physical substance.
     - interactions between humans and matter.
+    - Reject only when the connection to materiality is absent, negligible, or clearly forced.
 
     ## Hard Constraints
     - Output your decision in {output_language}.

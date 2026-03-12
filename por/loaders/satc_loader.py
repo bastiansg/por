@@ -3,7 +3,6 @@ import aiohttp
 
 from tqdm import tqdm
 from parsel import Selector
-from pydantic import BaseModel, StrictStr, PositiveInt
 
 from common.logger import get_logger
 from common.cache import cache, RedisCache
@@ -12,13 +11,6 @@ from rage.meta.interfaces import TextLoader, Document
 
 
 logger = get_logger(__name__)
-
-
-class Metadata(BaseModel):
-    title: StrictStr
-    tag: StrictStr
-    artist: StrictStr
-    year: PositiveInt
 
 
 class SATCLoader(TextLoader):
