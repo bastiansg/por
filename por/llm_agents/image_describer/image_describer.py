@@ -32,12 +32,12 @@ class FacialFeatures(BaseModel):
         min_length=1,
     )
 
-    beard: StrictStr = Field(
+    beard: StrictStr | None = Field(
         description="Visible beard characteristics.",
         min_length=1,
     )
 
-    mustache: StrictStr = Field(
+    mustache: StrictStr | None = Field(
         description="Visible mustache characteristics.",
         min_length=1,
     )
@@ -87,7 +87,12 @@ class PhysicalDescription(BaseModel):
     )
 
     body_proportions: StrictStr = Field(
-        description="Visible overall body proportions or build (e.g., slim, broad, petite).",
+        description=(
+            "Visible overall body proportions or build ("
+            "e.g., slim, lean, average, broad, broad-framed, narrow-framed, petite, "
+            "curvy, athletic, muscular, plus-size, stocky"
+            ")."
+        ),
         min_length=1,
     )
 

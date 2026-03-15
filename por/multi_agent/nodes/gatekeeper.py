@@ -46,6 +46,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     return {
         "message_accepted": gatekeeper_output.message_accepted,
+        "is_about_exhibition": gatekeeper_output.is_about_exhibition,
         "rejection_reason": gatekeeper_output.rejection_reason,
     }
 

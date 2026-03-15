@@ -431,6 +431,15 @@ files = [
             "author": "Heidi Jalkh",
         },
     },
+    {
+        "source": "material-interactions-press.epub",
+        "metadata": {
+            "collection": "matter",
+            "title": "Material Interactions 一 A New Species of Design",
+            "language": "English",
+            "author": "Heidi Jalkh and Nadya Suvorova",
+        },
+    },
 ]
 
 

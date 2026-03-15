@@ -27,6 +27,14 @@ logger = get_logger(__name__)
 
 
 redis_cache = RedisCache()
+
+
+PAYLOAD_INDEX_FIELDS = (
+    "metadata.chunk_id",
+    "metadata.language",
+    "metadata.file_name",
+)
+
 LOADER_MAP = {
     ".pdf": {
         "loader": PDFMarkdownLoader(cache=redis_cache),
@@ -140,6 +148,12 @@ async def main() -> None:
     retriever = Retriever(dense_embeddings=get_openai_embeddings())
     for collection, text_chunks in collection_gropus:
         await retriever.create_collection(collection_name=collection)
+        for field_name in PAYLOAD_INDEX_FIELDS:
+            await retriever.create_payload_index(
+                collection_name=collection,
+                field_name=field_name,
+            )
+
         await retriever.insert_text_chunks(
             collection_name=collection,
             text_chunks=list(text_chunks),

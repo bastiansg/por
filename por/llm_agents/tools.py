@@ -105,6 +105,32 @@ async def matter_search(
     )
 
 
+async def matter_exhibition_search(
+    query: Annotated[
+        str,
+        Field(
+            description="The natural language query in Spanish to search for relevant text chunks about the exhibition."
+        ),
+    ],
+) -> list[TextChunk]:
+    """Run a semantic search across exhibition-related Matter sources."""
+
+    search_filter = models.Filter(
+        must=[
+            models.FieldCondition(
+                key="metadata.file_name",
+                match=models.MatchValue(value="material-interactions-press"),
+            ),
+        ],
+    )
+
+    return await dense_search(
+        query=query,
+        collection_name="matter",
+        search_filter=search_filter,
+    )
+
+
 async def borges_search(
     query: Annotated[
         str,
@@ -164,6 +190,11 @@ machiavelli_search_tool = Tool(
 matter_search_tool = Tool(
     function=matter_search,
     description="Run a semantic search across Matter sources.",
+)
+
+matter_exhibition_search_tool = Tool(
+    function=matter_exhibition_search,
+    description="Run a semantic search across exhibition-related Matter sources.",
 )
 
 borges_search_tool = Tool(
