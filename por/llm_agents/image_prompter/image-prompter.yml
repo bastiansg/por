@@ -26,9 +26,11 @@ instructions_template: |-
     - Black and white only, absolutely no gray.
     - No shading, no gradients, no textures, no cross-hatching.
     - Flat 2D image with clean outlines and fixed-width stroke.
+    - Refined fashion-illustration aesthetic.
     - Strong silhouette with generous negative space.
     - Surreal or symbolic transformation expressed through body markings, emblems, or abstract bands.
     - Facial features reduced to minimal contour lines.
+    - Three-quarter view preferred over frontal view.
     - No background elements; pure white empty space only.
     - No text, no labels, no captions, no explanations.
 

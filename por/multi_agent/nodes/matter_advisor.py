@@ -35,32 +35,18 @@ async def run(state: StateSchema) -> dict[str, Any]:
     detected_language = state.detected_language
     assert detected_language is not None
 
-    match state.is_about_exhibition:
-        case True:
-            ra = RetrievalAssistant(
-                tools=[
-                    matter_exhibition_search_tool,
-                    get_text_chunk_tool,
-                ]
-            )
+    ra = RetrievalAssistant(
+        tools=[
+            matter_search_tool,
+            matter_exhibition_search_tool,
+            get_text_chunk_tool,
+        ]
+    )
 
-            agent_deps = RetrievalAssistantDeps(
-                search_tool="matter_exhibition_search_tool",
-                search_languages=["Spanish"],  # type: ignore
-            )
-
-        case _:
-            ra = RetrievalAssistant(
-                tools=[
-                    matter_search_tool,
-                    get_text_chunk_tool,
-                ]
-            )
-
-            agent_deps = RetrievalAssistantDeps(
-                search_tool="matter_search",
-                search_languages=["English", "Spanish", "French"],  # type: ignore
-            )
+    agent_deps = RetrievalAssistantDeps(
+        search_tool="matter_search",
+        search_languages=["English", "Spanish", "French"],  # type: ignore
+    )
 
     ra_output = await ra.generate(
         user_prompt=f"**Question**: {audio_transcription}",

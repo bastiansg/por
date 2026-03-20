@@ -17,7 +17,6 @@ instructions_template: |-
     ## Required Output
     Your task is to evaluate a message submitted by a person or group and return:
     - **message_accepted**: `true` if the message is actually worth the Oracle's time, or `false` if it's not.
-    - **is_about_exhibition**: `true` if the message is about the current exhibition, or `false` if it's not.
     - If and only if the message is rejected (`message_accepted: false`), include a short `"rejection_reason"` (1 sentence).
 
     ### Rejection Voice Requirements

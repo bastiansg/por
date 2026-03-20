@@ -1,4 +1,4 @@
-polars==1.39.0
+polars==1.39.2
 gpiozero==2.0.1
 
 ipython==9.10.0
@@ -23,5 +23,5 @@ sensehat_dsp==1.0.25
 
 # Aureka packages
 multi_agents==1.1.16
-llm_agents==1.1.28
+llm_agents==1.1.29
 rage==1.1.2

@@ -16,10 +16,6 @@ class GatekeeperOutput(BaseModel):
         description="Whether the message is accepted to be delivered to the Oracle."
     )
 
-    is_about_exhibition: StrictBool = Field(
-        description="Whether the message is about the current exhibition.",
-    )
-
     rejection_reason: StrictStr | None = Field(
         default=None,
         description="A justification for why the message was rejected.",

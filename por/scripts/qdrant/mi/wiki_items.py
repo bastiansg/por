@@ -30,6 +30,14 @@ wiki_items = [
             "author": "Wikipedia",
         },
     },
+    {
+        "source": "https://en.wikipedia.org/wiki/Cross-link",
+        "metadata": {
+            "title": "Cross-link",
+            "collection": "matter",
+            "author": "Wikipedia",
+        },
+    },
 ]
 
 wiki_items = [WikiItem(**i) for i in wiki_items]
