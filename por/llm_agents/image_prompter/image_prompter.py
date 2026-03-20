@@ -1,14 +1,13 @@
-from pydantic_ai import ToolOutput
-
+from pydantic_ai import NativeOutput
 from pydantic import BaseModel, StrictStr, Field
 
 from llm_agents.meta.interfaces import LLMAgent
-
 from por.llm_agents import image_prompter
 
 from ..psychological_describer.psychological_describer import (
     PsychologicalDescriberOutput,
 )
+
 from ..image_describer.image_describer import (
     PhysicalDescription,
     ClothingDescription,
@@ -38,7 +37,7 @@ class ImagePrompter(LLMAgent[ImagePrompterDeps, ImagePrompterOutput]):
         super().__init__(
             conf_path=conf_path,
             deps_type=ImagePrompterDeps,
-            output_type=ToolOutput(ImagePrompterOutput),  # type: ignore
+            output_type=NativeOutput(ImagePrompterOutput),  # type: ignore
             retries=3,
             max_concurrency=max_concurrency,
         )

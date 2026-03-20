@@ -1,8 +1,8 @@
 from typing import Annotated, Literal
 
 from pydantic import Field
-from pydantic_ai import Tool
 from qdrant_client import models
+from pydantic_ai import Tool, RunContext
 
 from common.logger import get_logger
 
@@ -10,7 +10,10 @@ from rage.retriever import Retriever
 from rage.utils.embeddings import get_openai_embeddings
 
 from por.meta.schema import TextChunk
-from por.db.qdrant import dense_search, get_text_chunk_from_collections
+from por.db.qdrant import (
+    dense_search,
+    get_text_chunk_from_collections,
+)
 
 
 logger = get_logger(__name__)
@@ -55,23 +58,8 @@ async def satc_search(
     )
 
 
-async def machiavelli_search(
-    query: Annotated[
-        str,
-        Field(
-            description="The natural language query in Spanish to search for relevant text chunks."
-        ),
-    ],
-) -> list[TextChunk]:
-    """Run a semantic search across Machiavelli sources."""
-
-    return await dense_search(
-        query=query,
-        collection_name="machiavelli",
-    )
-
-
 async def matter_search(
+    ctx: RunContext,
     query: Annotated[
         str,
         Field(
@@ -89,62 +77,44 @@ async def matter_search(
 ) -> list[TextChunk]:
     """Run a semantic search across Matter sources."""
 
-    search_filter = models.Filter(
-        must=[
-            models.FieldCondition(
-                key="metadata.language",
-                match=models.MatchValue(value=query_language),
-            )
-        ],
-    )
+    deps = ctx.deps
+    assert deps is not None
 
-    return await dense_search(
-        query=query,
-        collection_name="matter",
-        search_filter=search_filter,
-    )
+    must_filters = [
+        models.FieldCondition(
+            key="metadata.language",
+            match=models.MatchValue(value=query_language),
+        )
+    ]
 
-
-async def matter_exhibition_search(
-    query: Annotated[
-        str,
-        Field(
-            description="The natural language query in Spanish to search for relevant text chunks about the exhibition."
-        ),
-    ],
-) -> list[TextChunk]:
-    """Run a semantic search across exhibition-related Matter sources."""
-
-    search_filter = models.Filter(
-        must=[
+    if deps.exibition_related:
+        must_filters.append(
             models.FieldCondition(
                 key="metadata.file_name",
                 match=models.MatchValue(value="material-interactions-press"),
-            ),
-        ],
+            )
+        )
+
+    search_filter = models.Filter(
+        must=must_filters,  # type: ignore
     )
 
-    return await dense_search(
+    retriever_items = await dense_search(
         query=query,
         collection_name="matter",
         search_filter=search_filter,
     )
 
+    scores = [
+        {
+            "chunk_id": ri.metadata.chunk_id,
+            "score": ri.score,
+        }
+        for ri in retriever_items
+    ]
 
-async def borges_search(
-    query: Annotated[
-        str,
-        Field(
-            description="The natural language query in Spanish to search for relevant text chunks."
-        ),
-    ],
-) -> list[TextChunk]:
-    """Run a semantic search across Borges sources."""
-
-    return await dense_search(
-        query=query,
-        collection_name="borges",
-    )
+    logger.info(f"retriever_items scores: {scores}")
+    return retriever_items
 
 
 async def get_text_chunk(
@@ -182,24 +152,9 @@ satc_search_tool = Tool(
     description="Run a semantic search across Nietzsche sources.",
 )
 
-machiavelli_search_tool = Tool(
-    function=machiavelli_search,
-    description="Run a semantic search across Machiavelli sources.",
-)
-
 matter_search_tool = Tool(
     function=matter_search,
     description="Run a semantic search across Matter sources.",
-)
-
-matter_exhibition_search_tool = Tool(
-    function=matter_exhibition_search,
-    description="Run a semantic search across exhibition-related Matter sources.",
-)
-
-borges_search_tool = Tool(
-    function=borges_search,
-    description="Run a semantic search across Borges sources.",
 )
 
 get_text_chunk_tool = Tool(

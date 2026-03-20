@@ -11,7 +11,13 @@ class MicrophoneRemoverDeps(ImageDescriberOutput):
     pass
 
 
-class MicrophoneRemover(LLMAgent[MicrophoneRemoverDeps, ImageDescriberOutput]):
+class MicrophoneRemoverOutput(ImageDescriberOutput):
+    pass
+
+
+class MicrophoneRemover(
+    LLMAgent[MicrophoneRemoverDeps, MicrophoneRemoverOutput]
+):
     def __init__(
         self,
         conf_path=f"{microphone_remover.__path__[0]}/microphone-remover.yml",

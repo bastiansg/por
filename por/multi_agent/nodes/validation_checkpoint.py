@@ -12,6 +12,12 @@ logger = get_logger(__name__)
 async def run(state: StateSchema) -> dict[str, Any]:
     logger.info("running validation_checkpoint...")
 
+    if state.message_accepted or state.exibition_related:
+        return {
+            "message_accepted": True,
+            "rejection_reason": None,
+        }
+
     return {}
 
 

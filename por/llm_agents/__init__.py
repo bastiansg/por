@@ -1,4 +1,9 @@
 from .gatekeeper.gatekeeper import Gatekeeper, GatekeeperDeps, GatekeeperOutput  # noqa
+from .exibition_related.exibition_related import (  # noqa
+    ExibitionRelated,
+    ExibitionRelatedDeps,
+    ExibitionRelatedOutput,
+)
 from .image_describer.image_describer import (  # noqa
     ImageDescriber,
     PhysicalDescription,
@@ -9,6 +14,7 @@ from .image_describer.image_describer import (  # noqa
 from .microphone_remover.microphone_remover import (  # noqa
     MicrophoneRemover,
     MicrophoneRemoverDeps,
+    MicrophoneRemoverOutput,
 )
 
 from .psychological_describer.psychological_describer import (  # noqa
@@ -33,12 +39,6 @@ from .satc_advisor.satc_advisor import (  # noqa
     SATCAdvisor,
     SATCAdvisorDeps,
     SATCAdvisorOutput,
-)
-
-from .machiavelli_advisor.machiavelli_advisor import (  # noqa
-    MachiavelliAdvisor,
-    MachiavelliAdvisorDeps,
-    MachiavelliAdvisorOutput,
 )
 
 from .matter_advisor.matter_advisor import (  # noqa

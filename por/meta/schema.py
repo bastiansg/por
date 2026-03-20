@@ -1,4 +1,4 @@
-from pydantic import BaseModel, StrictStr, Field
+from pydantic import BaseModel, StrictStr, Field, NonNegativeFloat
 
 
 class ChunkMetadata(BaseModel):
@@ -23,6 +23,10 @@ class ChunkMetadata(BaseModel):
 class TextChunk(BaseModel):
     text: StrictStr = Field(description="The textual content of the chunk.")
     metadata: ChunkMetadata
+    score: NonNegativeFloat | None = Field(
+        default=None,
+        description="The similarity score for this chunk.",
+    )
 
 
 class Material(BaseModel):

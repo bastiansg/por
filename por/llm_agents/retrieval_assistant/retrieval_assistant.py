@@ -1,10 +1,8 @@
-from pydantic import BaseModel, StrictStr, Field
+from pydantic_ai import ToolOutput, Tool
+from pydantic import BaseModel, StrictStr, Field, StrictBool
 from pydantic_extra_types.language_code import LanguageName
 
-from pydantic_ai import ToolOutput, Tool
-
 from llm_agents.meta.interfaces import LLMAgent
-
 from por.llm_agents import retrieval_assistant
 
 from ..utils import hide_tools_after_limit, tool_logging_handler
@@ -13,6 +11,7 @@ from ..utils import hide_tools_after_limit, tool_logging_handler
 class RetrievalAssistantDeps(BaseModel):
     search_tool: StrictStr
     search_languages: list[LanguageName]
+    exibition_related: StrictBool
 
 
 class RetrievalAssistantOutput(BaseModel):

@@ -432,7 +432,7 @@ files = [
         },
     },
     {
-        "source": "material-interactions-press.epub",
+        "source": "material-interactions-press.md",
         "metadata": {
             "collection": "matter",
             "title": "Material Interactions 一 A New Species of Design",

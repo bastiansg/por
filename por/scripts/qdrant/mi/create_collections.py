@@ -56,6 +56,10 @@ LOADER_MAP = {
         "loader": MarkdownLoader(cache=redis_cache),
         "splitter": TokenSplitter(),
     },
+    ".md": {
+        "loader": MarkdownLoader(cache=redis_cache),
+        "splitter": TokenSplitter(),
+    },
 }
 
 

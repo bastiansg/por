@@ -3,8 +3,8 @@ from qdrant_client.models import Record
 
 from common.logger import get_logger
 
-from rage.retriever import Retriever
 from rage.utils.embeddings import get_openai_embeddings
+from rage.retriever import Retriever, WeightedMetadataItem
 
 from por.meta.schema import TextChunk
 
@@ -27,6 +27,32 @@ async def dense_search(
     results = await retriever.dense_search(
         collection_name=collection_name,
         query=query,
+        k=SEARCH_TOP_K,
+        score_threshold=SEARCH_SCORE_THRESHOLD,
+        search_filter=search_filter,
+    )
+
+    results = sorted(
+        results,
+        key=lambda x: (
+            x.metadata["document_index"],
+            x.metadata["chunk_index"],
+        ),
+    )
+
+    return [TextChunk(**r.model_dump()) for r in results]
+
+
+async def dense_search_weighted(
+    query: str,
+    weighted_metadata_items: list[WeightedMetadataItem],
+    collection_name: str,
+    search_filter: models.Filter | None = None,
+) -> list[TextChunk]:
+    results = await retriever.dense_search_weighted(
+        collection_name=collection_name,
+        query=query,
+        weighted_metadata_items=weighted_metadata_items,
         k=SEARCH_TOP_K,
         score_threshold=SEARCH_SCORE_THRESHOLD,
         search_filter=search_filter,

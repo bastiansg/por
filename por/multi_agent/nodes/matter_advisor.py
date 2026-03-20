@@ -7,7 +7,6 @@ from por.multi_agent.schema import StateSchema
 from por.llm_agents.tools import (
     matter_search_tool,
     get_text_chunk_tool,
-    matter_exhibition_search_tool,
 )
 
 from por.llm_agents import (
@@ -37,15 +36,18 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     ra = RetrievalAssistant(
         tools=[
-            matter_search_tool,
-            matter_exhibition_search_tool,
+            matter_search_tool,  # type: ignore
             get_text_chunk_tool,
         ]
     )
 
+    exibition_related = state.exibition_related
+    logger.info(f"exibition_related: {exibition_related}")
+
     agent_deps = RetrievalAssistantDeps(
         search_tool="matter_search",
         search_languages=["English", "Spanish", "French"],  # type: ignore
+        exibition_related=exibition_related,
     )
 
     ra_output = await ra.generate(
