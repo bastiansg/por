@@ -1,9 +1,4 @@
 from .gatekeeper.gatekeeper import Gatekeeper, GatekeeperDeps, GatekeeperOutput  # noqa
-from .exibition_related.exibition_related import (  # noqa
-    ExibitionRelated,
-    ExibitionRelatedDeps,
-    ExibitionRelatedOutput,
-)
 from .image_describer.image_describer import (  # noqa
     ImageDescriber,
     PhysicalDescription,
@@ -41,22 +36,10 @@ from .satc_advisor.satc_advisor import (  # noqa
     SATCAdvisorOutput,
 )
 
-from .matter_advisor.matter_advisor import (  # noqa
-    MatterAdvisor,
-    MatterAdvisorDeps,
-    MatterAdvisorOutput,
-)
-
 from .retrieval_assistant.retrieval_assistant import (  # noqa
     RetrievalAssistant,
     RetrievalAssistantDeps,
     RetrievalAssistantOutput,
-)
-
-from .material_selector import (  # noqa
-    MaterialSelector,
-    MaterialSelectorDeps,
-    MaterialSelectorOutput,
 )
 
 from .lyrics_advisor.lyrics_advisor import (  # noqa

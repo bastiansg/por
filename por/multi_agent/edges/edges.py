@@ -36,16 +36,8 @@ language_detector_gatekeeper = SimpleEdge(
     target="gatekeeper",
 )
 
-language_detector_exibition_related = SimpleEdge(
-    source="language_detector",
-    target="exibition_related",
-)
-
 gatekeeper_validation_checkpoint = SimpleEdge(
-    source=[
-        "gatekeeper",
-        "exibition_related",
-    ],
+    source="gatekeeper",
     target="validation_checkpoint",
 )
 

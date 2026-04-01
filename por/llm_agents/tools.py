@@ -58,6 +58,40 @@ async def satc_search(
     )
 
 
+async def lyrics_search(
+    query: Annotated[
+        str,
+        Field(
+            description="The natural language query to search for relevant lyrics chunks."
+        ),
+    ],
+    query_language: Annotated[
+        Literal[
+            "English",
+            "Spanish",
+            "French",
+        ],
+        Field(description="The language of the input query."),
+    ],
+) -> list[TextChunk]:
+    """Run a semantic search across lyrics sources."""
+
+    search_filter = models.Filter(
+        must=[
+            models.FieldCondition(
+                key="metadata.language",
+                match=models.MatchValue(value=query_language),
+            )
+        ],
+    )
+
+    return await dense_search(
+        query=query,
+        collection_name="lyrics",
+        search_filter=search_filter,
+    )
+
+
 async def matter_search(
     ctx: RunContext,
     query: Annotated[
@@ -150,6 +184,11 @@ nietzsche_search_tool = Tool(
 satc_search_tool = Tool(
     function=satc_search,
     description="Run a semantic search across Nietzsche sources.",
+)
+
+lyrics_search_tool = Tool(
+    function=lyrics_search,
+    description="Run a semantic search across lyrics sources.",
 )
 
 matter_search_tool = Tool(
