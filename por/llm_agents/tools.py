@@ -1,8 +1,8 @@
 from typing import Annotated, Literal
 
 from pydantic import Field
+from pydantic_ai import Tool
 from qdrant_client import models
-from pydantic_ai import Tool, RunContext
 
 from common.logger import get_logger
 
@@ -92,65 +92,6 @@ async def lyrics_search(
     )
 
 
-async def matter_search(
-    ctx: RunContext,
-    query: Annotated[
-        str,
-        Field(
-            description="The natural language query to search for relevant text chunks."
-        ),
-    ],
-    query_language: Annotated[
-        Literal[
-            "English",
-            "Spanish",
-            "French",
-        ],
-        Field(description="The language of the input query."),
-    ] = "English",
-) -> list[TextChunk]:
-    """Run a semantic search across Matter sources."""
-
-    deps = ctx.deps
-    assert deps is not None
-
-    must_filters = [
-        models.FieldCondition(
-            key="metadata.language",
-            match=models.MatchValue(value=query_language),
-        )
-    ]
-
-    if deps.exibition_related:
-        must_filters.append(
-            models.FieldCondition(
-                key="metadata.file_name",
-                match=models.MatchValue(value="material-interactions-press"),
-            )
-        )
-
-    search_filter = models.Filter(
-        must=must_filters,  # type: ignore
-    )
-
-    retriever_items = await dense_search(
-        query=query,
-        collection_name="matter",
-        search_filter=search_filter,
-    )
-
-    scores = [
-        {
-            "chunk_id": ri.metadata.chunk_id,
-            "score": ri.score,
-        }
-        for ri in retriever_items
-    ]
-
-    logger.info(f"retriever_items scores: {scores}")
-    return retriever_items
-
-
 async def get_text_chunk(
     chunk_id: Annotated[
         str,
@@ -189,11 +130,6 @@ satc_search_tool = Tool(
 lyrics_search_tool = Tool(
     function=lyrics_search,
     description="Run a semantic search across lyrics sources.",
-)
-
-matter_search_tool = Tool(
-    function=matter_search,
-    description="Run a semantic search across Matter sources.",
 )
 
 get_text_chunk_tool = Tool(

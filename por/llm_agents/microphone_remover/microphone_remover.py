@@ -1,7 +1,6 @@
-from pydantic_ai import ToolOutput
+from pydantic_ai import NativeOutput
 
 from llm_agents.meta.interfaces import LLMAgent
-
 from por.llm_agents import microphone_remover
 
 from ..image_describer.image_describer import ImageDescriberOutput
@@ -26,7 +25,7 @@ class MicrophoneRemover(
         super().__init__(
             conf_path=conf_path,
             deps_type=MicrophoneRemoverDeps,
-            output_type=ToolOutput(ImageDescriberOutput),  # type: ignore
+            output_type=NativeOutput(ImageDescriberOutput),  # type: ignore
             retries=3,
             max_concurrency=max_concurrency,
         )

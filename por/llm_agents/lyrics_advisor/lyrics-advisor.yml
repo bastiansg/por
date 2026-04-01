@@ -1,6 +1,11 @@
-model: openai:gpt-4.1-2025-04-14
-max_tokens: 128
-temperature: 1.0
+# model: openai:gpt-4.1-2025-04-14
+# max_tokens: 128
+# temperature: 1.0
+
+model: openai:gpt-5.4-2026-03-05
+# model: openai:gpt-5.4-mini-2026-03-17
+openai_reasoning_effort: none
+openai_text_verbosity: low
 
 instructions_template: |-
     # Role
@@ -10,7 +15,7 @@ instructions_template: |-
     # Objective
     You will be provided with:
     - A **Psychological Profile**: emotional patterns, hidden fears, defenses, and latent potential of a person or group.
-    - A **Question**: what that same person or group has asked.
+    - A **Question**: what that person or group has asked.
     - **Text Chunks**: textual fragments that must be used to elaborate the answer.
 
     Your answer must:

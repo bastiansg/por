@@ -78,7 +78,6 @@ class StateSchema(BaseModel):
     audio_transcription: StrictStr | None = None
     detected_language: LanguageName | None = None
     message_accepted: StrictBool | None = None
-    exibition_related: StrictBool | None = None
     rejection_reason: StrictStr | None = None
     image_description: ImageDescriberOutput | None = None
     psychological_profile: PsychologicalDescriberOutput | None = None

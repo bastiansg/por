@@ -13,7 +13,7 @@ def recorder_conditional_router(state: StateSchema) -> list[Hashable]:
 def validation_checkpoint_conditional_router(
     state: StateSchema,
 ) -> list[Hashable]:
-    if state.message_accepted or state.exibition_related:
+    if state.message_accepted:
         return [
             "random_selector",
             "image_describer",

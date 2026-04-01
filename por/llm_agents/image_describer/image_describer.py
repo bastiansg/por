@@ -1,4 +1,4 @@
-from pydantic_ai import ToolOutput
+from pydantic_ai import NativeOutput
 from pydantic import BaseModel, StrictStr, Field
 
 from llm_agents.meta.interfaces import LLMAgent
@@ -159,7 +159,7 @@ class ImageDescriber(LLMAgent[None, ImageDescriberOutput]):
     ):
         super().__init__(
             conf_path=conf_path,
-            output_type=ToolOutput(ImageDescriberOutput),  # type: ignore
+            output_type=NativeOutput(ImageDescriberOutput),  # type: ignore
             retries=3,
             max_concurrency=max_concurrency,
         )

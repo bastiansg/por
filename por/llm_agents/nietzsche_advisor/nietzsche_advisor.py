@@ -1,4 +1,4 @@
-from pydantic_ai import ToolOutput
+from pydantic_ai import NativeOutput
 
 from pydantic import BaseModel, StrictStr, Field
 from pydantic_extra_types.language_code import LanguageName
@@ -41,7 +41,7 @@ class NietzscheAdvisor(LLMAgent[NietzscheAdvisorDeps, NietzscheAdvisorOutput]):
         super().__init__(
             conf_path=conf_path,
             deps_type=NietzscheAdvisorDeps,
-            output_type=ToolOutput(NietzscheAdvisorOutput),  # type: ignore
+            output_type=NativeOutput(NietzscheAdvisorOutput),  # type: ignore
             retries=3,
             max_concurrency=max_concurrency,
         )

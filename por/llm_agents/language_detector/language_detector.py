@@ -1,4 +1,4 @@
-from pydantic_ai import ToolOutput
+from pydantic_ai import NativeOutput
 from pydantic_ai.models import Model
 from pydantic import BaseModel, Field
 from pydantic_extra_types.language_code import LanguageAlpha2
@@ -26,7 +26,7 @@ class LanguageDetector(LLMAgent[None, LanguageDetectorOutput]):
     ):
         super().__init__(
             conf_path=conf_path,
-            output_type=ToolOutput(LanguageDetectorOutput),  # type: ignore
+            output_type=NativeOutput(LanguageDetectorOutput),  # type: ignore
             model=model,
             max_concurrency=max_concurrency,
             cache=cache,
