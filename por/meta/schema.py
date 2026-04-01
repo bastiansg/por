@@ -1,5 +1,4 @@
 from pathlib import Path
-
 from pydantic_extra_types.language_code import LanguageName
 from pydantic import (
     BaseModel,
@@ -7,6 +6,7 @@ from pydantic import (
     Field,
     NonNegativeInt,
     model_validator,
+    NonNegativeFloat,
 )
 
 
@@ -40,6 +40,10 @@ class ChunkMetadata(BaseModel):
 class TextChunk(BaseModel):
     text: StrictStr = Field(description="The textual content of the chunk.")
     metadata: ChunkMetadata
+    score: NonNegativeFloat | None = Field(
+        default=None,
+        description="The similarity score for this chunk.",
+    )
 
 
 class Material(BaseModel):

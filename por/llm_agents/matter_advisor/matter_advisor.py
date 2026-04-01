@@ -1,4 +1,4 @@
-from pydantic_ai import ToolOutput
+from pydantic_ai import NativeOutput
 
 from pydantic import BaseModel, StrictStr, Field
 from pydantic_extra_types.language_code import LanguageName
@@ -41,7 +41,7 @@ class MatterAdvisor(LLMAgent[MatterAdvisorDeps, MatterAdvisorOutput]):
         super().__init__(
             conf_path=conf_path,
             deps_type=MatterAdvisorDeps,
-            output_type=ToolOutput(MatterAdvisorOutput),  # type: ignore
+            output_type=NativeOutput(MatterAdvisorOutput),  # type: ignore
             retries=3,
             max_concurrency=max_concurrency,
         )

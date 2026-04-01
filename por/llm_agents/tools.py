@@ -1,8 +1,8 @@
 from typing import Annotated, Literal
 
 from pydantic import Field
-from pydantic_ai import Tool
 from qdrant_client import models
+from pydantic_ai import Tool, RunContext
 
 from common.logger import get_logger
 
@@ -10,7 +10,10 @@ from rage.retriever import Retriever
 from rage.utils.embeddings import get_openai_embeddings
 
 from por.meta.schema import TextChunk
-from por.db.qdrant import dense_search, get_text_chunk_from_collections
+from por.db.qdrant import (
+    dense_search,
+    get_text_chunk_from_collections,
+)
 
 
 logger = get_logger(__name__)
@@ -55,57 +58,8 @@ async def satc_search(
     )
 
 
-# async def machiavelli_search(
-#     query: Annotated[
-#         str,
-#         Field(
-#             description="The natural language query in Spanish to search for relevant text chunks."
-#         ),
-#     ],
-# ) -> list[TextChunk]:
-#     """Run a semantic search across Machiavelli sources."""
-
-#     return await dense_search(
-#         query=query,
-#         collection_name="machiavelli",
-#     )
-
-
-async def lyrics_search(
-    query: Annotated[
-        str,
-        Field(
-            description="The natural language query to search for relevant lyrics chunks."
-        ),
-    ],
-    query_language: Annotated[
-        Literal[
-            "English",
-            "Spanish",
-            "French",
-        ],
-        Field(description="The language of the input query."),
-    ] = "English",
-) -> list[TextChunk]:
-    """Run a semantic search across lyrics sources."""
-
-    search_filter = models.Filter(
-        must=[
-            models.FieldCondition(
-                key="metadata.language",
-                match=models.MatchValue(value=query_language),
-            )
-        ],
-    )
-
-    return await dense_search(
-        query=query,
-        collection_name="lyrics",
-        search_filter=search_filter,
-    )
-
-
 async def matter_search(
+    ctx: RunContext,
     query: Annotated[
         str,
         Field(
@@ -123,36 +77,44 @@ async def matter_search(
 ) -> list[TextChunk]:
     """Run a semantic search across Matter sources."""
 
-    search_filter = models.Filter(
-        must=[
+    deps = ctx.deps
+    assert deps is not None
+
+    must_filters = [
+        models.FieldCondition(
+            key="metadata.language",
+            match=models.MatchValue(value=query_language),
+        )
+    ]
+
+    if deps.exibition_related:
+        must_filters.append(
             models.FieldCondition(
-                key="metadata.language",
-                match=models.MatchValue(value=query_language),
+                key="metadata.file_name",
+                match=models.MatchValue(value="material-interactions-press"),
             )
-        ],
+        )
+
+    search_filter = models.Filter(
+        must=must_filters,  # type: ignore
     )
 
-    return await dense_search(
+    retriever_items = await dense_search(
         query=query,
         collection_name="matter",
         search_filter=search_filter,
     )
 
+    scores = [
+        {
+            "chunk_id": ri.metadata.chunk_id,
+            "score": ri.score,
+        }
+        for ri in retriever_items
+    ]
 
-async def borges_search(
-    query: Annotated[
-        str,
-        Field(
-            description="The natural language query in Spanish to search for relevant text chunks."
-        ),
-    ],
-) -> list[TextChunk]:
-    """Run a semantic search across Borges sources."""
-
-    return await dense_search(
-        query=query,
-        collection_name="borges",
-    )
+    logger.info(f"retriever_items scores: {scores}")
+    return retriever_items
 
 
 async def get_text_chunk(
@@ -190,24 +152,9 @@ satc_search_tool = Tool(
     description="Run a semantic search across Nietzsche sources.",
 )
 
-# machiavelli_search_tool = Tool(
-#     function=machiavelli_search,
-#     description="Run a semantic search across Machiavelli sources.",
-# )
-
-lyrics_search_tool = Tool(
-    function=lyrics_search,
-    description="Run a semantic search across lyrics sources.",
-)
-
 matter_search_tool = Tool(
     function=matter_search,
     description="Run a semantic search across Matter sources.",
-)
-
-borges_search_tool = Tool(
-    function=borges_search,
-    description="Run a semantic search across Borges sources.",
 )
 
 get_text_chunk_tool = Tool(

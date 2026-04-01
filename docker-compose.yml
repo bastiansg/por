@@ -5,8 +5,6 @@ services:
         build:
             context: .
             dockerfile: ./docker/core/Dockerfile
-            # ssh:
-            #     - default
         volumes:
             - $PWD/resources:/resources
         env_file:

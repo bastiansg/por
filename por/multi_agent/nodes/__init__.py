@@ -1,6 +1,7 @@
 from .idle_state import idle_state  # noqa
 from .recorder import recorder  # noqa
 from .audio_transcriber import audio_transcriber  # noqa
+from .exibition_related import exibition_related  # noqa
 from .gatekeeper import gatekeeper  # noqa
 from .validation_checkpoint import validation_checkpoint  # noqa
 from .language_detector import language_detector  # noqa

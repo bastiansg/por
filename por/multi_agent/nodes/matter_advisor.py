@@ -4,7 +4,11 @@ from multi_agents.graph import Node
 from common.logger import get_logger
 
 from por.multi_agent.schema import StateSchema
-from por.llm_agents.tools import matter_search_tool, get_text_chunk_tool
+from por.llm_agents.tools import (
+    matter_search_tool,
+    get_text_chunk_tool,
+)
+
 from por.llm_agents import (
     MatterAdvisor,
     MatterAdvisorDeps,
@@ -32,17 +36,23 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     ra = RetrievalAssistant(
         tools=[
-            matter_search_tool,
+            matter_search_tool,  # type: ignore
             get_text_chunk_tool,
         ]
     )
 
+    exibition_related = state.exibition_related
+    logger.info(f"exibition_related: {exibition_related}")
+
+    agent_deps = RetrievalAssistantDeps(
+        search_tool="matter_search",
+        search_languages=["English", "Spanish", "French"],  # type: ignore
+        exibition_related=exibition_related,
+    )
+
     ra_output = await ra.generate(
         user_prompt=f"**Question**: {audio_transcription}",
-        agent_deps=RetrievalAssistantDeps(
-            search_tool="matter_search",
-            search_languages=["English", "Spanish", "French"],  # type: ignore
-        ),
+        agent_deps=agent_deps,
     )
 
     ra_text_chunks = await get_text_chunks(

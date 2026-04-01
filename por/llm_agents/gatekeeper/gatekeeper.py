@@ -1,4 +1,4 @@
-from pydantic_ai import ToolOutput
+from pydantic_ai import NativeOutput
 from pydantic import BaseModel, StrictStr, Field, StrictBool
 from pydantic_extra_types.language_code import LanguageName
 
@@ -31,7 +31,7 @@ class Gatekeeper(LLMAgent[GatekeeperDeps, GatekeeperOutput]):
         super().__init__(
             conf_path=conf_path,
             deps_type=GatekeeperDeps,
-            output_type=ToolOutput(GatekeeperOutput),  # type: ignore
+            output_type=NativeOutput(GatekeeperOutput),  # type: ignore
             retries=3,
             max_concurrency=max_concurrency,
         )
