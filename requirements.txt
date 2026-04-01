@@ -1,4 +1,4 @@
-polars==1.39.2
+polars==1.39.3
 gpiozero==2.0.1
 
 ipython==9.10.0
