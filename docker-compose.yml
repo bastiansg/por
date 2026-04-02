@@ -23,7 +23,7 @@ services:
             - por
 
     por-qdrant:
-        image: qdrant/qdrant:v1.16.3
+        image: qdrant/qdrant:v1.17.1
         container_name: por-qdrant
         ports:
             - "6333:6333"

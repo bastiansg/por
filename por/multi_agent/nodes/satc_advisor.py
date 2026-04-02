@@ -63,7 +63,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     sa_text_chunks = await get_text_chunks(
         relevant_chunk_ids=satc_output.relevant_chunk_ids,
-        collection_name="nietzsche",
+        collection_name="satc",
     )
 
     return {

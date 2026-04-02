@@ -26,7 +26,7 @@ SEARCH_SCORE_THRESHOLD = 0.3
 retriever = Retriever(dense_embeddings=get_openai_embeddings())
 
 
-async def nietzsche_search(
+async def philosophy_search(
     query: Annotated[
         str,
         Field(
@@ -34,11 +34,11 @@ async def nietzsche_search(
         ),
     ],
 ) -> list[TextChunk]:
-    """Run a semantic search across Nietzsche sources."""
+    """Run a semantic search across philosophy sources."""
 
     return await dense_search(
         query=query,
-        collection_name="nietzsche",
+        collection_name="philosophy",
     )
 
 
@@ -117,8 +117,8 @@ async def get_text_chunk(
     )
 
 
-nietzsche_search_tool = Tool(
-    function=nietzsche_search,
+philosophy_search_tool = Tool(
+    function=philosophy_search,
     description="The natural language query in Spanish to search for relevant text chunks.",
 )
 

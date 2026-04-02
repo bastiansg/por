@@ -4,7 +4,7 @@ from multi_agents.graph import Node
 from common.logger import get_logger
 
 from por.multi_agent.schema import StateSchema
-from por.llm_agents.tools import nietzsche_search_tool, get_text_chunk_tool
+from por.llm_agents.tools import philosophy_search_tool, get_text_chunk_tool
 from por.llm_agents import (
     NietzscheAdvisor,
     NietzscheAdvisorDeps,
@@ -32,7 +32,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     ra = RetrievalAssistant(
         tools=[
-            nietzsche_search_tool,
+            philosophy_search_tool,
             get_text_chunk_tool,
         ]
     )
@@ -40,14 +40,14 @@ async def run(state: StateSchema) -> dict[str, Any]:
     ra_output = await ra.generate(
         user_prompt=f"**Question**: {audio_transcription}",
         agent_deps=RetrievalAssistantDeps(
-            search_tool="nietzsche_search",
+            search_tool="philosophy_search",
             search_languages=["Spanish"],  # type: ignore
         ),
     )
 
     ra_text_chunks = await get_text_chunks(
         relevant_chunk_ids=ra_output.relevant_chunk_ids,
-        collection_name="nietzsche",
+        collection_name="philosophy",
     )
 
     na = NietzscheAdvisor()
@@ -63,7 +63,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     na_text_chunks = await get_text_chunks(
         relevant_chunk_ids=na_output.relevant_chunk_ids,
-        collection_name="nietzsche",
+        collection_name="philosophy",
     )
 
     return {

@@ -19,7 +19,7 @@ class SATCLoader(TextLoader):
     def __init__(
         self,
         base_url: str = "https://subslikescript.com/series/Sex_and_the_City-159206",
-        max_concurrency: int = 5,
+        max_concurrency: int = 2,
     ):
         super().__init__()
         self.base_url = base_url

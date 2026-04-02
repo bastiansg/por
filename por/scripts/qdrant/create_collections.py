@@ -16,11 +16,10 @@ from rage.utils.embeddings import get_openai_embeddings
 from rage.splitters import MarkdownSplitter, TokenSplitter
 from rage.loaders import PDFMarkdownLoader, MarkdownLoader, DocxLoader
 
-from por.loaders import YTBLoader, WikiLoader
+from por.loaders import LyricsLoader, SATCLoader, YTBLoader
 
 from .file_items import file_items
 from .ytb_items import ytb_items
-from .wiki_items import wiki_items
 
 
 logger = get_logger(__name__)
@@ -64,10 +63,18 @@ LOADER_MAP = {
 
 
 async def get_file_text_chunks() -> list[TextChunk]:
-    file_paths = glob("/resources/documents/material-interactions/*")
-    file_map = {fi.source: fi for fi in file_items}
+    file_paths = [
+        fp
+        for fp in glob(
+            "/resources/documents/main/**/*",
+            recursive=True,
+        )
+        if os.path.isfile(fp)
+    ]
 
+    file_map = {fi.source: fi for fi in file_items}
     text_chunks = []
+
     for fp in tqdm(file_paths, ascii=True):
         file_name = os.path.basename(fp)
         file_item = file_map[file_name]
@@ -114,15 +121,27 @@ async def get_ytb_text_chunks() -> list[TextChunk]:
     return text_chunks
 
 
-async def get_wiki_text_chunks() -> list[TextChunk]:
-    splitter = TokenSplitter()
+async def get_satc_text_chunks() -> list[TextChunk]:
+    loader = SATCLoader()
+    documents = await loader.load()
 
-    text_chunks = []
-    for wiki_item in wiki_items:
-        loader = WikiLoader(metadata=wiki_item.metadata.model_dump())
-        documents = await loader.load(source_path=wiki_item.source)
-        tcs = splitter.split_documents(documents=documents)
-        text_chunks.extend(tcs)
+    splitter = TokenSplitter()
+    text_chunks = splitter.split_documents(documents=documents)
+
+    return text_chunks
+
+
+async def get_lyrics_text_chunks() -> list[TextChunk]:
+    loader = LyricsLoader()
+    documents = await loader.load(
+        source_path="/resources/documents/lyrics/lyrics.json"
+    )
+
+    splitter = TokenSplitter(
+        chunk_size=128,
+        chunk_overlap=16,
+    )
+    text_chunks = splitter.split_documents(documents=documents)
 
     return text_chunks
 
@@ -134,10 +153,19 @@ async def main() -> None:
     ytb_text_chunks = await get_ytb_text_chunks()
     logger.info(f"ytb_text_chunks: {len(ytb_text_chunks)}")
 
-    wiki_text_chunks = await get_wiki_text_chunks()
-    logger.info(f"wiki_text_chunks: {len(wiki_text_chunks)}")
+    satc_text_chunks = await get_satc_text_chunks()
+    logger.info(f"satc_text_chunks: {len(satc_text_chunks)}")
 
-    text_chunks = file_text_chunks + ytb_text_chunks + wiki_text_chunks
+    lyrics_text_chunks = await get_lyrics_text_chunks()
+    logger.info(f"lyrics_text_chunks: {len(lyrics_text_chunks)}")
+
+    text_chunks = (
+        file_text_chunks
+        + ytb_text_chunks
+        + satc_text_chunks
+        + lyrics_text_chunks
+    )
+
     logger.info(f"text_chunks: {len(text_chunks)}")
     text_chunks = sorted(
         text_chunks,

@@ -1,4 +1,4 @@
-from pydantic_ai import ToolOutput
+from pydantic_ai import NativeOutput
 from pydantic import BaseModel, StrictBool, Field
 from pydantic_extra_types.language_code import LanguageName
 
@@ -27,7 +27,7 @@ class LyricsValidator(LLMAgent[None, LyricsValidatorOutput]):
     ):
         super().__init__(
             conf_path=conf_path,
-            output_type=ToolOutput(LyricsValidatorOutput),  # type: ignore
+            output_type=NativeOutput(LyricsValidatorOutput),  # type: ignore
             retries=3,
             max_concurrency=max_concurrency,
             cache=cache,
