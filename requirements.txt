@@ -16,7 +16,9 @@ aiohttp==3.13.5
 wikipedia==1.4.0
 langchain_community==0.4.1
 youtube_transcript_api==1.2.4
+
 replicate==1.0.7
+cairosvg==2.9.0
 
 # Bas packages
 hailo_apps==1.0.26

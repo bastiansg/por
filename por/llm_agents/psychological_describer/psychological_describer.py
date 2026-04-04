@@ -2,11 +2,9 @@ from typing import Literal
 
 from pydantic_ai import NativeOutput
 from pydantic import BaseModel, StrictStr, Field
-
 from pydantic_extra_types.language_code import LanguageName
 
 from llm_agents.meta.interfaces import LLMAgent
-
 from por.llm_agents import psychological_describer
 
 

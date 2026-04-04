@@ -1,5 +1,4 @@
 from typing import Any
-from datetime import datetime
 from langgraph.runtime import get_runtime
 
 from escpos.printer import Usb
@@ -15,14 +14,14 @@ from .utils import get_sensehat_dsp, get_dsp_images, get_printer
 logger = get_logger(__name__)
 
 
-RIGHTS_NOTICE_LENGTH = 36
+RIGHTS_NOTICE_LENGTH = 33
 
 
 def get_copyright_line():
     _copyright = get_copyright()
     padding_length = RIGHTS_NOTICE_LENGTH - len(_copyright)
 
-    return f"* @dd.moon__{' ' * padding_length}{_copyright}"
+    return f"* By @dd.moon__{' ' * padding_length}{_copyright}"
 
 
 def head_pipeline(
@@ -43,8 +42,7 @@ def head_pipeline(
     )
 
     printer.set(align="left")
-    current_year = datetime.now().year
-    printer.block_text(f"* Oráculo Robot. ({current_year}, ∞)")
+    printer.block_text("* Oráculo Robot. (2025, ∞)")
     printer.text("\n")
 
     copyright_line = get_copyright_line()
@@ -128,7 +126,7 @@ def main_pipeline(
     printer.set(bold=True)
     printer.block_text("$$ Lo que tenés que escuchar:")
     printer.set(bold=False)
-    printer.text("\n\n")
+    printer.text("\n")
 
     song_text = f"{state.song.title} | {state.song.artist} | {state.song.year}"  # type: ignore
     printer.block_text(song_text)

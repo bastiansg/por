@@ -2,15 +2,12 @@ from pydantic_ai import NativeOutput
 from pydantic import BaseModel, StrictStr, Field
 
 from llm_agents.meta.interfaces import LLMAgent
+
 from por.llm_agents import image_prompter
+from por.meta.schema import PhysicalDescription, ClothingDescription
 
 from ..psychological_describer.psychological_describer import (
     PsychologicalDescriberOutput,
-)
-
-from ..image_describer.image_describer import (
-    PhysicalDescription,
-    ClothingDescription,
 )
 
 
