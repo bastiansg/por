@@ -80,6 +80,7 @@ class StateSchema(BaseModel):
     image_path: StrictStr | None = None
     recorder_ok: StrictBool = False
     audio_transcription: StrictStr | None = None
+    parsed_query: StrictStr | None = None
     detected_language: LanguageName | None = None
     message_accepted: StrictBool | None = None
     rejection_reason: StrictStr | None = None

@@ -38,6 +38,10 @@ from .astrology_advisor.astrology_advisor import (  # noqa
     AstrologyAdvisorDeps,
     AstrologyAdvisorOutput,
 )
+from .query_parser.query_parser import (  # noqa
+    QueryParser,
+    QueryParserOutput,
+)
 
 from .image_prompter.image_prompter import ImagePrompter, ImagePrompterDeps  # noqa
 from .satc_advisor.satc_advisor import (  # noqa

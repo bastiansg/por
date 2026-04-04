@@ -31,8 +31,21 @@ audio_transcriber_language_detector = SimpleEdge(
     target="language_detector",
 )
 
-language_detector_gatekeeper = SimpleEdge(
-    source="language_detector",
+audio_transcriber_astrology_placements_detector = SimpleEdge(
+    source="audio_transcriber",
+    target="astrology_placements_detector",
+)
+
+astrology_placements_detector_query_parser = SimpleEdge(
+    source="astrology_placements_detector",
+    target="query_parser",
+)
+
+gatekeeper_edges = SimpleEdge(
+    source=[
+        "language_detector",
+        "query_parser",
+    ],
     target="gatekeeper",
 )
 
@@ -47,7 +60,6 @@ validation_checkpoint_conditional = ConditionalEdge(
         "random_selector",
         "image_describer",
         "psychological_describer",
-        "astrology_placements_detector",
         "printer",
     ],
     router=validation_checkpoint_conditional_router,
@@ -68,6 +80,11 @@ psychological_describer_satc_advisor = SimpleEdge(
     target="satc_advisor",
 )
 
+psychological_describer_astrology_advisor = SimpleEdge(
+    source="psychological_describer",
+    target="astrology_advisor",
+)
+
 image_prompter_edges = SimpleEdge(
     source=[
         "microphone_remover",
@@ -79,11 +96,6 @@ image_prompter_edges = SimpleEdge(
 image_describer_microphone_remove = SimpleEdge(
     source="image_describer",
     target="microphone_remover",
-)
-
-astrology_placements_detector_astrology_advisor = SimpleEdge(
-    source="astrology_placements_detector",
-    target="astrology_advisor",
 )
 
 image_prompter_image_generator = SimpleEdge(

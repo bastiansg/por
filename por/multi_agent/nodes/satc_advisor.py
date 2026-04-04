@@ -22,10 +22,10 @@ async def run(state: StateSchema) -> dict[str, Any]:
     logger.info("runing satc_advisor...")
 
     psychological_profile = state.psychological_profile
-    audio_transcription = state.audio_transcription
+    parsed_query = state.parsed_query
 
     assert psychological_profile is not None
-    assert audio_transcription is not None
+    assert parsed_query is not None
 
     detected_language = state.detected_language
     assert detected_language is not None
@@ -38,7 +38,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     )
 
     ra_output = await ra.generate(
-        user_prompt=f"**Question**: {audio_transcription}",
+        user_prompt=f"**Question**: {parsed_query}",
         agent_deps=RetrievalAssistantDeps(
             search_tool="satc_search",
             search_languages=["English"],  # type: ignore
@@ -55,7 +55,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
         user_prompt="Provide your message as if speaking to a close friend at a restaurant.",
         agent_deps=SATCAdvisorDeps(
             psychological_profile=psychological_profile,
-            question=audio_transcription,
+            question=parsed_query,
             text_chunks=ra_text_chunks,
             output_language=detected_language,
         ),
