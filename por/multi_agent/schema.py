@@ -19,7 +19,11 @@ from pydantic import (
 )
 
 from por.meta.schema import TextChunk, Song
-from por.llm_agents import ImageDescriberOutput, PsychologicalDescriberOutput
+from por.llm_agents import (
+    ImageDescriberOutput,
+    PsychologicalDescriberOutput,
+    AstrologyPlacementsDetectorOutput,
+)
 
 
 class GolColors(BaseModel):
@@ -79,6 +83,8 @@ class StateSchema(BaseModel):
     detected_language: LanguageName | None = None
     message_accepted: StrictBool | None = None
     rejection_reason: StrictStr | None = None
+    astrology_placements: AstrologyPlacementsDetectorOutput | None = None
+    astrology_advice: StrictStr | None = None
     image_description: ImageDescriberOutput | None = None
     psychological_profile: PsychologicalDescriberOutput | None = None
     nietzsche_advise: StrictStr | None = None

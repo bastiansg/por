@@ -18,6 +18,7 @@ def validation_checkpoint_conditional_router(
             "random_selector",
             "image_describer",
             "psychological_describer",
+            "astrology_placements_detector",
         ]
 
     return ["printer"]

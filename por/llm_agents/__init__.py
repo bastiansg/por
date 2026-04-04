@@ -29,6 +29,16 @@ from .language_detector.language_detector import (  # noqa
     LanguageDetectorOutput,
 )
 
+from .astrology_placements_detector.astrology_placements_detector import (  # noqa
+    AstrologyPlacementsDetector,
+    AstrologyPlacementsDetectorOutput,
+)
+from .astrology_advisor.astrology_advisor import (  # noqa
+    AstrologyAdvisor,
+    AstrologyAdvisorDeps,
+    AstrologyAdvisorOutput,
+)
+
 from .image_prompter.image_prompter import ImagePrompter, ImagePrompterDeps  # noqa
 from .satc_advisor.satc_advisor import (  # noqa
     SATCAdvisor,

@@ -122,6 +122,16 @@ def main_pipeline(
     printer.block_text(state.satc_advice)
     printer.text("\n\n")
 
+    if state.astrology_advice is not None:
+        printer.set(bold=True, align="left")
+        printer.set(bold=True)
+        printer.block_text("$$ Lo que tu carta no perdona:")
+        printer.text("\n")
+        printer.set(bold=False)
+
+        printer.block_text(state.astrology_advice)
+        printer.text("\n\n")
+
     printer.set(bold=True, align="left")
     printer.set(bold=True)
     printer.block_text("$$ Lo que tenés que escuchar:")

@@ -3,6 +3,7 @@ from .edges import (  # noqa
     recorder_conditional,
     image_prompter_edges,
     image_describer_microphone_remove,
+    astrology_placements_detector_astrology_advisor,
     image_prompter_image_generator,
     audio_transcriber_language_detector,
     language_detector_gatekeeper,

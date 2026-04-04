@@ -47,6 +47,7 @@ validation_checkpoint_conditional = ConditionalEdge(
         "random_selector",
         "image_describer",
         "psychological_describer",
+        "astrology_placements_detector",
         "printer",
     ],
     router=validation_checkpoint_conditional_router,
@@ -80,6 +81,11 @@ image_describer_microphone_remove = SimpleEdge(
     target="microphone_remover",
 )
 
+astrology_placements_detector_astrology_advisor = SimpleEdge(
+    source="astrology_placements_detector",
+    target="astrology_advisor",
+)
+
 image_prompter_image_generator = SimpleEdge(
     source="image_prompter",
     target="image_generator",
@@ -87,6 +93,7 @@ image_prompter_image_generator = SimpleEdge(
 
 printer_edges = SimpleEdge(
     source=[
+        "astrology_advisor",
         "lyrics_advisor",
         "nietzsche_advisor",
         "random_selector",
