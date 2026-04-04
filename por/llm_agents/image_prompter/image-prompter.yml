@@ -41,6 +41,7 @@ instructions_template: |-
     # Hard Constraints
     - Do not mention or explain the question, the psychological profile, or the input analysis.
     - Express psychological tension only through visible abstract elements, never through explanation.
+    - Output exactly one paragraph with no line breaks, bullets, or section labels.
     - Output only a direct, ready-to-use image-generation prompt with no labels, captions, or explanations.
     - The generated prompt **MUST** explicitly mention **ALL* `# Style Constraints`.
 
