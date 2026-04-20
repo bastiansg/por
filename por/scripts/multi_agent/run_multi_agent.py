@@ -58,9 +58,18 @@ async def main() -> None:
         {
             "question": state.audio_transcription,
             "nietzsche_advise": state.nietzsche_advise,
+            "nietzsche_text_chunks": [
+                tc.model_dump() for tc in state.nietzsche_text_chunks
+            ],
             "satc_advice": state.satc_advice,
+            "satc_text_chunks": [
+                tc.model_dump() for tc in state.satc_text_chunks
+            ],
             "song": state.song.model_dump(),
             "lyrics_advise": state.lyrics_advise,
+            "lyrics_text_chunks": [
+                tc.model_dump() for tc in state.lyrics_text_chunks
+            ],
         }
         for state in states
     ]

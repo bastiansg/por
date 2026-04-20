@@ -1,9 +1,4 @@
-# model: openai:gpt-4.1-mini-2025-04-14
-# max_tokens: 512
-# temperature: 0.7
-
 model: openai:gpt-5.4-mini-2026-03-17
-# openai_reasoning_effort: none
 openai_text_verbosity: low
 
 instructions_template: |-
@@ -17,7 +12,7 @@ instructions_template: |-
     # Instructions
     ## Search Strategy
     - Use `{search_tool}` to find relevant chunks.
-    - Use `get_text_chunk` to retrieve neighboring chunks (via `previous_chunk_id` and `next_chunk_id`) for additional context.
+    - Use `_get_text_chunks` to retrieve neighboring chunks (via `previous_chunk_id` and `next_chunk_id`) for additional context.
 
     ## Search Constraints
     - **ALWAYS** perform `{search_tool}` in **ALL** of the following languages: {search_languages}

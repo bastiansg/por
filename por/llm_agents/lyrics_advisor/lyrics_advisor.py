@@ -15,7 +15,6 @@ from ..psychological_describer.psychological_describer import (
 
 class LyricsAdvisorDeps(BaseModel):
     psychological_profile: PsychologicalDescriberOutput
-    question: StrictStr
     text_chunks: list[TextChunk]
     output_language: LanguageName
 

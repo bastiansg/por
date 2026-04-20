@@ -8,7 +8,7 @@ from sensehat_dsp.display import Image
 from sensehat_dsp.display import Display
 
 from por.dsp_images import dsp_images
-from por.db.qdrant import get_text_chunk
+from por.db.qdrant import get_text_chunks
 from por.meta.schema import TextChunk, ChunkMetadata
 
 
@@ -43,19 +43,16 @@ def get_printer(profile: str = "TM-T20II") -> Usb:
     )
 
 
-async def get_text_chunks(
+async def _get_text_chunks(
     relevant_chunk_ids: list[str],
     collection_name: str,
 ) -> list[TextChunk]:
     logger.info(f"relevant_chunk_ids: {len(relevant_chunk_ids)}")
-    chunk_records = [
-        await get_text_chunk(
-            collection_name=collection_name,
-            key="chunk_id",
-            value=chunk_id,
-        )
-        for chunk_id in relevant_chunk_ids
-    ]
+    chunk_records = await get_text_chunks(
+        collection_name=collection_name,
+        key="chunk_id",
+        values=relevant_chunk_ids,
+    )
 
     return [
         TextChunk(

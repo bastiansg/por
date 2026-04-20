@@ -1,8 +1,8 @@
 from typing import Annotated, Literal
 
 from pydantic import Field
-from pydantic_ai import Tool
 from qdrant_client import models
+from pydantic_ai import Tool, RunContext
 
 from common.logger import get_logger
 
@@ -11,8 +11,8 @@ from rage.utils.embeddings import get_openai_embeddings
 
 from por.meta.schema import TextChunk
 from por.db.qdrant import (
-    dense_search,
-    get_text_chunk_from_collections,
+    hybrid_search,
+    get_text_chunks,
 )
 
 
@@ -30,13 +30,13 @@ async def philosophy_search(
     query: Annotated[
         str,
         Field(
-            description="The natural language query in Spanish to search for relevant text chunks."
+            description="The query in Spanish to search for relevant text chunks."
         ),
     ],
 ) -> list[TextChunk]:
-    """Run a semantic search across philosophy sources."""
+    """Run a hybrid search across philosophy sources."""
 
-    return await dense_search(
+    return await hybrid_search(
         query=query,
         collection_name="philosophy",
     )
@@ -46,13 +46,13 @@ async def satc_search(
     query: Annotated[
         str,
         Field(
-            description="The natural language query in English to search for relevant text chunks."
+            description="The query in English to search for relevant text chunks."
         ),
     ],
 ) -> list[TextChunk]:
-    """Run a semantic search across Sex and the City scripts."""
+    """Run a hybrid search across Sex and the City scripts."""
 
-    return await dense_search(
+    return await hybrid_search(
         query=query,
         collection_name="satc",
     )
@@ -61,9 +61,7 @@ async def satc_search(
 async def lyrics_search(
     query: Annotated[
         str,
-        Field(
-            description="The natural language query to search for relevant lyrics chunks."
-        ),
+        Field(description="The query to search for relevant lyrics chunks."),
     ],
     query_language: Annotated[
         Literal[
@@ -74,7 +72,7 @@ async def lyrics_search(
         Field(description="The language of the input query."),
     ],
 ) -> list[TextChunk]:
-    """Run a semantic search across lyrics sources."""
+    """Run a hybrid search across lyrics sources."""
 
     search_filter = models.Filter(
         must=[
@@ -85,54 +83,56 @@ async def lyrics_search(
         ],
     )
 
-    return await dense_search(
+    return await hybrid_search(
         query=query,
         collection_name="lyrics",
         search_filter=search_filter,
     )
 
 
-async def get_text_chunk(
-    chunk_id: Annotated[
-        str,
-        Field(description="The `chunk_id` of the chunk to retrieve."),
+async def _get_text_chunks(
+    ctx: RunContext,
+    chunk_ids: Annotated[
+        list[str],
+        Field(description="The `chunk_id`s of the chunks to retrieve."),
     ],
-) -> TextChunk | None:
-    """Retrieve a specific text chunk using its `chunk_id`."""
+) -> list[TextChunk]:
+    """Retrieve specific text chunks using their `chunk_id`s."""
 
-    record = await get_text_chunk_from_collections(
+    deps = ctx.deps
+    assert deps is not None
+
+    records = await get_text_chunks(
+        collection_name=deps.collection_name,
         key="chunk_id",
-        value=chunk_id,
+        values=chunk_ids,
     )
 
-    if record is None:
-        return
-
-    payload = record.payload
-    assert payload is not None
-
-    return TextChunk(
-        text=payload["page_content"],
-        metadata=payload["metadata"],
-    )
+    return [
+        TextChunk(
+            text=r.payload["page_content"],  # type: ignore
+            metadata=r.payload["metadata"],  # type: ignore
+        )
+        for r in records
+    ]
 
 
 philosophy_search_tool = Tool(
     function=philosophy_search,
-    description="The natural language query in Spanish to search for relevant text chunks.",
+    description="Run a hybrid search across philosophy sources.",
 )
 
 satc_search_tool = Tool(
     function=satc_search,
-    description="Run a semantic search across Nietzsche sources.",
+    description="Run a hybrid search across Nietzsche sources.",
 )
 
 lyrics_search_tool = Tool(
     function=lyrics_search,
-    description="Run a semantic search across lyrics sources.",
+    description="Run a hybrid search across lyrics sources.",
 )
 
-get_text_chunk_tool = Tool(
-    function=get_text_chunk,
-    description="Retrieve a specific text chunk using its `chunk_id`.",
+get_text_chunks_tool = Tool(
+    function=_get_text_chunks,
+    description="Retrieve specific text chunks using their `chunk_id`s.",
 )

@@ -43,6 +43,4 @@ instructions_template: |-
     # Context
     **Psychological Profile**: {psychological_profile}
 
-    **Question**: {question}
-
     **Text Chunks**: {text_chunks}

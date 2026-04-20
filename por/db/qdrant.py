@@ -3,8 +3,8 @@ from qdrant_client.models import Record
 
 from common.logger import get_logger
 
+from rage.retriever import Retriever
 from rage.utils.embeddings import get_openai_embeddings
-from rage.retriever import Retriever, WeightedMetadataItem
 
 from por.meta.schema import TextChunk
 
@@ -43,16 +43,14 @@ async def dense_search(
     return [TextChunk(**r.model_dump()) for r in results]
 
 
-async def dense_search_weighted(
+async def hybrid_search(
     query: str,
-    weighted_metadata_items: list[WeightedMetadataItem],
     collection_name: str,
     search_filter: models.Filter | None = None,
 ) -> list[TextChunk]:
-    results = await retriever.dense_search_weighted(
+    results = await retriever.hybrid_search(
         collection_name=collection_name,
         query=query,
-        weighted_metadata_items=weighted_metadata_items,
         k=SEARCH_TOP_K,
         score_threshold=SEARCH_SCORE_THRESHOLD,
         search_filter=search_filter,
@@ -69,48 +67,46 @@ async def dense_search_weighted(
     return [TextChunk(**r.model_dump()) for r in results]
 
 
-async def get_text_chunk(
+async def get_text_chunks(
     collection_name: str,
     key: str,
-    value: str | int,
-) -> Record | None:
+    values: list[str],
+) -> list[Record]:
+    match = models.MatchAny(any=values)  # type: ignore
     scroll_filter = models.Filter(
         must=[
             models.FieldCondition(
                 key=f"metadata.{key}",
-                match=models.MatchValue(value=value),
+                match=match,
             )
         ]
     )
 
     results = await retriever.scroll(
         collection_name=collection_name,
-        limit=1,
+        limit=len(values),
         scroll_filter=scroll_filter,
     )
 
-    if not len(results):
-        return None
-
-    return results[0]
+    return results
 
 
-async def get_text_chunk_from_collections(
-    key: str,
-    value: str | int,
-) -> Record | None:
-    collections = await retriever.qadrant_async_client.get_collections()
-    collections_names = [c.name for c in collections.collections]
+# async def get_text_chunk_from_collections(
+#     key: str,
+#     value: str | int,
+# ) -> Record | None:
+#     collections = await retriever.qadrant_async_client.get_collections()
+#     collections_names = [c.name for c in collections.collections]
 
-    for collection_name in collections_names:
-        record = await get_text_chunk(
-            collection_name=collection_name,
-            key=key,
-            value=value,
-        )
+#     for collection_name in collections_names:
+#         record = await get_text_chunk(
+#             collection_name=collection_name,
+#             key=key,
+#             value=value,
+#         )
 
-        if record is not None:
-            return record
+#         if record is not None:
+#             return record
 
-    k_v = {"key": key, "value": value}
-    logger.error(f"no results found for: {k_v}")
+#     k_v = {"key": key, "value": value}
+#     logger.error(f"no results found for: {k_v}")

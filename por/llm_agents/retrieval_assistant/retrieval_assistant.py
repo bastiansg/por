@@ -11,6 +11,7 @@ from ..utils import hide_tools_after_limit, tool_logging_handler
 class RetrievalAssistantDeps(BaseModel):
     search_tool: StrictStr
     search_languages: list[LanguageName]
+    collection_name: StrictStr
 
 
 class RetrievalAssistantOutput(BaseModel):

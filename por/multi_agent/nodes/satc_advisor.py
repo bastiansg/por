@@ -3,7 +3,7 @@ from typing import Any
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from por.llm_agents.tools import satc_search_tool, get_text_chunk_tool
+from por.llm_agents.tools import satc_search_tool, get_text_chunks_tool
 from por.multi_agent.schema import StateSchema
 from por.llm_agents import (
     SATCAdvisor,
@@ -12,10 +12,13 @@ from por.llm_agents import (
     RetrievalAssistantDeps,
 )
 
-from .utils import get_text_chunks
+from .utils import _get_text_chunks
 
 
 logger = get_logger(__name__)
+
+
+COLLECTION_NAME = "satc"
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
@@ -33,37 +36,38 @@ async def run(state: StateSchema) -> dict[str, Any]:
     ra = RetrievalAssistant(
         tools=[
             satc_search_tool,
-            get_text_chunk_tool,
+            get_text_chunks_tool,  # type: ignore
         ]
     )
 
+    question_text = f"**Question**: {audio_transcription}"
     ra_output = await ra.generate(
-        user_prompt=f"**Question**: {audio_transcription}",
+        user_prompt=question_text,
         agent_deps=RetrievalAssistantDeps(
             search_tool="satc_search",
             search_languages=["English"],  # type: ignore
+            collection_name=COLLECTION_NAME,
         ),
     )
 
-    ra_text_chunks = await get_text_chunks(
+    ra_text_chunks = await _get_text_chunks(
         relevant_chunk_ids=ra_output.relevant_chunk_ids,
-        collection_name="satc",
+        collection_name=COLLECTION_NAME,
     )
 
     sa = SATCAdvisor()
     satc_output = await sa.generate(
-        user_prompt="Provide your message as if speaking to a close friend at a restaurant.",
+        user_prompt=question_text,
         agent_deps=SATCAdvisorDeps(
             psychological_profile=psychological_profile,
-            question=audio_transcription,
             text_chunks=ra_text_chunks,
             output_language=detected_language,
         ),
     )
 
-    sa_text_chunks = await get_text_chunks(
+    sa_text_chunks = await _get_text_chunks(
         relevant_chunk_ids=satc_output.relevant_chunk_ids,
-        collection_name="satc",
+        collection_name=COLLECTION_NAME,
     )
 
     return {
