@@ -1,5 +1,6 @@
 import asyncio
-import aiohttp
+import httpx
+import stamina
 
 from tqdm import tqdm
 from parsel import Selector
@@ -15,6 +16,22 @@ from por.meta.schema import FileMetadata
 logger = get_logger(__name__)
 
 
+@stamina.retry(on=httpx.HTTPError, wait_initial=10, wait_max=60, attempts=10)
+async def _get_req(url: str) -> httpx.Response:
+    async with httpx.AsyncClient() as client:
+        resp = await client.get(url)
+        resp.raise_for_status()
+
+        return resp
+
+
+async def get_req(url: str) -> httpx.Response | None:
+    try:
+        return await _get_req(url)
+    except httpx.HTTPError:
+        return None
+
+
 class SATCLoader(TextLoader):
     def __init__(
         self,
@@ -28,12 +45,11 @@ class SATCLoader(TextLoader):
     @staticmethod
     @cache(redis_cache=RedisCache())
     async def get_script_urls(base_url: str) -> list[str]:
-        async with aiohttp.ClientSession() as session:
-            async with session.get(base_url) as resp:
-                resp.raise_for_status()
-                html = await resp.text()
 
-        selector = Selector(text=html)
+        data_req = await get_req(url=base_url)
+        assert data_req is not None
+
+        selector = Selector(text=data_req.text)
         return [
             f"https://subslikescript.com{href}"
             for href in selector.css("div.season a::attr(href)").getall()
@@ -42,12 +58,10 @@ class SATCLoader(TextLoader):
     @staticmethod
     @cache(redis_cache=RedisCache())
     async def get_script_(script_url: str) -> str:
-        async with aiohttp.ClientSession() as session:
-            async with session.get(script_url) as resp:
-                resp.raise_for_status()
-                html = await resp.text()
+        data_req = await get_req(url=script_url)
+        assert data_req is not None
 
-        selector = Selector(text=html)
+        selector = Selector(text=data_req.text)
         parts = selector.css("div.full-script ::text").getall()
 
         return " ".join(parts).strip()

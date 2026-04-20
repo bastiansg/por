@@ -147,6 +147,7 @@ async def get_lyrics_text_chunks() -> list[TextChunk]:
 
 
 async def main() -> None:
+    pass
     file_text_chunks = await get_file_text_chunks()
     logger.info(f"file_text_chunks: {len(file_text_chunks)}")
 

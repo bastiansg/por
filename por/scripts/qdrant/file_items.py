@@ -25,6 +25,7 @@ class FileItem(BaseModel):
 
 
 files = [
+    ########## Friedrich Nietzsche ##########
     {
         "source": "asi-hablo-zaratustra.pdf",
         "metadata": {
@@ -131,6 +132,43 @@ files = [
             "title": "Sobre verdad y mentira en sentido extramoral",
             "language": "Spanish",
             "author": "Friedrich Nietzsche",
+        },
+    },
+    ########## Astrology ##########
+    {
+        "source": "sun-signs.epub",
+        "metadata": {
+            "collection": "astrology",
+            "title": "Sun Signs",
+            "language": "English",
+            "author": "Linda Goodman",
+        },
+    },
+    {
+        "source": "love-signs.epub",
+        "metadata": {
+            "collection": "astrology",
+            "title": "Love Signs",
+            "language": "English",
+            "author": "Linda Goodman",
+        },
+    },
+    {
+        "source": "ascendentes.pdf",
+        "metadata": {
+            "collection": "astrology",
+            "title": "Ascendentes",
+            "language": "Spanish",
+            "author": "Eugenio Carutti",
+        },
+    },
+    {
+        "source": "lunas.pdf",
+        "metadata": {
+            "collection": "astrology",
+            "title": "Lunas",
+            "language": "Spanish",
+            "author": "Eugenio Carutti",
         },
     },
 ]
