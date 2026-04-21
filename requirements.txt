@@ -27,6 +27,6 @@ hailo_apps==1.0.26
 sensehat_dsp==1.0.25
 
 # Aureka packages
-multi_agents==1.1.16
+multi_agents==1.1.17
 llm_agents==1.1.32
 rage==1.1.4

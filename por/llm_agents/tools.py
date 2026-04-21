@@ -34,7 +34,7 @@ async def philosophy_search(
         ),
     ],
 ) -> list[TextChunk]:
-    """Run a hybrid search across philosophy sources."""
+    """Run a hybrid search across Philosophy sources."""
 
     return await hybrid_search(
         query=query,
@@ -50,7 +50,7 @@ async def satc_search(
         ),
     ],
 ) -> list[TextChunk]:
-    """Run a hybrid search across Sex and the City scripts."""
+    """Run a hybrid search across `Sex and the City` scripts."""
 
     return await hybrid_search(
         query=query,
@@ -64,7 +64,7 @@ async def astrology_search(
         Field(description="The query to search for relevant text chunks."),
     ],
 ) -> list[TextChunk]:
-    """Run a hybrid search across astrology sources."""
+    """Run a hybrid search across Astrology sources."""
 
     return await hybrid_search(
         query=query,
@@ -86,7 +86,7 @@ async def lyrics_search(
         Field(description="The language of the input query."),
     ],
 ) -> list[TextChunk]:
-    """Run a hybrid search across lyrics sources."""
+    """Run a hybrid search across Lyrics sources."""
 
     search_filter = models.Filter(
         must=[
@@ -133,22 +133,22 @@ async def get_text_chunks(
 
 philosophy_search_tool = Tool(
     function=philosophy_search,
-    description="Run a hybrid search across philosophy sources.",
+    description="Run a hybrid search across Philosophy sources.",
 )
 
 satc_search_tool = Tool(
     function=satc_search,
-    description="Run a hybrid search across Nietzsche sources.",
+    description="Run a hybrid search across `Sex and the City` scripts.",
 )
 
 astrology_search_tool = Tool(
     function=astrology_search,
-    description="Run a hybrid search across astrology sources.",
+    description="Run a hybrid search across Astrology sources.",
 )
 
 lyrics_search_tool = Tool(
     function=lyrics_search,
-    description="Run a hybrid search across lyrics sources.",
+    description="Run a hybrid search across Lyrics sources.",
 )
 
 get_text_chunks_tool = Tool(

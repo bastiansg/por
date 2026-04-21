@@ -104,14 +104,29 @@ def main_pipeline(
         state=state,
     )
 
+    nietzsche_advise = state.nietzsche_advise
+    astrology_advice = state.astrology_advice
+
+    header = (
+        "$$ Lo que dicen que Nietzsche dijo:"
+        if nietzsche_advise is not None
+        else "$$ Lo que dicen los astros:"
+    )
+
+    message = (
+        nietzsche_advise if nietzsche_advise is not None else astrology_advice
+    )
+
     printer.set(bold=True, align="left")
     printer.set(bold=True)
-    printer.block_text("$$ Lo que dicen que Nietzsche dijo:")
+    printer.block_text(header)
     printer.text("\n")
     printer.set(bold=False)
 
-    printer.block_text(state.nietzsche_advise)
+    printer.block_text(message)
     printer.text("\n\n")
+
+    #################################################################
 
     printer.set(bold=True, align="left")
     printer.set(bold=True)
@@ -121,6 +136,8 @@ def main_pipeline(
 
     printer.block_text(state.satc_advice)
     printer.text("\n\n")
+
+    #################################################################
 
     printer.set(bold=True, align="left")
     printer.set(bold=True)
@@ -144,6 +161,8 @@ def main_pipeline(
     )
 
     printer.text("\n\n")
+    printer.text("------------------------------------------------")
+    printer.text("\n")
     printer.text("------------------------------------------------")
     printer.text("\n\n")
 

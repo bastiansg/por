@@ -2,7 +2,7 @@ from .edges import (  # noqa
     idle_state_recorder,
     recorder_conditional,
     image_prompter_edges,
-    image_describer_microphone_remove,
+    image_describer_microphone_remover,
     image_prompter_image_generator,
     audio_transcriber_language_detector,
     audio_transcriber_astrology_placements_extractor,

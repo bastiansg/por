@@ -88,7 +88,7 @@ image_prompter_edges = SimpleEdge(
     target="image_prompter",
 )
 
-image_describer_microphone_remove = SimpleEdge(
+image_describer_microphone_remover = SimpleEdge(
     source="image_describer",
     target="microphone_remover",
 )
