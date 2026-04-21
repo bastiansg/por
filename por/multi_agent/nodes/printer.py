@@ -135,15 +135,6 @@ def main_pipeline(
 
     printer.text("\n\n")
 
-    # printer.set(bold=True, align="left")
-    # printer.set(bold=True)
-    # printer.block_text("$$ El plan de Maquiavelo:")
-    # printer.text("\n")
-    # printer.set(bold=False)
-
-    # printer.block_text(state.machiavelli_advice)
-    # printer.text("\n\n")
-
     printer.text("------------------------------------------------")
     printer.text("\n\n")
 

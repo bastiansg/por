@@ -4,16 +4,16 @@ from pydantic import BaseModel, StrictStr, Field
 from llm_agents.meta.interfaces import LLMAgent
 
 from por.llm_agents import image_prompter
-from por.meta.schema import PhysicalDescription, ClothingDescription
-
-from ..psychological_describer.psychological_describer import (
-    PsychologicalDescriberOutput,
+from por.meta.schema import (
+    PhysicalDescription,
+    ClothingDescription,
+    PsychologicalProfile,
 )
 
 
 class ImagePrompterDeps(BaseModel):
     question: StrictStr
-    psychological_profile: PsychologicalDescriberOutput
+    psychological_profile: PsychologicalProfile
     physical_description: PhysicalDescription
     clothing_description: ClothingDescription
 

@@ -12,7 +12,7 @@ instructions_template: |-
     # Instructions
     ## Search Strategy
     - Use `{search_tool}` to find relevant chunks.
-    - Use `_get_text_chunks` to retrieve neighboring chunks (via `previous_chunk_id` and `next_chunk_id`) for additional context.
+    - Use `get_text_chunks` to retrieve neighboring chunks (via `previous_chunk_id` and `next_chunk_id`) for additional context.
 
     ## Search Constraints
     - **ALWAYS** perform `{search_tool}` in **ALL** of the following languages: {search_languages}

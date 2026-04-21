@@ -18,8 +18,13 @@ from pydantic import (
     field_validator,
 )
 
-from por.meta.schema import TextChunk, Song
-from por.llm_agents import ImageDescriberOutput, PsychologicalDescriberOutput
+from por.llm_agents import ImageDescriberOutput
+from por.meta.schema import (
+    TextChunk,
+    Song,
+    AstrologyPlacements,
+    PsychologicalProfile,
+)
 
 
 class GolColors(BaseModel):
@@ -77,12 +82,15 @@ class StateSchema(BaseModel):
     recorder_ok: StrictBool = False
     audio_transcription: StrictStr | None = None
     detected_language: LanguageName | None = None
+    astrology_placements: AstrologyPlacements | None = None
     message_accepted: StrictBool | None = None
     rejection_reason: StrictStr | None = None
     image_description: ImageDescriberOutput | None = None
-    psychological_profile: PsychologicalDescriberOutput | None = None
+    psychological_profile: PsychologicalProfile | None = None
     nietzsche_advise: StrictStr | None = None
     nietzsche_text_chunks: list[TextChunk] = []
+    astrology_advice: StrictStr | None = None
+    astrology_text_chunks: list[TextChunk] = []
     satc_advice: StrictStr | None = None
     satc_text_chunks: list[TextChunk] = []
     song: Song | None = None

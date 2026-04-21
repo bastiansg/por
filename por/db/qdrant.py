@@ -67,7 +67,7 @@ async def hybrid_search(
     return [TextChunk(**r.model_dump()) for r in results]
 
 
-async def get_text_chunks(
+async def _get_text_chunks(
     collection_name: str,
     key: str,
     values: list[str],
@@ -89,24 +89,3 @@ async def get_text_chunks(
     )
 
     return results
-
-
-# async def get_text_chunk_from_collections(
-#     key: str,
-#     value: str | int,
-# ) -> Record | None:
-#     collections = await retriever.qadrant_async_client.get_collections()
-#     collections_names = [c.name for c in collections.collections]
-
-#     for collection_name in collections_names:
-#         record = await get_text_chunk(
-#             collection_name=collection_name,
-#             key=key,
-#             value=value,
-#         )
-
-#         if record is not None:
-#             return record
-
-#     k_v = {"key": key, "value": value}
-#     logger.error(f"no results found for: {k_v}")

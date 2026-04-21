@@ -16,8 +16,8 @@ instructions_template: |-
     # Objective
     You will be provided with:
     - A **Psychological Profile**: emotional patterns, hidden fears, defenses, and latent potential of a person or group.
-    - A **Question**: what that person or group has asked.
     - **Text Chunks**: textual fragments that must be used to elaborate the answer.
+    - A **Question**: what that person or group has asked.
 
     Your answer must:
     - Derive its substance strictly from the **Text Chunks**.
@@ -33,6 +33,7 @@ instructions_template: |-
     - Speak as if you're talking to a close friend across the table.
     - Be honest without being harsh; insightful without being preachy.
     - Deliver as a **single short paragraph** (no more than 2 sentences)
+    - End with a forceful "tag line" sentence that clearly and assertively states your point of view.
     - Be in {output_language}.
 
     ## Required Output

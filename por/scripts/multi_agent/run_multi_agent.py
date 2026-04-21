@@ -28,7 +28,9 @@ TEST_IMAGE_PATH = (
 )
 
 TEST_QURESTIONS = [
-    "Es muy tarde para dedicarme al arte? tengo 36 Años y nuca lo hice antes"
+    # "Es muy tarde para dedicarme al arte? tengo 36 Años y nuca lo hice antes",
+    # "Es muy tarde para dedicarme al arte? tengo 36 Años y nuca lo hice antes, soy de Géminis.",
+    "Es muy tarde para dedicarme al arte? tengo 36 Años y nuca lo hice antes, soy de Géminis ascendente en Acuario y luna en Virgo.",
 ]
 
 
@@ -60,6 +62,10 @@ async def main() -> None:
             "nietzsche_advise": state.nietzsche_advise,
             "nietzsche_text_chunks": [
                 tc.model_dump() for tc in state.nietzsche_text_chunks
+            ],
+            "astrology_advice": state.astrology_advice,
+            "astrology_text_chunks": [
+                tc.model_dump() for tc in state.astrology_text_chunks
             ],
             "satc_advice": state.satc_advice,
             "satc_text_chunks": [

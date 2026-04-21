@@ -3,11 +3,11 @@ from typing import Any
 from multi_agents.graph import Node
 from common.logger import get_logger
 
+from por.llm_agents.tools import astrology_search_tool, get_text_chunks_tool
 from por.multi_agent.schema import StateSchema
-from por.llm_agents.tools import lyrics_search_tool, get_text_chunks_tool
 from por.llm_agents import (
-    LyricsAdvisor,
-    LyricsAdvisorDeps,
+    AstrologyAdvisor,
+    AstrologyAdvisorDeps,
     RetrievalAssistant,
     RetrievalAssistantDeps,
 )
@@ -18,11 +18,23 @@ from .utils import get_relevant_text_chunks
 logger = get_logger(__name__)
 
 
-COLLECTION_NAME = "lyrics"
+COLLECTION_NAME = "astrology"
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
-    logger.info("running lyrics_advisor...")
+    astrology_placements = state.astrology_placements
+    assert astrology_placements is not None
+
+    if all(
+        [
+            astrology_placements.sun is None,
+            astrology_placements.rising is None,
+            astrology_placements.moon is None,
+        ]
+    ):
+        return {}
+
+    logger.info("runing astrology_advisor...")
 
     psychological_profile = state.psychological_profile
     audio_transcription = state.audio_transcription
@@ -35,8 +47,8 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     ra = RetrievalAssistant(
         tools=[
-            lyrics_search_tool,
-            get_text_chunks_tool,  # type:ignore
+            astrology_search_tool,
+            get_text_chunks_tool,  # type: ignore
         ]
     )
 
@@ -44,7 +56,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     ra_output = await ra.generate(
         user_prompt=question_text,
         agent_deps=RetrievalAssistantDeps(
-            search_tool="lyrics_search",
+            search_tool="astrology_search",
             search_languages=["English", "Spanish"],  # type: ignore
             collection_name=COLLECTION_NAME,
         ),
@@ -55,24 +67,29 @@ async def run(state: StateSchema) -> dict[str, Any]:
         collection_name=COLLECTION_NAME,
     )
 
-    la = LyricsAdvisor()
-    la_output = await la.generate(
+    aa = AstrologyAdvisor()
+    astrology_output = await aa.generate(
         user_prompt=question_text,
-        agent_deps=LyricsAdvisorDeps(
+        agent_deps=AstrologyAdvisorDeps(
+            astrology_placements=astrology_placements,
             psychological_profile=psychological_profile,
             text_chunks=ra_text_chunks,
             output_language=detected_language,
         ),
     )
 
+    astrology_text_chunks = await get_relevant_text_chunks(
+        relevant_chunk_ids=astrology_output.relevant_chunk_ids,
+        collection_name=COLLECTION_NAME,
+    )
+
     return {
-        "song": la_output.song,
-        "lyrics_advise": la_output.reason,
-        "lyrics_text_chunks": ra_text_chunks,
+        "astrology_advice": astrology_output.answer,
+        "astrology_text_chunks": astrology_text_chunks,
     }
 
 
-lyrics_advisor = Node(
-    name="lyrics_advisor",
+astrology_advisor = Node(
+    name="astrology_advisor",
     run=run,
 )

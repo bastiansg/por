@@ -12,7 +12,7 @@ from por.llm_agents import (
     RetrievalAssistantDeps,
 )
 
-from .utils import _get_text_chunks
+from .utils import get_relevant_text_chunks
 
 
 logger = get_logger(__name__)
@@ -50,7 +50,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
         ),
     )
 
-    ra_text_chunks = await _get_text_chunks(
+    ra_text_chunks = await get_relevant_text_chunks(
         relevant_chunk_ids=ra_output.relevant_chunk_ids,
         collection_name=COLLECTION_NAME,
     )
@@ -65,7 +65,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
         ),
     )
 
-    sa_text_chunks = await _get_text_chunks(
+    sa_text_chunks = await get_relevant_text_chunks(
         relevant_chunk_ids=satc_output.relevant_chunk_ids,
         collection_name=COLLECTION_NAME,
     )

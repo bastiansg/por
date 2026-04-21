@@ -6,15 +6,11 @@ from pydantic_extra_types.language_code import LanguageName
 from llm_agents.meta.interfaces import LLMAgent
 
 from por.llm_agents import lyrics_advisor
-from por.meta.schema import TextChunk, Song
-
-from ..psychological_describer.psychological_describer import (
-    PsychologicalDescriberOutput,
-)
+from por.meta.schema import TextChunk, Song, PsychologicalProfile
 
 
 class LyricsAdvisorDeps(BaseModel):
-    psychological_profile: PsychologicalDescriberOutput
+    psychological_profile: PsychologicalProfile
     text_chunks: list[TextChunk]
     output_language: LanguageName
 

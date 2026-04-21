@@ -1,12 +1,14 @@
 from .idle_state import idle_state  # noqa
 from .recorder import recorder  # noqa
 from .audio_transcriber import audio_transcriber  # noqa
+from .astrology_placements_extractor import astrology_placements_extractor  # noqa
 from .gatekeeper import gatekeeper  # noqa
 from .validation_checkpoint import validation_checkpoint  # noqa
 from .language_detector import language_detector  # noqa
 from .image_describer import image_describer  # noqa
 from .microphone_remove import microphone_remove  # noqa
 from .psychological_describer import psychological_describer  # noqa
+from .astrology_advisor import astrology_advisor  # noqa
 from .image_prompter import image_prompter  # noqa
 from .lyrics_advisor import lyrics_advisor  # noqa
 from .nietzsche_advisor import nietzsche_advisor  # noqa

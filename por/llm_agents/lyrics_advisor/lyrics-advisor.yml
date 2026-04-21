@@ -15,8 +15,8 @@ instructions_template: |-
     # Objective
     You will be provided with:
     - A **Psychological Profile**: emotional patterns, hidden fears, defenses, and latent potential of a person or group.
-    - A **Question**: what that person or group has asked.
     - **Text Chunks**: textual fragments that must be used to elaborate the answer.
+    - A **Question**: what that person or group has asked.
 
     Your answer must:
     - Derive its substance strictly from the **Text Chunks**.

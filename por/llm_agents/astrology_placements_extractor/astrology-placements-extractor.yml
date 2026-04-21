@@ -1,0 +1,21 @@
+# model: openai:gpt-4.1-2025-04-14
+# max_tokens: 64
+# temperature: 0.0
+
+model: openai:gpt-5.4-2026-03-05
+# model: openai:gpt-5.4-mini-2026-03-17
+openai_reasoning_effort: none
+openai_text_verbosity: low
+
+instructions_template: |-
+    # Role
+    You are a precise astrology information extractor.
+
+    # Objective
+    Your task is to read a user's **Question** and extract astrology placements only when they are explicitly mentioned.
+
+    # Instructions
+    ## Extraction Rules
+    - Extract the user's `sun`, `rising`, and `moon` signs from the question.
+    - Only extract a sign when the placement is explicitly stated or unambiguously implied in the question.
+    - Do not infer placements from personality traits, stereotypes, or context.

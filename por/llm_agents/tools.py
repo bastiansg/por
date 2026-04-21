@@ -12,7 +12,7 @@ from rage.utils.embeddings import get_openai_embeddings
 from por.meta.schema import TextChunk
 from por.db.qdrant import (
     hybrid_search,
-    get_text_chunks,
+    _get_text_chunks,
 )
 
 
@@ -58,6 +58,20 @@ async def satc_search(
     )
 
 
+async def astrology_search(
+    query: Annotated[
+        str,
+        Field(description="The query to search for relevant text chunks."),
+    ],
+) -> list[TextChunk]:
+    """Run a hybrid search across astrology sources."""
+
+    return await hybrid_search(
+        query=query,
+        collection_name="astrology",
+    )
+
+
 async def lyrics_search(
     query: Annotated[
         str,
@@ -90,7 +104,7 @@ async def lyrics_search(
     )
 
 
-async def _get_text_chunks(
+async def get_text_chunks(
     ctx: RunContext,
     chunk_ids: Annotated[
         list[str],
@@ -102,7 +116,7 @@ async def _get_text_chunks(
     deps = ctx.deps
     assert deps is not None
 
-    records = await get_text_chunks(
+    records = await _get_text_chunks(
         collection_name=deps.collection_name,
         key="chunk_id",
         values=chunk_ids,
@@ -127,12 +141,17 @@ satc_search_tool = Tool(
     description="Run a hybrid search across Nietzsche sources.",
 )
 
+astrology_search_tool = Tool(
+    function=astrology_search,
+    description="Run a hybrid search across astrology sources.",
+)
+
 lyrics_search_tool = Tool(
     function=lyrics_search,
     description="Run a hybrid search across lyrics sources.",
 )
 
 get_text_chunks_tool = Tool(
-    function=_get_text_chunks,
+    function=get_text_chunks,
     description="Retrieve specific text chunks using their `chunk_id`s.",
 )

@@ -15,7 +15,6 @@ from .microphone_remover.microphone_remover import (  # noqa
 from .psychological_describer.psychological_describer import (  # noqa
     PsychologicalDescriber,
     PsychologicalDescriberDeps,
-    PsychologicalDescriberOutput,
 )
 
 from .nietzsche_advisor.nietzsche_advisor import (  # noqa
@@ -34,6 +33,16 @@ from .satc_advisor.satc_advisor import (  # noqa
     SATCAdvisor,
     SATCAdvisorDeps,
     SATCAdvisorOutput,
+)
+
+from .astrology_advisor.astrology_advisor import (  # noqa
+    AstrologyAdvisor,
+    AstrologyAdvisorDeps,
+    AstrologyAdvisorOutput,
+)
+
+from .astrology_placements_extractor.astrology_placements_extractor import (  # noqa
+    AstrologyPlacementsExtractor,
 )
 
 from .retrieval_assistant.retrieval_assistant import (  # noqa

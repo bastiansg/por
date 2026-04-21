@@ -12,7 +12,7 @@ from por.llm_agents import (
     RetrievalAssistantDeps,
 )
 
-from .utils import _get_text_chunks
+from .utils import get_relevant_text_chunks
 
 
 logger = get_logger(__name__)
@@ -22,6 +22,18 @@ COLLECTION_NAME = "philosophy"
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
+    astrology_placements = state.astrology_placements
+    assert astrology_placements is not None
+
+    if any(
+        [
+            astrology_placements.sun is not None,
+            astrology_placements.rising is not None,
+            astrology_placements.moon is not None,
+        ]
+    ):
+        return {}
+
     logger.info("runing nietzsche_advisor...")
 
     psychological_profile = state.psychological_profile
@@ -50,7 +62,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
         ),
     )
 
-    ra_text_chunks = await _get_text_chunks(
+    ra_text_chunks = await get_relevant_text_chunks(
         relevant_chunk_ids=ra_output.relevant_chunk_ids,
         collection_name=COLLECTION_NAME,
     )
@@ -65,7 +77,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
         ),
     )
 
-    na_text_chunks = await _get_text_chunks(
+    na_text_chunks = await get_relevant_text_chunks(
         relevant_chunk_ids=na_output.relevant_chunk_ids,
         collection_name=COLLECTION_NAME,
     )
