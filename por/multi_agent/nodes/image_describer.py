@@ -6,7 +6,7 @@ from pydantic_ai import BinaryContent
 from multi_agents.graph import Node
 from common.logger import get_logger
 
-from por.llm_agents import ImageDescriber
+from por.llm_agents import ImageDescriber, MicrophoneRemover
 from por.multi_agent.schema import StateSchema, ContextSchema
 
 
@@ -31,8 +31,14 @@ async def run(state: StateSchema) -> dict[str, Any]:
             ),
         )
 
+    microphone_remover = MicrophoneRemover()
+    microphone_removed_output = await microphone_remover.generate(
+        user_prompt="Remove microphone, cable, and held-object references from this image description.",
+        agent_deps=image_describer_output,
+    )
+
     return {
-        "image_description": image_describer_output,
+        "image_description": microphone_removed_output,
     }
 
 

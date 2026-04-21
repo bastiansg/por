@@ -80,21 +80,11 @@ psychological_describer_satc_advisor = SimpleEdge(
     target="satc_advisor",
 )
 
-image_prompter_edges = SimpleEdge(
+image_prompter_image_generator = SimpleEdge(
     source=[
-        "microphone_remover",
+        "image_describer",
         "psychological_describer",
     ],
-    target="image_prompter",
-)
-
-image_describer_microphone_remover = SimpleEdge(
-    source="image_describer",
-    target="microphone_remover",
-)
-
-image_prompter_image_generator = SimpleEdge(
-    source="image_prompter",
     target="image_generator",
 )
 

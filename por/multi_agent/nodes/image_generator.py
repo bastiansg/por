@@ -10,6 +10,7 @@ from openai import AsyncOpenAI
 from multi_agents.graph import Node
 from common.logger import get_logger
 from por.multi_agent.schema import StateSchema, ContextSchema
+from por.llm_agents import ImagePrompter, ImagePrompterDeps
 
 from .utils import get_sensehat_dsp, get_dsp_images
 
@@ -26,18 +27,36 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     logger.info("runing image_generator...")
 
+    image_extension = runtime_context.image_extension
+    audio_transcription = state.audio_transcription
+    assert audio_transcription is not None
+
+    psychological_profile = state.psychological_profile
+    assert psychological_profile is not None
+
+    image_description = state.image_description
+    assert image_description is not None
+
+    ip = ImagePrompter()
+    ip_output = await ip.generate(
+        user_prompt="Provide your surreal image-generation prompt.",
+        agent_deps=ImagePrompterDeps(
+            question=audio_transcription,
+            psychological_profile=psychological_profile,
+            physical_description=image_description.physical_description,
+            clothing_description=image_description.clothing_description,
+        ),
+    )
+
+    image_generation_prompt = ip_output.flux_prompt
+    client = AsyncOpenAI()
+
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.stop()
     sensehat_dsp.clear()
 
     dsp_images = get_dsp_images()
     sensehat_dsp.start_color_cycle(dsp_images["si-07"])
-
-    image_extension = runtime_context.image_extension
-    image_generation_prompt = state.image_generation_prompt
-    assert image_generation_prompt is not None
-
-    client = AsyncOpenAI()
 
     try:
         response = await client.images.generate(
