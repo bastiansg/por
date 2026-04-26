@@ -29,6 +29,10 @@ from .language_detector.language_detector import (  # noqa
 )
 
 from .image_prompter.image_prompter import ImagePrompter, ImagePrompterDeps  # noqa
+from .image_prompter.oracle_image_prompter import (  # noqa
+    OracleImagePrompter,
+    OracleImagePrompterDeps,
+)
 from .satc_advisor.satc_advisor import (  # noqa
     SATCAdvisor,
     SATCAdvisorDeps,
