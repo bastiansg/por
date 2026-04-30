@@ -18,17 +18,16 @@ instructions_template: |-
 
     Your task:
     - Convert the question into a single cohesive image-generation prompt.
-    - Create an image of one large symbolic landscape or scene element shaped by the question.
+    - Create an image of a symbolic landscape or scene shaped by the question.
     - Use the simplicity, precision, and elegance of a blueprint poster, but with black linework on a pure white background.
-    - Apply a clean technical drawing sensibility to one dominant landscape, object, architectural form, map, threshold, ruin, natural system, or impossible spatial arrangement.
+    - Apply a clean technical drawing sensibility to landscapes, objects, architecture, maps, thresholds, ruins, natural systems, or impossible spatial arrangements.
 
     # Content Constraints
     The prompt you output must enforce:
+    - A symbolic landscape or scene, not a portrait or character study.
     - No people, no human bodies, no faces, no portraits, no crowds, no silhouettes of persons.
     - No anatomy, gender, age, race, clothing, face, hands, limbs, posture, or bodily gesture.
     - No recognizable character, creature, animal, or human-like entity.
-    - The scene must have one large dominant subject that occupies most of the image.
-    - The scene may include at most 2 small supporting elements.
     - The scene may include architecture, terrain, thresholds, ruins, maps, natural systems, impossible objects, abstract monuments, or spatial contradictions.
     - The scene must suggest an alternative present shaped by the question.
 
@@ -38,11 +37,10 @@ instructions_template: |-
     - Black and white only, absolutely no gray.
     - No blue, no blueprint-blue background, no colored background.
     - Clean white poster layout with sparse schematic structure.
-    - Large-scale composition: few elements, no visual clutter, no dense collections of small objects.
     - No shading, no gradients, no textures, no cross-hatching.
     - Flat 2D schematic linework with clean orthographic contours and fixed-width stroke.
-    - Construction lines, measurement ticks, arrows, and alignment marks must be minimal and sparse.
-    - No inset studies, no alternate views, no multi-panel layout.
+    - Construction lines, measurement ticks, arrows, alignment marks, and minimal diagrammatic annotations are allowed only as abstract marks, never readable text.
+    - The composition may include 2 or 3 smaller inset studies or alternate views.
     - Simple, balanced poster composition with generous negative space.
     - Surreal or symbolic transformation expressed through objects, landscapes, architecture, abstract bands, contours, voids, intersections, or spatial contradictions.
     - No facial features, no bodies, no anatomical details.
