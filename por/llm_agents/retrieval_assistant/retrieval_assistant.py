@@ -1,9 +1,11 @@
-from pydantic_ai import Tool, ToolOutput
+from pathlib import Path
+
+from pydantic_ai import Agent, RunContext, Tool, ToolOutput
 from pydantic import BaseModel, StrictStr, Field
 from pydantic_extra_types.language_code import LanguageName
+from pydantic_ai.models.openai import OpenAIChatModelSettings
 
 from llm_agents.meta.interfaces import LLMAgent
-from por.llm_agents import retrieval_assistant
 
 from ..utils import hide_tools_after_limit, tool_logging_handler
 
@@ -21,23 +23,43 @@ class RetrievalAssistantOutput(BaseModel):
     )
 
 
+def get_agent(
+    tools: list[Tool] = [],
+) -> Agent[
+    RetrievalAssistantDeps,
+    RetrievalAssistantOutput,
+]:
+
+    agent = Agent(  # type: ignore
+        # model="gpt-5.4-2026-03-05",
+        model="gpt-5.4-2026-03-05",
+        model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
+        system_prompt=LLMAgent.read_file(
+            file_path=str(Path(__file__).with_name("system-prompt.md"))
+        ),
+        deps_type=RetrievalAssistantDeps,
+        output_type=ToolOutput(RetrievalAssistantOutput),
+        retries=3,
+        hide_tools_after_limit=hide_tools_after_limit,
+        tool_logging_handler=tool_logging_handler,
+    )
+
+    @agent.system_prompt  # type: ignore
+    async def get_system_prompt(ctx: RunContext[RetrievalAssistantDeps]) -> str:
+        system_prompt = LLMAgent.read_file(
+            file_path=str(Path(__file__).with_name("system-prompt.md"))
+        )
+
+        return system_prompt.format(**ctx.deps.model_dump())
+
+    return agent  # type: ignore
+
+
 class RetrievalAssistant(
     LLMAgent[RetrievalAssistantDeps, RetrievalAssistantOutput]
 ):
-    def __init__(
-        self,
-        conf_path=f"{retrieval_assistant.__path__[0]}/retrieval-assistant.yml",
-        max_concurrency: int = 10,
-        retries: int = 3,
-        tools: list[Tool] = [],
-    ):
+    def __init__(self, max_concurrency: int = 10, tools: list[Tool] = []):
         super().__init__(
-            conf_path=conf_path,
-            deps_type=RetrievalAssistantDeps,
-            output_type=ToolOutput(RetrievalAssistantOutput),  # type: ignore
+            agent=get_agent(tools=tools),
             max_concurrency=max_concurrency,
-            retries=retries,
-            prepare_tools=hide_tools_after_limit,
-            tools=tools,
-            event_stream_handler=tool_logging_handler,  # type: ignore
         )

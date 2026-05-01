@@ -29,6 +29,13 @@ agent = Agent(  # type: ignore
 )
 
 
+@agent.system_prompt
+async def get_system_prompt() -> str:
+    return LLMAgent.read_file(
+        file_path=str(Path(__file__).with_name("system-prompt.md"))
+    )
+
+
 class LyricsValidator(LLMAgent[None, LyricsValidatorOutput]):
     def __init__(self, max_concurrency: int = 10):
         super().__init__(agent=agent, max_concurrency=max_concurrency)

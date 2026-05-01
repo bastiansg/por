@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pydantic_ai import Agent, NativeOutput
+from pydantic_ai import Agent, RunContext, NativeOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
 from pydantic import BaseModel, StrictStr, Field
 
@@ -37,6 +37,15 @@ agent = Agent(  # type: ignore
     output_type=NativeOutput(ImagePrompterOutput),
     retries=3,
 )
+
+
+@agent.system_prompt
+async def get_system_prompt(ctx: RunContext[ImagePrompterDeps]) -> str:
+    system_prompt = LLMAgent.read_file(
+        file_path=str(Path(__file__).with_name("system-prompt.md"))
+    )
+
+    return system_prompt.format(**ctx.deps.model_dump())
 
 
 class ImagePrompter(LLMAgent[ImagePrompterDeps, ImagePrompterOutput]):
