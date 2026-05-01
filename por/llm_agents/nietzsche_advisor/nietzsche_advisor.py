@@ -1,11 +1,13 @@
-from pydantic_ai import NativeOutput
+from pathlib import Path
+
+from pydantic_ai import Agent, NativeOutput
+from pydantic_ai.models.openai import OpenAIChatModelSettings
 
 from pydantic import BaseModel, StrictStr, Field
 from pydantic_extra_types.language_code import LanguageName
 
 from llm_agents.meta.interfaces import LLMAgent
 
-from por.llm_agents import nietzsche_advisor
 from por.meta.schema import TextChunk, PsychologicalProfile
 
 
@@ -27,16 +29,18 @@ class NietzscheAdvisorOutput(BaseModel):
     )
 
 
+agent = Agent(  # type: ignore
+    model="gpt-5.4-2026-03-05",
+    model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
+    system_prompt=LLMAgent.read_file(
+        file_path=str(Path(__file__).with_name("system-prompt.md"))
+    ),
+    deps_type=NietzscheAdvisorDeps,
+    output_type=NativeOutput(NietzscheAdvisorOutput),
+    retries=3,
+)
+
+
 class NietzscheAdvisor(LLMAgent[NietzscheAdvisorDeps, NietzscheAdvisorOutput]):
-    def __init__(
-        self,
-        conf_path=f"{nietzsche_advisor.__path__[0]}/nietzsche-advisor.yml",
-        max_concurrency: int = 10,
-    ):
-        super().__init__(
-            conf_path=conf_path,
-            deps_type=NietzscheAdvisorDeps,
-            output_type=NativeOutput(NietzscheAdvisorOutput),  # type: ignore
-            retries=3,
-            max_concurrency=max_concurrency,
-        )
+    def __init__(self, max_concurrency: int = 10):
+        super().__init__(agent=agent, max_concurrency=max_concurrency)

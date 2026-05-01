@@ -1,11 +1,13 @@
-from pydantic_ai import NativeOutput
+from pathlib import Path
+
+from pydantic_ai import Agent, NativeOutput
+from pydantic_ai.models.openai import OpenAIChatModelSettings
 
 from pydantic import BaseModel, StrictStr, Field
 from pydantic_extra_types.language_code import LanguageName
 
 from llm_agents.meta.interfaces import LLMAgent
 
-from por.llm_agents import lyrics_advisor
 from por.meta.schema import TextChunk, Song, PsychologicalProfile
 
 
@@ -26,16 +28,18 @@ class LyricsAdvisorOutput(BaseModel):
     )
 
 
+agent = Agent(  # type: ignore
+    model="gpt-5.4-2026-03-05",
+    model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
+    system_prompt=LLMAgent.read_file(
+        file_path=str(Path(__file__).with_name("system-prompt.md"))
+    ),
+    deps_type=LyricsAdvisorDeps,
+    output_type=NativeOutput(LyricsAdvisorOutput),
+    retries=3,
+)
+
+
 class LyricsAdvisor(LLMAgent[LyricsAdvisorDeps, LyricsAdvisorOutput]):
-    def __init__(
-        self,
-        conf_path=f"{lyrics_advisor.__path__[0]}/lyrics-advisor.yml",
-        max_concurrency: int = 10,
-    ):
-        super().__init__(
-            conf_path=conf_path,
-            deps_type=LyricsAdvisorDeps,
-            output_type=NativeOutput(LyricsAdvisorOutput),  # type: ignore
-            retries=3,
-            max_concurrency=max_concurrency,
-        )
+    def __init__(self, max_concurrency: int = 10):
+        super().__init__(agent=agent, max_concurrency=max_concurrency)

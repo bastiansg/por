@@ -1,10 +1,11 @@
-from pydantic_ai import NativeOutput
+from pathlib import Path
+
+from pydantic_ai import Agent, NativeOutput
+from pydantic_ai.models.openai import OpenAIChatModelSettings
 from pydantic import BaseModel, StrictStr, Field, StrictBool
 from pydantic_extra_types.language_code import LanguageName
 
 from llm_agents.meta.interfaces import LLMAgent
-
-from por.llm_agents import gatekeeper
 
 
 class GatekeeperDeps(BaseModel):
@@ -22,16 +23,18 @@ class GatekeeperOutput(BaseModel):
     )
 
 
+agent = Agent(  # type: ignore
+    model="gpt-5.4-mini-2026-03-17",
+    model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
+    system_prompt=LLMAgent.read_file(
+        file_path=str(Path(__file__).with_name("system-prompt.md"))
+    ),
+    deps_type=GatekeeperDeps,
+    output_type=NativeOutput(GatekeeperOutput),
+    retries=3,
+)
+
+
 class Gatekeeper(LLMAgent[GatekeeperDeps, GatekeeperOutput]):
-    def __init__(
-        self,
-        conf_path=f"{gatekeeper.__path__[0]}/gatekeeper.yml",
-        max_concurrency: int = 10,
-    ):
-        super().__init__(
-            conf_path=conf_path,
-            deps_type=GatekeeperDeps,
-            output_type=NativeOutput(GatekeeperOutput),  # type: ignore
-            retries=3,
-            max_concurrency=max_concurrency,
-        )
+    def __init__(self, max_concurrency: int = 10):
+        super().__init__(agent=agent, max_concurrency=max_concurrency)
