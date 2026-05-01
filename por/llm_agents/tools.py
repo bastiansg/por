@@ -1,13 +1,10 @@
 from typing import Annotated, Literal
 
-from pydantic import Field
-from qdrant_client import models
-from pydantic_ai import Tool, RunContext
-
 from rich.console import Console
+from qdrant_client import models
 
-from rage.retriever import Retriever
-from rage.utils.embeddings import get_openai_embeddings
+from pydantic import Field
+from pydantic_ai import Tool, RunContext
 
 from por.meta.schema import TextChunk
 from por.db.qdrant import (
@@ -23,18 +20,19 @@ SEARCH_TOP_K = 5
 SEARCH_SCORE_THRESHOLD = 0.3
 
 
-retriever = Retriever(dense_embeddings=get_openai_embeddings())
-
-
 async def philosophy_search(
     query: Annotated[
         str,
         Field(
-            description="The query in Spanish to search for relevant text chunks."
+            description="Spanish query to search for relevant philosophy text chunks."
         ),
     ],
 ) -> list[TextChunk]:
-    """Run a hybrid search across Philosophy sources."""
+    """Run a hybrid search across Philosophy sources.
+
+    Args:
+        query: Spanish query to search for relevant philosophy text chunks.
+    """
 
     return await hybrid_search(
         query=query,
@@ -46,11 +44,16 @@ async def satc_search(
     query: Annotated[
         str,
         Field(
-            description="The query in English to search for relevant text chunks."
+            description="English query to search for relevant Sex and the City text chunks."
         ),
     ],
 ) -> list[TextChunk]:
-    """Run a hybrid search across `Sex and the City` scripts."""
+    """Run a hybrid search across Sex and the City scripts.
+
+    Args:
+        query: English query to search for relevant Sex and the City text
+            chunks.
+    """
 
     return await hybrid_search(
         query=query,
@@ -61,10 +64,16 @@ async def satc_search(
 async def astrology_search(
     query: Annotated[
         str,
-        Field(description="The query to search for relevant text chunks."),
+        Field(
+            description="Query to search for relevant astrology text chunks."
+        ),
     ],
 ) -> list[TextChunk]:
-    """Run a hybrid search across Astrology sources."""
+    """Run a hybrid search across Astrology sources.
+
+    Args:
+        query: Query to search for relevant astrology text chunks.
+    """
 
     return await hybrid_search(
         query=query,
@@ -75,7 +84,7 @@ async def astrology_search(
 async def lyrics_search(
     query: Annotated[
         str,
-        Field(description="The query to search for relevant lyrics chunks."),
+        Field(description="Query to search for relevant lyrics text chunks."),
     ],
     query_language: Annotated[
         Literal[
@@ -83,10 +92,17 @@ async def lyrics_search(
             "Spanish",
             "French",
         ],
-        Field(description="The language of the input query."),
+        Field(
+            description="Language of the input query and matching lyrics chunks."
+        ),
     ],
 ) -> list[TextChunk]:
-    """Run a hybrid search across Lyrics sources."""
+    """Run a hybrid search across Lyrics sources.
+
+    Args:
+        query: Query to search for relevant lyrics text chunks.
+        query_language: Language of the input query and matching lyrics chunks.
+    """
 
     search_filter = models.Filter(
         must=[
@@ -108,10 +124,15 @@ async def get_text_chunks(
     ctx: RunContext,
     chunk_ids: Annotated[
         list[str],
-        Field(description="The `chunk_id`s of the chunks to retrieve."),
+        Field(description="chunk_id values of the text chunks to retrieve."),
     ],
 ) -> list[TextChunk]:
-    """Retrieve specific text chunks using their `chunk_id`s."""
+    """Retrieve specific text chunks using their chunk_id values.
+
+    Args:
+        ctx: Runtime context with collection dependencies.
+        chunk_ids: chunk_id values of the text chunks to retrieve.
+    """
 
     deps = ctx.deps
     assert deps is not None
@@ -133,25 +154,39 @@ async def get_text_chunks(
 
 philosophy_search_tool = Tool(
     function=philosophy_search,
-    description="Run a hybrid search across Philosophy sources.",
+    description=(
+        "Run a hybrid search across Philosophy sources using a Spanish query."
+    ),
+    docstring_format="google",
+    require_parameter_descriptions=True,
 )
 
 satc_search_tool = Tool(
     function=satc_search,
-    description="Run a hybrid search across `Sex and the City` scripts.",
+    description=(
+        "Run a hybrid search across Sex and the City scripts using an English query."
+    ),
+    docstring_format="google",
+    require_parameter_descriptions=True,
 )
 
 astrology_search_tool = Tool(
     function=astrology_search,
     description="Run a hybrid search across Astrology sources.",
+    docstring_format="google",
+    require_parameter_descriptions=True,
 )
 
 lyrics_search_tool = Tool(
     function=lyrics_search,
-    description="Run a hybrid search across Lyrics sources.",
+    description="Run a hybrid search across Lyrics sources by language.",
+    docstring_format="google",
+    require_parameter_descriptions=True,
 )
 
 get_text_chunks_tool = Tool(
     function=get_text_chunks,
-    description="Retrieve specific text chunks using their `chunk_id`s.",
+    description="Retrieve specific text chunks using their chunk_id values.",
+    docstring_format="google",
+    require_parameter_descriptions=True,
 )
