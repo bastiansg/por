@@ -23,7 +23,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     audio_buffer = state.audio_buffer
     assert audio_buffer is not None
 
-    audio_buffer.name = "audio.mp3"
+    audio_buffer.name = "audio.wav"
     client = AsyncOpenAI()
 
     transcription = await client.audio.transcriptions.create(

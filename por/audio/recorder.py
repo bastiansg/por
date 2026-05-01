@@ -1,8 +1,8 @@
 import time
 import torch
-import torchaudio
 
 import numpy as np
+import soundfile as sf
 import sounddevice as sd
 
 from io import BytesIO
@@ -60,11 +60,12 @@ class AudioRecorder:
             return
 
         audio_np = np.concatenate(self.frames, axis=0).flatten()
-        waveform = torch.from_numpy(audio_np).unsqueeze(0)
+        waveform = torch.from_numpy(audio_np).clamp(-1.0, 1.0)
 
-        torchaudio.save(
-            file,  # type: ignore
-            waveform,
+        sf.write(
+            file,
+            waveform.numpy(),
             self.sample_rate,
-            format="mp3",
+            format="WAV",
+            subtype="PCM_16",
         )

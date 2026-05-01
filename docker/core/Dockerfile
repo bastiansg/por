@@ -37,6 +37,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
     hailo-all \
     pandoc \
     libportaudio2 \
+    libsndfile1 \
     && apt-get autoremove -y \
     && apt-get clean \
     && rm -rf /var/tmp/* /var/lib/apt/lists/*
@@ -51,9 +52,10 @@ COPY --from=uv_source /uv /uvx /bin/
 
 WORKDIR /tmp
 
-COPY uv.toml .
-COPY ./requirements.txt requirements.txt
-RUN --mount=type=cache,target=/root/.cache uv pip install -r requirements.txt
+COPY uv.toml uv.toml
+COPY requirements.txt requirements.txt
+RUN --mount=type=cache,target=/root/.cache \
+    uv pip install -r requirements.txt
 
 ARG DEGIRUM_CLOUD_TOKEN
 RUN degirum token install "$DEGIRUM_CLOUD_TOKEN"

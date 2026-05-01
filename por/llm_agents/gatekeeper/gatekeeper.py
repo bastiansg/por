@@ -24,6 +24,7 @@ class GatekeeperOutput(BaseModel):
 
 
 agent = Agent(  # type: ignore
+    name="gatekeeper",
     model="gpt-5.4-mini-2026-03-17",
     model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
     system_prompt=LLMAgent.read_file(

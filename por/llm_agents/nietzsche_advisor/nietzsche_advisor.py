@@ -30,6 +30,7 @@ class NietzscheAdvisorOutput(BaseModel):
 
 
 agent = Agent(  # type: ignore
+    name="nietzsche-advisor",
     model="gpt-5.4-2026-03-05",
     model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
     system_prompt=LLMAgent.read_file(

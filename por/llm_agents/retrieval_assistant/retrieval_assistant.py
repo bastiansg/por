@@ -3,7 +3,6 @@ from pathlib import Path
 from pydantic_ai import Agent, RunContext, Tool, ToolOutput
 from pydantic import BaseModel, StrictStr, Field
 from pydantic_extra_types.language_code import LanguageName
-from pydantic_ai.models.openai import OpenAIChatModelSettings
 
 from llm_agents.meta.interfaces import LLMAgent
 
@@ -32,16 +31,17 @@ def get_agent(
 
     agent = Agent(  # type: ignore
         # model="gpt-5.4-2026-03-05",
+        name="retrieval-assistant",
         model="gpt-5.4-2026-03-05",
-        model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
         system_prompt=LLMAgent.read_file(
             file_path=str(Path(__file__).with_name("system-prompt.md"))
         ),
         deps_type=RetrievalAssistantDeps,
         output_type=ToolOutput(RetrievalAssistantOutput),
         retries=3,
-        hide_tools_after_limit=hide_tools_after_limit,
-        tool_logging_handler=tool_logging_handler,
+        tools=tools,
+        prepare_tools=hide_tools_after_limit,  # type: ignore
+        event_stream_handler=tool_logging_handler,  # type: ignore
     )
 
     @agent.system_prompt  # type: ignore
