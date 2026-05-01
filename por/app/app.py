@@ -6,11 +6,11 @@ import asyncio
 from functools import lru_cache
 
 from rich.pretty import pprint
-from common.logger import get_logger
-from common.utils.path import create_path
-from common.utils.json_data import save_json
+from rich.console import Console
 
 from multi_agents.graph import MultiAgentGraph
+
+from por.utils.json import save_json
 from por.multi_agent import get_multi_agent, get_multi_agent_context
 
 
@@ -20,11 +20,11 @@ if os.getenv("LOGFIRE_TOKEN") is not None:
     logfire.instrument_openai()
 
 
-logger = get_logger(__name__)
+console = Console()
 
 
 STORE_PATH = "/resources/states"
-create_path(STORE_PATH)
+os.makedirs(STORE_PATH, exist_ok=True)
 
 
 @lru_cache()

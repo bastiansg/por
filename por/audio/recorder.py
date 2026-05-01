@@ -8,11 +8,11 @@ import sounddevice as sd
 from io import BytesIO
 from IPython.display import Audio
 
-from common.logger import get_logger
-from common.utils.threading import threaded
+from rich.console import Console
+from por.utils.threading import threaded
 
 
-logger = get_logger(__name__)
+console = Console()
 
 
 # TODO: Move this module to the common package.
@@ -29,7 +29,7 @@ class AudioRecorder:
     def start(self) -> None:
         self.frames = []
         self.is_recording = True
-        logger.info("start recording.")
+        console.log("start recording.")
         with sd.InputStream(
             samplerate=self.sample_rate,
             channels=1,
@@ -41,11 +41,11 @@ class AudioRecorder:
 
     def stop(self) -> None:
         self.is_recording = False
-        logger.info("stop recording.")
+        console.log("stop recording.")
 
     def playback(self) -> Audio | None:
         if not len(self.frames):
-            logger.warning("no audio recorded.")
+            console.log("no audio recorded.")
             return
 
         audio_np = np.concatenate(self.frames, axis=0)
@@ -56,14 +56,14 @@ class AudioRecorder:
 
     def save_to_file(self, file: str | BytesIO) -> None:
         if not self.frames:
-            logger.warning("no audio to save.")
+            console.log("no audio to save.")
             return
 
         audio_np = np.concatenate(self.frames, axis=0).flatten()
         waveform = torch.from_numpy(audio_np).unsqueeze(0)
 
         torchaudio.save(
-            file,
+            file,  # type: ignore
             waveform,
             self.sample_rate,
             format="mp3",

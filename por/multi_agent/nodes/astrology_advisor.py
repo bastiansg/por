@@ -1,7 +1,7 @@
 from typing import Any
 
 from multi_agents.graph import Node
-from common.logger import get_logger
+from rich.console import Console
 
 from por.llm_agents.tools import astrology_search_tool, get_text_chunks_tool
 from por.multi_agent.schema import StateSchema
@@ -15,7 +15,7 @@ from por.llm_agents import (
 from .utils import get_relevant_text_chunks
 
 
-logger = get_logger(__name__)
+console = Console()
 
 
 COLLECTION_NAME = "astrology"
@@ -34,7 +34,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     ):
         return {}
 
-    logger.info("runing astrology_advisor...")
+    console.log("runing astrology_advisor...")
 
     psychological_profile = state.psychological_profile
     audio_transcription = state.audio_transcription

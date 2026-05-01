@@ -1,7 +1,8 @@
+import os
+
 from io import BytesIO
 from typing import Literal
 from sensehat_dsp.display import Color
-from common.utils.path import create_path
 
 from hailo_apps.servos import ServoAngles
 from hailo_apps.meta.interfaces import RotatorParams, ImageSize
@@ -63,7 +64,7 @@ class ContextSchema(BaseModel):
 
     @field_validator("images_path", mode="after")
     def images_path_validator(cls, v: str) -> str:
-        create_path(path=v)
+        os.makedirs(v, exist_ok=True)
         return v
 
 

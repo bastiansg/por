@@ -1,11 +1,14 @@
-from pydantic_ai import NativeOutput
+from pathlib import Path
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic_ai import Agent, NativeOutput
+from pydantic_ai.models.openai import OpenAIChatModelSettings
+from pydantic_ai.common_tools.web_fetch import web_fetch_tool
+from pydantic_ai.common_tools.duckduckgo import duckduckgo_search_tool
+
+from pydantic import BaseModel, StrictStr, Field
 from pydantic_extra_types.language_code import LanguageName
 
 from llm_agents.meta.interfaces import LLMAgent
-
-from por.llm_agents import astrology_advisor
 from por.meta.schema import TextChunk, AstrologyPlacements, PsychologicalProfile
 
 
@@ -28,16 +31,26 @@ class AstrologyAdvisorOutput(BaseModel):
     )
 
 
+agent = Agent(  # type: ignore
+    # model="gpt-5.4-2026-03-05",
+    model="gpt-5.4-2026-03-05",
+    model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
+    system_prompt=LLMAgent.read_file(
+        file_path=str(Path(__file__).with_name("system-prompt.md"))
+    ),
+    deps_type=AstrologyAdvisorDeps,
+    output_type=NativeOutput(AstrologyAdvisorOutput),
+    retries=3,
+    tools=[
+        duckduckgo_search_tool(),
+        web_fetch_tool(),
+    ],
+)
+
+
 class AstrologyAdvisor(LLMAgent[AstrologyAdvisorDeps, AstrologyAdvisorOutput]):
-    def __init__(
-        self,
-        conf_path=f"{astrology_advisor.__path__[0]}/astrology-advisor.yml",
-        max_concurrency: int = 10,
-    ):
+    def __init__(self, max_concurrency: int = 10):
         super().__init__(
-            conf_path=conf_path,
-            deps_type=AstrologyAdvisorDeps,
-            output_type=NativeOutput(AstrologyAdvisorOutput),  # type: ignore
-            retries=3,
+            agent=agent,
             max_concurrency=max_concurrency,
         )

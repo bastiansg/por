@@ -7,7 +7,7 @@ from tqdm import tqdm
 from itertools import groupby
 
 from common.cache import RedisCache
-from common.logger import get_logger
+from rich.console import Console
 
 from rage.retriever import Retriever
 from rage.meta.interfaces import Document, TextChunk
@@ -22,7 +22,7 @@ from .file_items import file_items
 from .ytb_items import ytb_items
 
 
-logger = get_logger(__name__)
+console = Console()
 
 
 redis_cache = RedisCache()
@@ -149,16 +149,16 @@ async def get_lyrics_text_chunks() -> list[TextChunk]:
 async def main() -> None:
     pass
     file_text_chunks = await get_file_text_chunks()
-    logger.info(f"file_text_chunks: {len(file_text_chunks)}")
+    console.log(f"file_text_chunks: {len(file_text_chunks)}")
 
     ytb_text_chunks = await get_ytb_text_chunks()
-    logger.info(f"ytb_text_chunks: {len(ytb_text_chunks)}")
+    console.log(f"ytb_text_chunks: {len(ytb_text_chunks)}")
 
     satc_text_chunks = await get_satc_text_chunks()
-    logger.info(f"satc_text_chunks: {len(satc_text_chunks)}")
+    console.log(f"satc_text_chunks: {len(satc_text_chunks)}")
 
     lyrics_text_chunks = await get_lyrics_text_chunks()
-    logger.info(f"lyrics_text_chunks: {len(lyrics_text_chunks)}")
+    console.log(f"lyrics_text_chunks: {len(lyrics_text_chunks)}")
 
     text_chunks = (
         file_text_chunks
@@ -167,7 +167,7 @@ async def main() -> None:
         + lyrics_text_chunks
     )
 
-    logger.info(f"text_chunks: {len(text_chunks)}")
+    console.log(f"text_chunks: {len(text_chunks)}")
     text_chunks = sorted(
         text_chunks,
         key=lambda tc: tc.metadata["collection"],

@@ -2,7 +2,7 @@ from typing import Any
 from langgraph.runtime import get_runtime
 
 from multi_agents.graph import Node
-from common.logger import get_logger
+from rich.console import Console
 
 from hailo_apps.servos import Servos, ServoAngles
 from por.multi_agent.schema import StateSchema, ContextSchema
@@ -10,7 +10,7 @@ from por.multi_agent.schema import StateSchema, ContextSchema
 from .utils import get_sensehat_dsp, get_button, get_dsp_images
 
 
-logger = get_logger(__name__)
+console = Console()
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
@@ -20,7 +20,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     if runtime_context.test_mode:
         return {}
 
-    logger.info("runing idle_state...")
+    console.log("runing idle_state...")
 
     sensehat_dsp = get_sensehat_dsp()
     dsp_images = get_dsp_images()

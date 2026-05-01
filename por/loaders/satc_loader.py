@@ -5,7 +5,7 @@ import stamina
 from tqdm import tqdm
 from parsel import Selector
 
-from common.logger import get_logger
+from rich.console import Console
 from common.cache import cache, RedisCache
 
 from rage.meta.interfaces import TextLoader, Document
@@ -13,7 +13,7 @@ from rage.meta.interfaces import TextLoader, Document
 from por.meta.schema import FileMetadata
 
 
-logger = get_logger(__name__)
+console = Console()
 
 
 @stamina.retry(on=httpx.HTTPError, wait_initial=10, wait_max=60, attempts=10)
@@ -120,7 +120,7 @@ class SATCLoader(TextLoader):
             if self.filter_script(script=script)
         ]
 
-        logger.info(f"scripts: {len(documents)}")
-        logger.info(f"invalid scripts: {len(scripts) - len(documents)}")
+        console.log(f"scripts: {len(documents)}")
+        console.log(f"invalid scripts: {len(scripts) - len(documents)}")
 
         return documents

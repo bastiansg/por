@@ -1,7 +1,7 @@
 from qdrant_client import models
 from qdrant_client.models import Record
 
-from common.logger import get_logger
+from rich.console import Console
 
 from rage.retriever import Retriever
 from rage.utils.embeddings import get_openai_embeddings
@@ -9,7 +9,7 @@ from rage.utils.embeddings import get_openai_embeddings
 from por.meta.schema import TextChunk
 
 
-logger = get_logger(__name__)
+console = Console()
 
 
 SEARCH_TOP_K = 5

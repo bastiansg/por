@@ -4,11 +4,11 @@ from openai import AsyncOpenAI
 from langgraph.runtime import get_runtime
 
 from multi_agents.graph import Node
-from common.logger import get_logger
+from rich.console import Console
 from por.multi_agent.schema import StateSchema, ContextSchema
 
 
-logger = get_logger(__name__)
+console = Console()
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
@@ -18,7 +18,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     if runtime_context.test_mode:
         return {}
 
-    logger.info("runing audio_transcriber...")
+    console.log("runing audio_transcriber...")
 
     audio_buffer = state.audio_buffer
     assert audio_buffer is not None

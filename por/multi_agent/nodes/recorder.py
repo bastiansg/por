@@ -7,7 +7,7 @@ from PIL import Image
 from langgraph.runtime import get_runtime
 
 from multi_agents.graph import Node
-from common.logger import get_logger
+from rich.console import Console
 
 from hailo_apps.apps import FaceTracker
 from hailo_apps.servos import ServoAngles
@@ -18,7 +18,7 @@ from por.multi_agent.schema import StateSchema, ContextSchema
 from .utils import get_sensehat_dsp, get_button, get_dsp_images
 
 
-logger = get_logger(__name__)
+console = Console()
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
@@ -28,7 +28,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     if runtime_context.test_mode:
         return {}
 
-    logger.info("runing recorder...")
+    console.log("runing recorder...")
 
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.stop()
@@ -70,7 +70,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     ]
 
     if not valid_history_items:
-        logger.error(f"valid_history_items: {len(valid_history_items)}")
+        console.log(f"valid_history_items: {len(valid_history_items)}")
         sensehat_dsp.stop()
         sensehat_dsp.start_image_sequence(
             images=[

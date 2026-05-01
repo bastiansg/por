@@ -6,10 +6,9 @@ import asyncio
 from tqdm import tqdm
 from rich.pretty import pprint
 
-from common.logger import get_logger
-from common.utils.path import create_path
-from common.utils.json_data import save_json
+from rich.console import Console
 
+from por.utils.json import save_json
 from por.multi_agent import get_multi_agent, get_multi_agent_context
 
 
@@ -19,7 +18,7 @@ if os.getenv("LOGFIRE_TOKEN") is not None:
     logfire.instrument_openai()
 
 
-logger = get_logger(__name__)
+console = Console()
 
 
 RESULTS_FILE_PATH = "/resources/test-results/results.json"
@@ -82,7 +81,7 @@ async def main() -> None:
 
     pprint(results)
 
-    create_path(os.path.dirname(RESULTS_FILE_PATH))
+    os.makedirs(os.path.dirname(RESULTS_FILE_PATH), exist_ok=True)
     save_json(
         obj=results,
         file_path=RESULTS_FILE_PATH,

@@ -4,7 +4,7 @@ from pydantic import Field
 from qdrant_client import models
 from pydantic_ai import Tool, RunContext
 
-from common.logger import get_logger
+from rich.console import Console
 
 from rage.retriever import Retriever
 from rage.utils.embeddings import get_openai_embeddings
@@ -16,7 +16,7 @@ from por.db.qdrant import (
 )
 
 
-logger = get_logger(__name__)
+console = Console()
 
 
 SEARCH_TOP_K = 5

@@ -21,3 +21,6 @@ include = ["por"]
 dependencies = { file = ["requirements.txt"] }
 
 [tool.setuptools_scm]
+
+[tool.setuptools.package-data]
+"cmi_utils" = ["agents/**/*.md"]

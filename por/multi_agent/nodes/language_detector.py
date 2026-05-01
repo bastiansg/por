@@ -1,17 +1,17 @@
 from typing import Any
 
 from multi_agents.graph import Node
-from common.logger import get_logger
+from rich.console import Console
 
 from por.llm_agents import LanguageDetector
 from por.multi_agent.schema import StateSchema
 
 
-logger = get_logger(__name__)
+console = Console()
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
-    logger.info("runing language_detector...")
+    console.log("runing language_detector...")
 
     audio_transcription = state.audio_transcription
     assert audio_transcription is not None
@@ -25,7 +25,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     assert detected_language is not None
 
     detected_language = detected_language.name
-    logger.info(f"detected_language: {detected_language}")
+    console.log(f"detected_language: {detected_language}")
 
     detected_language = (
         detected_language if detected_language is not None else "Spanish"

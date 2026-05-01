@@ -2,7 +2,7 @@ from gpiozero import Button
 from escpos.printer import Usb
 from functools import lru_cache
 
-from common.logger import get_logger
+from rich.console import Console
 
 from sensehat_dsp.display import Image
 from sensehat_dsp.display import Display
@@ -12,7 +12,7 @@ from por.db.qdrant import _get_text_chunks
 from por.meta.schema import TextChunk, ChunkMetadata
 
 
-logger = get_logger(__name__)
+console = Console()
 
 
 @lru_cache(maxsize=1)
@@ -47,7 +47,7 @@ async def get_relevant_text_chunks(
     relevant_chunk_ids: list[str],
     collection_name: str,
 ) -> list[TextChunk]:
-    logger.info(f"relevant_chunk_ids: {len(relevant_chunk_ids)}")
+    console.log(f"relevant_chunk_ids: {len(relevant_chunk_ids)}")
     chunk_records = await _get_text_chunks(
         collection_name=collection_name,
         key="chunk_id",

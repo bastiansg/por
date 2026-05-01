@@ -8,14 +8,14 @@ from PIL import Image
 from openai import AsyncOpenAI
 
 from multi_agents.graph import Node
-from common.logger import get_logger
+from rich.console import Console
 from por.multi_agent.schema import StateSchema, ContextSchema
 from por.llm_agents import ImagePrompter, ImagePrompterDeps
 
 from .utils import get_sensehat_dsp, get_dsp_images
 
 
-logger = get_logger(__name__)
+console = Console()
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
@@ -25,7 +25,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     if runtime_context.test_mode:
         return {}
 
-    logger.info("runing image_generator...")
+    console.log("runing image_generator...")
 
     image_extension = runtime_context.image_extension
     audio_transcription = state.audio_transcription
@@ -69,7 +69,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
         )
 
     except Exception:
-        logger.error(f"rejected prompt: {image_generation_prompt}")
+        console.log(f"rejected prompt: {image_generation_prompt}")
         raise
 
     response_data = response.data

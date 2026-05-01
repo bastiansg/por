@@ -1,7 +1,7 @@
 from typing import Any
 
 from multi_agents.graph import Node
-from common.logger import get_logger
+from rich.console import Console
 
 from por.multi_agent.schema import StateSchema
 from por.llm_agents.tools import lyrics_search_tool, get_text_chunks_tool
@@ -15,14 +15,14 @@ from por.llm_agents import (
 from .utils import get_relevant_text_chunks
 
 
-logger = get_logger(__name__)
+console = Console()
 
 
 COLLECTION_NAME = "lyrics"
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
-    logger.info("running lyrics_advisor...")
+    console.log("running lyrics_advisor...")
 
     psychological_profile = state.psychological_profile
     audio_transcription = state.audio_transcription

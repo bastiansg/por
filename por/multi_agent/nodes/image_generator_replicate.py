@@ -8,13 +8,13 @@ from langgraph.runtime import get_runtime
 from PIL import Image
 
 from multi_agents.graph import Node
-from common.logger import get_logger
+from rich.console import Console
 from por.multi_agent.schema import StateSchema, ContextSchema
 
 from .utils import get_sensehat_dsp, get_dsp_images
 
 
-logger = get_logger(__name__)
+console = Console()
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
@@ -24,7 +24,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     if runtime_context.test_mode:
         return {}
 
-    logger.info("runing image_generator...")
+    console.log("runing image_generator...")
 
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.stop()

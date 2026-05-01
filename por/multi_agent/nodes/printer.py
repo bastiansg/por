@@ -3,7 +3,7 @@ from langgraph.runtime import get_runtime
 
 from escpos.printer import Usb
 from multi_agents.graph import Node
-from common.logger import get_logger
+from rich.console import Console
 
 from por.data import get_copyright
 from por.multi_agent.schema import StateSchema, ContextSchema
@@ -11,7 +11,7 @@ from por.multi_agent.schema import StateSchema, ContextSchema
 from .utils import get_sensehat_dsp, get_dsp_images, get_printer
 
 
-logger = get_logger(__name__)
+console = Console()
 
 
 RIGHTS_NOTICE_LENGTH = 33
@@ -203,7 +203,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     if runtime_context.test_mode:
         return {}
 
-    logger.info("runing printer...")
+    console.log("runing printer...")
 
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.stop()
