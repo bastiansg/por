@@ -1,11 +1,13 @@
 polars==1.40.1
 gpiozero==2.0.1
+more-itertools==11.0.2
 
 ipython==9.10.0
 # ipython==9.12.0
 
 # Do not touch this version
 torchaudio==2.11.0
+torchcodec==0.11.1
 
 python-escpos==3.1
 sounddevice==0.5.5
@@ -27,6 +29,6 @@ hailo_apps==2.0.0
 sensehat_dsp==2.0.0
 
 # Aureka packages
-multi_agents==2.0.0
+multi_agents==2.0.1
 llm_agents==2.0.8
 rage==2.0.1
