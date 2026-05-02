@@ -276,6 +276,9 @@ class PsychologicalProfile(BaseModel):
         "pensive",
         "flat",
         "tense",
+        "softened",
+        "composed",
+        "bright",
     ] = Field(description="Expression category.")
 
     gaze: Literal[
@@ -290,6 +293,9 @@ class PsychologicalProfile(BaseModel):
         "hesitant",
         "piercing",
         "warm",
+        "clear",
+        "grounded",
+        "receptive",
     ] = Field(description="Gaze quality only, excluding direction.")
 
     emotional_tone: Literal[
@@ -303,6 +309,12 @@ class PsychologicalProfile(BaseModel):
         "defiant",
         "curious",
         "numb",
+        "calm",
+        "confident",
+        "tender",
+        "inspired",
+        "playful",
+        "relieved",
     ] = Field(description="Dominant felt emotional state.")
 
     composure: Literal[
@@ -313,6 +325,11 @@ class PsychologicalProfile(BaseModel):
         "restless",
         "overwhelmed",
         "dissociated",
+        "grounded",
+        "present",
+        "focused",
+        "open",
+        "self_possessed",
     ] = Field(description="Emotional self-regulation capacity in this moment.")
 
     question_theme: Literal[
@@ -329,3 +346,65 @@ class PsychologicalProfile(BaseModel):
         "trust",
         "timing",
     ] = Field(description="Core existential concern behind the question.")
+
+    core_need: Literal[
+        "clarity",
+        "safety",
+        "connection",
+        "recognition",
+        "freedom",
+        "stability",
+        "meaning",
+        "agency",
+        "belonging",
+        "renewal",
+    ] = Field(description="Primary psychological need implied by the question.")
+
+    inner_conflict: Literal[
+        "security_vs_growth",
+        "control_vs_surrender",
+        "belonging_vs_independence",
+        "hope_vs_resignation",
+        "desire_vs_fear",
+        "duty_vs_authenticity",
+        "certainty_vs_possibility",
+        "visibility_vs_protection",
+    ] = Field(description="Central internal tension shaping the profile.")
+
+    coping_style: Literal[
+        "reflective",
+        "problem_solving",
+        "avoidant",
+        "controlling",
+        "adaptive",
+        "expressive",
+        "withdrawn",
+        "seeking_support",
+        "intellectualizing",
+        "humor",
+    ] = Field(description="Likely way the person manages pressure or uncertainty.")
+
+    strength_signal: Literal[
+        "resilience",
+        "discernment",
+        "curiosity",
+        "patience",
+        "courage",
+        "self_awareness",
+        "emotional_depth",
+        "adaptability",
+        "commitment",
+        "imagination",
+    ] = Field(description="Positive capacity or resource visible in the profile.")
+
+    growth_edge: Literal[
+        "self_trust",
+        "emotional_expression",
+        "boundary_setting",
+        "accepting_uncertainty",
+        "asking_for_support",
+        "taking_action",
+        "letting_go",
+        "receiving_care",
+        "choosing_clarity",
+    ] = Field(description="Constructive developmental edge suggested by the profile.")

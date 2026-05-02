@@ -22,8 +22,8 @@ async def run(state: StateSchema) -> dict[str, Any]:
     runtime = get_runtime(ContextSchema)
     runtime_context = runtime.context
 
-    if runtime_context.test_mode:
-        return {}
+    # if runtime_context.test_mode:
+    #     return {}
 
     console.log("runing image_generator...")
 
@@ -49,59 +49,59 @@ async def run(state: StateSchema) -> dict[str, Any]:
     )
 
     image_generation_prompt = ip_output.flux_prompt
-    client = AsyncOpenAI()
+    # client = AsyncOpenAI()
 
-    sensehat_dsp = get_sensehat_dsp()
-    sensehat_dsp.stop()
-    sensehat_dsp.clear()
+    # sensehat_dsp = get_sensehat_dsp()
+    # sensehat_dsp.stop()
+    # sensehat_dsp.clear()
 
-    dsp_images = get_dsp_images()
-    sensehat_dsp.start_color_cycle(dsp_images["si-07"])
+    # dsp_images = get_dsp_images()
+    # sensehat_dsp.start_color_cycle(dsp_images["si-07"])
 
-    try:
-        response = await client.images.generate(
-            model="gpt-image-1",
-            # model="gpt-image-1-mini",
-            prompt=image_generation_prompt,
-            moderation="low",
-            quality="high",
-            size="1024x1536",
-        )
+    # try:
+    #     response = await client.images.generate(
+    #         model="gpt-image-1",
+    #         # model="gpt-image-1-mini",
+    #         prompt=image_generation_prompt,
+    #         moderation="low",
+    #         quality="high",
+    #         size="1024x1536",
+    #     )
 
-    except Exception:
-        console.log(f"rejected prompt: {image_generation_prompt}")
-        raise
+    # except Exception:
+    #     console.log(f"rejected prompt: {image_generation_prompt}")
+    #     raise
 
-    response_data = response.data
-    assert response_data is not None
+    # response_data = response.data
+    # assert response_data is not None
 
-    image_data = response_data[0].b64_json
-    assert image_data is not None
+    # image_data = response_data[0].b64_json
+    # assert image_data is not None
 
-    io_bytes = io.BytesIO(base64.b64decode(image_data))
-    image = Image.open(io_bytes).convert("RGB")
+    # io_bytes = io.BytesIO(base64.b64decode(image_data))
+    # image = Image.open(io_bytes).convert("RGB")
 
-    resized_width = 400
-    padded_width = 576
+    # resized_width = 400
+    # padded_width = 576
 
-    target_height = round(image.height * resized_width / image.width)
-    image = image.resize(
-        (resized_width, target_height),
-        Image.Resampling.LANCZOS,
-    )
+    # target_height = round(image.height * resized_width / image.width)
+    # image = image.resize(
+    #     (resized_width, target_height),
+    #     Image.Resampling.LANCZOS,
+    # )
 
-    padded_image = Image.new("RGB", (padded_width, target_height), "white")
-    x_offset = (padded_width - resized_width) // 2
-    padded_image.paste(image, (x_offset, 0))
-    image = padded_image
+    # padded_image = Image.new("RGB", (padded_width, target_height), "white")
+    # x_offset = (padded_width - resized_width) // 2
+    # padded_image.paste(image, (x_offset, 0))
+    # image = padded_image
 
-    images_path = runtime_context.images_path
-    gen_image_path = f"{images_path}/{state.image_id}-gen.{image_extension}"
-    image.save(gen_image_path)
+    # images_path = runtime_context.images_path
+    # gen_image_path = f"{images_path}/{state.image_id}-gen.{image_extension}"
+    # image.save(gen_image_path)
 
     return {
         "image_generation_prompt": image_generation_prompt,
-        "gen_image_path": gen_image_path,
+        # "gen_image_path": gen_image_path,
     }
 
 

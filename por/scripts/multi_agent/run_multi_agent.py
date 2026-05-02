@@ -4,8 +4,6 @@ import logfire
 import asyncio
 
 from tqdm import tqdm
-from rich.pretty import pprint
-
 from rich.console import Console
 
 from por.utils.json import save_json
@@ -55,35 +53,13 @@ async def main() -> None:
 
         states.append(state)
 
-    results = [
-        {
-            "question": state.audio_transcription,
-            "nietzsche_advise": state.nietzsche_advise,
-            "nietzsche_text_chunks": [
-                tc.model_dump() for tc in state.nietzsche_text_chunks
-            ],
-            "astrology_advice": state.astrology_advice,
-            "astrology_text_chunks": [
-                tc.model_dump() for tc in state.astrology_text_chunks
-            ],
-            "satc_advice": state.satc_advice,
-            "satc_text_chunks": [
-                tc.model_dump() for tc in state.satc_text_chunks
-            ],
-            "song": state.song.model_dump(),
-            "lyrics_advise": state.lyrics_advise,
-            "lyrics_text_chunks": [
-                tc.model_dump() for tc in state.lyrics_text_chunks
-            ],
-        }
-        for state in states
-    ]
+    os.makedirs(
+        os.path.dirname(RESULTS_FILE_PATH),
+        exist_ok=True,
+    )
 
-    pprint(results)
-
-    os.makedirs(os.path.dirname(RESULTS_FILE_PATH), exist_ok=True)
     save_json(
-        obj=results,
+        obj=[s.model_dump() for s in states],
         file_path=RESULTS_FILE_PATH,
     )
 
