@@ -242,6 +242,34 @@ ZodiacSign = Literal[
 ]
 
 
+JungianArchetype = Literal[
+    "innocent",
+    "sage",
+    "explorer",
+    "outlaw",
+    "magician",
+    "hero",
+    "lover",
+    "jester",
+    "everyman",
+    "caregiver",
+    "ruler",
+    "creator",
+]
+
+
+PsychologicalPresentation = Literal[
+    "open",
+    "guarded",
+    "tense",
+    "relaxed",
+    "withdrawn",
+    "expansive",
+    "composed",
+    "alert",
+]
+
+
 class AstrologyPlacements(BaseModel):
     sun: ZodiacSign | None = Field(
         default=None,
@@ -260,43 +288,9 @@ class AstrologyPlacements(BaseModel):
 
 
 class PsychologicalProfile(BaseModel):
-    posture: Literal[
-        "open",
-        "closed",
-        "tense",
-        "relaxed",
-        "collapsed",
-        "expansive",
-    ] = Field(description="Body alignment and engagement level.")
-
-    facial_expression: Literal[
-        "neutral",
-        "smile",
-        "serious",
-        "pensive",
-        "flat",
-        "tense",
-        "softened",
-        "composed",
-        "bright",
-    ] = Field(description="Expression category.")
-
-    gaze: Literal[
-        "steady",
-        "intense",
-        "defocused",
-        "soft",
-        "guarded",
-        "alert",
-        "vacant",
-        "searching",
-        "hesitant",
-        "piercing",
-        "warm",
-        "clear",
-        "grounded",
-        "receptive",
-    ] = Field(description="Gaze quality only, excluding direction.")
+    presentation: PsychologicalPresentation = Field(
+        description="Overall visible psychological presentation inferred from posture, expression, and gaze.",
+    )
 
     emotional_tone: Literal[
         "hopeful",
@@ -310,11 +304,7 @@ class PsychologicalProfile(BaseModel):
         "curious",
         "numb",
         "calm",
-        "confident",
-        "tender",
-        "inspired",
         "playful",
-        "relieved",
     ] = Field(description="Dominant felt emotional state.")
 
     composure: Literal[
@@ -325,11 +315,7 @@ class PsychologicalProfile(BaseModel):
         "restless",
         "overwhelmed",
         "dissociated",
-        "grounded",
-        "present",
         "focused",
-        "open",
-        "self_possessed",
     ] = Field(description="Emotional self-regulation capacity in this moment.")
 
     question_theme: Literal[
@@ -344,7 +330,6 @@ class PsychologicalProfile(BaseModel):
         "loss",
         "worthiness",
         "trust",
-        "timing",
     ] = Field(description="Core existential concern behind the question.")
 
     core_need: Literal[
@@ -353,10 +338,7 @@ class PsychologicalProfile(BaseModel):
         "connection",
         "recognition",
         "freedom",
-        "stability",
         "meaning",
-        "agency",
-        "belonging",
         "renewal",
     ] = Field(description="Primary psychological need implied by the question.")
 
@@ -371,40 +353,9 @@ class PsychologicalProfile(BaseModel):
         "visibility_vs_protection",
     ] = Field(description="Central internal tension shaping the profile.")
 
-    coping_style: Literal[
-        "reflective",
-        "problem_solving",
-        "avoidant",
-        "controlling",
-        "adaptive",
-        "expressive",
-        "withdrawn",
-        "seeking_support",
-        "intellectualizing",
-        "humor",
-    ] = Field(description="Likely way the person manages pressure or uncertainty.")
-
-    strength_signal: Literal[
-        "resilience",
-        "discernment",
-        "curiosity",
-        "patience",
-        "courage",
-        "self_awareness",
-        "emotional_depth",
-        "adaptability",
-        "commitment",
-        "imagination",
-    ] = Field(description="Positive capacity or resource visible in the profile.")
-
-    growth_edge: Literal[
-        "self_trust",
-        "emotional_expression",
-        "boundary_setting",
-        "accepting_uncertainty",
-        "asking_for_support",
-        "taking_action",
-        "letting_go",
-        "receiving_care",
-        "choosing_clarity",
-    ] = Field(description="Constructive developmental edge suggested by the profile.")
+    jungian_archetype: JungianArchetype = Field(
+        description=(
+            "Dominant Jungian archetype reflected by the person's emotional stance, "
+            "question theme, and inner conflict."
+        ),
+    )
