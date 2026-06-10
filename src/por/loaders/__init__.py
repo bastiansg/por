@@ -1,3 +1,4 @@
+from .cmtv_loader import CMTVLoader  # noqa
 from .lyrics_loader import LyricsLoader  # noqa
 from .satc_loader import SATCLoader  # noqa
 from .ytb_loader import YTBLoader  # noqa
