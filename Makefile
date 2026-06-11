@@ -1,4 +1,4 @@
-.PHONY: core-build app-build devcontainer-build
+.PHONY: core-build app-build devcontainer-build cmtv-disk-urls
 
 
 core-build:

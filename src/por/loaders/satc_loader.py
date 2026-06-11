@@ -4,9 +4,9 @@ import stamina
 
 from tqdm import tqdm
 from parsel import Selector
+from aiocache import cached
 
 from rich.console import Console
-from common.cache import cache, RedisCache
 
 from rage.meta.interfaces import TextLoader, Document
 
@@ -43,7 +43,7 @@ class SATCLoader(TextLoader):
         self.semaphore = asyncio.Semaphore(max_concurrency)
 
     @staticmethod
-    @cache(redis_cache=RedisCache())
+    @cached()
     async def get_script_urls(base_url: str) -> list[str]:
 
         data_req = await get_req(url=base_url)
@@ -56,7 +56,7 @@ class SATCLoader(TextLoader):
         ]
 
     @staticmethod
-    @cache(redis_cache=RedisCache())
+    @cached()
     async def get_script_(script_url: str) -> str:
         data_req = await get_req(url=script_url)
         assert data_req is not None
