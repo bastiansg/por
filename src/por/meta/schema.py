@@ -92,10 +92,10 @@ class Song(BaseModel):
 
 
 class FacialFeatures(BaseModel):
-    face_shape: StrictStr = Field(
-        description="Visible face shape.",
-        min_length=1,
-    )
+    # face_shape: StrictStr = Field(
+    #     description="Visible face shape.",
+    #     min_length=1,
+    # )
 
     eyes: StrictStr = Field(
         description="Visible eye characteristics only, excluding gaze direction.",
@@ -112,10 +112,10 @@ class FacialFeatures(BaseModel):
         min_length=1,
     )
 
-    lips: StrictStr = Field(
-        description="Visible lip characteristics.",
-        min_length=1,
-    )
+    # lips: StrictStr = Field(
+    #     description="Visible lip characteristics.",
+    #     min_length=1,
+    # )
 
     beard: StrictStr | None = Field(
         description="Visible beard characteristics.",
@@ -132,10 +132,10 @@ class FacialFeatures(BaseModel):
         min_length=1,
     )
 
-    cheekbones: StrictStr = Field(
-        description="Visible cheekbone characteristics.",
-        min_length=1,
-    )
+    # cheekbones: StrictStr = Field(
+    #     description="Visible cheekbone characteristics.",
+    #     min_length=1,
+    # )
 
     chin: StrictStr = Field(
         description="Visible chin characteristics.",
@@ -149,23 +149,28 @@ class Hairstyle(BaseModel):
         min_length=1,
     )
 
-    texture: StrictStr = Field(
-        description="Visible hair texture.",
-        min_length=1,
-    )
+    # texture: StrictStr = Field(
+    #     description="Visible hair texture.",
+    #     min_length=1,
+    # )
 
     styling: StrictStr = Field(
         description="Visible hair styling.",
         min_length=1,
     )
 
-    color: StrictStr = Field(
-        description="Visible hair color.",
-        min_length=1,
-    )
+    # color: StrictStr = Field(
+    #     description="Visible hair color.",
+    #     min_length=1,
+    # )
 
 
 class PhysicalDescription(BaseModel):
+    picture_framing: StrictStr = Field(
+        description="How the person or group is framed in the image, such as full body, upper body, half body, close-up, or group composition.",
+        min_length=1,
+    )
+
     gender_presentation: StrictStr = Field(
         description="Apparent gender presentation based only on visible style cues.",
         min_length=1,

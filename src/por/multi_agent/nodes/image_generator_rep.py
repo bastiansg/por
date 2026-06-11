@@ -1,6 +1,6 @@
 import io
-import replicate
 import cairosvg
+import replicate
 
 from typing import Any
 from langgraph.runtime import get_runtime
@@ -10,6 +10,7 @@ from PIL import Image
 from multi_agents.graph import Node
 from rich.console import Console
 from por.multi_agent.schema import StateSchema, ContextSchema
+from por.llm_agents import ImagePrompter, ImagePrompterDeps
 
 from .utils import get_sensehat_dsp, get_dsp_images
 
@@ -26,6 +27,27 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     console.log("runing image_generator...")
 
+    image_extension = runtime_context.image_extension
+    audio_transcription = state.audio_transcription
+    assert audio_transcription is not None
+
+    psychological_profile = state.psychological_profile
+    assert psychological_profile is not None
+
+    image_description = state.image_description
+    assert image_description is not None
+
+    ip = ImagePrompter()
+    ip_output = await ip.generate(
+        user_prompt="Provide your surreal image-generation prompt.",
+        agent_deps=ImagePrompterDeps(
+            question=audio_transcription,
+            psychological_profile=psychological_profile,
+            physical_description=image_description.physical_description,
+            clothing_description=image_description.clothing_description,
+        ),
+    )
+
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.stop()
     sensehat_dsp.clear()
@@ -33,10 +55,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     dsp_images = get_dsp_images()
     sensehat_dsp.start_color_cycle(dsp_images["si-07"])
 
-    image_extension = runtime_context.image_extension
-    image_generation_prompt = state.image_generation_prompt
-    assert image_generation_prompt is not None
-
+    image_generation_prompt = ip_output.flux_prompt
     rep_output = replicate.run(
         "recraft-ai/recraft-v4-svg",
         input={
@@ -47,7 +66,10 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     svg_bytes = rep_output.read()  # type: ignore
     png_bytes = cairosvg.svg2png(bytestring=svg_bytes)
-    image = Image.open(io.BytesIO(png_bytes)).convert("RGB")  # type: ignore
+    # image = Image.open(io.BytesIO(png_bytes)).convert("RGB")  # type: ignore
+    image = Image.open(io.BytesIO(png_bytes)).convert("L")  # type: ignore
+    image = image.point(lambda p: 255 if p >= 250 else p)
+    image = image.point(lambda p: 0 if p <= 200 else p)
 
     resized_width = 576
     target_height = round(image.height * resized_width / image.width)
