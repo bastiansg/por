@@ -56,7 +56,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     sensehat_dsp.start_color_cycle(dsp_images["si-07"])
 
     image_generation_prompt = ip_output.flux_prompt
-    rep_output = replicate.run(
+    rep_output = await replicate.async_run(
         "recraft-ai/recraft-v4-svg",
         input={
             "prompt": image_generation_prompt,
@@ -64,7 +64,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
         },
     )
 
-    svg_bytes = rep_output.read()  # type: ignore
+    svg_bytes = await rep_output.aread()  # type: ignore
     png_bytes = cairosvg.svg2png(bytestring=svg_bytes)
     # image = Image.open(io.BytesIO(png_bytes)).convert("RGB")  # type: ignore
     image = Image.open(io.BytesIO(png_bytes)).convert("L")  # type: ignore
