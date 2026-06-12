@@ -53,9 +53,12 @@ async def main() -> None:
         state = state.model_dump()
         pprint(state)
 
+        invoked_at = state["invoked_at"]
+        assert invoked_at is not None
+
         save_json(
             obj=state,
-            file_path=f"{STORE_PATH}/{image_id}.json",
+            file_path=f"{STORE_PATH}/{invoked_at}-{image_id}.json",
         )
 
 

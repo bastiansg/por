@@ -76,6 +76,7 @@ class SelectedSong(BaseModel):
 
 class StateSchema(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
+    invoked_at: StrictStr | None = None
     button_is_active: StrictBool = False
     image_id: StrictStr
     audio_buffer: BytesIO | None = None
