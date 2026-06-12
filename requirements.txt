@@ -21,6 +21,7 @@ parsel==1.11.0
 wikipedia==1.4.0
 langchain_community==0.4.1
 youtube_transcript_api==1.2.4
+pycountry==24.6.1
 
 replicate==1.0.7
 cairosvg==2.9.0

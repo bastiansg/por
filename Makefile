@@ -1,4 +1,4 @@
-.PHONY: core-build app-build devcontainer-build cmtv-disk-urls
+.PHONY: core-build app-build devcontainer-build cmtv-disk-urls camera-memory-free
 
 
 core-build:
@@ -54,5 +54,10 @@ app-stop:
 app-restart: app-stop app-up
 
 
+camera-memory-free:
+	sudo fuser -k /dev/video* /dev/media* /dev/dma_heap/* 2>/dev/null || true
+	sudo sh -c 'sync; echo 3 > /proc/sys/vm/drop_caches'
+
+
 create-qdrant-collections:
-	docker compose -f .devcontainer/docker-compose.yml run --rm --entrypoint="python -m por.scripts.qdrant.create_collections" por-devcontainer
+	docker compose -f .devcontainer/docker-compose.yml run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.qdrant.create_collections" por-devcontainer

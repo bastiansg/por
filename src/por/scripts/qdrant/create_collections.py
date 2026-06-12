@@ -6,7 +6,6 @@ from glob import glob
 from tqdm import tqdm
 from itertools import groupby
 
-from common.cache import RedisCache
 from rich.console import Console
 
 from rage.retriever import Retriever
@@ -25,9 +24,6 @@ from .ytb_items import ytb_items
 console = Console()
 
 
-redis_cache = RedisCache()
-
-
 PAYLOAD_INDEX_FIELDS = (
     "metadata.chunk_id",
     "metadata.language",
@@ -36,27 +32,27 @@ PAYLOAD_INDEX_FIELDS = (
 
 LOADER_MAP = {
     ".pdf": {
-        "loader": PDFMarkdownLoader(cache=redis_cache),
+        "loader": PDFMarkdownLoader(),
         "splitter": MarkdownSplitter(),
     },
     ".docx": {
-        "loader": DocxLoader(cache=redis_cache),
+        "loader": DocxLoader(),
         "splitter": MarkdownSplitter(),
     },
     ".epub": {
-        "loader": MarkdownLoader(cache=redis_cache),
+        "loader": MarkdownLoader(),
         "splitter": MarkdownSplitter(),
     },
     ".rtf": {
-        "loader": MarkdownLoader(cache=redis_cache),
+        "loader": MarkdownLoader(),
         "splitter": TokenSplitter(),
     },
     ".txt": {
-        "loader": MarkdownLoader(cache=redis_cache),
+        "loader": MarkdownLoader(),
         "splitter": TokenSplitter(),
     },
     ".md": {
-        "loader": MarkdownLoader(cache=redis_cache),
+        "loader": MarkdownLoader(),
         "splitter": TokenSplitter(),
     },
 }
@@ -83,7 +79,10 @@ async def get_file_text_chunks() -> list[TextChunk]:
         assert extension is not None
 
         loader = LOADER_MAP[extension]["loader"]
-        docs = await loader.load(source_path=fp)
+        docs = await loader.load(
+            source_path=fp,
+            cached_load=True,
+        )
 
         docs = [
             Document(
@@ -147,7 +146,6 @@ async def get_lyrics_text_chunks() -> list[TextChunk]:
 
 
 async def main() -> None:
-    pass
     file_text_chunks = await get_file_text_chunks()
     console.log(f"file_text_chunks: {len(file_text_chunks)}")
 
@@ -173,13 +171,13 @@ async def main() -> None:
         key=lambda tc: tc.metadata["collection"],
     )
 
-    collection_gropus = groupby(
+    collection_groups = groupby(
         text_chunks,
         key=lambda tc: tc.metadata["collection"],
     )
 
     retriever = Retriever(dense_embeddings=get_openai_embeddings())
-    for collection, text_chunks in collection_gropus:
+    for collection, text_chunks in collection_groups:
         await retriever.create_collection(collection_name=collection)
         for field_name in PAYLOAD_INDEX_FIELDS:
             await retriever.create_payload_index(
