@@ -63,7 +63,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     )
 
     return {
-        "pr_phrase": pr_output.phrase,
+        "pr_phrase": pr_output.phrase.capitalize(),
         "pr_text_chunks": pr_text_chunks,
     }
 

@@ -1,4 +1,4 @@
-.PHONY: core-build app-build devcontainer-build cmtv-disk-urls
+.PHONY: core-build app-build devcontainer-build cmtv-disk-urls camera-memory-free
 
 
 core-build:
@@ -52,6 +52,11 @@ app-stop:
 	docker stop por-app
 
 app-restart: app-stop app-up
+
+
+camera-memory-free:
+	sudo fuser -k /dev/video* /dev/media* /dev/dma_heap/* 2>/dev/null || true
+	sudo sh -c 'sync; echo 3 > /proc/sys/vm/drop_caches'
 
 
 create-qdrant-collections:

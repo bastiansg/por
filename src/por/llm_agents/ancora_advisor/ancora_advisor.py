@@ -18,7 +18,7 @@ class AncoraAdvisorDeps(BaseModel):
 
 class AncoraAdvisorOutput(BaseModel):
     answer: StrictStr = Field(
-        description="Your political and critical answer grounded in the Ancora sources.",
+        description="Your hammer-like political and critical answer.",
         min_length=1,
     )
 

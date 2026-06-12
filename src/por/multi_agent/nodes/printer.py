@@ -17,6 +17,24 @@ console = Console()
 RIGHTS_NOTICE_LENGTH = 33
 
 
+def get_ancora_authors(state: StateSchema) -> list[str]:
+    return list(
+        dict.fromkeys(
+            text_chunk.metadata.author
+            for text_chunk in state.ancora_text_chunks
+            if text_chunk.metadata.author is not None
+        )
+    )
+
+
+def get_ancora_sources_text(state: StateSchema) -> str:
+    authors = get_ancora_authors(state=state)
+    if not authors:
+        return ""
+
+    return f"En base a ideas de: {', '.join(authors)}"
+
+
 def get_copyright_line():
     _copyright = get_copyright()
     padding_length = RIGHTS_NOTICE_LENGTH - len(_copyright)
@@ -102,9 +120,20 @@ def main_pipeline(
         state=state,
     )
 
-    printer.set(bold=False, align="left")
+    printer.set(bold=True, align="left")
+    printer.set(bold=True)
+    printer.block_text("$$ Inteligencia colectiva:")
+    printer.text("\n")
+    printer.set(bold=False)
+
     printer.block_text(state.ancora_advice)
     printer.text("\n\n")
+
+    ancora_sources_text = get_ancora_sources_text(state=state)
+    if ancora_sources_text:
+        printer.set(bold=False, align="left")
+        printer.block_text(ancora_sources_text)
+        printer.text("\n\n")
 
     #################################################################
 
