@@ -113,7 +113,7 @@ files = [
     {
         "source": "operacion-masacre.pdf",
         "metadata": {
-            "collection": "ancora",
+            "collection": "rodolfo-walsh",
             "title": "Operación masacre",
             "language": "Spanish",
             "author": "Rodolfo Walsh",
@@ -122,7 +122,7 @@ files = [
     {
         "source": "quien-mato-a-rosendo.pdf",
         "metadata": {
-            "collection": "ancora",
+            "collection": "rodolfo-walsh",
             "title": "¿Quién mató a Rosendo?",
             "language": "Spanish",
             "author": "Rodolfo Walsh",

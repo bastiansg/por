@@ -94,6 +94,12 @@ class StateSchema(BaseModel):
     astrology_text_chunks: list[TextChunk] = []
     satc_advice: StrictStr | None = None
     satc_text_chunks: list[TextChunk] = []
+    ancora_advice: StrictStr | None = None
+    ancora_text_chunks: list[TextChunk] = []
+    rwalsh_phrase: StrictStr | None = None
+    rwalsh_text_chunks: list[TextChunk] = []
+    pr_phrase: StrictStr | None = None
+    pr_text_chunks: list[TextChunk] = []
     song: Song | None = None
     lyrics_advise: StrictStr | None = None
     lyrics_text_chunks: list[TextChunk] = []

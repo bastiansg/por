@@ -56,3 +56,21 @@ from .lyrics_advisor.lyrics_advisor import (  # noqa
     LyricsAdvisorDeps,
     LyricsAdvisorOutput,
 )
+
+from .ancora_advisor.ancora_advisor import (  # noqa
+    AncoraAdvisor,
+    AncoraAdvisorDeps,
+    AncoraAdvisorOutput,
+)
+
+from .rwalsh_advisor.rwalsh_advisor import (  # noqa
+    RWalshAdvisor,
+    RWalshAdvisorDeps,
+    RWalshAdvisorOutput,
+)
+
+from .pr_advisor.pr_advisor import (  # noqa
+    PRAdvisor,
+    PRAdvisorDeps,
+    PRAdvisorOutput,
+)

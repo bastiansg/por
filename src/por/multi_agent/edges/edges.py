@@ -80,6 +80,21 @@ psychological_describer_satc_advisor = SimpleEdge(
     target="satc_advisor",
 )
 
+psychological_describer_ancora_advisor = SimpleEdge(
+    source="psychological_describer",
+    target="ancora_advisor",
+)
+
+psychological_describer_rwalsh_advisor = SimpleEdge(
+    source="psychological_describer",
+    target="rwalsh_advisor",
+)
+
+psychological_describer_pr_advisor = SimpleEdge(
+    source="psychological_describer",
+    target="pr_advisor",
+)
+
 image_prompter_image_generator = SimpleEdge(
     source=[
         "image_describer",
@@ -90,11 +105,10 @@ image_prompter_image_generator = SimpleEdge(
 
 printer_edges = SimpleEdge(
     source=[
-        "lyrics_advisor",
-        "nietzsche_advisor",
-        "astrology_advisor",
+        "ancora_advisor",
+        "rwalsh_advisor",
+        "pr_advisor",
         "random_selector",
-        "satc_advisor",
         "image_generator",
     ],
     target="printer",

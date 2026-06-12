@@ -120,6 +120,70 @@ async def lyrics_search(
     )
 
 
+async def ancora_search(
+    query: Annotated[
+        str,
+        Field(
+            description="Query to search for relevant Ancora text chunks."
+        ),
+    ],
+) -> list[TextChunk]:
+    """Run a hybrid search across Ancora sources.
+
+    Args:
+        query: Query to search for relevant Ancora text chunks.
+    """
+
+    return await hybrid_search(
+        query=query,
+        collection_name="ancora",
+    )
+
+
+async def rwalsh_search(
+    query: Annotated[
+        str,
+        Field(
+            description="Spanish query to search for relevant Rodolfo Walsh text chunks."
+        ),
+    ],
+) -> list[TextChunk]:
+    """Run a hybrid search across Rodolfo Walsh sources.
+
+    Args:
+        query: Spanish query to search for relevant Rodolfo Walsh text chunks.
+    """
+
+    return await hybrid_search(
+        query=query,
+        collection_name="rodolfo-walsh",
+    )
+
+
+async def pr_search(
+    query: Annotated[
+        str,
+        Field(
+            description=(
+                "Spanish query to search for relevant Indio Solari lyrics "
+                "text chunks."
+            )
+        ),
+    ],
+) -> list[TextChunk]:
+    """Run a hybrid search across Indio Solari lyrics.
+
+    Args:
+        query: Spanish query to search for relevant Indio Solari lyrics text
+            chunks.
+    """
+
+    return await hybrid_search(
+        query=query,
+        collection_name="lyrics",
+    )
+
+
 async def get_text_chunks(
     ctx: RunContext,
     chunk_ids: Annotated[
@@ -180,6 +244,31 @@ astrology_search_tool = Tool(
 lyrics_search_tool = Tool(
     function=lyrics_search,
     description="Run a hybrid search across Lyrics sources by language.",
+    docstring_format="google",
+    require_parameter_descriptions=True,
+)
+
+ancora_search_tool = Tool(
+    function=ancora_search,
+    description="Run a hybrid search across Ancora sources.",
+    docstring_format="google",
+    require_parameter_descriptions=True,
+)
+
+rwalsh_search_tool = Tool(
+    function=rwalsh_search,
+    description=(
+        "Run a hybrid search across Rodolfo Walsh sources using a Spanish query."
+    ),
+    docstring_format="google",
+    require_parameter_descriptions=True,
+)
+
+pr_search_tool = Tool(
+    function=pr_search,
+    description=(
+        "Run a hybrid search across Indio Solari lyrics using a Spanish query."
+    ),
     docstring_format="google",
     require_parameter_descriptions=True,
 )

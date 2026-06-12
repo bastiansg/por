@@ -49,10 +49,8 @@ def head_pipeline(
     printer.block_text(copyright_line)
     printer.text("\n\n")
 
-    # printer.text("\n")
-    # printer.image(
-    #     img_source="/resources/ticket-images/material-interactions-576.jpg"
-    # )
+    printer.text("\n")
+    printer.image(img_source="/resources/ticket-images/logo-ancora.jpg")
 
     printer.text("\n\n")
     printer.text("------------------------------------------------")
@@ -104,53 +102,33 @@ def main_pipeline(
         state=state,
     )
 
-    nietzsche_advise = state.nietzsche_advise
-    astrology_advice = state.astrology_advice
-
-    header = (
-        "$$ Lo que dicen que Nietzsche dijo:"
-        if nietzsche_advise is not None
-        else "$$ Lo que dicen los astros:"
-    )
-
-    message = (
-        nietzsche_advise if nietzsche_advise is not None else astrology_advice
-    )
-
-    printer.set(bold=True, align="left")
-    printer.set(bold=True)
-    printer.block_text(header)
-    printer.text("\n")
-    printer.set(bold=False)
-
-    printer.block_text(message)
+    printer.set(bold=False, align="left")
+    printer.block_text(state.ancora_advice)
     printer.text("\n\n")
 
     #################################################################
 
     printer.set(bold=True, align="left")
     printer.set(bold=True)
-    printer.block_text("$$ Lo que escribe Carrie Bradshaw:")
+    printer.block_text("$$ Lo que dice Walsh:")
     printer.text("\n")
     printer.set(bold=False)
 
-    printer.block_text(state.satc_advice)
+    printer.block_text(state.rwalsh_phrase)
     printer.text("\n\n")
 
     #################################################################
 
     printer.set(bold=True, align="left")
     printer.set(bold=True)
-    printer.block_text("$$ Lo que tenés que escuchar:")
-    printer.set(bold=False)
+    printer.block_text("$$ Lo que canta el Indio Solari:")
     printer.text("\n")
+    printer.set(bold=False)
 
-    song_text = f"{state.song.title} | {state.song.artist} | {state.song.year}"  # type: ignore
-    printer.block_text(song_text)
+    printer.block_text(state.pr_phrase)
     printer.text("\n\n")
-    printer.block_text(state.lyrics_advise)  # type: ignore
 
-    printer.text("\n\n")
+    #################################################################
 
     printer.text("------------------------------------------------")
     printer.text("\n\n")
@@ -166,31 +144,34 @@ def main_pipeline(
     printer.text("------------------------------------------------")
     printer.text("\n\n")
 
-    printer.set(bold=True)
-    printer.block_text("Tu lucky number:")
-    printer.set(bold=False)
     printer.text("\n")
-    printer.block_text(f"{state.lucky_number}")
-    printer.text("\n\n")
+    printer.image(img_source="/resources/ticket-images/ancora-red.jpg")
 
-    printer.set(bold=True)
-    printer.block_text("Tu poema dos corazones:")
-    printer.set(bold=False)
-    printer.text("\n")
-    printer.block_text(f"{state.selected_dc_poem}")
-    printer.text("\n\n")
+    # printer.set(bold=True)
+    # printer.block_text("Tu lucky number:")
+    # printer.set(bold=False)
+    # printer.text("\n")
+    # printer.block_text(f"{state.lucky_number}")
+    # printer.text("\n\n")
 
-    printer.set(bold=True)
-    printer.block_text("Tu galleta de la fortuna:")
-    printer.set(bold=False)
-    printer.text("\n")
-    printer.block_text(f"{state.selected_fc_message}")
-    printer.text("\n\n")
-    printer.text("\n\n")
+    # printer.set(bold=True)
+    # printer.block_text("Tu poema dos corazones:")
+    # printer.set(bold=False)
+    # printer.text("\n")
+    # printer.block_text(f"{state.selected_dc_poem}")
+    # printer.text("\n\n")
 
-    printer.set(align="center")
-    printer.set(font=1)  # type: ignore
-    printer.block_text("Ticket no válido como factura :)")
+    # printer.set(bold=True)
+    # printer.block_text("Tu galleta de la fortuna:")
+    # printer.set(bold=False)
+    # printer.text("\n")
+    # printer.block_text(f"{state.selected_fc_message}")
+    # printer.text("\n\n")
+    # printer.text("\n\n")
+
+    # printer.set(align="center")
+    # printer.set(font=1)  # type: ignore
+    # printer.block_text("Ticket no válido como factura :)")
 
     printer.cut()
     printer.close()

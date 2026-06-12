@@ -10,6 +10,9 @@ from .psychological_describer import psychological_describer  # noqa
 from .astrology_advisor import astrology_advisor  # noqa
 from .lyrics_advisor import lyrics_advisor  # noqa
 from .nietzsche_advisor import nietzsche_advisor  # noqa
+from .ancora_advisor import ancora_advisor  # noqa
+from .rwalsh_advisor import rwalsh_advisor  # noqa
+from .pr_advisor import pr_advisor  # noqa
 from .random_selector import random_selector  # noqa
 from .satc_advisor import satc_advisor  # noqa
 from .image_generator import image_generator  # noqa

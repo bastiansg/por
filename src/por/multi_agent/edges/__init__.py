@@ -11,5 +11,8 @@ from .edges import (  # noqa
     psychological_describer_nietzsche_advisor,
     psychological_describer_astrology_advisor,
     psychological_describer_satc_advisor,
+    psychological_describer_ancora_advisor,
+    psychological_describer_rwalsh_advisor,
+    psychological_describer_pr_advisor,
     printer_edges,
 )
