@@ -1,4 +1,5 @@
 from typing import Any
+from datetime import datetime
 from langgraph.runtime import get_runtime
 
 from multi_agents.graph import Node
@@ -14,11 +15,14 @@ console = Console()
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
+    invoked_at = datetime.now().isoformat()
     runtime = get_runtime(ContextSchema)
     runtime_context = runtime.context
 
     if runtime_context.test_mode:
-        return {}
+        return {
+            "invoked_at": invoked_at,
+        }
 
     console.log("runing idle_state...")
 
@@ -53,6 +57,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     button.wait_for_active()
 
     return {
+        "invoked_at": invoked_at,
         "button_is_active": True,
     }
 

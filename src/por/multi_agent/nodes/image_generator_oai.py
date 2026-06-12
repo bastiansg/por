@@ -96,7 +96,10 @@ async def run(state: StateSchema) -> dict[str, Any]:
     image = padded_image
 
     images_path = runtime_context.images_path
-    gen_image_path = f"{images_path}/{state.image_id}-gen.{image_extension}"
+    invoked_at = state.invoked_at
+    assert invoked_at is not None
+
+    gen_image_path = f"{images_path}/{invoked_at}-{state.image_id}-gen.{image_extension}"
     image.save(gen_image_path)
 
     return {

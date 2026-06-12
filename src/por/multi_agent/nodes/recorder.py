@@ -93,9 +93,11 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     last_history_item = valid_history_items[-1]
     image_id = state.image_id
+    invoked_at = state.invoked_at
+    assert invoked_at is not None
 
     pil_image = Image.fromarray(last_history_item.np_image)
-    image_path = f"{runtime_context.images_path}/{image_id}.{runtime_context.image_extension}"
+    image_path = f"{runtime_context.images_path}/{invoked_at}-{image_id}.{runtime_context.image_extension}"
     pil_image.save(image_path)
 
     sensehat_dsp.stop()
