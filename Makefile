@@ -55,4 +55,4 @@ app-restart: app-stop app-up
 
 
 create-qdrant-collections:
-	docker compose -f .devcontainer/docker-compose.yml run --rm --entrypoint="python -m por.scripts.qdrant.create_collections" por-devcontainer
+	docker compose -f .devcontainer/docker-compose.yml run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.qdrant.create_collections" por-devcontainer
