@@ -179,7 +179,7 @@ files = [
             "collection": "ancora",
             "title": "Vida de perro: notas sobre método de investigación política",
             "language": "Spanish",
-            "author": "Cecilia Maas",
+            "author": "Marcela Pelerman",
         },
     },
     {
