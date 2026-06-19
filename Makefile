@@ -1,4 +1,4 @@
-.PHONY: core-build app-build devcontainer-build cmtv-disk-urls camera-memory-free
+.PHONY: core-build app-build devcontainer-build cmtv-disk-urls camera-memory-free run-text-oracle
 
 
 core-build:
@@ -61,3 +61,6 @@ camera-memory-free:
 
 create-qdrant-collections:
 	docker compose -f .devcontainer/docker-compose.yml run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.qdrant.create_collections" por-devcontainer
+
+run-text-oracle:
+	docker compose -f .devcontainer/docker-compose.yml run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.multi_agent.run_text_oracle" por-devcontainer
