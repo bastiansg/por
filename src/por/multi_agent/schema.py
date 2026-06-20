@@ -98,8 +98,6 @@ class StateSchema(BaseModel):
     song: Song | None = None
     lyrics_advise: StrictStr | None = None
     lyrics_text_chunks: list[TextChunk] = []
-    machiavelli_advice: StrictStr | None = None
-    machiavelli_text_chunks: list[TextChunk] = []
     selected_dc_poem: StrictStr | None = None
     selected_fc_message: StrictStr | None = None
     image_generation_prompt: StrictStr | None = None
