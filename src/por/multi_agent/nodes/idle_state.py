@@ -16,6 +16,13 @@ console = Console()
 
 async def run(state: StateSchema) -> dict[str, Any]:
     invoked_at = datetime.now().isoformat()
+
+    if state.audio_transcription is not None:
+        return {
+            "invoked_at": invoked_at,
+            "button_is_active": True,
+        }
+
     runtime = get_runtime(ContextSchema)
     runtime_context = runtime.context
 

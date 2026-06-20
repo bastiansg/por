@@ -22,6 +22,11 @@ console = Console()
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
+    if state.audio_transcription is not None:
+        return {
+            "recorder_ok": True,
+        }
+
     runtime = get_runtime(ContextSchema)
     runtime_context = runtime.context
 

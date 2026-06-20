@@ -109,7 +109,7 @@ def print_result(state: StateSchema) -> None:
 
 async def main() -> None:
     multi_agent = get_multi_agent()
-    context = get_multi_agent_context(test_mode=True)
+    context = get_multi_agent_context()
 
     render_header()
     print_panel(
