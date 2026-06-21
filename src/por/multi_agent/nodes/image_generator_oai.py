@@ -8,14 +8,11 @@ from PIL import Image
 from openai import AsyncOpenAI
 
 from multi_agents.graph import Node
-from rich.console import Console
+from por.multi_agent.console import render_node_banner, render_node_detail
 from por.multi_agent.schema import StateSchema, ContextSchema
 from por.llm_agents import ImagePrompter, ImagePrompterDeps
 
 from .utils import get_sensehat_dsp, get_dsp_images
-
-
-console = Console()
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
@@ -25,7 +22,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     if runtime_context.test_mode:
         return {}
 
-    console.log("runing image_generator...")
+    render_node_banner("image_generator")
 
     image_extension = runtime_context.image_extension
     audio_transcription = state.audio_transcription
@@ -69,7 +66,11 @@ async def run(state: StateSchema) -> dict[str, Any]:
         )
 
     except Exception:
-        console.log(f"rejected prompt: {image_generation_prompt}")
+        render_node_detail(
+            label="rejected_prompt",
+            value=image_generation_prompt,
+        )
+
         raise
 
     response_data = response.data

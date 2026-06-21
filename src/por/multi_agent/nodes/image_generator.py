@@ -8,14 +8,11 @@ from langgraph.runtime import get_runtime
 from PIL import Image
 
 from multi_agents.graph import Node
-from rich.console import Console
+from por.multi_agent.console import render_node_banner
 from por.multi_agent.schema import StateSchema, ContextSchema
 from por.llm_agents import ImagePrompter, ImagePrompterDeps
 
 from .utils import get_sensehat_dsp, get_dsp_images
-
-
-console = Console()
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
@@ -25,7 +22,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     if runtime_context.test_mode:
         return {}
 
-    console.log("runing image_generator...")
+    render_node_banner("image_generator")
 
     image_extension = runtime_context.image_extension
     audio_transcription = state.audio_transcription

@@ -1,16 +1,13 @@
 from typing import Any
 
 from multi_agents.graph import Node
-from rich.console import Console
 
+from por.multi_agent.console import render_node_banner
 from por.multi_agent.schema import StateSchema
 
 
-console = Console()
-
-
 async def run(state: StateSchema) -> dict[str, Any]:
-    console.log("running validation_checkpoint...")
+    render_node_banner("validation_checkpoint")
 
     if state.message_accepted:
         return {

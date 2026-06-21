@@ -2,17 +2,13 @@ from gpiozero import Button
 from escpos.printer import Usb
 from functools import lru_cache
 
-from rich.console import Console
-
 from sensehat_dsp.display import Image
 from sensehat_dsp.display import Display
 
 from por.dsp_images import dsp_images
 from por.db.qdrant import _get_text_chunks
 from por.meta.schema import TextChunk, ChunkMetadata
-
-
-console = Console()
+from por.multi_agent.console import render_node_detail
 
 
 @lru_cache(maxsize=1)
@@ -47,7 +43,7 @@ async def get_relevant_text_chunks(
     relevant_chunk_ids: list[str],
     collection_name: str,
 ) -> list[TextChunk]:
-    console.log(f"relevant_chunk_ids: {len(relevant_chunk_ids)}")
+    render_node_detail("relevant_chunk_ids", len(relevant_chunk_ids))
     chunk_records = await _get_text_chunks(
         collection_name=collection_name,
         key="chunk_id",

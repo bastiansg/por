@@ -1,18 +1,14 @@
 from typing import Any
 
 from multi_agents.graph import Node
-from rich.console import Console
 
-
+from por.multi_agent.console import render_node_banner
 from por.multi_agent.schema import StateSchema
 from por.llm_agents import AstrologyPlacementsExtractor
 
 
-console = Console()
-
-
 async def run(state: StateSchema) -> dict[str, Any]:
-    console.log("running astrology_placements_extractor...")
+    render_node_banner("astrology_placements_extractor")
 
     audio_transcription = state.audio_transcription
     assert audio_transcription is not None

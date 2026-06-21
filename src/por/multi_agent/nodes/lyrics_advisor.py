@@ -1,8 +1,8 @@
 from typing import Any
 
 from multi_agents.graph import Node
-from rich.console import Console
 
+from por.multi_agent.console import render_node_banner
 from por.multi_agent.schema import StateSchema
 from por.llm_agents.tools import lyrics_search_tool, get_text_chunks_tool
 from por.llm_agents import (
@@ -15,14 +15,11 @@ from por.llm_agents import (
 from .utils import get_relevant_text_chunks
 
 
-console = Console()
-
-
 COLLECTION_NAME = "lyrics"
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
-    console.log("running lyrics_advisor...")
+    render_node_banner("lyrics_advisor")
 
     psychological_profile = state.psychological_profile
     audio_transcription = state.audio_transcription

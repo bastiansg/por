@@ -4,11 +4,8 @@ from openai import AsyncOpenAI
 from langgraph.runtime import get_runtime
 
 from multi_agents.graph import Node
-from rich.console import Console
+from por.multi_agent.console import render_node_banner
 from por.multi_agent.schema import StateSchema, ContextSchema
-
-
-console = Console()
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
@@ -21,7 +18,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     if runtime_context.test_mode:
         return {}
 
-    console.log("runing audio_transcriber...")
+    render_node_banner("audio_transcriber")
 
     audio_buffer = state.audio_buffer
     assert audio_buffer is not None

@@ -5,15 +5,12 @@ from langgraph.runtime import get_runtime
 
 from multi_agents.graph import Node
 
-from rich.console import Console
+from por.multi_agent.console import render_node_banner
 from por.multi_agent.schema import StateSchema, ContextSchema
 
 
-console = Console()
-
-
 async def run(state: StateSchema) -> dict[str, Any]:
-    console.log("runing random_selector...")
+    render_node_banner("random_selector")
     runtime = get_runtime(ContextSchema)
     runtime_context = runtime.context
 

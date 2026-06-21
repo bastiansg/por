@@ -1,45 +1,21 @@
-import asyncio
 import uuid
+import asyncio
+
 from pathlib import Path
 
 from rich import box
-from rich.align import Align
-from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Prompt
-from rich.text import Text
 
 from por.multi_agent import get_multi_agent, get_multi_agent_context
+from por.multi_agent.console import console, render_header
 from por.multi_agent.schema import StateSchema
 
 
-console = Console()
-
 EXIT_COMMANDS = {"exit", "quit", "q"}
-POR_BANNER = (
-    "██████╗  ██████╗ ██████╗ ",
-    "██╔══██╗██╔═══██╗██╔══██╗",
-    "██████╔╝██║   ██║██████╔╝",
-    "██╔═══╝ ██║   ██║██╔══██╗",
-    "██║     ╚██████╔╝██║  ██║",
-    "╚═╝      ╚═════╝ ╚═╝  ╚═╝",
-)
 IMAGE_PATH = (
     Path(__file__).resolve().parents[4] / "resources" / "images" / "bas-13.jpg"
 )
-
-
-def render_header() -> None:
-    banner = Text(justify="center")
-    styles = ("bold bright_magenta", "bold magenta", "bold bright_cyan")
-    for line, style in zip(POR_BANNER, styles * 2, strict=True):
-        banner.append(f"{line}\n", style=style)
-
-    banner.append(
-        "P O P   O R A C L E   R O B O T",
-        style="dim bright_magenta",
-    )
-    console.print(Align.center(banner))
 
 
 def print_panel(
@@ -66,6 +42,7 @@ def print_result(state: StateSchema) -> None:
             title="*** EL ORÁCULO HA RECHAZADO TU CONSULTA ***",
             border_style="bright_red",
         )
+
         return
 
     primary_advice = state.nietzsche_advise or state.astrology_advice
@@ -74,11 +51,13 @@ def print_result(state: StateSchema) -> None:
         if state.nietzsche_advise is not None
         else "$$ LO QUE DICEN LOS ASTROS"
     )
+
     print_panel(
         content=primary_advice,
         title=primary_title,
         border_style="bright_magenta",
     )
+
     print_panel(
         content=state.satc_advice,
         title="$$ LO QUE ESCRIBE CARRIE BRADSHAW",
@@ -93,7 +72,7 @@ def print_result(state: StateSchema) -> None:
                 f"{state.lyrics_advise}"
             ),
             title="$$ LO QUE TENÉS QUE ESCUCHAR",
-            border_style="bright_yellow",
+            border_style="bright_cyan",
         )
 
     print_panel(
@@ -114,18 +93,13 @@ async def main() -> None:
     render_header()
     print_panel(
         content="TYPE  EXIT  /  QUIT  /  Q  TO ESCAPE THE ORACLE",
-        title="::: SYSTEM ONLINE :::",
+        title="::: THE ORACLE IS LISTENING :::",
         border_style="bright_cyan",
     )
 
     while True:
-        console.print(
-            "\n[bold bright_magenta]"
-            ">>> THROW YOUR QUESTION INTO THE VOID"
-            "[/bold bright_magenta]"
-        )
         question = Prompt.ask(
-            "[bold bright_yellow]YOUR QUESTION ???[/bold bright_yellow]"
+            "\n[bold bright_magenta]YOUR QUESTION ???[/bold bright_magenta]"
         ).strip()
 
         if question.lower() in EXIT_COMMANDS:
@@ -146,7 +120,9 @@ async def main() -> None:
             thread_id=image_id,
         )
 
+        assert state is not None
         print_result(state)
+
         console.print()
 
 

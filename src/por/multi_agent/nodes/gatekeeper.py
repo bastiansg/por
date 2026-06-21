@@ -1,19 +1,16 @@
 from typing import Any
 
 from multi_agents.graph import Node
-from rich.console import Console
 
 from por.llm_agents import Gatekeeper, GatekeeperDeps
+from por.multi_agent.console import render_node_banner
 from por.multi_agent.schema import StateSchema
 
 from .utils import get_sensehat_dsp, get_dsp_images
 
 
-console = Console()
-
-
 async def run(state: StateSchema) -> dict[str, Any]:
-    console.log("runing gatekeeper...")
+    render_node_banner("gatekeeper")
 
     sensehat_dsp = get_sensehat_dsp()
     sensehat_dsp.stop()

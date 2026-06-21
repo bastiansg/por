@@ -5,19 +5,16 @@ from pydantic_ai import BinaryContent
 from pydantic_extra_types.language_code import LanguageName
 
 from multi_agents.graph import Node
-from rich.console import Console
 
+from por.multi_agent.console import render_node_banner
 from por.multi_agent.schema import StateSchema, ContextSchema
 from por.llm_agents import PsychologicalDescriber, PsychologicalDescriberDeps
 
 from .utils import get_sensehat_dsp, get_dsp_images
 
 
-console = Console()
-
-
 async def run(state: StateSchema) -> dict[str, Any]:
-    console.log("runing psychological_describer...")
+    render_node_banner("psychological_describer")
     runtime = get_runtime(ContextSchema)
     runtime_context = runtime.context
 

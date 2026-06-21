@@ -4,21 +4,16 @@ from langgraph.runtime import get_runtime
 from pydantic_ai import BinaryContent
 
 from multi_agents.graph import Node
-from rich.console import Console
 
+from por.multi_agent.console import render_node_banner
 from por.multi_agent.schema import StateSchema, ContextSchema
 from por.llm_agents import (
     ImageDescriber,
     MicrophoneRemover,
     MicrophoneRemoverDeps,
 )
-
-
-console = Console()
-
-
 async def run(state: StateSchema) -> dict[str, Any]:
-    console.log("runing image_describer...")
+    render_node_banner("image_describer")
     runtime = get_runtime(ContextSchema)
     runtime_context = runtime.context
 
