@@ -7,6 +7,7 @@ from rich import box
 from rich.panel import Panel
 from rich.prompt import Prompt
 
+from por.utils.json import save_json
 from por.multi_agent import get_multi_agent, get_multi_agent_context
 from por.multi_agent.console import console, render_header
 from por.multi_agent.schema import StateSchema
@@ -16,6 +17,7 @@ EXIT_COMMANDS = {"exit", "quit", "q"}
 IMAGE_PATH = (
     Path(__file__).resolve().parents[4] / "resources" / "images" / "bas-13.jpg"
 )
+STORE_PATH = Path("/resources/states")
 
 
 def print_panel(
@@ -58,11 +60,12 @@ def print_result(state: StateSchema) -> None:
         border_style="bright_magenta",
     )
 
-    print_panel(
-        content=state.satc_advice,
-        title="$$ LO QUE ESCRIBE CARRIE BRADSHAW",
-        border_style="bright_cyan",
-    )
+    if state.satc_advice is not None:
+        print_panel(
+            content=state.satc_advice,
+            title="$$ LO QUE ESCRIBE CARRIE BRADSHAW",
+            border_style="bright_cyan",
+        )
 
     song = state.song
     if song is not None:
@@ -89,6 +92,7 @@ def print_result(state: StateSchema) -> None:
 async def main() -> None:
     multi_agent = get_multi_agent()
     context = get_multi_agent_context()
+    STORE_PATH.mkdir(parents=True, exist_ok=True)
 
     render_header()
     print_panel(
@@ -121,6 +125,15 @@ async def main() -> None:
         )
 
         assert state is not None
+
+        invoked_at = state.invoked_at
+        assert invoked_at is not None
+
+        save_json(
+            obj=state.model_dump(),
+            file_path=str(STORE_PATH / f"{invoked_at}-{image_id}.json"),
+        )
+
         print_result(state)
 
         console.print()

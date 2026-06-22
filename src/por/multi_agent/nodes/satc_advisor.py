@@ -19,6 +19,18 @@ COLLECTION_NAME = "satc"
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
+    astrology_placements = state.astrology_placements
+    assert astrology_placements is not None
+
+    if any(
+        [
+            astrology_placements.sun is not None,
+            astrology_placements.rising is not None,
+            astrology_placements.moon is not None,
+        ]
+    ):
+        return {}
+
     render_node_banner("satc_advisor")
 
     psychological_profile = state.psychological_profile

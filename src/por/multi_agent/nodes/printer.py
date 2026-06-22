@@ -125,29 +125,33 @@ def main_pipeline(
 
     #################################################################
 
-    printer.set(bold=True, align="left")
-    printer.set(bold=True)
-    printer.block_text("$$ Lo que escribe Carrie Bradshaw:")
-    printer.text("\n")
-    printer.set(bold=False)
+    if state.satc_advice is not None:
+        printer.set(bold=True, align="left")
+        printer.set(bold=True)
+        printer.block_text("$$ Lo que escribe Carrie Bradshaw:")
+        printer.text("\n")
+        printer.set(bold=False)
 
-    printer.block_text(state.satc_advice)
-    printer.text("\n\n")
+        printer.block_text(state.satc_advice)
+        printer.text("\n\n")
 
     #################################################################
 
-    printer.set(bold=True, align="left")
-    printer.set(bold=True)
-    printer.block_text("$$ Lo que tenés que escuchar:")
-    printer.set(bold=False)
-    printer.text("\n")
+    if state.song is not None and state.lyrics_advise is not None:
+        printer.set(bold=True, align="left")
+        printer.set(bold=True)
+        printer.block_text("$$ Lo que tenés que escuchar:")
+        printer.set(bold=False)
+        printer.text("\n")
 
-    song_text = f"{state.song.title} | {state.song.artist} | {state.song.year}"  # type: ignore
-    printer.block_text(song_text)
-    printer.text("\n\n")
-    printer.block_text(state.lyrics_advise)  # type: ignore
+        song_text = (
+            f"{state.song.title} | {state.song.artist} | {state.song.year}"
+        )
 
-    printer.text("\n\n")
+        printer.block_text(song_text)
+        printer.text("\n\n")
+        printer.block_text(state.lyrics_advise)
+        printer.text("\n\n")
 
     printer.text("------------------------------------------------")
     printer.text("\n\n")
@@ -188,6 +192,8 @@ def main_pipeline(
     printer.set(align="center")
     printer.set(font=1)  # type: ignore
     printer.block_text("Ticket no válido como factura :)")
+    printer.text("\n")
+    printer.block_text(state.image_id)
 
     printer.cut()
     printer.close()
