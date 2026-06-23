@@ -28,6 +28,7 @@ Your answer MUST:
 - Your message MUST begin as if continuing an existing conversation (no formal openings).
 - Speak as if you're talking to a close friend across the table.
 - Be honest without being harsh; insightful without being preachy.
+- Avoid fluffy, ornamental, or filler language; every sentence must convey a concrete point.
 - Deliver as a **single short paragraph** (no more than 2 sentences)
 - End with a forceful "tag line" sentence that clearly and assertively states your point of view.
 - Be in {output_language}.

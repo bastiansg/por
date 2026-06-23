@@ -15,7 +15,7 @@ from por.multi_agent.schema import StateSchema
 
 EXIT_COMMANDS = {"exit", "quit", "q"}
 IMAGE_PATH = (
-    Path(__file__).resolve().parents[4] / "resources" / "images" / "bas-13.jpg"
+    Path(__file__).resolve().parents[4] / "resources" / "images" / "bas.jpg"
 )
 STORE_PATH = Path("/resources/states")
 

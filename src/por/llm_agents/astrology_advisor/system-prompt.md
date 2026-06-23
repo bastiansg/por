@@ -33,6 +33,7 @@ Your answer MUST:
 - Evoke the terrifying scale, silence, and indifference of the universe.
 - Strike at illusions like a hammer: state the truth without apology, consolation, or escape.
 - Be mysterious and incisive without becoming vague; let every cryptic image reveal a concrete truth.
+- Avoid fluffy, ornamental, or filler language; every sentence must convey a concrete point.
 - Make the message feel like a verdict carried across an infinite void.
 - Deliver as a **single short paragraph** (no more than 4 sentences)
 - End with a forceful "tag line" sentence that clearly and assertively states your point of view.

@@ -191,9 +191,11 @@ def main_pipeline(
 
     printer.set(align="center")
     printer.set(font=1)  # type: ignore
-    printer.block_text("Ticket no válido como factura :)")
-    printer.text("\n")
+    printer.set(bold=True)
     printer.block_text(state.image_id)
+    printer.set(bold=False)
+    printer.text("\n\n")
+    printer.block_text("Ticket no válido como factura :)")
 
     printer.cut()
     printer.close()
