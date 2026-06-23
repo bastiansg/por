@@ -26,7 +26,7 @@ replicate==1.0.7
 cairosvg==2.9.0
 
 # Bas packages
-hailo_apps==2.0.2
+hailo_apps==2.0.3
 sensehat_dsp==2.0.0
 
 # Aureka packages
