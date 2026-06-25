@@ -6,10 +6,11 @@ from qdrant_client import models
 from pydantic import Field
 from pydantic_ai import Tool, RunContext
 
-from por.meta.schema import TextChunk
+from por.meta.schema import TextChunk, ChunkMetadataFilter
 from por.db.qdrant import (
     hybrid_search,
-    _get_text_chunks,
+    _get_text_chunk,
+    # _get_text_chunks,
 )
 
 
@@ -120,35 +121,156 @@ async def lyrics_search(
     )
 
 
-async def get_text_chunks(
+async def search_by_chunk_metadata_filters(
     ctx: RunContext,
-    chunk_ids: Annotated[
-        list[str],
-        Field(description="chunk_id values of the text chunks to retrieve."),
+    query: Annotated[
+        str,
+        Field(description="Query to search for relevant text chunks."),
+    ],
+    metadata_filters: Annotated[
+        list[ChunkMetadataFilter],
+        Field(
+            description="Chunk metadata key and value filters to narrow the search by.",
+            min_length=1,
+        ),
     ],
 ) -> list[TextChunk]:
-    """Retrieve specific text chunks using their chunk_id values.
+    """Run a hybrid search filtered by chunk metadata values.
 
     Args:
-        ctx: Runtime context with collection dependencies.
-        chunk_ids: chunk_id values of the text chunks to retrieve.
+        query: Query to search for relevant text chunks.
+        metadata_filters: Chunk metadata key and value filters to narrow
+            the search by.
     """
 
     deps = ctx.deps
     assert deps is not None
 
-    records = await _get_text_chunks(
-        collection_name=deps.collection_name,
-        key="chunk_id",
-        values=chunk_ids,
+    search_filter = models.Filter(
+        must=[
+            models.FieldCondition(
+                key=f"metadata.{metadata_filter.key}",
+                match=models.MatchValue(value=metadata_filter.value),
+            )
+            for metadata_filter in metadata_filters
+        ],
     )
 
-    return [
-        TextChunk(
-            text=r.payload["page_content"],  # type: ignore
-            metadata=r.payload["metadata"],  # type: ignore
+    return await hybrid_search(
+        query=query,
+        collection_name=deps.collection_name,
+        search_filter=search_filter,
+    )
+
+
+# async def get_text_chunks(
+#     ctx: RunContext,
+#     chunk_ids: Annotated[
+#         list[str],
+#         Field(description="chunk_id values of the text chunks to retrieve."),
+#     ],
+# ) -> list[TextChunk]:
+#     """Retrieve specific text chunks using their chunk_id values.
+
+#     Args:
+#         chunk_ids: chunk_id values of the text chunks to retrieve.
+#     """
+
+#     deps = ctx.deps
+#     assert deps is not None
+
+#     records = await _get_text_chunks(
+#         collection_name=deps.collection_name,
+#         key="chunk_id",
+#         values=chunk_ids,
+#     )
+
+#     return [
+#         TextChunk(
+#             text=r.payload["page_content"],  # type: ignore
+#             metadata=r.payload["metadata"],  # type: ignore
+#         )
+#         for r in records
+#     ]
+
+
+async def get_neighboring_text_chunks(
+    ctx: RunContext,
+    chunk_id: Annotated[
+        str,
+        Field(description="chunk_id value of the center text chunk."),
+    ],
+    before: Annotated[
+        int,
+        Field(description="Number of previous chunks to retrieve.", ge=0, le=5),
+    ] = 1,
+    after: Annotated[
+        int,
+        Field(description="Number of next chunks to retrieve.", ge=0, le=5),
+    ] = 1,
+) -> list[TextChunk]:
+    """Retrieve neighboring text chunks around a center chunk.
+
+    Args:
+        chunk_id: chunk_id value of the center text chunk.
+        before: Number of previous chunks to retrieve.
+        after: Number of next chunks to retrieve.
+    """
+
+    deps = ctx.deps
+    assert deps is not None
+
+    async def get_text_chunk(value: str) -> TextChunk | None:
+        record = await _get_text_chunk(
+            collection_name=deps.collection_name,
+            key="chunk_id",
+            value=value,
         )
-        for r in records
+
+        if record is None or record.payload is None:
+            return None
+
+        return TextChunk(
+            text=record.payload["page_content"],  # type: ignore
+            metadata=record.payload["metadata"],  # type: ignore
+        )
+
+    center = await get_text_chunk(chunk_id)
+    if center is None:
+        return []
+
+    previous_chunks: list[TextChunk] = []
+    current = center
+
+    for _ in range(before):
+        previous_chunk_id = current.metadata.previous_chunk_id
+        if previous_chunk_id is None:
+            break
+
+        current = await get_text_chunk(previous_chunk_id)
+        if current is None:
+            break
+
+        previous_chunks.append(current)
+
+    next_chunks: list[TextChunk] = []
+    current = center
+
+    for _ in range(after):
+        next_chunk_id = current.metadata.next_chunk_id
+        if next_chunk_id is None:
+            break
+
+        current = await get_text_chunk(next_chunk_id)
+        if current is None:
+            break
+
+        next_chunks.append(current)
+
+    return [
+        *reversed(previous_chunks),
+        center,
+        *next_chunks,
     ]
 
 
@@ -184,9 +306,16 @@ lyrics_search_tool = Tool(
     require_parameter_descriptions=True,
 )
 
-get_text_chunks_tool = Tool(
-    function=get_text_chunks,
-    description="Retrieve specific text chunks using their chunk_id values.",
+search_by_chunk_metadata_filters_tool = Tool(
+    function=search_by_chunk_metadata_filters,
+    description="Run a hybrid search filtered by chunk metadata values.",
+    docstring_format="google",
+    require_parameter_descriptions=True,
+)
+
+get_neighboring_text_chunks_tool = Tool(
+    function=get_neighboring_text_chunks,
+    description="Retrieve neighboring text chunks around a center chunk.",
     docstring_format="google",
     require_parameter_descriptions=True,
 )

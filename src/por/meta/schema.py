@@ -39,6 +39,16 @@ class ChunkMetadata(BaseModel):
     )
 
 
+class ChunkMetadataFilter(BaseModel):
+    key: Literal["title", "artist", "author"] = Field(
+        description="Chunk metadata field to filter by."
+    )
+
+    value: StrictStr = Field(
+        description="Exact metadata value to match for the selected filter field."
+    )
+
+
 class TextChunk(BaseModel):
     text: StrictStr = Field(description="The textual content of the chunk.")
     metadata: ChunkMetadata

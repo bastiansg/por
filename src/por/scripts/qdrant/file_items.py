@@ -171,6 +171,24 @@ files = [
             "author": "Eugenio Carutti",
         },
     },
+    {
+        "source": "el-ascendente.pdf",
+        "metadata": {
+            "collection": "astrology",
+            "title": "El ascendente",
+            "language": "Spanish",
+            "author": "Beatriz Leveratto",
+        },
+    },
+    {
+        "source": "vibrar-en-tu-elemento.pdf",
+        "metadata": {
+            "collection": "astrology",
+            "title": "Vibrar en tu elemento",
+            "language": "Spanish",
+            "author": "Beatriz Leveratto",
+        },
+    },
 ]
 
 

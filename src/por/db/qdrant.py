@@ -89,3 +89,26 @@ async def _get_text_chunks(
     )
 
     return results
+
+
+async def _get_text_chunk(
+    collection_name: str,
+    key: str,
+    value: str,
+) -> Record | None:
+    scroll_filter = models.Filter(
+        must=[
+            models.FieldCondition(
+                key=f"metadata.{key}",
+                match=models.MatchValue(value=value),
+            )
+        ]
+    )
+
+    results = await retriever.scroll(
+        collection_name=collection_name,
+        limit=1,
+        scroll_filter=scroll_filter,
+    )
+
+    return next(iter(results), None)

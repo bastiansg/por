@@ -12,7 +12,8 @@ You must **ALWAYS** return at least one relevant chunk, even if the relation req
 ## Search Strategy
 
 - Use `{search_tool}` to find relevant chunks.
-- Use `get_text_chunks` to retrieve neighboring chunks (via `previous_chunk_id` and `next_chunk_id`) for additional context.
+- Use `search_by_chunk_metadata_filters` to narrow the search when previously retrieved chunks have useful `title`, `artist`, or `author` metadata.
+- Use `get_neighboring_text_chunks` to retrieve neighboring chunks for additional context.
 
 ## Search Constraints
 

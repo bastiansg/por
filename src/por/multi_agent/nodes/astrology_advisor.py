@@ -2,7 +2,11 @@ from typing import Any
 
 from multi_agents.graph import Node
 
-from por.llm_agents.tools import astrology_search_tool, get_text_chunks_tool
+from por.llm_agents.tools import (
+    astrology_search_tool,
+    get_neighboring_text_chunks_tool,
+    search_by_chunk_metadata_filters_tool,
+)
 from por.multi_agent.console import render_node_banner
 from por.multi_agent.schema import StateSchema
 from por.llm_agents import (
@@ -45,7 +49,8 @@ async def run(state: StateSchema) -> dict[str, Any]:
     ra = RetrievalAssistant(
         tools=[
             astrology_search_tool,
-            get_text_chunks_tool,  # type: ignore
+            search_by_chunk_metadata_filters_tool,  # type: ignore
+            get_neighboring_text_chunks_tool,  # type: ignore
         ]
     )
 

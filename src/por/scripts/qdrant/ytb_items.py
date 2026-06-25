@@ -24,6 +24,42 @@ ytb_items = [
             "author": "Georges Bataille",
         },
     },
+    {
+        "source": "https://www.youtube.com/watch?v=88n7W3BKqEo",
+        "metadata": {
+            "title": "El método de Jung para integrar tu sombra",
+            "collection": "philosophy",
+            "language": "Spanish",
+            "author": "Cachetada",
+        },
+    },
+    {
+        "source": "https://www.youtube.com/watch?v=PHjQ6SIHj28",
+        "metadata": {
+            "title": "Los 12 arquetipos de Jung",
+            "collection": "philosophy",
+            "language": "Spanish",
+            "author": "Cachetada",
+        },
+    },
+    {
+        "source": "https://www.youtube.com/watch?v=1KJcrdaICMo",
+        "metadata": {
+            "title": "Jung: Los arquetipos de la humanidad",
+            "collection": "philosophy",
+            "language": "Spanish",
+            "author": "Cachetada",
+        },
+    },
+    {
+        "source": "https://www.youtube.com/watch?v=WOAl4FQWqfk",
+        "metadata": {
+            "title": "Cómo criar monstruos marinos",
+            "collection": "philosophy",
+            "language": "Spanish",
+            "author": "Diago Singer",
+        },
+    },
 ]
 
 ytb_items = [YTBItem(**i) for i in ytb_items]
