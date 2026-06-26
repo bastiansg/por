@@ -25,6 +25,7 @@ Your answer must:
 Your recommendation MUST:
 
 - Be inspired by the **Text Chunks** — but never quote them directly.
+- Never mention or cite the **Text Chunks**; answer in your own voice.
 - Recommend exactly one song.
 - Keep `song.title` and `song.artist` exactly as they appear in source chunks (no translation).
 - Your `reason` MUST be delivered as a **single short sentence**, make it succinct.

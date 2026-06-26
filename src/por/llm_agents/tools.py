@@ -12,6 +12,7 @@ from por.db.qdrant import (
     _get_text_chunk,
     # _get_text_chunks,
 )
+from por.llm_agents.utils import get_astro_weekly_data
 
 
 console = Console()
@@ -19,6 +20,20 @@ console = Console()
 
 SEARCH_TOP_K = 5
 SEARCH_SCORE_THRESHOLD = 0.3
+ZODIAC_SIGN_IDS = {
+    "Aries": "ari",
+    "Taurus": "tau",
+    "Gemini": "gem",
+    "Cancer": "can",
+    "Leo": "leo",
+    "Virgo": "vir",
+    "Libra": "lib",
+    "Scorpio": "sco",
+    "Sagittarius": "sag",
+    "Capricorn": "cap",
+    "Aquarius": "aqu",
+    "Pisces": "pis",
+}
 
 
 async def philosophy_search(
@@ -80,6 +95,46 @@ async def astrology_search(
         query=query,
         collection_name="astrology",
     )
+
+
+async def get_astro_weekly_general_tendencies() -> str:
+    """Return The Weekly Horoscope general tendencies."""
+
+    data = await get_astro_weekly_data()
+    document = data["gen"]
+
+    return document.text
+
+
+async def get_astro_weekly_horoscope_by_sign(
+    sign: Annotated[
+        Literal[
+            "Aries",
+            "Taurus",
+            "Gemini",
+            "Cancer",
+            "Leo",
+            "Virgo",
+            "Libra",
+            "Scorpio",
+            "Sagittarius",
+            "Capricorn",
+            "Aquarius",
+            "Pisces",
+        ],
+        Field(description="Zodiac sign to retrieve the weekly horoscope for."),
+    ],
+) -> str:
+    """Return The Weekly Horoscope for a zodiac sign.
+
+    Args:
+        sign: Zodiac sign to retrieve the weekly horoscope for.
+    """
+
+    data = await get_astro_weekly_data()
+    document = data[ZODIAC_SIGN_IDS[sign]]
+
+    return document.text
 
 
 async def lyrics_search(
@@ -295,6 +350,20 @@ satc_search_tool = Tool(
 astrology_search_tool = Tool(
     function=astrology_search,
     description="Run a hybrid search across Astrology sources.",
+    docstring_format="google",
+    require_parameter_descriptions=True,
+)
+
+astro_weekly_general_tendencies_tool = Tool(
+    function=get_astro_weekly_general_tendencies,
+    description="Return The Weekly Horoscope general tendencies.",
+    docstring_format="google",
+    require_parameter_descriptions=True,
+)
+
+astro_weekly_horoscope_by_sign_tool = Tool(
+    function=get_astro_weekly_horoscope_by_sign,
+    description="Return The Weekly Horoscope for a zodiac sign.",
     docstring_format="google",
     require_parameter_descriptions=True,
 )

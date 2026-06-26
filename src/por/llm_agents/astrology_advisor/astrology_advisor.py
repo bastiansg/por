@@ -8,6 +8,10 @@ from pydantic_extra_types.language_code import LanguageName
 
 from llm_agents.meta.interfaces import LLMAgent
 from por.meta.schema import TextChunk, AstrologyPlacements, PsychologicalProfile
+# from por.llm_agents.tools import (
+#     astro_weekly_general_tendencies_tool,
+#     astro_weekly_horoscope_by_sign_tool,
+# )
 
 
 class AstrologyAdvisorDeps(BaseModel):
@@ -39,6 +43,10 @@ agent = Agent(  # type: ignore
     ),
     deps_type=AstrologyAdvisorDeps,
     output_type=NativeOutput(AstrologyAdvisorOutput),
+    # tools=[
+    #     astro_weekly_general_tendencies_tool,
+    #     astro_weekly_horoscope_by_sign_tool,
+    # ],
     retries=3,
 )
 

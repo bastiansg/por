@@ -1,10 +1,13 @@
 import json
 
+from async_lru import alru_cache
 from typing import Any, AsyncIterator
 
 from pydantic_ai.messages import AgentStreamEvent
 from pydantic_ai import RunContext, FunctionToolCallEvent, ToolDefinition
 
+
+from por.loaders import AstroWeeklyLoader
 from por.multi_agent.console import render_node_detail, render_tool_call
 
 
@@ -32,3 +35,11 @@ async def tool_logging_handler(
                 tool_name=event.part.tool_name,
                 parameters=json.loads(event.part.args),  # type: ignore
             )
+
+
+@alru_cache()
+async def get_astro_weekly_data() -> dict:
+    loader = AstroWeeklyLoader()
+    docs = await loader.load()
+
+    return {doc.metadata["sign_id"]: doc for doc in docs}

@@ -1,6 +1,9 @@
+import os
 import uuid
 import asyncio
+import logfire
 
+from time import sleep
 from pathlib import Path
 
 from rich import box
@@ -12,6 +15,13 @@ from por.multi_agent import get_multi_agent, get_multi_agent_context
 from por.multi_agent.console import console, render_header
 from por.multi_agent.schema import StateSchema
 
+
+if os.getenv("LOGFIRE_TOKEN") is not None:
+    logfire.configure(service_name="por")
+    logfire.instrument_pydantic_ai()
+    logfire.instrument_openai()
+
+sleep(1)
 
 EXIT_COMMANDS = {"exit", "quit", "q"}
 IMAGE_PATH = (
