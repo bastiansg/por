@@ -1,6 +1,7 @@
 polars==1.41.2
 gpiozero==2.0.1
 more-itertools==11.1.0
+async_lru==2.3.0
 
 ipython==9.10.0
 # ipython==9.12.0

@@ -3,15 +3,15 @@ import uuid
 import logfire
 import asyncio
 
+from time import sleep
 from functools import lru_cache
 
 from rich.pretty import pprint
-from rich.console import Console
-
 from multi_agents.graph import MultiAgentGraph
 
 from por.utils.json import save_json
 from por.multi_agent import get_multi_agent, get_multi_agent_context
+from por.multi_agent.console import render_header
 
 
 if os.getenv("LOGFIRE_TOKEN") is not None:
@@ -19,9 +19,7 @@ if os.getenv("LOGFIRE_TOKEN") is not None:
     logfire.instrument_pydantic_ai()
     logfire.instrument_openai()
 
-
-console = Console()
-
+sleep(1)
 
 STORE_PATH = "/resources/states"
 os.makedirs(STORE_PATH, exist_ok=True)
@@ -30,7 +28,7 @@ os.makedirs(STORE_PATH, exist_ok=True)
 @lru_cache()
 def _get_multi_agent() -> MultiAgentGraph:
     multi_agent = get_multi_agent()
-    multi_agent.display_graph()
+    render_header()
 
     return multi_agent
 

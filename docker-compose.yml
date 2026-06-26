@@ -45,6 +45,9 @@ services:
             - /run/udev:/run/udev:ro
         env_file:
             - .env
+        environment:
+            FORCE_COLOR: "1"
+            TERM: xterm-256color
         privileged: true
         restart: unless-stopped
         networks:
