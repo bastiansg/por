@@ -6,7 +6,7 @@ import asyncio
 from time import sleep
 from functools import lru_cache
 
-from rich.pretty import pprint
+# from rich.pretty import pprint
 from multi_agents.graph import MultiAgentGraph
 
 from por.utils.json import save_json
@@ -49,7 +49,7 @@ async def main() -> None:
 
         assert state is not None
         state = state.model_dump()
-        pprint(state)
+        # pprint(state)
 
         invoked_at = state["invoked_at"]
         assert invoked_at is not None

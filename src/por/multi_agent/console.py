@@ -19,11 +19,13 @@ POR_BANNER = (
     "██║     ╚██████╔╝██║  ██║",
     "╚═╝      ╚═════╝ ╚═╝  ╚═╝",
 )
+
 POR_STYLES = (
     "bold bright_magenta",
     "bold magenta",
     "bold bright_cyan",
 )
+
 NODE_ACTIONS = {
     "astrology_advisor": "READING THE STARS",
     "astrology_placements_extractor": "LOOKING FOR YOUR SUN / MOON / RISING",
@@ -46,6 +48,8 @@ NODE_ACTIONS = {
 
 def render_header() -> None:
     banner = Text(justify="center")
+    banner.append("\n\n")
+
     for line, style in zip(POR_BANNER, cycle(POR_STYLES), strict=False):
         banner.append(f"{line}\n", style=style)
 
@@ -65,7 +69,6 @@ def render_node_banner(node_name: str) -> None:
     message.append(f"{label} ]\n", style="bold white")
     message.append("└──> ", style="dim magenta")
     message.append(f"{action}...\n", style="dim white")
-
     console.print(message)
 
 
@@ -79,9 +82,9 @@ def render_node_detail(
         label.replace("_", " ").upper(),
         style="bold white",
     )
+
     detail.append(" // ", style="dim magenta")
     detail.append(str(value), style="dim white")
-
     console.print(detail)
 
 
@@ -96,6 +99,7 @@ def render_tool_call(
         indent=2,
         default=str,
     )
+
     message = Text()
     message.append("\n┌─[ ", style="dim magenta")
     message.append(f"TOOL // {label} ]\n", style="bold white")
@@ -108,5 +112,4 @@ def render_tool_call(
 
     message.append("└──> ", style="dim magenta")
     message.append("INVOKING TOOL...\n", style="dim white")
-
     console.print(message)
