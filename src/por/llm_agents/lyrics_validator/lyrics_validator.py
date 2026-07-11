@@ -1,7 +1,6 @@
 from pathlib import Path
 
-from pydantic_ai import Agent, NativeOutput
-from pydantic_ai.models.openai import OpenAIChatModelSettings
+from pydantic_ai import Agent, ToolOutput
 from pydantic import BaseModel, StrictBool, Field
 from pydantic_extra_types.language_code import LanguageName
 
@@ -20,12 +19,11 @@ class LyricsValidatorOutput(BaseModel):
 
 agent = Agent(  # type: ignore
     name="lyrics-validator",
-    model="gpt-5.4-2026-03-05",
-    model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
+    model="gpt-5.6-terra",
     system_prompt=LLMAgent.read_file(
         file_path=str(Path(__file__).with_name("system-prompt.md"))
     ),
-    output_type=NativeOutput(LyricsValidatorOutput),
+    output_type=ToolOutput(LyricsValidatorOutput),
     retries=3,
 )
 

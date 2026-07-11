@@ -1,10 +1,10 @@
 from pathlib import Path
 
-from pydantic_ai import Agent, RunContext, NativeOutput
-from pydantic_ai.models.openai import OpenAIChatModelSettings
+from pydantic_ai import Agent, RunContext, ToolOutput
 
 from pydantic import BaseModel, StrictStr, Field
 from pydantic_extra_types.language_code import LanguageName
+from pydantic_ai.models.openai import OpenAIChatModelSettings
 
 from llm_agents.meta.interfaces import LLMAgent
 
@@ -31,13 +31,13 @@ class NietzscheAdvisorOutput(BaseModel):
 
 agent = Agent(  # type: ignore
     name="nietzsche-advisor",
-    model="gpt-5.4-2026-03-05",
+    model="gpt-5.6-terra",
     model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
     system_prompt=LLMAgent.read_file(
         file_path=str(Path(__file__).with_name("system-prompt.md"))
     ),
     deps_type=NietzscheAdvisorDeps,
-    output_type=NativeOutput(NietzscheAdvisorOutput),
+    output_type=ToolOutput(NietzscheAdvisorOutput),
     retries=3,
 )
 

@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pydantic_ai import Agent, RunContext, NativeOutput
+from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
 from pydantic import BaseModel, StrictStr
 from pydantic_extra_types.language_code import LanguageName
@@ -21,13 +21,13 @@ class PsychologicalDescriberOutput(PsychologicalProfile):
 
 agent = Agent(  # type: ignore
     name="psychological-describer",
-    model="gpt-5.4-mini-2026-03-17",
+    model="gpt-5.6-luna",
     model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
     system_prompt=LLMAgent.read_file(
         file_path=str(Path(__file__).with_name("system-prompt.md"))
     ),
     deps_type=PsychologicalDescriberDeps,
-    output_type=NativeOutput(PsychologicalDescriberOutput),
+    output_type=ToolOutput(PsychologicalDescriberOutput),
     retries=3,
 )
 

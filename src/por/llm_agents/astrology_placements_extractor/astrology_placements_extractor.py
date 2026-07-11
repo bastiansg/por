@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pydantic_ai import Agent, NativeOutput
+from pydantic_ai import Agent, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
 
 from llm_agents.meta.interfaces import LLMAgent
@@ -15,7 +15,7 @@ agent = Agent(  # type: ignore
     system_prompt=LLMAgent.read_file(
         file_path=str(Path(__file__).with_name("system-prompt.md"))
     ),
-    output_type=NativeOutput(AstrologyPlacements),
+    output_type=ToolOutput(AstrologyPlacements),
     retries=3,
 )
 

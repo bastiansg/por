@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pydantic_ai import Agent, RunContext, NativeOutput
+from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
 
 from pydantic import BaseModel, StrictStr, Field
@@ -34,15 +34,14 @@ class AstrologyAdvisorOutput(BaseModel):
 
 
 agent = Agent(  # type: ignore
-    # model="gpt-5.4-2026-03-05",
     name="astrology-advisor",
-    model="gpt-5.4-2026-03-05",
+    model="gpt-5.6-terra",
     model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
     system_prompt=LLMAgent.read_file(
         file_path=str(Path(__file__).with_name("system-prompt.md"))
     ),
     deps_type=AstrologyAdvisorDeps,
-    output_type=NativeOutput(AstrologyAdvisorOutput),
+    output_type=ToolOutput(AstrologyAdvisorOutput),
     # tools=[
     #     astro_weekly_general_tendencies_tool,
     #     astro_weekly_horoscope_by_sign_tool,

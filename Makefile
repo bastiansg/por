@@ -62,7 +62,7 @@ camera-memory-free:
 create-qdrant-collections:
 	docker compose -f .devcontainer/docker-compose.yml run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.qdrant.create_collections" por-devcontainer
 
-run-text-oracle:
+run-text-oracle: devcontainer-build
 	docker compose -f .devcontainer/docker-compose.yml run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.multi_agent.run_text_oracle" por-devcontainer
 
 print-state:

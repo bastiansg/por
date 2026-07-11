@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pydantic_ai import Agent, NativeOutput
+from pydantic_ai import Agent, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
 from pydantic import BaseModel, Field
 
@@ -21,12 +21,12 @@ class ImageDescriberOutput(BaseModel):
 
 agent = Agent(  # type: ignore
     name="image-describer",
-    model="gpt-5.4-mini-2026-03-17",
+    model="gpt-5.6-luna",
     model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
     system_prompt=LLMAgent.read_file(
         file_path=str(Path(__file__).with_name("system-prompt.md"))
     ),
-    output_type=NativeOutput(ImageDescriberOutput),
+    output_type=ToolOutput(ImageDescriberOutput),
     retries=3,
 )
 

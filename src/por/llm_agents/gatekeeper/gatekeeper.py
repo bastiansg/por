@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pydantic_ai import Agent, RunContext, NativeOutput
+from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
 from pydantic import BaseModel, StrictStr, Field, StrictBool
 from pydantic_extra_types.language_code import LanguageName
@@ -25,13 +25,13 @@ class GatekeeperOutput(BaseModel):
 
 agent = Agent(  # type: ignore
     name="gatekeeper",
-    model="gpt-5.4-mini-2026-03-17",
+    model="gpt-5.6-luna",
     model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
     system_prompt=LLMAgent.read_file(
         file_path=str(Path(__file__).with_name("system-prompt.md"))
     ),
     deps_type=GatekeeperDeps,
-    output_type=NativeOutput(GatekeeperOutput),
+    output_type=ToolOutput(GatekeeperOutput),
     retries=3,
 )
 
