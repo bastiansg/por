@@ -1,21 +1,19 @@
 import io
-
-from typing import Any
 from asyncio import sleep
-
-from PIL import Image
-from langgraph.runtime import get_runtime
-
-from multi_agents.graph import Node
+from typing import Any
 
 from hailo_apps.apps import FaceTracker
 from hailo_apps.servos import ServoAngles
+from langgraph.runtime import get_runtime
+from libcamera import controls
+from multi_agents.graph import Node
+from PIL import Image
 
 from por.audio import AudioRecorder
 from por.multi_agent.console import render_node_banner, render_node_detail
-from por.multi_agent.schema import StateSchema, ContextSchema
+from por.multi_agent.schema import ContextSchema, StateSchema
 
-from .utils import get_sensehat_dsp, get_button, get_dsp_images
+from .utils import get_button, get_dsp_images, get_sensehat_dsp
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
@@ -57,6 +55,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     audio_recorder.start()
     tracker.run()
+    tracker.picam.set_controls({"AfMode": controls.AfModeEnum.Continuous})
 
     button = get_button()
     button.wait_for_inactive()
