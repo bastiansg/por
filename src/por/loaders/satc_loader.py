@@ -1,17 +1,14 @@
 import asyncio
+
 import httpx
 import stamina
-
-from tqdm import tqdm
-from parsel import Selector
 from aiocache import cached
-
+from parsel import Selector
+from rage.meta.interfaces import Document, TextLoader
 from rich.console import Console
-
-from rage.meta.interfaces import TextLoader, Document
+from tqdm import tqdm
 
 from por.meta.schema import FileMetadata
-
 
 console = Console()
 
@@ -77,10 +74,7 @@ class SATCLoader(TextLoader):
     @staticmethod
     def filter_script(script: str) -> bool:
         qm_count = script.count("?")
-        if qm_count > 1000:
-            return False
-
-        return True
+        return qm_count > 1000
 
     async def get_documents(
         self,

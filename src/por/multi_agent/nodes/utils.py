@@ -1,13 +1,12 @@
-from gpiozero import Button
-from escpos.printer import Usb
 from functools import lru_cache
 
-from sensehat_dsp.display import Image
-from sensehat_dsp.display import Display
+from escpos.printer import Usb
+from gpiozero import Button
+from sensehat_dsp.display import Display, Image
 
-from por.dsp_images import dsp_images
 from por.db.qdrant import _get_text_chunks
-from por.meta.schema import TextChunk, ChunkMetadata
+from por.dsp_images import dsp_images
+from por.meta.schema import ChunkMetadata, TextChunk
 from por.multi_agent.console import render_node_detail
 
 

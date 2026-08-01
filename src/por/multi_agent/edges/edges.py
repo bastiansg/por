@@ -1,11 +1,10 @@
 from langgraph.graph import END
-from multi_agents.graph import SimpleEdge, ConditionalEdge
+from multi_agents.graph import ConditionalEdge, SimpleEdge
 
 from .routers import (
-    validation_checkpoint_conditional_router,
     recorder_conditional_router,
+    validation_checkpoint_conditional_router,
 )
-
 
 idle_state_face_tracker = SimpleEdge(
     source="idle_state",

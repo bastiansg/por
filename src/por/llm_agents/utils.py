@@ -1,15 +1,13 @@
 import json
+from collections.abc import AsyncIterator
+from typing import Any
 
 from async_lru import alru_cache
-from typing import Any, AsyncIterator
-
+from pydantic_ai import FunctionToolCallEvent, RunContext, ToolDefinition
 from pydantic_ai.messages import AgentStreamEvent
-from pydantic_ai import RunContext, FunctionToolCallEvent, ToolDefinition
-
 
 from por.loaders import AstroWeeklyLoader
 from por.multi_agent.console import render_node_detail, render_tool_call
-
 
 TOOL_CALL_LIMIT = 5
 

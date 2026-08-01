@@ -2,22 +2,21 @@ from typing import Any
 
 from multi_agents.graph import Node
 
-from por.multi_agent.console import render_node_banner
-from por.multi_agent.schema import StateSchema
-from por.llm_agents.tools import (
-    philosophy_search_tool,
-    get_neighboring_text_chunks_tool,
-    search_by_chunk_metadata_filters_tool,
-)
 from por.llm_agents import (
     NietzscheAdvisor,
     NietzscheAdvisorDeps,
     RetrievalAssistant,
     RetrievalAssistantDeps,
 )
+from por.llm_agents.tools import (
+    get_neighboring_text_chunks_tool,
+    philosophy_search_tool,
+    search_by_chunk_metadata_filters_tool,
+)
+from por.multi_agent.console import render_node_banner
+from por.multi_agent.schema import StateSchema
 
 from .utils import get_relevant_text_chunks
-
 
 COLLECTION_NAME = "philosophy"
 

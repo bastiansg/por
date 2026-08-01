@@ -1,6 +1,5 @@
 from itertools import cycle
 
-
 mi_image_paths = [
     "/resources/ticket-images/mi-header-images/mi-01.jpeg",
     "/resources/ticket-images/mi-header-images/mi-02.jpeg",

@@ -1,12 +1,10 @@
 import re
-import httpx
-import stamina
-
-from parsel import Selector
 from collections.abc import Iterable
 
+import httpx
+import stamina
+from parsel import Selector
 from rage.meta.interfaces import Document, TextLoader
-
 
 ASTRO_WEEKLY_HOROSCOPE_URL = "https://www.astro.com/cgi/atxgen.cgi?btyp=wh"
 SIGN_NAMES = {

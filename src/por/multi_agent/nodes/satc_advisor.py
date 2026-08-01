@@ -2,22 +2,21 @@ from typing import Any
 
 from multi_agents.graph import Node
 
+from por.llm_agents import (
+    RetrievalAssistant,
+    RetrievalAssistantDeps,
+    SATCAdvisor,
+    SATCAdvisorDeps,
+)
 from por.llm_agents.tools import (
-    satc_search_tool,
     get_neighboring_text_chunks_tool,
+    satc_search_tool,
     search_by_chunk_metadata_filters_tool,
 )
 from por.multi_agent.console import render_node_banner
 from por.multi_agent.schema import StateSchema
-from por.llm_agents import (
-    SATCAdvisor,
-    SATCAdvisorDeps,
-    RetrievalAssistant,
-    RetrievalAssistantDeps,
-)
 
 from .utils import get_relevant_text_chunks
-
 
 COLLECTION_NAME = "satc"
 

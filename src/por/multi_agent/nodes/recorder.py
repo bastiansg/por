@@ -5,7 +5,6 @@ from typing import Any
 from hailo_apps.apps import FaceTracker
 from hailo_apps.servos import ServoAngles
 from langgraph.runtime import get_runtime
-from libcamera import controls
 from multi_agents.graph import Node
 from PIL import Image
 
@@ -44,18 +43,17 @@ async def run(state: StateSchema) -> dict[str, Any]:
     )
 
     audio_recorder = AudioRecorder()
-    history_length = runtime_context.history_length
     tracker = FaceTracker(
         init_servo_angles=runtime_context.servo_angles,
         rotator_params=runtime_context.rotator_params,
         image_size=runtime_context.image_size,
-        history_length=history_length,
+        capture_size=runtime_context.capture_size,
+        history_length=runtime_context.history_length,
         min_score=runtime_context.face_detector_min_score,
     )
 
     audio_recorder.start()
     tracker.run()
-    tracker.picam.set_controls({"AfMode": controls.AfModeEnum.Continuous})
 
     button = get_button()
     button.wait_for_inactive()

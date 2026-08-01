@@ -1,13 +1,11 @@
-import re
-import httpx
 import asyncio
-import stamina
-
-from parsel import Selector
+import re
 from urllib.parse import parse_qs, urlencode, urljoin, urlparse, urlunparse
 
+import httpx
+import stamina
+from parsel import Selector
 from rage.meta.interfaces import Document, TextLoader
-
 
 LYRICS_PARAGRAPH_XPATH = (
     "//h4[contains(concat(' ', normalize-space(@class), ' '), ' letra ')]"

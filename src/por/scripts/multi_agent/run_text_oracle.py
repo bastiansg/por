@@ -1,20 +1,18 @@
+import asyncio
 import os
 import uuid
-import asyncio
-import logfire
-
-from time import sleep
 from pathlib import Path
+from time import sleep
 
+import logfire
 from rich import box
 from rich.panel import Panel
 from rich.prompt import Prompt
 
-from por.utils.json import save_json
 from por.multi_agent import get_multi_agent, get_multi_agent_context
 from por.multi_agent.console import console, render_header
 from por.multi_agent.schema import StateSchema
-
+from por.utils.json import save_json
 
 if os.getenv("LOGFIRE_TOKEN") is not None:
     logfire.configure(service_name="por")

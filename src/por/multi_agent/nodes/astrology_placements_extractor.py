@@ -2,9 +2,9 @@ from typing import Any
 
 from multi_agents.graph import Node
 
+from por.llm_agents import AstrologyPlacementsExtractor
 from por.multi_agent.console import render_node_banner
 from por.multi_agent.schema import StateSchema
-from por.llm_agents import AstrologyPlacementsExtractor
 
 
 async def run(state: StateSchema) -> dict[str, Any]:

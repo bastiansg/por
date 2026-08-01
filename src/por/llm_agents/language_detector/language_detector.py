@@ -1,11 +1,10 @@
 from pathlib import Path
 
+from llm_agents.meta.interfaces import LLMAgent
+from pydantic import BaseModel, Field
 from pydantic_ai import Agent, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
-from pydantic import BaseModel, Field
 from pydantic_extra_types.language_code import LanguageAlpha2
-
-from llm_agents.meta.interfaces import LLMAgent
 
 
 class LanguageDetectorOutput(BaseModel):

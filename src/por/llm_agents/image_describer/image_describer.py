@@ -1,12 +1,11 @@
 from pathlib import Path
 
+from llm_agents.meta.interfaces import LLMAgent
+from pydantic import BaseModel, Field
 from pydantic_ai import Agent, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
-from pydantic import BaseModel, Field
 
-from llm_agents.meta.interfaces import LLMAgent
-
-from por.meta.schema import PhysicalDescription, ClothingDescription
+from por.meta.schema import ClothingDescription, PhysicalDescription
 
 
 class ImageDescriberOutput(BaseModel):

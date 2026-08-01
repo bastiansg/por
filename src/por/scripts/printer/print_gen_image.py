@@ -3,7 +3,6 @@ from pathlib import Path
 
 from por.multi_agent.nodes.utils import get_printer
 
-
 GENERATED_IMAGES_PATH = Path("/resources/generated-images")
 
 

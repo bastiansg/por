@@ -1,30 +1,28 @@
 import os
-
 from io import BytesIO
 from typing import Literal
-from sensehat_dsp.display import Color
 
+from hailo_apps.meta.interfaces import ImageSize, RotatorParams
 from hailo_apps.servos import ServoAngles
-from hailo_apps.meta.interfaces import RotatorParams, ImageSize
-
-from pydantic_extra_types.language_code import LanguageName
 from pydantic import (
     BaseModel,
     ConfigDict,
-    StrictStr,
-    StrictBool,
-    NonNegativeInt,
     NonNegativeFloat,
+    NonNegativeInt,
     PositiveInt,
+    StrictBool,
+    StrictStr,
     field_validator,
 )
+from pydantic_extra_types.language_code import LanguageName
+from sensehat_dsp.display import Color
 
 from por.llm_agents import ImageDescriberOutput
 from por.meta.schema import (
-    TextChunk,
-    Song,
     AstrologyPlacements,
     PsychologicalProfile,
+    Song,
+    TextChunk,
 )
 
 
@@ -52,6 +50,7 @@ class ContextSchema(BaseModel):
     servo_angles: ServoAngles
     rotator_params: RotatorParams
     image_size: ImageSize
+    capture_size: ImageSize
     history_length: NonNegativeInt
     face_detector_min_score: NonNegativeFloat
     images_path: StrictStr

@@ -1,4 +1,5 @@
-from typing import Hashable
+from collections.abc import Hashable
+
 from langgraph.graph import END
 
 from por.multi_agent.schema import StateSchema

@@ -1,14 +1,13 @@
 from pathlib import Path
 
-from pydantic import BaseModel, StrictStr, Field
+from llm_agents.meta.interfaces import LLMAgent
+from pydantic import BaseModel, Field, StrictStr
 from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
 
-from llm_agents.meta.interfaces import LLMAgent
-
 from por.meta.schema import (
-    PhysicalDescription,
     ClothingDescription,
+    PhysicalDescription,
     PsychologicalProfile,
 )
 

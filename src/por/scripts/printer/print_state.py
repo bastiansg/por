@@ -7,7 +7,6 @@ from por.multi_agent.nodes.utils import get_printer
 from por.multi_agent.schema import StateSchema
 from por.utils.json import load_json
 
-
 STATES_PATH = Path("/resources/states")
 
 

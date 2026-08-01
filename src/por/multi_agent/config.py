@@ -1,11 +1,11 @@
-from pydantic_settings import BaseSettings
 from pydantic import (
     BaseModel,
-    NonNegativeInt,
-    NonNegativeFloat,
-    StrictStr,
     Field,
+    NonNegativeFloat,
+    NonNegativeInt,
+    StrictStr,
 )
+from pydantic_settings import BaseSettings
 
 
 class ServoAngles(BaseModel):
@@ -24,8 +24,13 @@ class RotatorParams(BaseModel):
 
 
 class ImageSize(BaseModel):
-    width: NonNegativeInt = 1024
-    height: NonNegativeInt = 1024
+    width: NonNegativeInt = 640
+    height: NonNegativeInt = 640
+
+
+class CaptureSize(BaseModel):
+    width: NonNegativeInt = 2048
+    height: NonNegativeInt = 2048
 
 
 class IdleAngles(BaseModel):
@@ -42,7 +47,8 @@ class MultiAgentConfig(BaseSettings):
     servo_angles: ServoAngles = Field(default_factory=ServoAngles)
     rotator_params: RotatorParams = Field(default_factory=RotatorParams)
     image_size: ImageSize = Field(default_factory=ImageSize)
-    history_length: NonNegativeInt = 90
+    capture_size: CaptureSize = Field(default_factory=CaptureSize)
+    history_length: NonNegativeInt = 1
     face_detector_min_score: NonNegativeFloat = 0.0
     images_path: StrictStr = "/resources/generated-images"
     image_extension: StrictStr = "jpg"

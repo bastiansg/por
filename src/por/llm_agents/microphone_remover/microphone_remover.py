@@ -1,9 +1,8 @@
 from pathlib import Path
 
+from llm_agents.meta.interfaces import LLMAgent
 from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
-
-from llm_agents.meta.interfaces import LLMAgent
 
 from ..image_describer.image_describer import ImageDescriberOutput
 

@@ -1,10 +1,10 @@
 import asyncio
 
-from pydantic import StrictStr, PositiveInt
-from rage.meta.interfaces import TextLoader, Document
+from pydantic import PositiveInt, StrictStr
+from rage.meta.interfaces import Document, TextLoader
 
-from por.utils.json import load_json
 from por.meta.schema import FileMetadata
+from por.utils.json import load_json
 
 
 class Metadata(FileMetadata):

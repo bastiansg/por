@@ -1,18 +1,17 @@
-import io
 import base64
-
+import io
 from typing import Any
+
 from langgraph.runtime import get_runtime
-
-from PIL import Image
-from openai import AsyncOpenAI
-
 from multi_agents.graph import Node
-from por.multi_agent.console import render_node_banner, render_node_detail
-from por.multi_agent.schema import StateSchema, ContextSchema
-from por.llm_agents import ImagePrompter, ImagePrompterDeps
+from openai import AsyncOpenAI
+from PIL import Image
 
-from .utils import get_sensehat_dsp, get_dsp_images
+from por.llm_agents import ImagePrompter, ImagePrompterDeps
+from por.multi_agent.console import render_node_banner, render_node_detail
+from por.multi_agent.schema import ContextSchema, StateSchema
+
+from .utils import get_dsp_images, get_sensehat_dsp
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
@@ -100,7 +99,9 @@ async def run(state: StateSchema) -> dict[str, Any]:
     invoked_at = state.invoked_at
     assert invoked_at is not None
 
-    gen_image_path = f"{images_path}/{invoked_at}-{state.image_id}-gen.{image_extension}"
+    gen_image_path = (
+        f"{images_path}/{invoked_at}-{state.image_id}-gen.{image_extension}"
+    )
     image.save(gen_image_path)
 
     return {

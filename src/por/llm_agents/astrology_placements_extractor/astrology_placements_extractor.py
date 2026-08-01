@@ -1,12 +1,10 @@
 from pathlib import Path
 
+from llm_agents.meta.interfaces import LLMAgent
 from pydantic_ai import Agent, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
 
-from llm_agents.meta.interfaces import LLMAgent
-
 from por.meta.schema import AstrologyPlacements
-
 
 agent = Agent(  # type: ignore
     name="astrology-placements-extractor",

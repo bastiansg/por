@@ -1,16 +1,17 @@
+import asyncio
+from pathlib import Path
 from typing import Any
-from langgraph.runtime import get_runtime
 
+from langgraph.runtime import get_runtime
+from multi_agents.graph import Node
 from pydantic_ai import BinaryContent
 from pydantic_extra_types.language_code import LanguageName
 
-from multi_agents.graph import Node
-
-from por.multi_agent.console import render_node_banner
-from por.multi_agent.schema import StateSchema, ContextSchema
 from por.llm_agents import PsychologicalDescriber, PsychologicalDescriberDeps
+from por.multi_agent.console import render_node_banner
+from por.multi_agent.schema import ContextSchema, StateSchema
 
-from .utils import get_sensehat_dsp, get_dsp_images
+from .utils import get_dsp_images, get_sensehat_dsp
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
@@ -38,18 +39,18 @@ async def run(state: StateSchema) -> dict[str, Any]:
     assert image_path is not None
 
     psychological_describer_agent = PsychologicalDescriber()
-    with open(image_path, "rb") as image_file:
-        psychological_describer_output = await psychological_describer_agent.generate(
-            user_prompt="Provide a psychological profile based on the provided information.",
-            agent_deps=PsychologicalDescriberDeps(
-                question=question,
-                output_language=LanguageName("English"),
-            ),
-            user_content=BinaryContent(
-                data=image_file.read(),
-                media_type=f"image/{runtime_context.image_extension}",
-            ),
-        )
+    image_data = await asyncio.to_thread(Path(image_path).read_bytes)
+    psychological_describer_output = await psychological_describer_agent.generate(
+        user_prompt="Provide a psychological profile based on the provided information.",
+        agent_deps=PsychologicalDescriberDeps(
+            question=question,
+            output_language=LanguageName("English"),
+        ),
+        user_content=BinaryContent(
+            data=image_data,
+            media_type=f"image/{runtime_context.image_extension}",
+        ),
+    )
 
     sensehat_dsp.stop()
     sensehat_dsp.clear()

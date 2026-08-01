@@ -1,14 +1,12 @@
 from pathlib import Path
 
+from llm_agents.meta.interfaces import LLMAgent
+from pydantic import BaseModel, Field, StrictStr
 from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
-
-from pydantic import BaseModel, StrictStr, Field
 from pydantic_extra_types.language_code import LanguageName
 
-from llm_agents.meta.interfaces import LLMAgent
-
-from por.meta.schema import TextChunk, PsychologicalProfile
+from por.meta.schema import PsychologicalProfile, TextChunk
 
 
 class SATCAdvisorDeps(BaseModel):

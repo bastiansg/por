@@ -1,16 +1,14 @@
 import time
-import torch
+from io import BytesIO
 
 import numpy as np
-import soundfile as sf
 import sounddevice as sd
-
-from io import BytesIO
+import soundfile as sf
+import torch
 from IPython.display import Audio
-
 from rich.console import Console
-from por.utils.threading import threaded
 
+from por.utils.threading import threaded
 
 console = Console()
 

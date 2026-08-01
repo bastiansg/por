@@ -1,14 +1,13 @@
+import asyncio
 import os
 import uuid
+
 import logfire
-import asyncio
-
-from tqdm import tqdm
 from rich.console import Console
+from tqdm import tqdm
 
-from por.utils.json import save_json
 from por.multi_agent import get_multi_agent, get_multi_agent_context
-
+from por.utils.json import save_json
 
 if os.getenv("LOGFIRE_TOKEN") is not None:
     logfire.configure(service_name="por")

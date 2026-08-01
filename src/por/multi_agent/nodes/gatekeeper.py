@@ -6,7 +6,7 @@ from por.llm_agents import Gatekeeper, GatekeeperDeps
 from por.multi_agent.console import render_node_banner
 from por.multi_agent.schema import StateSchema
 
-from .utils import get_sensehat_dsp, get_dsp_images
+from .utils import get_dsp_images, get_sensehat_dsp
 
 
 async def run(state: StateSchema) -> dict[str, Any]:

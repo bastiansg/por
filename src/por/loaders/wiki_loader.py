@@ -1,6 +1,6 @@
 from urllib.parse import unquote, urlparse
-from langchain_community.document_loaders import WikipediaLoader
 
+from langchain_community.document_loaders import WikipediaLoader
 from rage.meta.interfaces import Document, TextLoader
 
 

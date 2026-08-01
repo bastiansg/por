@@ -1,11 +1,12 @@
 from functools import lru_cache
+
 from por.data import dc_poems, fc_messages
 
-from .schema import ContextSchema
 from .config import MultiAgentConfig
+from .schema import ContextSchema
 
 
-@lru_cache()
+@lru_cache
 def get_multi_agent_context(test_mode: bool = False) -> ContextSchema:
     return ContextSchema(
         **(

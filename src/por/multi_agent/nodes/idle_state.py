@@ -1,18 +1,18 @@
+from datetime import UTC, datetime
 from typing import Any
-from datetime import datetime
-from langgraph.runtime import get_runtime
 
+from hailo_apps.servos import ServoAngles, Servos
+from langgraph.runtime import get_runtime
 from multi_agents.graph import Node
 
-from hailo_apps.servos import Servos, ServoAngles
 from por.multi_agent.console import render_node_banner
-from por.multi_agent.schema import StateSchema, ContextSchema
+from por.multi_agent.schema import ContextSchema, StateSchema
 
-from .utils import get_sensehat_dsp, get_button, get_dsp_images
+from .utils import get_button, get_dsp_images, get_sensehat_dsp
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
-    invoked_at = datetime.now().isoformat()
+    invoked_at = datetime.now(UTC).isoformat()
 
     if state.audio_transcription is not None:
         return {

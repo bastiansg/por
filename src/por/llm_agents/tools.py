@@ -1,19 +1,17 @@
 from typing import Annotated, Literal
 
-from rich.console import Console
-from qdrant_client import models
-
 from pydantic import Field
-from pydantic_ai import Tool, RunContext
+from pydantic_ai import RunContext, Tool
+from qdrant_client import models
+from rich.console import Console
 
-from por.meta.schema import TextChunk, ChunkMetadataFilter
 from por.db.qdrant import (
-    hybrid_search,
     _get_text_chunk,
     # _get_text_chunks,
+    hybrid_search,
 )
 from por.llm_agents.utils import get_astro_weekly_data
-
+from por.meta.schema import ChunkMetadataFilter, TextChunk
 
 console = Console()
 

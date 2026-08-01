@@ -1,6 +1,5 @@
 from itertools import cycle
 
-
 copyrights = [
     "All rights unreserved.",
     "All rights lost.",

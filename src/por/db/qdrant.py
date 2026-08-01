@@ -1,13 +1,10 @@
 from qdrant_client import models
 from qdrant_client.models import Record
-
-from rich.console import Console
-
 from rage.retriever import Retriever
 from rage.utils.embeddings import get_openai_embeddings
+from rich.console import Console
 
 from por.meta.schema import TextChunk
-
 
 console = Console()
 

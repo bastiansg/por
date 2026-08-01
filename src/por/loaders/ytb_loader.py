@@ -1,5 +1,5 @@
-from rage.meta.interfaces import Document, TextLoader
 from langchain_community.document_loaders import YoutubeLoader
+from rage.meta.interfaces import Document, TextLoader
 
 
 class YTBLoader(TextLoader):

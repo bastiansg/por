@@ -1,25 +1,21 @@
-import os
 import asyncio
-import pycountry
-
+import os
 from glob import glob
-from tqdm import tqdm
 from itertools import groupby
 
-from rich.console import Console
-
-from rage.retriever import Retriever
+import pycountry
+from rage.loaders import DocxLoader, MarkdownLoader, PDFMarkdownLoader
 from rage.meta.interfaces import Document, TextChunk
-from rage.utils.embeddings import get_openai_embeddings
-
+from rage.retriever import Retriever
 from rage.splitters import MarkdownSplitter, TokenSplitter
-from rage.loaders import PDFMarkdownLoader, MarkdownLoader, DocxLoader
+from rage.utils.embeddings import get_openai_embeddings
+from rich.console import Console
+from tqdm import tqdm
 
 from por.loaders import LyricsLoader, SATCLoader, YTBLoader
 
 from .file_items import file_items
 from .ytb_items import ytb_items
-
 
 console = Console()
 

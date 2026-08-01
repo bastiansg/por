@@ -1,15 +1,15 @@
 from pathlib import Path
-
 from typing import Literal
-from pydantic_extra_types.language_code import LanguageName
+
 from pydantic import (
     BaseModel,
-    StrictStr,
     Field,
-    NonNegativeInt,
-    model_validator,
     NonNegativeFloat,
+    NonNegativeInt,
+    StrictStr,
+    model_validator,
 )
+from pydantic_extra_types.language_code import LanguageName
 
 
 class ChunkMetadata(BaseModel):

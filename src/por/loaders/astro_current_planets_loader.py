@@ -5,9 +5,7 @@ from collections.abc import Iterable
 import httpx
 import stamina
 from parsel import Selector
-
 from rage.meta.interfaces import Document, TextLoader
-
 
 ASTRO_HOROSCOPE_URL = "https://www.astro.com/horoscope"
 PLANET_NAMES = (
@@ -118,7 +116,9 @@ class AstroCurrentPlanetsLoader(TextLoader):
         end = next(
             (
                 index
-                for index, line in enumerate(lines[start + 1 :], start=start + 1)
+                for index, line in enumerate(
+                    lines[start + 1 :], start=start + 1
+                )
                 if cls._is_section_end(line=line) or line.startswith("Chiron ")
             ),
             len(lines) - 1,

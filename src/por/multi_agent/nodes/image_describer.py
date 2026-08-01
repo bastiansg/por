@@ -1,17 +1,20 @@
+import asyncio
+from pathlib import Path
 from typing import Any
-from langgraph.runtime import get_runtime
 
+from langgraph.runtime import get_runtime
+from multi_agents.graph import Node
 from pydantic_ai import BinaryContent
 
-from multi_agents.graph import Node
-
-from por.multi_agent.console import render_node_banner
-from por.multi_agent.schema import StateSchema, ContextSchema
 from por.llm_agents import (
     ImageDescriber,
     MicrophoneRemover,
     MicrophoneRemoverDeps,
 )
+from por.multi_agent.console import render_node_banner
+from por.multi_agent.schema import ContextSchema, StateSchema
+
+
 async def run(state: StateSchema) -> dict[str, Any]:
     render_node_banner("image_describer")
     runtime = get_runtime(ContextSchema)
@@ -21,14 +24,14 @@ async def run(state: StateSchema) -> dict[str, Any]:
     assert image_path is not None
 
     image_describer_agent = ImageDescriber()
-    with open(image_path, "rb") as image_file:
-        image_describer_output = await image_describer_agent.generate(
-            user_prompt="Analyze primary subjects present in the provided image and provide a detailed physical and clothing description.",
-            user_content=BinaryContent(
-                data=image_file.read(),
-                media_type=f"image/{runtime_context.image_extension}",
-            ),
-        )
+    image_data = await asyncio.to_thread(Path(image_path).read_bytes)
+    image_describer_output = await image_describer_agent.generate(
+        user_prompt="Analyze primary subjects present in the provided image and provide a detailed physical and clothing description.",
+        user_content=BinaryContent(
+            data=image_data,
+            media_type=f"image/{runtime_context.image_extension}",
+        ),
+    )
 
     microphone_remover = MicrophoneRemover()
     microphone_removed_output = await microphone_remover.generate(

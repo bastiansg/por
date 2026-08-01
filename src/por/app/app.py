@@ -1,18 +1,17 @@
+import asyncio
 import os
 import uuid
-import logfire
-import asyncio
-
-from time import sleep
 from functools import lru_cache
+from time import sleep
+
+import logfire
 
 # from rich.pretty import pprint
 from multi_agents.graph import MultiAgentGraph
 
-from por.utils.json import save_json
 from por.multi_agent import get_multi_agent, get_multi_agent_context
 from por.multi_agent.console import render_header
-
+from por.utils.json import save_json
 
 if os.getenv("LOGFIRE_TOKEN") is not None:
     logfire.configure(service_name="por")
@@ -25,7 +24,7 @@ STORE_PATH = "/resources/states"
 os.makedirs(STORE_PATH, exist_ok=True)
 
 
-@lru_cache()
+@lru_cache
 def _get_multi_agent() -> MultiAgentGraph:
     multi_agent = get_multi_agent()
     render_header()
