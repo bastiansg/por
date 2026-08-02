@@ -62,10 +62,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     svg_bytes = await rep_output.aread()  # type: ignore
     png_bytes = cairosvg.svg2png(bytestring=svg_bytes)
-    # image = Image.open(io.BytesIO(png_bytes)).convert("RGB")  # type: ignore
     image = Image.open(io.BytesIO(png_bytes)).convert("L")  # type: ignore
-    # image = image.point(lambda p: 255 if p >= 250 else p)  # type: ignore
-    # image = image.point(lambda p: 0 if p <= 200 else p)  # type: ignore
 
     resized_width = 576
     target_height = round(image.height * resized_width / image.width)

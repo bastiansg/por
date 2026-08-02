@@ -48,6 +48,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
         rotator_params=runtime_context.rotator_params,
         image_size=runtime_context.image_size,
         capture_size=runtime_context.capture_size,
+        final_capture_y_angle_offset=runtime_context.final_capture_y_angle_offset,
         history_length=runtime_context.history_length,
         min_score=runtime_context.face_detector_min_score,
     )

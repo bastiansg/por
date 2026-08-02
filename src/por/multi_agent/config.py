@@ -3,6 +3,7 @@ from pydantic import (
     Field,
     NonNegativeFloat,
     NonNegativeInt,
+    StrictInt,
     StrictStr,
 )
 from pydantic_settings import BaseSettings
@@ -48,6 +49,7 @@ class MultiAgentConfig(BaseSettings):
     rotator_params: RotatorParams = Field(default_factory=RotatorParams)
     image_size: ImageSize = Field(default_factory=ImageSize)
     capture_size: CaptureSize = Field(default_factory=CaptureSize)
+    final_capture_y_angle_offset: StrictInt = -15
     history_length: NonNegativeInt = 1
     face_detector_min_score: NonNegativeFloat = 0.0
     images_path: StrictStr = "/resources/generated-images"

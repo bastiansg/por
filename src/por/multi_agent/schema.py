@@ -11,6 +11,7 @@ from pydantic import (
     NonNegativeInt,
     PositiveInt,
     StrictBool,
+    StrictInt,
     StrictStr,
     field_validator,
 )
@@ -51,6 +52,7 @@ class ContextSchema(BaseModel):
     rotator_params: RotatorParams
     image_size: ImageSize
     capture_size: ImageSize
+    final_capture_y_angle_offset: StrictInt
     history_length: NonNegativeInt
     face_detector_min_score: NonNegativeFloat
     images_path: StrictStr
