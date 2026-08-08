@@ -178,3 +178,11 @@ To run Qdrant on a Raspberry Pi 5, append `kernel=kernel8.img` to
 nmcli device status
 sudo nmtui edit "Wired connection 1"
 ```
+
+### Wi-Fi power saving
+
+Disable Wi-Fi power saving to prevent intermittent connection drops:
+
+```bash
+sudo nmcli connection modify "preconfigured" 802-11-wireless.powersave 2
+```
