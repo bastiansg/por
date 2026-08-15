@@ -53,7 +53,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     image_generation_prompt = ip_output.flux_prompt
     rep_output = await replicate.async_run(
-        "recraft-ai/recraft-v4-svg",
+        "recraft-ai/recraft-v4.1-svg",
         input={
             "prompt": image_generation_prompt,
             "size": "896x1152",
