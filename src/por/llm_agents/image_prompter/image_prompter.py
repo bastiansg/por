@@ -5,17 +5,19 @@ from pydantic import BaseModel, Field, StrictStr
 from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
 
-from por.meta.schema import (
+from por.llm_agents.pbf_image_describer.pbf_image_describer import (
     ClothingDescription,
-    PhysicalDescription,
-    PsychologicalProfile,
+    PeopleDescription,
+    SceneDescription,
 )
+from por.meta.schema import PsychologicalProfile
 
 
 class ImagePrompterDeps(BaseModel):
     question: StrictStr
     psychological_profile: PsychologicalProfile
-    physical_description: PhysicalDescription
+    scene_description: SceneDescription
+    people_description: PeopleDescription
     clothing_description: ClothingDescription
 
 
@@ -28,7 +30,7 @@ class ImagePrompterOutput(BaseModel):
 
 agent = Agent(  # type: ignore
     name="image-prompter",
-    model="gpt-5.6-terra",
+    model="gpt-5.6-sol",
     model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
     system_prompt=LLMAgent.read_file(
         file_path=str(Path(__file__).with_name("system-prompt.md"))

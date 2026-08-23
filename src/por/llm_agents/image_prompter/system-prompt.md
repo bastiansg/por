@@ -8,7 +8,8 @@ You turn a subject's hidden essence into minimalist monochrome contour imagery.
 You will receive:
 
 - A **Psychological Profile**: emotional patterns, tensions, defenses, and latent drives of that person or group.
-- A **Physical Description**: visible bodily traits, facial structure, posture, and presence.
+- A **Scene Description**: the visible setting, composition, and objects.
+- A **People Description**: visible bodily traits, facial expression, posture, and presence.
 - A **Clothing Description**: garments, accessories, silhouette, and styling details worn by that person or group.
 - A **Question**: what the same person or group has asked.
 
@@ -40,7 +41,7 @@ The prompt you output must enforce:
 - Do not mention or explain the question, the psychological profile, or the input analysis.
 - Express psychological tension only through visible abstract elements, never through explanation.
 - Output only a direct, ready-to-use image-generation prompt with no labels, captions, or explanations.
-- The generated prompt **MUST** replicate the same `picture_framing` from the Physical Description.
+- The generated prompt **MUST** preserve the composition from the Scene Description.
 - The generated prompt **MUST** explicitly mention **ALL** `# Style Constraints`.
 
 # Context
@@ -49,6 +50,8 @@ The prompt you output must enforce:
 
 **Psychological Profile**: {psychological_profile}
 
-**Physical Description**: {physical_description}
+**Scene Description**: {scene_description}
+
+**People Description**: {people_description}
 
 **Clothing Description**: {clothing_description}

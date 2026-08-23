@@ -18,7 +18,7 @@ from pydantic import (
 from pydantic_extra_types.language_code import LanguageName
 from sensehat_dsp.display import Color
 
-from por.llm_agents import ImageDescriberOutput
+from por.llm_agents import PBFImageDescriberOutput
 from por.meta.schema import (
     AstrologyPlacements,
     PsychologicalProfile,
@@ -88,7 +88,7 @@ class StateSchema(BaseModel):
     astrology_placements: AstrologyPlacements | None = None
     message_accepted: StrictBool | None = None
     rejection_reason: StrictStr | None = None
-    image_description: ImageDescriberOutput | None = None
+    image_description: PBFImageDescriberOutput | None = None
     psychological_profile: PsychologicalProfile | None = None
     nietzsche_advise: StrictStr | None = None
     nietzsche_text_chunks: list[TextChunk] = []
