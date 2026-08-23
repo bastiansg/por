@@ -54,7 +54,8 @@ class MultiAgentConfig(BaseSettings):
     history_length: NonNegativeInt = 1
     face_detector_min_score: NonNegativeFloat = 0.0
     images_path: StrictStr = "/resources/generated-images"
-    image_extension: StrictStr = "jpg"
+    input_image_extension: StrictStr = "jpg"
+    generated_image_extension: StrictStr = "jpg"
     caption_header: StrictStr = (
         "In the Style of PBFR, a raw monochrome ink sketch with bold, "
         "expressive linework of:"

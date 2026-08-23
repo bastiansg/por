@@ -1,17 +1,18 @@
 from pathlib import Path
 
 from llm_agents.meta.interfaces import LLMAgent
+from pydantic import BaseModel
 from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
 
-from ..image_describer.image_describer import ImageDescriberOutput
+from por.llm_agents.schema import PBFImageDescriberOutput
 
 
-class MicrophoneRemoverDeps(ImageDescriberOutput):
-    pass
+class MicrophoneRemoverDeps(BaseModel):
+    image_description: PBFImageDescriberOutput
 
 
-class MicrophoneRemoverOutput(ImageDescriberOutput):
+class MicrophoneRemoverOutput(PBFImageDescriberOutput):
     pass
 
 

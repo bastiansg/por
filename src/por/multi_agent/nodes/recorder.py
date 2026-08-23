@@ -97,7 +97,11 @@ async def run(state: StateSchema) -> dict[str, Any]:
     assert invoked_at is not None
 
     pil_image = Image.fromarray(last_history_item.np_image)
-    image_path = f"{runtime_context.images_path}/{invoked_at}-{image_id}.{runtime_context.image_extension}"
+    image_path = (
+        f"{runtime_context.images_path}/{invoked_at}-{image_id}."
+        f"{runtime_context.input_image_extension}"
+    )
+
     pil_image.save(image_path)
 
     sensehat_dsp.stop()

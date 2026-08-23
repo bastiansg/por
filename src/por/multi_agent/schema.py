@@ -57,7 +57,8 @@ class ContextSchema(BaseModel):
     history_length: NonNegativeInt
     face_detector_min_score: NonNegativeFloat
     images_path: StrictStr
-    image_extension: StrictStr
+    input_image_extension: StrictStr
+    generated_image_extension: StrictStr
     caption_header: StrictStr
     replicate_model: StrictStr
     replicate_timeout: PositiveFloat

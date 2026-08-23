@@ -40,7 +40,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     render_node_banner("image_generator")
 
-    image_extension = runtime_context.image_extension
+    generated_image_extension = runtime_context.generated_image_extension
     audio_transcription = state.audio_transcription
     assert audio_transcription is not None
 
@@ -52,7 +52,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     ip = ImagePrompter()
     ip_output = await ip.generate(
-        user_prompt="Provide the surreal scene description.",
+        user_prompt="Provide the transformed image description.",
         agent_deps=ImagePrompterDeps(
             question=audio_transcription,
             psychological_profile=psychological_profile,
@@ -87,7 +87,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
             "megapixels": "1",
             "num_outputs": 1,
             "aspect_ratio": "9:16",
-            "output_format": image_extension,
+            "output_format": generated_image_extension,
             "guidance_scale": 3.5,
             "output_quality": 100,
             "num_inference_steps": 28,
@@ -103,12 +103,13 @@ async def run(state: StateSchema) -> dict[str, Any]:
     generated_image = next(iter(output))
     image_data = await asyncio.to_thread(generated_image.read)
     gen_image_path = images_path / (
-        f"{invoked_at}-{state.image_id}-gen.{image_extension}"
+        f"{invoked_at}-{state.image_id}-gen.{generated_image_extension}"
     )
 
     await asyncio.to_thread(_resize_image, image_data, gen_image_path)
 
     return {
+        "image_description": ip_output,
         "image_generation_prompt": image_generation_prompt,
         "gen_image_path": str(gen_image_path),
     }

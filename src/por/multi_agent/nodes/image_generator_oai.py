@@ -23,7 +23,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     render_node_banner("image_generator")
 
-    image_extension = runtime_context.image_extension
+    generated_image_extension = runtime_context.generated_image_extension
     audio_transcription = state.audio_transcription
     assert audio_transcription is not None
 
@@ -100,8 +100,10 @@ async def run(state: StateSchema) -> dict[str, Any]:
     assert invoked_at is not None
 
     gen_image_path = (
-        f"{images_path}/{invoked_at}-{state.image_id}-gen.{image_extension}"
+        f"{images_path}/{invoked_at}-{state.image_id}-gen."
+        f"{generated_image_extension}"
     )
+
     image.save(gen_image_path)
 
     return {

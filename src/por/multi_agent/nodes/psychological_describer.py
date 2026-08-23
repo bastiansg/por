@@ -48,7 +48,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
         ),
         user_content=BinaryContent(
             data=image_data,
-            media_type=f"image/{runtime_context.image_extension}",
+            media_type=f"image/{runtime_context.input_image_extension}",
         ),
     )
 
