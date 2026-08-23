@@ -6,7 +6,6 @@ from pydantic_ai.models.openai import OpenAIChatModelSettings
 
 from por.llm_agents.schema import PBFImageDescriberOutput
 
-
 agent = Agent(
     name="pbf-image-describer",
     model="gpt-5.6-sol",

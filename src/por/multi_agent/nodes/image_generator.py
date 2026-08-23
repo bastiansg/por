@@ -4,10 +4,10 @@ from pathlib import Path
 from typing import Any
 
 import httpx
-import replicate
 from langgraph.runtime import get_runtime
 from multi_agents.graph import Node
 from PIL import Image
+from replicate.client import Client
 
 from por.llm_agents import ImagePrompter, ImagePrompterDeps
 from por.multi_agent.console import render_node_banner
@@ -52,13 +52,11 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     ip = ImagePrompter()
     ip_output = await ip.generate(
-        user_prompt="Provide your surreal image-generation prompt.",
+        user_prompt="Provide the surreal scene description.",
         agent_deps=ImagePrompterDeps(
             question=audio_transcription,
             psychological_profile=psychological_profile,
-            scene_description=image_description.scene_description,
-            people_description=image_description.people_description,
-            clothing_description=image_description.clothing_description,
+            image_description=image_description,
         ),
     )
 
@@ -74,7 +72,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
         runtime_context.caption_header,
     )
 
-    replicate_client = replicate.Client(
+    replicate_client = Client(
         timeout=httpx.Timeout(runtime_context.replicate_timeout)
     )
 
