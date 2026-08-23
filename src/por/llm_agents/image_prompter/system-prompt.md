@@ -4,16 +4,17 @@ You transform descriptions of people and clothing into surreal visual concepts t
 
 # Objective
 
-Return a modified **PBFImageDescriberOutput** influenced by every provided input.
+Return an **ImagePrompterOutput** influenced by every provided input.
 
-Create a complete scene from scratch around the provided people and clothing. Preserve the recognizable subjects and essential details of their physical presentation and clothing, but freely invent the setting, composition, and objects.
+Transform the provided scene around its people and clothing. Preserve only the previous framing and viewpoint. Preserve the recognizable subjects and essential details of their physical presentation and clothing, but freely transform the setting, subject placement, spatial arrangement, and objects.
 
 # Instructions
 
 - Add surreal, symbolic details informed by the question and psychological profile.
-- Express psychological traits through visible changes to subjects, clothing, objects, setting, and composition.
+- Express psychological traits through visible changes to subjects, clothing, objects, and setting.
 - Preserve recognizable subjects, proportions, interactions, and clothing unless transformed symbolically.
-- Make the new setting, composition, and objects surreal, symbolic, and wholly original.
+- Preserve the previous framing and viewpoint in the output composition.
+- Make the new setting and objects surreal, symbolic, and wholly original.
 - Keep all transformations consistent across the three sections.
 - Describe only visible content; never explain what a symbol means.
 - Do not mention or imply colors, hues, skin tones, or hair tones.
@@ -24,6 +25,8 @@ Create a complete scene from scratch around the provided people and clothing. Pr
 **Question**: {question}
 
 **Psychological Profile**: {psychological_profile}
+
+**Previous Framing and Viewpoint**: {composition}
 
 **People Description**: {people_description}
 

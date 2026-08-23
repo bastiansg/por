@@ -39,6 +39,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
         agent_deps=ImagePrompterDeps(
             question=audio_transcription,
             psychological_profile=psychological_profile,
+            composition=image_description.scene_description.composition,
             people_description=image_description.people_description,
             clothing_description=image_description.clothing_description,
         ),

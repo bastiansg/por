@@ -7,8 +7,9 @@ from pydantic_ai.models.openai import OpenAIChatModelSettings
 
 from por.llm_agents.schema import (
     ClothingDescription,
-    PBFImageDescriberOutput,
+    ImageDescriptionOutput,
     PeopleDescription,
+    SceneDescription,
 )
 from por.meta.schema import PsychologicalProfile
 
@@ -16,8 +17,13 @@ from por.meta.schema import PsychologicalProfile
 class ImagePrompterDeps(BaseModel):
     question: StrictStr
     psychological_profile: PsychologicalProfile
+    composition: StrictStr
     people_description: PeopleDescription
     clothing_description: ClothingDescription
+
+
+class ImagePrompterOutput(ImageDescriptionOutput[SceneDescription]):
+    pass
 
 
 agent = Agent(  # type: ignore
@@ -31,7 +37,7 @@ agent = Agent(  # type: ignore
         file_path=str(Path(__file__).with_name("system-prompt.md"))
     ),
     deps_type=ImagePrompterDeps,
-    output_type=ToolOutput(PBFImageDescriberOutput),
+    output_type=ToolOutput(ImagePrompterOutput),
     retries=3,
 )
 
@@ -45,6 +51,6 @@ async def get_system_prompt(ctx: RunContext[ImagePrompterDeps]) -> str:
     return system_prompt.format(**ctx.deps.model_dump())
 
 
-class ImagePrompter(LLMAgent[ImagePrompterDeps, PBFImageDescriberOutput]):
+class ImagePrompter(LLMAgent[ImagePrompterDeps, ImagePrompterOutput]):
     def __init__(self, max_concurrency: int = 10):
         super().__init__(agent=agent, max_concurrency=max_concurrency)

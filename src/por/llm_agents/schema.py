@@ -1,3 +1,5 @@
+from typing import Generic, TypeVar
+
 from pydantic import BaseModel, Field, StrictStr
 
 
@@ -100,8 +102,11 @@ class SceneDescription(BaseModel):
     )
 
 
-class PBFImageDescriberOutput(BaseModel):
-    scene_description: SceneDescription = Field(
+SceneDescriptionT = TypeVar("SceneDescriptionT", bound=SceneDescription)
+
+
+class ImageDescriptionOutput(BaseModel, Generic[SceneDescriptionT]):
+    scene_description: SceneDescriptionT = Field(
         description="Scene, composition, and objects visible in the image.",
     )
 

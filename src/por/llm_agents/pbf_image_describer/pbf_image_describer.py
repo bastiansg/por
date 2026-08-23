@@ -1,10 +1,22 @@
 from pathlib import Path
 
 from llm_agents.meta.interfaces import LLMAgent
+from pydantic import Field, StrictStr
 from pydantic_ai import Agent, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
 
-from por.llm_agents.schema import PBFImageDescriberOutput
+from por.llm_agents.schema import ImageDescriptionOutput, SceneDescription
+
+
+class PBFSceneDescription(SceneDescription):
+    composition: StrictStr = Field(
+        description="Framing and viewpoint only.",
+        min_length=1,
+    )
+
+
+class PBFImageDescriberOutput(ImageDescriptionOutput[PBFSceneDescription]):
+    pass
 
 agent = Agent(
     name="pbf-image-describer",

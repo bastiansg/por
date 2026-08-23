@@ -13,7 +13,7 @@ Output three sections:
 1. **scene_description**
 
 - Describe the visible setting, background structures, and environmental details.
-- Describe the framing, viewpoint, subject placement, and spatial arrangement.
+- In `composition`, describe only the framing and viewpoint.
 - Describe important visible objects and their positions.
 
 2. **people_description**

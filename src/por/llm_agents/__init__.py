@@ -1,7 +1,11 @@
-from .pbf_image_describer.pbf_image_describer import PBFImageDescriber  # noqa
+from .pbf_image_describer.pbf_image_describer import (  # noqa
+    PBFImageDescriber,
+    PBFImageDescriberOutput,
+    PBFSceneDescription,
+)
 from .schema import (  # noqa
     ClothingDescription,
-    PBFImageDescriberOutput,
+    ImageDescriptionOutput,
     PeopleDescription,
     SceneDescription,
 )
@@ -34,7 +38,11 @@ from .language_detector.language_detector import (  # noqa
     LanguageDetectorOutput,
 )
 
-from .image_prompter.image_prompter import ImagePrompter, ImagePrompterDeps  # noqa
+from .image_prompter.image_prompter import (  # noqa
+    ImagePrompter,
+    ImagePrompterDeps,
+    ImagePrompterOutput,
+)
 from .satc_advisor.satc_advisor import (  # noqa
     SATCAdvisor,
     SATCAdvisorDeps,

@@ -5,7 +5,9 @@ from pydantic import BaseModel
 from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
 
-from por.llm_agents.schema import PBFImageDescriberOutput
+from por.llm_agents.pbf_image_describer.pbf_image_describer import (
+    PBFImageDescriberOutput,
+)
 
 
 class MicrophoneRemoverDeps(BaseModel):
