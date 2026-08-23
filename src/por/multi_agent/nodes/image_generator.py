@@ -1,7 +1,9 @@
+import asyncio
 import io
+from pathlib import Path
 from typing import Any
 
-import cairosvg
+import httpx
 import replicate
 from langgraph.runtime import get_runtime
 from multi_agents.graph import Node
@@ -10,8 +12,23 @@ from PIL import Image
 from por.llm_agents import ImagePrompter, ImagePrompterDeps
 from por.multi_agent.console import render_node_banner
 from por.multi_agent.schema import ContextSchema, StateSchema
+from por.prompt import format_prompt
 
 from .utils import get_dsp_images, get_sensehat_dsp
+
+
+def _resize_image(image_data: bytes, image_path: Path) -> None:
+    with Image.open(io.BytesIO(image_data)) as source_image:
+        image = source_image.convert("L")
+
+    resized_width = 576
+    target_height = round(image.height * resized_width / image.width)
+    image = image.resize(
+        (resized_width, target_height),
+        Image.Resampling.LANCZOS,
+    )
+
+    image.save(image_path)
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
@@ -52,38 +69,50 @@ async def run(state: StateSchema) -> dict[str, Any]:
     dsp_images = get_dsp_images()
     sensehat_dsp.start_color_cycle(dsp_images["si-07"])
 
-    image_generation_prompt = ip_output.flux_prompt
-    rep_output = await replicate.async_run(
-        "recraft-ai/recraft-v4.1-svg",
+    image_generation_prompt = format_prompt(
+        ip_output,
+        runtime_context.caption_header,
+    )
+
+    replicate_client = replicate.Client(
+        timeout=httpx.Timeout(runtime_context.replicate_timeout)
+    )
+
+    output = await asyncio.to_thread(
+        replicate_client.run,
+        runtime_context.replicate_model,
+        wait=False,
         input={
+            "model": "dev",
             "prompt": image_generation_prompt,
-            "size": "896x1152",
+            "lora_scale": 1.3,
+            "megapixels": "1",
+            "num_outputs": 1,
+            "aspect_ratio": "9:16",
+            "output_format": image_extension,
+            "guidance_scale": 3.5,
+            "output_quality": 100,
+            "num_inference_steps": 28,
+            "disable_safety_checker": True,
         },
     )
 
-    svg_bytes = await rep_output.aread()  # type: ignore
-    png_bytes = cairosvg.svg2png(bytestring=svg_bytes)
-    image = Image.open(io.BytesIO(png_bytes)).convert("L")  # type: ignore
-
-    resized_width = 576
-    target_height = round(image.height * resized_width / image.width)
-    image = image.resize(
-        (resized_width, target_height),
-        Image.Resampling.LANCZOS,
-    )
-
-    images_path = runtime_context.images_path
+    images_path = Path(runtime_context.images_path)
+    await asyncio.to_thread(images_path.mkdir, parents=True, exist_ok=True)
     invoked_at = state.invoked_at
     assert invoked_at is not None
 
-    gen_image_path = (
-        f"{images_path}/{invoked_at}-{state.image_id}-gen.{image_extension}"
+    generated_image = next(iter(output))
+    image_data = await asyncio.to_thread(generated_image.read)
+    gen_image_path = images_path / (
+        f"{invoked_at}-{state.image_id}-gen.{image_extension}"
     )
-    image.save(gen_image_path)
+
+    await asyncio.to_thread(_resize_image, image_data, gen_image_path)
 
     return {
         "image_generation_prompt": image_generation_prompt,
-        "gen_image_path": gen_image_path,
+        "gen_image_path": str(gen_image_path),
     }
 
 

@@ -3,6 +3,7 @@ from pydantic import (
     Field,
     NonNegativeFloat,
     NonNegativeInt,
+    PositiveFloat,
     StrictInt,
     StrictStr,
 )
@@ -54,5 +55,16 @@ class MultiAgentConfig(BaseSettings):
     face_detector_min_score: NonNegativeFloat = 0.0
     images_path: StrictStr = "/resources/generated-images"
     image_extension: StrictStr = "jpg"
+    caption_header: StrictStr = (
+        "In the Style of PBFR, a raw monochrome ink sketch with bold, "
+        "expressive linework of:"
+    )
+
+    replicate_model: StrictStr = (
+        "bastiansg/pbfr-flux:"
+        "35bbe647e733755ba300aa2ba1acf6ea211ce1615f7c6be53b1fa4c32cb5146d"
+    )
+
+    replicate_timeout: PositiveFloat = 120.0
     idle_angles: IdleAngles = Field(default_factory=IdleAngles)
     printer: Printer = Field(default_factory=Printer)

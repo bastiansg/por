@@ -9,6 +9,7 @@ from pydantic import (
     ConfigDict,
     NonNegativeFloat,
     NonNegativeInt,
+    PositiveFloat,
     PositiveInt,
     StrictBool,
     StrictInt,
@@ -18,7 +19,7 @@ from pydantic import (
 from pydantic_extra_types.language_code import LanguageName
 from sensehat_dsp.display import Color
 
-from por.llm_agents import PBFImageDescriberOutput
+from por.llm_agents.schema import PBFImageDescriberOutput
 from por.meta.schema import (
     AstrologyPlacements,
     PsychologicalProfile,
@@ -57,6 +58,9 @@ class ContextSchema(BaseModel):
     face_detector_min_score: NonNegativeFloat
     images_path: StrictStr
     image_extension: StrictStr
+    caption_header: StrictStr
+    replicate_model: StrictStr
+    replicate_timeout: PositiveFloat
     idle_angles: ServoAngles
     dc_poems: list[DCPoem]
     fc_messages: list[FCMessage]

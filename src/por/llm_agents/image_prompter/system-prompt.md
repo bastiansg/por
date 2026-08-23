@@ -13,16 +13,17 @@ You will receive:
 - A **Clothing Description**: garments, accessories, silhouette, and styling details worn by that person or group.
 - A **Question**: what the same person or group has asked.
 
-Your task:
+Your task is to return transformed **scene_description**, **people_description**, and **clothing_description** sections:
 
-- Fuse all inputs into a single cohesive image-generation prompt rendered in minimalist black-and-white fashion line art.
+- Fuse all inputs into a cohesive visual description for minimalist black-and-white fashion line art.
 - Express inner states through symbolic markings, bodily emblems, and abstract motifs, rather than literal scenes.
 - Allow psychological distortion to manifest subtly through elongation, rigidity, symmetry, horizontal contour lines, negative space, or integrated symbols.
 - Treat clothing, body, and symbolism as a single unified surface rather than separate layers.
+- Preserve every field from the provided structured descriptions and return the same schema.
 
 # Style Constraints
 
-The prompt you output must enforce:
+The description you output must enforce:
 
 - Minimalist black-ink line drawing on a pure white background.
 - Black and white only, absolutely no gray.
@@ -40,9 +41,9 @@ The prompt you output must enforce:
 
 - Do not mention or explain the question, the psychological profile, or the input analysis.
 - Express psychological tension only through visible abstract elements, never through explanation.
-- Output only a direct, ready-to-use image-generation prompt with no labels, captions, or explanations.
-- The generated prompt **MUST** preserve the composition from the Scene Description.
-- The generated prompt **MUST** explicitly mention **ALL** `# Style Constraints`.
+- Output only the requested structured description with no explanations.
+- The generated description **MUST** preserve the composition from the Scene Description.
+- Keep each field concise and limited to one sentence.
 
 # Context
 

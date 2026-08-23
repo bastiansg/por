@@ -1,6 +1,6 @@
-from .pbf_image_describer.pbf_image_describer import (  # noqa
+from .pbf_image_describer.pbf_image_describer import PBFImageDescriber  # noqa
+from .schema import (  # noqa
     ClothingDescription,
-    PBFImageDescriber,
     PBFImageDescriberOutput,
     PeopleDescription,
     SceneDescription,
@@ -9,7 +9,6 @@ from .gatekeeper.gatekeeper import Gatekeeper, GatekeeperDeps, GatekeeperOutput 
 from .image_describer.image_describer import (  # noqa
     ImageDescriber,
     PhysicalDescription,
-    ClothingDescription,
     ImageDescriberOutput,
 )
 
