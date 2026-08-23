@@ -5,14 +5,19 @@ from pydantic import BaseModel, StrictStr
 from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
 
-from por.llm_agents.schema import PBFImageDescriberOutput
+from por.llm_agents.schema import (
+    ClothingDescription,
+    PBFImageDescriberOutput,
+    PeopleDescription,
+)
 from por.meta.schema import PsychologicalProfile
 
 
 class ImagePrompterDeps(BaseModel):
     question: StrictStr
     psychological_profile: PsychologicalProfile
-    image_description: PBFImageDescriberOutput
+    people_description: PeopleDescription
+    clothing_description: ClothingDescription
 
 
 agent = Agent(  # type: ignore

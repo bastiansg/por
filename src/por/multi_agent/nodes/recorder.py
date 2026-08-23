@@ -91,12 +91,26 @@ async def run(state: StateSchema) -> dict[str, Any]:
     audio_recorder.save_to_file(file=audio_buffer)
     audio_buffer.seek(0)
 
-    last_history_item = valid_history_items[-1]
+    final_capture = tracker.final_capture
+    if final_capture is None:
+        raise RuntimeError("face tracker did not produce a final capture")
+
+    capture_height, capture_width = final_capture.shape[:2]
+    expected_capture_size = runtime_context.capture_size
+    if (
+        capture_width != expected_capture_size.width
+        or capture_height != expected_capture_size.height
+    ):
+        raise RuntimeError(
+            "final capture has unexpected resolution: "
+            f"{capture_width}x{capture_height}"
+        )
+
     image_id = state.image_id
     invoked_at = state.invoked_at
     assert invoked_at is not None
 
-    pil_image = Image.fromarray(last_history_item.np_image)
+    pil_image = Image.fromarray(final_capture)
     image_path = (
         f"{runtime_context.images_path}/{invoked_at}-{image_id}."
         f"{runtime_context.input_image_extension}"
