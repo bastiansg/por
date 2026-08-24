@@ -4,6 +4,8 @@ from pydantic import (
     NonNegativeFloat,
     NonNegativeInt,
     PositiveFloat,
+    PositiveInt,
+    StrictBool,
     StrictInt,
     StrictStr,
 )
@@ -45,6 +47,19 @@ class Printer(BaseModel):
     max_text_len: NonNegativeInt = 48
 
 
+class ReplicateInputConfig(BaseModel):
+    model: StrictStr = "dev"
+    lora_scale: PositiveFloat = 1.3
+    megapixels: StrictStr = "1"
+    num_outputs: PositiveInt = 1
+    aspect_ratio: StrictStr = "9:16"
+    output_format: StrictStr = "jpg"
+    guidance_scale: PositiveFloat = 5.0
+    output_quality: PositiveInt = 100
+    num_inference_steps: PositiveInt = 28
+    disable_safety_checker: StrictBool = True
+
+
 class MultiAgentConfig(BaseSettings):
     servo_angles: ServoAngles = Field(default_factory=ServoAngles)
     rotator_params: RotatorParams = Field(default_factory=RotatorParams)
@@ -67,5 +82,9 @@ class MultiAgentConfig(BaseSettings):
     )
 
     replicate_timeout: PositiveFloat = 120.0
+    replicate_input: ReplicateInputConfig = Field(
+        default_factory=ReplicateInputConfig,
+    )
+
     idle_angles: IdleAngles = Field(default_factory=IdleAngles)
     printer: Printer = Field(default_factory=Printer)

@@ -1,4 +1,4 @@
-.PHONY: core-build app-build devcontainer-build cmtv-disk-urls camera-memory-free print-state print-gen-image run-text-oracle
+.PHONY: core-build app-build devcontainer-build cmtv-disk-urls camera-memory-free print-state print-gen-image run-text-oracle generate-images-from-states
 
 
 core-build:
@@ -65,8 +65,11 @@ create-qdrant-collections:
 run-text-oracle: devcontainer-build
 	docker compose -f .devcontainer/docker-compose.yml run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.multi_agent.run_text_oracle" por-devcontainer
 
+generate-images-from-states: devcontainer-build
+	docker compose -f .devcontainer/docker-compose.yml run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.multi_agent.generate_images_from_states" por-devcontainer
+
 print-state:
 	docker compose -f .devcontainer/docker-compose.yml run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.printer.print_state --state-file $(STATE_FILE)" por-devcontainer
 
 print-gen-image:
-	docker compose -f .devcontainer/docker-compose.yml run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.printer.print_gen_image --gen-image-path $(GEN_IMAGE_PATH)" por-devcontainer
+	docker compose -f .devcontainer/docker-compose.yml run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.printer.print_gen_image" por-devcontainer

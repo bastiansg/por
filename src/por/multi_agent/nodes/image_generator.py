@@ -40,7 +40,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     render_node_banner("image_generator")
 
-    generated_image_extension = runtime_context.generated_image_extension
+    generated_image_extension = runtime_context.replicate_input.output_format
     audio_transcription = state.audio_transcription
     assert audio_transcription is not None
 
@@ -82,19 +82,10 @@ async def run(state: StateSchema) -> dict[str, Any]:
         replicate_client.run,
         runtime_context.replicate_model,
         wait=False,
-        input={
-            "model": "dev",
-            "prompt": image_generation_prompt,
-            "lora_scale": 1.3,
-            "megapixels": "1",
-            "num_outputs": 1,
-            "aspect_ratio": "9:16",
-            "output_format": generated_image_extension,
-            "guidance_scale": 5.0,
-            "output_quality": 100,
-            "num_inference_steps": 28,
-            "disable_safety_checker": True,
-        },
+        input=(
+            runtime_context.replicate_input.model_dump()
+            | {"prompt": image_generation_prompt}
+        ),
     )
 
     images_path = Path(runtime_context.images_path)
