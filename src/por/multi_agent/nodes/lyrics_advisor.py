@@ -58,7 +58,11 @@ async def run(state: StateSchema) -> dict[str, Any]:
         user_prompt=question_text,
         agent_deps=RetrievalAssistantDeps(
             search_tool="lyrics_search",
-            search_languages=["English", "Spanish"],  # type: ignore
+            search_languages=[
+                "English",
+                "Spanish",
+                "French",
+            ],  # type: ignore
             collection_name=COLLECTION_NAME,
         ),
     )

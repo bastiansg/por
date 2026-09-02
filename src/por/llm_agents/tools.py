@@ -6,9 +6,9 @@ from qdrant_client import models
 from rich.console import Console
 
 from por.db.qdrant import (
-    _get_text_chunk,
     # _get_text_chunks,
     hybrid_search,
+    retriever,
 )
 from por.llm_agents.utils import get_astro_weekly_data
 from por.meta.schema import ChunkMetadataFilter, TextChunk
@@ -82,16 +82,37 @@ async def astrology_search(
             description="Query to search for relevant astrology text chunks."
         ),
     ],
+    query_language: Annotated[
+        Literal[
+            "English",
+            "Spanish",
+        ],
+        Field(
+            description="Language of the input query and matching astrology chunks."
+        ),
+    ],
 ) -> list[TextChunk]:
     """Run a hybrid search across Astrology sources.
 
     Args:
         query: Query to search for relevant astrology text chunks.
+        query_language: Language of the input query and matching astrology
+            chunks.
     """
+
+    search_filter = models.Filter(
+        must=[
+            models.FieldCondition(
+                key="metadata.language",
+                match=models.MatchValue(value=query_language),
+            )
+        ],
+    )
 
     return await hybrid_search(
         query=query,
         collection_name="astrology",
+        search_filter=search_filter,
     )
 
 
@@ -273,58 +294,14 @@ async def get_neighboring_text_chunks(
     deps = ctx.deps
     assert deps is not None
 
-    async def get_text_chunk(value: str) -> TextChunk | None:
-        record = await _get_text_chunk(
-            collection_name=deps.collection_name,
-            key="chunk_id",
-            value=value,
-        )
+    chunks = await retriever.get_neighboring_text_chunks(
+        collection_name=deps.collection_name,
+        chunk_id=chunk_id,
+        before=before,
+        after=after,
+    )
 
-        if record is None or record.payload is None:
-            return None
-
-        return TextChunk(
-            text=record.payload["page_content"],  # type: ignore
-            metadata=record.payload["metadata"],  # type: ignore
-        )
-
-    center = await get_text_chunk(chunk_id)
-    if center is None:
-        return []
-
-    previous_chunks: list[TextChunk] = []
-    current = center
-
-    for _ in range(before):
-        previous_chunk_id = current.metadata.previous_chunk_id
-        if previous_chunk_id is None:
-            break
-
-        current = await get_text_chunk(previous_chunk_id)
-        if current is None:
-            break
-
-        previous_chunks.append(current)
-
-    next_chunks: list[TextChunk] = []
-    current = center
-
-    for _ in range(after):
-        next_chunk_id = current.metadata.next_chunk_id
-        if next_chunk_id is None:
-            break
-
-        current = await get_text_chunk(next_chunk_id)
-        if current is None:
-            break
-
-        next_chunks.append(current)
-
-    return [
-        *reversed(previous_chunks),
-        center,
-        *next_chunks,
-    ]
+    return [TextChunk(**chunk.model_dump()) for chunk in chunks]
 
 
 philosophy_search_tool = Tool(
