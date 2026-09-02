@@ -18,7 +18,7 @@ class LyricsValidatorOutput(BaseModel):
 
 agent = Agent(  # type: ignore
     name="lyrics-validator",
-    model="gpt-5.6-terra",
+    model="openai-chat:gpt-5.6-terra",
     system_prompt=LLMAgent.read_file(
         file_path=str(Path(__file__).with_name("system-prompt.md"))
     ),

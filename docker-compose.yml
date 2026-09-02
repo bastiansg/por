@@ -37,6 +37,9 @@ services:
     por-app:
         image: por-app
         container_name: por-app
+        depends_on:
+            - por-qdrant
+            - por-redis
         build:
             context: .
             dockerfile: ./docker/app/Dockerfile

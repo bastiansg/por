@@ -1,23 +1,29 @@
 from typing import Annotated, Literal
 
+from aiocache import RedisCache
+from aiocache.serializers import JsonSerializer
+from more_itertools import unique_everseen
 from pydantic import Field
-from pydantic_ai import RunContext, Tool
+from pydantic_ai import ModelRetry, RunContext, Tool
 from qdrant_client import models
 from rich.console import Console
 
+from por.config import config
 from por.db.qdrant import (
-    # _get_text_chunks,
+    _get_text_chunks,
     hybrid_search,
     retriever,
 )
 from por.llm_agents.utils import get_astro_weekly_data
 from por.meta.schema import ChunkMetadataFilter, TextChunk
+from por.multi_agent.console import render_node_detail
 
 console = Console()
 
 
 SEARCH_TOP_K = 5
 SEARCH_SCORE_THRESHOLD = 0.3
+RETRIEVAL_TTL_SECONDS = 900
 ZODIAC_SIGN_IDS = {
     "Aries": "ari",
     "Taurus": "tau",
@@ -32,6 +38,70 @@ ZODIAC_SIGN_IDS = {
     "Aquarius": "aqu",
     "Pisces": "pis",
 }
+
+retrieval_cache = RedisCache(
+    endpoint=config.redis_host,
+    port=config.redis_port,
+    db=config.redis_db,
+    namespace="retrievals",
+    serializer=JsonSerializer(),
+)
+
+
+async def store_relevant_chunk_ids(
+    ctx: RunContext,
+    relevant_chunk_ids: Annotated[
+        list[str],
+        Field(
+            description="Relevant chunk_id values ordered by relevance.",
+            min_length=1,
+        ),
+    ],
+) -> int:
+    """Store relevant chunk IDs for the current retrieval request.
+
+    Args:
+        relevant_chunk_ids: Relevant chunk_id values ordered by relevance.
+    """
+
+    deps = ctx.deps
+    assert deps is not None
+
+    relevant_chunk_ids = list(unique_everseen(relevant_chunk_ids))
+    records = await _get_text_chunks(
+        collection_name=deps.collection_name,
+        key="chunk_id",
+        values=relevant_chunk_ids,
+    )
+
+    stored_chunk_ids = {
+        record.payload["metadata"]["chunk_id"]
+        for record in records
+        if record.payload is not None
+    }
+
+    missing_chunk_ids = [
+        chunk_id
+        for chunk_id in relevant_chunk_ids
+        if chunk_id not in stored_chunk_ids
+    ]
+
+    if missing_chunk_ids:
+        error_message = f"Invalid text chunks: {', '.join(missing_chunk_ids)}."
+        render_node_detail("retrieval_validation_error", error_message)
+        raise ModelRetry(error_message)
+
+    await retrieval_cache.set(
+        deps.request_id,
+        relevant_chunk_ids,
+        ttl=RETRIEVAL_TTL_SECONDS,
+    )
+
+    return len(relevant_chunk_ids)
+
+
+async def get_relevant_chunk_ids(request_id: str) -> list[str]:
+    return await retrieval_cache.get(request_id, default=[])
 
 
 async def philosophy_search(
@@ -362,4 +432,12 @@ get_neighboring_text_chunks_tool = Tool(
     description="Retrieve neighboring text chunks around a center chunk.",
     docstring_format="google",
     require_parameter_descriptions=True,
+)
+
+store_relevant_chunk_ids_tool = Tool(
+    function=store_relevant_chunk_ids,
+    description="Store relevant chunk IDs for the current retrieval request.",
+    docstring_format="google",
+    require_parameter_descriptions=True,
+    max_retries=3,
 )

@@ -20,7 +20,7 @@ class PBFImageDescriberOutput(ImageDescriptionOutput[PBFSceneDescription]):
 
 agent = Agent(
     name="pbf-image-describer",
-    model="gpt-5.6-sol",
+    model="openai-chat:gpt-5.6-sol",
     model_settings=OpenAIChatModelSettings(
         max_tokens=512,
         openai_reasoning_effort="none",

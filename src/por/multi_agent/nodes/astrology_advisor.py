@@ -1,4 +1,5 @@
 from typing import Any
+from uuid import uuid4
 
 from multi_agents.graph import Node
 
@@ -11,6 +12,7 @@ from por.llm_agents import (
 from por.llm_agents.tools import (
     astrology_search_tool,
     get_neighboring_text_chunks_tool,
+    get_relevant_chunk_ids,
     search_by_chunk_metadata_filters_tool,
 )
 from por.multi_agent.console import render_node_banner
@@ -53,10 +55,12 @@ async def run(state: StateSchema) -> dict[str, Any]:
         ]
     )
 
+    retrieval_request_id = uuid4().hex
     question_text = f"**Question**: {audio_transcription}"
-    ra_output = await ra.generate(
+    await ra.generate(
         user_prompt=question_text,
         agent_deps=RetrievalAssistantDeps(
+            request_id=retrieval_request_id,
             search_tool="astrology_search",
             search_languages=["English", "Spanish"],  # type: ignore
             collection_name=COLLECTION_NAME,
@@ -64,7 +68,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     )
 
     ra_text_chunks = await get_relevant_text_chunks(
-        relevant_chunk_ids=ra_output.relevant_chunk_ids,
+        relevant_chunk_ids=await get_relevant_chunk_ids(retrieval_request_id),
         collection_name=COLLECTION_NAME,
     )
 

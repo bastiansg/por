@@ -66,4 +66,4 @@ ENV DENSE_EMBED_DOC_CACHE_PATH=/resources/cache/embeddings/documents
 ENV DENSE_EMBED_QUERY_CACHE_PATH=/resources/cache/embeddings/queries
 
 ENV REDIS_HOST=por-redis
-ENV QDRANT_HOST=por-qdrant
+ENV RAGE_QDRANT_HOST=por-qdrant

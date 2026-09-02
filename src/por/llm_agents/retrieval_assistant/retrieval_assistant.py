@@ -1,24 +1,26 @@
 from pathlib import Path
 
 from llm_agents.meta.interfaces import LLMAgent
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, Field, StrictBool, StrictStr
 from pydantic_ai import Agent, RunContext, Tool, ToolOutput
+from pydantic_ai.capabilities import PrepareTools, ProcessEventStream
 from pydantic_ai.models.openai import OpenAIChatModelSettings
 from pydantic_extra_types.language_code import LanguageName
 
+from ..tools import store_relevant_chunk_ids_tool
 from ..utils import hide_tools_after_limit, tool_logging_handler
 
 
 class RetrievalAssistantDeps(BaseModel):
+    request_id: StrictStr
     search_tool: StrictStr
     search_languages: list[LanguageName]
     collection_name: StrictStr
 
 
 class RetrievalAssistantOutput(BaseModel):
-    relevant_chunk_ids: list[StrictStr] = Field(
-        description="List of relevant `chunk_id` values.",
-        min_length=1,
+    retrieval_stored: StrictBool = Field(
+        description="Whether the relevant chunk IDs were stored successfully.",
     )
 
 
@@ -31,7 +33,7 @@ def get_agent(
 
     agent = Agent(  # type: ignore
         name="retrieval-assistant",
-        model="gpt-5.6-luna",
+        model="openai-chat:gpt-5.6-luna",
         model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
         system_prompt=LLMAgent.read_file(
             file_path=str(Path(__file__).with_name("system-prompt.md"))
@@ -39,9 +41,11 @@ def get_agent(
         deps_type=RetrievalAssistantDeps,
         output_type=ToolOutput(RetrievalAssistantOutput),
         retries=3,
-        tools=tools,
-        prepare_tools=hide_tools_after_limit,  # type: ignore
-        event_stream_handler=tool_logging_handler,  # type: ignore
+        tools=[*tools, store_relevant_chunk_ids_tool],
+        capabilities=[
+            PrepareTools(hide_tools_after_limit),  # type: ignore
+            ProcessEventStream(tool_logging_handler),  # type: ignore
+        ],
     )
 
     @agent.system_prompt  # type: ignore
