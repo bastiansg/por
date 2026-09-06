@@ -10,9 +10,6 @@ agent = Agent(  # type: ignore
     name="astrology-placements-extractor",
     model="openai-chat:gpt-5.6-terra",
     model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
-    system_prompt=LLMAgent.read_file(
-        file_path=str(Path(__file__).with_name("system-prompt.md"))
-    ),
     output_type=ToolOutput(AstrologyPlacements),
     retries=3,
 )

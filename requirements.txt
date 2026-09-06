@@ -34,4 +34,4 @@ sensehat_dsp==2.0.0
 
 # Aureka packages
 multi_agents==2.0.2
-rage==3.0.0
+rage==3.0.1

@@ -76,12 +76,16 @@ async def run(state: StateSchema) -> dict[str, Any]:
         collection_name=COLLECTION_NAME,
     )
 
+    user_prompt = (
+        f"{question_text}\n\n"
+        f"**Psychological Profile**: {psychological_profile}\n\n"
+        f"**Text Chunks**: {ra_text_chunks}"
+    )
+
     la = LyricsAdvisor()
     la_output = await la.generate(
-        user_prompt=question_text,
+        user_prompt=user_prompt,
         agent_deps=LyricsAdvisorDeps(
-            psychological_profile=psychological_profile,
-            text_chunks=ra_text_chunks,
             output_language=detected_language,
         ),
     )

@@ -47,10 +47,4 @@ Your `reason` MUST:
     - `title`: Recommended song title.
     - `artist`: Artist of the recommended song.
     - `year`: Release year of the recommended song
-- **reason**: A very short and ironic reason, without adjectives for the user.
-
-# Context
-
-**Psychological Profile**: {psychological_profile}
-
-**Text Chunks**: {text_chunks}
+- **reason**: A very short and ironic reason.

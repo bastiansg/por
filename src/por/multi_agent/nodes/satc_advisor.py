@@ -72,24 +72,23 @@ async def run(state: StateSchema) -> dict[str, Any]:
         collection_name=COLLECTION_NAME,
     )
 
+    user_prompt = (
+        f"{question_text}\n\n"
+        f"**Psychological Profile**: {psychological_profile}\n\n"
+        f"**Text Chunks**: {ra_text_chunks}"
+    )
+
     sa = SATCAdvisor()
     satc_output = await sa.generate(
-        user_prompt=question_text,
+        user_prompt=user_prompt,
         agent_deps=SATCAdvisorDeps(
-            psychological_profile=psychological_profile,
-            text_chunks=ra_text_chunks,
             output_language=detected_language,
         ),
     )
 
-    sa_text_chunks = await get_relevant_text_chunks(
-        relevant_chunk_ids=satc_output.relevant_chunk_ids,
-        collection_name=COLLECTION_NAME,
-    )
-
     return {
         "satc_advice": satc_output.answer,
-        "satc_text_chunks": sa_text_chunks,
+        "satc_text_chunks": ra_text_chunks,
     }
 
 

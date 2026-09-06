@@ -1,4 +1,4 @@
-ARG UV_VERSION=0.12.3
+ARG UV_VERSION=0.12.10
 FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv_source
 
 FROM debian:bookworm-slim
@@ -65,5 +65,5 @@ ENV FAST_EMBED_SPARSE_CACHE=/resources/cache/fes
 ENV DENSE_EMBED_DOC_CACHE_PATH=/resources/cache/embeddings/documents
 ENV DENSE_EMBED_QUERY_CACHE_PATH=/resources/cache/embeddings/queries
 
-ENV REDIS_HOST=por-redis
+ENV RAGE_REDIS_HOST=por-redis
 ENV RAGE_QDRANT_HOST=por-qdrant

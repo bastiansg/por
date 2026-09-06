@@ -69,7 +69,7 @@ async def store_relevant_chunk_ids(
 
     relevant_chunk_ids = list(unique_everseen(relevant_chunk_ids))
     records = await _get_text_chunks(
-        collection_name=deps.collection_name,
+        collection_name=deps.collection_name,  # type: ignore
         key="chunk_id",
         values=relevant_chunk_ids,
     )
@@ -92,7 +92,7 @@ async def store_relevant_chunk_ids(
         raise ModelRetry(error_message)
 
     await retrieval_cache.set(
-        deps.request_id,
+        deps.request_id,  # type: ignore
         relevant_chunk_ids,
         ttl=RETRIEVAL_TTL_SECONDS,
     )
@@ -101,7 +101,7 @@ async def store_relevant_chunk_ids(
 
 
 async def get_relevant_chunk_ids(request_id: str) -> list[str]:
-    return await retrieval_cache.get(request_id, default=[])
+    return await retrieval_cache.get(request_id, default=[])  # type: ignore
 
 
 async def philosophy_search(
@@ -302,40 +302,9 @@ async def search_by_chunk_metadata_filters(
 
     return await hybrid_search(
         query=query,
-        collection_name=deps.collection_name,
+        collection_name=deps.collection_name,  # type: ignore
         search_filter=search_filter,
     )
-
-
-# async def get_text_chunks(
-#     ctx: RunContext,
-#     chunk_ids: Annotated[
-#         list[str],
-#         Field(description="chunk_id values of the text chunks to retrieve."),
-#     ],
-# ) -> list[TextChunk]:
-#     """Retrieve specific text chunks using their chunk_id values.
-
-#     Args:
-#         chunk_ids: chunk_id values of the text chunks to retrieve.
-#     """
-
-#     deps = ctx.deps
-#     assert deps is not None
-
-#     records = await _get_text_chunks(
-#         collection_name=deps.collection_name,
-#         key="chunk_id",
-#         values=chunk_ids,
-#     )
-
-#     return [
-#         TextChunk(
-#             text=r.payload["page_content"],  # type: ignore
-#             metadata=r.payload["metadata"],  # type: ignore
-#         )
-#         for r in records
-#     ]
 
 
 async def get_neighboring_text_chunks(
@@ -365,7 +334,7 @@ async def get_neighboring_text_chunks(
     assert deps is not None
 
     chunks = await retriever.get_neighboring_text_chunks(
-        collection_name=deps.collection_name,
+        collection_name=deps.collection_name,  # type: ignore
         chunk_id=chunk_id,
         before=before,
         after=after,

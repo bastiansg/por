@@ -22,9 +22,6 @@ agent = Agent(  # type: ignore
     name="microphone-remover",
     model="openai-chat:gpt-5.6-luna",
     model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
-    system_prompt=LLMAgent.read_file(
-        file_path=str(Path(__file__).with_name("system-prompt.md"))
-    ),
     deps_type=MicrophoneRemoverDeps,
     output_type=ToolOutput(MicrophoneRemoverOutput),
     retries=3,

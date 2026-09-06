@@ -26,15 +26,12 @@ class ImagePrompterOutput(ImageDescriptionOutput[SceneDescription]):
     pass
 
 
-agent = Agent(  # type: ignore
+agent = Agent(
     name="image-prompter",
     model="openai-chat:gpt-5.6-sol",
     model_settings=OpenAIChatModelSettings(
         max_tokens=512,
         openai_reasoning_effort="none",
-    ),
-    system_prompt=LLMAgent.read_file(
-        file_path=str(Path(__file__).with_name("system-prompt.md"))
     ),
     deps_type=ImagePrompterDeps,
     output_type=ToolOutput(ImagePrompterOutput),

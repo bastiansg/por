@@ -40,15 +40,6 @@ Your answer MUST:
 - End with a forceful "tag line" sentence that clearly and assertively states your point of view.
 - Be in {output_language}.
 
-## Required Output
-
-- **answer**: Your intuitive, symbolic, and emotionally clarifying message.
-- **relevant_chunk_ids**: List of unique `chunk_id` values that influenced your answer.
-
 # Context
 
 **Astrology Placements**: {astrology_placements}
-
-**Psychological Profile**: {psychological_profile}
-
-**Text Chunks**: {text_chunks}

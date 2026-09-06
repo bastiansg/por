@@ -6,7 +6,7 @@ from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
 from pydantic_extra_types.language_code import LanguageName
 
-from por.meta.schema import AstrologyPlacements, PsychologicalProfile, TextChunk
+from por.meta.schema import AstrologyPlacements
 
 # from por.llm_agents.tools import (
 #     astro_weekly_general_tendencies_tool,
@@ -16,8 +16,6 @@ from por.meta.schema import AstrologyPlacements, PsychologicalProfile, TextChunk
 
 class AstrologyAdvisorDeps(BaseModel):
     astrology_placements: AstrologyPlacements
-    psychological_profile: PsychologicalProfile
-    text_chunks: list[TextChunk]
     output_language: LanguageName
 
 
@@ -27,19 +25,11 @@ class AstrologyAdvisorOutput(BaseModel):
         min_length=1,
     )
 
-    relevant_chunk_ids: list[StrictStr] = Field(
-        description="List of unique `chunk_id` values that influenced your answer.",
-        min_length=1,
-    )
-
 
 agent = Agent(  # type: ignore
     name="astrology-advisor",
     model="openai-chat:gpt-5.6-terra",
     model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
-    system_prompt=LLMAgent.read_file(
-        file_path=str(Path(__file__).with_name("system-prompt.md"))
-    ),
     deps_type=AstrologyAdvisorDeps,
     output_type=ToolOutput(AstrologyAdvisorOutput),
     # tools=[

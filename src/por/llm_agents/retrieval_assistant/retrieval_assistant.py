@@ -31,24 +31,21 @@ def get_agent(
     RetrievalAssistantOutput,
 ]:
 
-    agent = Agent(  # type: ignore
+    agent = Agent(
         name="retrieval-assistant",
         model="openai-chat:gpt-5.6-luna",
         model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
-        system_prompt=LLMAgent.read_file(
-            file_path=str(Path(__file__).with_name("system-prompt.md"))
-        ),
         deps_type=RetrievalAssistantDeps,
         output_type=ToolOutput(RetrievalAssistantOutput),
         retries=3,
         tools=[*tools, store_relevant_chunk_ids_tool],
         capabilities=[
-            PrepareTools(hide_tools_after_limit),  # type: ignore
+            PrepareTools(hide_tools_after_limit),
             ProcessEventStream(tool_logging_handler),  # type: ignore
         ],
     )
 
-    @agent.system_prompt  # type: ignore
+    @agent.system_prompt
     async def get_system_prompt(ctx: RunContext[RetrievalAssistantDeps]) -> str:
         system_prompt = LLMAgent.read_file(
             file_path=str(Path(__file__).with_name("system-prompt.md"))
@@ -56,7 +53,7 @@ def get_agent(
 
         return system_prompt.format(**ctx.deps.model_dump())
 
-    return agent  # type: ignore
+    return agent
 
 
 class RetrievalAssistant(

@@ -25,9 +25,6 @@ agent = Agent(
         max_tokens=512,
         openai_reasoning_effort="none",
     ),
-    system_prompt=LLMAgent.read_file(
-        file_path=str(Path(__file__).with_name("system-prompt.md"))
-    ),
     output_type=ToolOutput(PBFImageDescriberOutput),
     retries=3,
 )
