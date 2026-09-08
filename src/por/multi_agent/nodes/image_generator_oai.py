@@ -35,13 +35,19 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     ip = ImagePrompter()
     ip_output = await ip.generate(
-        user_prompt="Provide your surreal image-generation prompt.",
+        user_prompt=(
+            "Provide your surreal image-generation prompt."
+            f"\n\n**Question**: {audio_transcription}"
+            f"\n\n**Psychological Profile**: {psychological_profile}"
+            "\n\n**Previous Framing and Viewpoint**: "
+            f"{image_description.scene_description.composition}"
+            f"\n\n**People Description**: {image_description.people_description}"
+            f"\n\n**Clothing Description**: {image_description.clothing_description}"
+        ),
         agent_deps=ImagePrompterDeps(
-            question=audio_transcription,
-            psychological_profile=psychological_profile,
-            composition=image_description.scene_description.composition,
-            people_description=image_description.people_description,
-            clothing_description=image_description.clothing_description,
+            caption_header=runtime_context.caption_header,
+            t5_tokenizer_name=runtime_context.t5_tokenizer_name,
+            flux_max_tokens=runtime_context.flux_max_tokens,
         ),
     )
 

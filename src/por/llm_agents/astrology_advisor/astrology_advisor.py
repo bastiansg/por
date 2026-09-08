@@ -6,8 +6,6 @@ from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
 from pydantic_extra_types.language_code import LanguageName
 
-from por.meta.schema import AstrologyPlacements
-
 # from por.llm_agents.tools import (
 #     astro_weekly_general_tendencies_tool,
 #     astro_weekly_horoscope_by_sign_tool,
@@ -15,7 +13,6 @@ from por.meta.schema import AstrologyPlacements
 
 
 class AstrologyAdvisorDeps(BaseModel):
-    astrology_placements: AstrologyPlacements
     output_language: LanguageName
 
 

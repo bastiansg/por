@@ -17,7 +17,6 @@ from por.llm_agents import (
     ImagePrompter,
     ImagePrompterDeps,
     MicrophoneRemover,
-    MicrophoneRemoverDeps,
     PBFImageDescriber,
     PsychologicalDescriber,
     PsychologicalDescriberDeps,
@@ -152,9 +151,9 @@ async def _generate_image(
         PsychologicalDescriber().generate(
             user_prompt=(
                 "Provide a psychological profile based on the provided information."
+                f"\n\n**Question**: {state_input.question}"
             ),
             agent_deps=PsychologicalDescriberDeps(
-                question=state_input.question,
                 output_language=LanguageName("English"),
             ),
             user_content=binary_image,
@@ -166,27 +165,39 @@ async def _generate_image(
         user_prompt=(
             "Remove microphone, cable, and held-object references from this "
             "image description."
-        ),
-        agent_deps=MicrophoneRemoverDeps(
-            image_description=image_description,
+            f"\n\n**Image Description**: {image_description}"
         ),
     )
 
     render_node_detail("status", "Creating the image-generation prompt")
     prompt_description = await ImagePrompter().generate(
-        user_prompt="Provide the transformed image description.",
+        user_prompt=(
+            "Provide the transformed image description."
+            f"\n\n**Question**: {state_input.question}"
+            f"\n\n**Psychological Profile**: {psychological_profile}"
+            "\n\n**Previous Framing and Viewpoint**: "
+            f"{cleaned_description.scene_description.composition}"
+            f"\n\n**People Description**: {cleaned_description.people_description}"
+            f"\n\n**Clothing Description**: {cleaned_description.clothing_description}"
+        ),
         agent_deps=ImagePrompterDeps(
-            question=state_input.question,
-            psychological_profile=psychological_profile,
-            composition=cleaned_description.scene_description.composition,
-            people_description=cleaned_description.people_description,
-            clothing_description=cleaned_description.clothing_description,
+            caption_header=config.caption_header,
+            t5_tokenizer_name=config.t5_tokenizer_name,
+            flux_max_tokens=config.flux_max_tokens,
         ),
     )
 
     image_generation_prompt = format_prompt(
         prompt_description,
         config.caption_header,
+    )
+
+    render_node_detail(
+        "image_generation_prompt_tokens",
+        prompt_description.count_prompt_tokens(
+            config.caption_header,
+            config.t5_tokenizer_name,
+        ),
     )
 
     render_node_detail("status", "Generating the image")

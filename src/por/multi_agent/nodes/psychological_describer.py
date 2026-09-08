@@ -41,9 +41,11 @@ async def run(state: StateSchema) -> dict[str, Any]:
     psychological_describer_agent = PsychologicalDescriber()
     image_data = await asyncio.to_thread(Path(image_path).read_bytes)
     psychological_describer_output = await psychological_describer_agent.generate(
-        user_prompt="Provide a psychological profile based on the provided information.",
+        user_prompt=(
+            "Provide a psychological profile based on the provided information."
+            f"\n\n**Question**: {question}"
+        ),
         agent_deps=PsychologicalDescriberDeps(
-            question=question,
             output_language=LanguageName("English"),
         ),
         user_content=BinaryContent(

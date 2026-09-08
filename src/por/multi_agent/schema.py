@@ -63,6 +63,8 @@ class ContextSchema(BaseModel):
     images_path: StrictStr
     input_image_extension: StrictStr
     generated_image_extension: StrictStr
+    t5_tokenizer_name: StrictStr
+    flux_max_tokens: PositiveInt
     caption_header: StrictStr
     replicate_model: StrictStr
     replicate_timeout: PositiveFloat

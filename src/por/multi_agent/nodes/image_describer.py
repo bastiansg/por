@@ -8,7 +8,6 @@ from pydantic_ai import BinaryContent
 
 from por.llm_agents import (
     MicrophoneRemover,
-    MicrophoneRemoverDeps,
     PBFImageDescriber,
 )
 from por.multi_agent.console import render_node_banner
@@ -38,9 +37,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
         user_prompt=(
             "Remove microphone, cable, and held-object references from this "
             "image description."
-        ),
-        agent_deps=MicrophoneRemoverDeps(
-            image_description=image_describer_output,
+            f"\n\n**Image Description**: {image_describer_output}"
         ),
     )
 

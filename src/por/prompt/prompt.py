@@ -1,9 +1,6 @@
 from collections.abc import Iterable
 
-from por.llm_agents.image_prompter.image_prompter import ImagePrompterOutput
-from por.llm_agents.pbf_image_describer.pbf_image_describer import (
-    PBFImageDescriberOutput,
-)
+from por.llm_agents.schema import ImageDescriptionOutput, SceneDescription
 
 __all__ = ["format_prompt"]
 
@@ -22,7 +19,7 @@ def _format_section(
 
 
 def format_prompt(
-    description: PBFImageDescriberOutput | ImagePrompterOutput,
+    description: ImageDescriptionOutput[SceneDescription],
     caption_header: str,
 ) -> str:
     scene = description.scene_description

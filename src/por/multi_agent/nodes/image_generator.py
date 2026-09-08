@@ -10,7 +10,7 @@ from PIL import Image
 from replicate.client import Client
 
 from por.llm_agents import ImagePrompter, ImagePrompterDeps
-from por.multi_agent.console import render_node_banner
+from por.multi_agent.console import render_node_banner, render_node_detail
 from por.multi_agent.schema import ContextSchema, StateSchema
 from por.prompt import format_prompt
 
@@ -52,13 +52,19 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     ip = ImagePrompter()
     ip_output = await ip.generate(
-        user_prompt="Provide the transformed image description.",
+        user_prompt=(
+            "Provide the transformed image description."
+            f"\n\n**Question**: {audio_transcription}"
+            f"\n\n**Psychological Profile**: {psychological_profile}"
+            "\n\n**Previous Framing and Viewpoint**: "
+            f"{image_description.scene_description.composition}"
+            f"\n\n**People Description**: {image_description.people_description}"
+            f"\n\n**Clothing Description**: {image_description.clothing_description}"
+        ),
         agent_deps=ImagePrompterDeps(
-            question=audio_transcription,
-            psychological_profile=psychological_profile,
-            composition=image_description.scene_description.composition,
-            people_description=image_description.people_description,
-            clothing_description=image_description.clothing_description,
+            caption_header=runtime_context.caption_header,
+            t5_tokenizer_name=runtime_context.t5_tokenizer_name,
+            flux_max_tokens=runtime_context.flux_max_tokens,
         ),
     )
 
@@ -72,6 +78,16 @@ async def run(state: StateSchema) -> dict[str, Any]:
     image_generation_prompt = format_prompt(
         ip_output,
         runtime_context.caption_header,
+    )
+
+    image_generation_prompt_tokens = ip_output.count_prompt_tokens(
+        runtime_context.caption_header,
+        runtime_context.t5_tokenizer_name,
+    )
+
+    render_node_detail(
+        "image_generation_prompt_tokens",
+        image_generation_prompt_tokens,
     )
 
     replicate_client = Client(

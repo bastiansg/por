@@ -74,6 +74,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     user_prompt = (
         f"{question_text}\n\n"
+        f"**Astrology Placements**: {astrology_placements}\n\n"
         f"**Psychological Profile**: {psychological_profile}\n\n"
         f"**Text Chunks**: {ra_text_chunks}"
     )
@@ -82,7 +83,6 @@ async def run(state: StateSchema) -> dict[str, Any]:
     astrology_output = await aa.generate(
         user_prompt=user_prompt,
         agent_deps=AstrologyAdvisorDeps(
-            astrology_placements=astrology_placements,
             output_language=detected_language,
         ),
     )

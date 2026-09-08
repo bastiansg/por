@@ -18,7 +18,6 @@ from .image_describer.image_describer import (  # noqa
 
 from .microphone_remover.microphone_remover import (  # noqa
     MicrophoneRemover,
-    MicrophoneRemoverDeps,
     MicrophoneRemoverOutput,
 )
 

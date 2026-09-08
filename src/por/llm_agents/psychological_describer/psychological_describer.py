@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from llm_agents.meta.interfaces import LLMAgent
-from pydantic import BaseModel, StrictStr
+from pydantic import BaseModel
 from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
 from pydantic_extra_types.language_code import LanguageName
@@ -10,7 +10,6 @@ from por.meta.schema import PsychologicalProfile
 
 
 class PsychologicalDescriberDeps(BaseModel):
-    question: StrictStr
     output_language: LanguageName
 
 

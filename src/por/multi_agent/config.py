@@ -71,6 +71,8 @@ class MultiAgentConfig(BaseSettings):
     images_path: StrictStr = "/resources/generated-images"
     input_image_extension: StrictStr = "jpg"
     generated_image_extension: StrictStr = "jpg"
+    t5_tokenizer_name: StrictStr = "google/t5-v1_1-xxl"
+    flux_max_tokens: PositiveInt = 512
     caption_header: StrictStr = (
         "In the Style of PBFR, a raw monochrome ink sketch with bold, "
         "expressive linework of:"

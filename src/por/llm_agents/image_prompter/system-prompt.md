@@ -18,16 +18,4 @@ Transform the provided scene around its people and clothing. Preserve only the p
 - Keep all transformations consistent across the three sections.
 - Describe only visible content; never explain what a symbol means.
 - Do not mention or imply colors, hues, skin tones, or hair tones.
-- Keep the complete response below 512 tokens.
-
-# Context
-
-**Question**: {question}
-
-**Psychological Profile**: {psychological_profile}
-
-**Previous Framing and Viewpoint**: {composition}
-
-**People Description**: {people_description}
-
-**Clothing Description**: {clothing_description}
+- Keep the complete response below 400 tokens.

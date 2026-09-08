@@ -19,7 +19,3 @@ Return the same structured description, but remove any reference to:
 - Keep all unrelated visual details intact.
 - If a field contains no such reference, leave it unchanged.
 - Keep every required field non-empty.
-
-# Context
-
-**Image Description**: {image_description}

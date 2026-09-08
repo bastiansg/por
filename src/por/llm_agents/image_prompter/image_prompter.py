@@ -1,38 +1,37 @@
 from pathlib import Path
 
 from llm_agents.meta.interfaces import LLMAgent
-from pydantic import BaseModel, StrictStr
-from pydantic_ai import Agent, RunContext, ToolOutput
+from pydantic import BaseModel, PositiveInt, StrictStr
+from pydantic_ai import Agent, ModelRetry, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
 
-from por.llm_agents.schema import (
-    ClothingDescription,
-    ImageDescriptionOutput,
-    PeopleDescription,
-    SceneDescription,
-)
-from por.meta.schema import PsychologicalProfile
+from por.llm_agents.schema import ImageDescriptionOutput, SceneDescription
+from por.prompt import format_prompt
+from por.utils.tokens import count_t5_tokens
 
 
 class ImagePrompterDeps(BaseModel):
-    question: StrictStr
-    psychological_profile: PsychologicalProfile
-    composition: StrictStr
-    people_description: PeopleDescription
-    clothing_description: ClothingDescription
+    caption_header: StrictStr
+    t5_tokenizer_name: StrictStr
+    flux_max_tokens: PositiveInt
 
 
 class ImagePrompterOutput(ImageDescriptionOutput[SceneDescription]):
-    pass
+    def count_prompt_tokens(
+        self,
+        caption_header: str,
+        tokenizer_name: str,
+    ) -> int:
+        return count_t5_tokens(
+            format_prompt(self, caption_header),
+            tokenizer_name,
+        )
 
 
 agent = Agent(
     name="image-prompter",
     model="openai-chat:gpt-5.6-sol",
-    model_settings=OpenAIChatModelSettings(
-        max_tokens=512,
-        openai_reasoning_effort="none",
-    ),
+    model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
     deps_type=ImagePrompterDeps,
     output_type=ToolOutput(ImagePrompterOutput),
     retries=3,
@@ -40,12 +39,29 @@ agent = Agent(
 
 
 @agent.system_prompt
-async def get_system_prompt(ctx: RunContext[ImagePrompterDeps]) -> str:
-    system_prompt = LLMAgent.read_file(
+async def get_system_prompt() -> str:
+    return LLMAgent.read_file(
         file_path=str(Path(__file__).with_name("system-prompt.md"))
     )
 
-    return system_prompt.format(**ctx.deps.model_dump())
+
+@agent.output_validator
+async def validate_prompt_tokens(
+    ctx: RunContext[ImagePrompterDeps],
+    output: ImagePrompterOutput,
+) -> ImagePrompterOutput:
+    token_count = output.count_prompt_tokens(
+        ctx.deps.caption_header,
+        ctx.deps.t5_tokenizer_name,
+    )
+
+    if token_count > ctx.deps.flux_max_tokens:
+        raise ModelRetry(
+            f"The formatted FLUX prompt contains {token_count} T5 tokens; "
+            f"rewrite it using at most {ctx.deps.flux_max_tokens} tokens."
+        )
+
+    return output
 
 
 class ImagePrompter(LLMAgent[ImagePrompterDeps, ImagePrompterOutput]):

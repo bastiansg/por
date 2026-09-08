@@ -39,7 +39,3 @@ Your answer MUST:
 - Deliver as a **single short paragraph** (no more than 4 sentences)
 - End with a forceful "tag line" sentence that clearly and assertively states your point of view.
 - Be in {output_language}.
-
-# Context
-
-**Astrology Placements**: {astrology_placements}
