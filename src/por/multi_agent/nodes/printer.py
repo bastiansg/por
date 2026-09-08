@@ -160,6 +160,11 @@ def main_pipeline(
         center=True,
     )
 
+    printer.image(
+        img_source="/resources/ticket-images/pbfa-sign.png",
+        center=True,
+    )
+
     printer.text("\n\n")
     printer.text("------------------------------------------------")
     printer.text("\n")
