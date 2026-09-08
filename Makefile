@@ -8,7 +8,7 @@ core-run:
 	docker compose run por-core
 
 
-devcontainer-build: core-build
+devcontainer-build:
 	docker compose build por-devcontainer
 
 
@@ -39,7 +39,7 @@ qdrant-flush: qdrant-stop
 qdrant-restart: qdrant-stop qdrant-start
 
 
-app-build: core-build
+app-build:
 	docker compose build por-app
 
 app-run: app-build

@@ -67,8 +67,8 @@ RUN --mount=type=cache,target=/var/cache/apt \
     && rm -rf /var/tmp/* /var/lib/apt/lists/*
 
 WORKDIR /workspace
-
 ENV SHELL=/usr/bin/zsh
+
 RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 FROM core AS app

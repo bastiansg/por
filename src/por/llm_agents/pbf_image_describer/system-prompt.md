@@ -30,8 +30,8 @@ Output three sections:
 
 # Hard Constraints
 
+- Treat the picture as a real scene rather than a drawing. Never mention its drawing style or artistic medium in any description.
 - Never mention, name, compare, or imply any color, hue, skin tone, or hair tone.
-- Describe visual distinctions only through shape, texture, pattern, material, shading, and contrast.
 - Never identify a person or infer sensitive or unobservable traits.
 - Keep every field concise and limited to one sentence.
 - Keep the complete response below 400 tokens.

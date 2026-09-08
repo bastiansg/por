@@ -3,6 +3,7 @@
     "initializeCommand": "make devcontainer-build",
     "dockerComposeFile": "../docker-compose.yml",
     "service": "por-devcontainer",
+    "runServices": ["por-devcontainer"],
     "workspaceFolder": "/workspace",
     "customizations": {
         "vscode": {

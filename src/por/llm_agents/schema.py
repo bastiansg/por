@@ -25,19 +25,26 @@ class PeopleDescription(BaseModel):
     )
 
     facial_expression: StrictStr | None = Field(
-        description="Visible facial expressions and facial characteristics.",
+        description=(
+            "Visible facial expressions and facial characteristics. "
+            "Must be None if not visible."
+        ),
         default=None,
     )
 
     hair_style: StrictStr | None = Field(
-        description="Visible hair lengths, textures, and styling.",
+        description=(
+            "Visible hair lengths, textures, and styling. Must be None if not visible."
+        ),
         default=None,
     )
 
     visible_modifications: StrictStr | None = Field(
-        description="Visible tattoos, piercings, makeup, or cosmetic enhancements.",
+        description=(
+            "Visible tattoos, piercings, makeup, or cosmetic enhancements. "
+            "Must be None if not visible."
+        ),
         default=None,
-        min_length=1,
     )
 
 
@@ -48,27 +55,41 @@ class ClothingDescription(BaseModel):
     )
 
     layering: StrictStr | None = Field(
-        description="Visible garment layers and how they overlap.",
+        description=(
+            "Visible garment layers and how they overlap. Must be None if not visible."
+        ),
         default=None,
     )
 
     fabric_and_texture: StrictStr | None = Field(
-        description="Visible fabric texture, material impression, weight, and structure.",
+        description=(
+            "Visible fabric texture, material impression, weight, and structure. "
+            "Must be None if not visible."
+        ),
         default=None,
     )
 
     patterns_and_details: StrictStr | None = Field(
-        description="Visible patterns, trims, collars, fastenings, stitching, and motifs.",
+        description=(
+            "Visible patterns, trims, collars, fastenings, stitching, and motifs. "
+            "Must be None if not visible."
+        ),
         default=None,
     )
 
     accessories: StrictStr | None = Field(
-        description="Visible jewelry, hats, eyewear, belts, bags, and other wearable accessories.",
+        description=(
+            "Visible jewelry, hats, eyewear, belts, bags, and other wearable accessories. "
+            "Must be None if not visible."
+        ),
         default=None,
     )
 
     footwear: StrictStr | None = Field(
-        description="Visible footwear type, style, silhouette, and notable details.",
+        description=(
+            "Visible footwear type, style, silhouette, and notable details. "
+            "Must be None if not visible."
+        ),
         default=None,
     )
 
