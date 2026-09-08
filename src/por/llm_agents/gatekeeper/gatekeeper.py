@@ -3,7 +3,7 @@ from pathlib import Path
 from llm_agents.meta.interfaces import LLMAgent
 from pydantic import BaseModel, Field, StrictBool, StrictStr
 from pydantic_ai import Agent, RunContext, ToolOutput
-from pydantic_ai.models.openai import OpenAIChatModelSettings
+from pydantic_ai.models.openai import OpenAIResponsesModelSettings
 from pydantic_extra_types.language_code import LanguageName
 
 
@@ -24,8 +24,8 @@ class GatekeeperOutput(BaseModel):
 
 agent = Agent(  # type: ignore
     name="gatekeeper",
-    model="openai-chat:gpt-5.6-luna",
-    model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
+    model="openai:gpt-5.6-luna",
+    model_settings=OpenAIResponsesModelSettings(openai_reasoning_effort="low"),
     deps_type=GatekeeperDeps,
     output_type=ToolOutput(GatekeeperOutput),
     retries=3,

@@ -3,7 +3,7 @@ from pathlib import Path
 from llm_agents.meta.interfaces import LLMAgent
 from pydantic import BaseModel, PositiveInt, StrictStr
 from pydantic_ai import Agent, RunContext, ToolOutput
-from pydantic_ai.models.openai import OpenAIChatModelSettings
+from pydantic_ai.models.openai import OpenAIResponsesModelSettings
 
 from por.config import config
 from por.llm_agents.schema import ImageDescriptionOutput, SceneDescription
@@ -31,9 +31,9 @@ class ImagePrompterOutput(ImageDescriptionOutput[SceneDescription]):
 
 agent = Agent(
     name="image-prompter",
-    model="openai-chat:gpt-5.6-sol",
-    model_settings=OpenAIChatModelSettings(
-        openai_reasoning_effort="none",
+    model="openai:gpt-5.6-sol",
+    model_settings=OpenAIResponsesModelSettings(
+        openai_reasoning_effort="low",
         max_tokens=config.flux_max_tokens,
     ),
     deps_type=ImagePrompterDeps,

@@ -3,7 +3,7 @@ from pathlib import Path
 from llm_agents.meta.interfaces import LLMAgent
 from pydantic import BaseModel, Field, StrictStr
 from pydantic_ai import Agent, RunContext, ToolOutput
-from pydantic_ai.models.openai import OpenAIChatModelSettings
+from pydantic_ai.models.openai import OpenAIResponsesModelSettings
 from pydantic_extra_types.language_code import LanguageName
 
 from por.meta.schema import Song
@@ -26,8 +26,8 @@ class LyricsAdvisorOutput(BaseModel):
 
 agent = Agent(
     name="lyrics-advisor",
-    model="openai-chat:gpt-5.6-terra",
-    model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
+    model="openai:gpt-5.6-terra",
+    model_settings=OpenAIResponsesModelSettings(openai_reasoning_effort="low"),
     deps_type=LyricsAdvisorDeps,
     output_type=ToolOutput(LyricsAdvisorOutput),
     retries=3,

@@ -1,7 +1,7 @@
 ARG UV_VERSION=0.12.10
 FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv_source
 
-FROM debian:bookworm-slim
+FROM debian:bookworm-slim AS core
 
 RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates gpg \
     && curl -fsSL https://archive.raspberrypi.org/debian/raspberrypi.gpg.key | gpg --dearmor -o /usr/share/keyrings/raspberrypi-archive-keyring.gpg \
@@ -40,11 +40,8 @@ ENV UV_SYSTEM_PYTHON=1
 COPY --from=uv_source /uv /uvx /bin/
 
 WORKDIR /tmp
-
-COPY uv.toml uv.toml
-COPY requirements.txt requirements.txt
-RUN --mount=type=cache,target=/root/.cache \
-    uv pip install -r requirements.txt
+COPY uv.toml requirements.txt ./
+RUN --mount=type=cache,target=/root/.cache uv pip install -r requirements.txt
 
 RUN rm -rf /tmp/*
 WORKDIR /root
@@ -56,3 +53,30 @@ ENV DENSE_EMBED_QUERY_CACHE_PATH=/resources/cache/embeddings/queries
 
 ENV RAGE_REDIS_HOST=por-redis
 ENV RAGE_QDRANT_HOST=por-qdrant
+
+FROM core AS devcontainer
+
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    apt-get update && apt-get install -y --no-install-recommends \
+    vim \
+    htop \
+    zsh \
+    && apt-get autoremove -y \
+    && apt-get clean \
+    && rm -rf /var/tmp/* /var/lib/apt/lists/*
+
+WORKDIR /workspace
+
+ENV SHELL=/usr/bin/zsh
+RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+FROM core AS app
+
+COPY src/por /src/src/por
+COPY requirements.txt pyproject.toml /src/
+RUN --mount=type=bind,source=.git,target=/src/.git \
+    uv pip install /src --no-deps
+
+WORKDIR /src
+CMD ["python", "-m", "por.app.app"]

@@ -3,7 +3,7 @@ from pathlib import Path
 from llm_agents.meta.interfaces import LLMAgent
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, ToolOutput
-from pydantic_ai.models.openai import OpenAIChatModelSettings
+from pydantic_ai.models.openai import OpenAIResponsesModelSettings
 
 from por.meta.schema import ClothingDescription, PhysicalDescription
 
@@ -20,8 +20,8 @@ class ImageDescriberOutput(BaseModel):
 
 agent = Agent(  # type: ignore
     name="image-describer",
-    model="openai-chat:gpt-5.6-luna",
-    model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
+    model="openai:gpt-5.6-luna",
+    model_settings=OpenAIResponsesModelSettings(openai_reasoning_effort="low"),
     output_type=ToolOutput(ImageDescriberOutput),
     retries=3,
 )

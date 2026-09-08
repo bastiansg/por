@@ -2,14 +2,14 @@ from pathlib import Path
 
 from llm_agents.meta.interfaces import LLMAgent
 from pydantic_ai import Agent, ToolOutput
-from pydantic_ai.models.openai import OpenAIChatModelSettings
+from pydantic_ai.models.openai import OpenAIResponsesModelSettings
 
 from por.meta.schema import AstrologyPlacements
 
 agent = Agent(  # type: ignore
     name="astrology-placements-extractor",
-    model="openai-chat:gpt-5.6-terra",
-    model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
+    model="openai:gpt-5.6-terra",
+    model_settings=OpenAIResponsesModelSettings(openai_reasoning_effort="low"),
     output_type=ToolOutput(AstrologyPlacements),
     retries=3,
 )

@@ -1,10 +1,29 @@
 services:
+    por-devcontainer:
+        image: por-devcontainer
+        container_name: por-devcontainer
+        build:
+            context: .
+            dockerfile: Dockerfile
+            target: devcontainer
+        volumes:
+            - .:/workspace:cached
+            - ./resources:/resources
+            - /run/udev:/run/udev:ro
+        env_file:
+            - .env
+        privileged: true
+        entrypoint: ["tail", "-f", "/dev/null"]
+        networks:
+            - por
+
     por-core:
         image: por-core
         container_name: por-core
         build:
             context: .
-            dockerfile: ./docker/core/Dockerfile
+            dockerfile: Dockerfile
+            target: core
         volumes:
             - $PWD/resources:/resources
         env_file:
@@ -42,7 +61,8 @@ services:
             - por-redis
         build:
             context: .
-            dockerfile: ./docker/app/Dockerfile
+            dockerfile: Dockerfile
+            target: app
         volumes:
             - $PWD/resources:/resources
             - /run/udev:/run/udev:ro

@@ -2,7 +2,7 @@ from pathlib import Path
 
 from llm_agents.meta.interfaces import LLMAgent
 from pydantic_ai import Agent, ToolOutput
-from pydantic_ai.models.openai import OpenAIChatModelSettings
+from pydantic_ai.models.openai import OpenAIResponsesModelSettings
 
 from por.llm_agents.pbf_image_describer.pbf_image_describer import (
     PBFImageDescriberOutput,
@@ -15,8 +15,8 @@ class MicrophoneRemoverOutput(PBFImageDescriberOutput):
 
 agent = Agent(  # type: ignore
     name="microphone-remover",
-    model="openai-chat:gpt-5.6-luna",
-    model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
+    model="openai:gpt-5.6-luna",
+    model_settings=OpenAIResponsesModelSettings(openai_reasoning_effort="low"),
     output_type=ToolOutput(MicrophoneRemoverOutput),
     retries=3,
 )
