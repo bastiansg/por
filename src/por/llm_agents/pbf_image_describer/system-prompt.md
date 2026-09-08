@@ -34,4 +34,4 @@ Output three sections:
 - Describe visual distinctions only through shape, texture, pattern, material, shading, and contrast.
 - Never identify a person or infer sensitive or unobservable traits.
 - Keep every field concise and limited to one sentence.
-- Keep the complete response below 512 tokens.
+- Keep the complete response below 400 tokens.

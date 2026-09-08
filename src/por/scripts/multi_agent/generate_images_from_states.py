@@ -13,11 +13,13 @@ from replicate.client import Client
 from rich import box
 from rich.panel import Panel
 
+from por.config import config as app_config
 from por.llm_agents import (
     ImagePrompter,
     ImagePrompterDeps,
     MicrophoneRemover,
     PBFImageDescriber,
+    PBFImageDescriberDeps,
     PsychologicalDescriber,
     PsychologicalDescriberDeps,
 )
@@ -146,6 +148,11 @@ async def _generate_image(
     image_description, psychological_profile = await asyncio.gather(
         PBFImageDescriber().generate(
             user_prompt="Analyze the provided image.",
+            agent_deps=PBFImageDescriberDeps(
+                caption_header=config.caption_header,
+                t5_tokenizer_name=app_config.t5_tokenizer_name,
+                flux_max_tokens=app_config.flux_max_tokens,
+            ),
             user_content=binary_image,
         ),
         PsychologicalDescriber().generate(
@@ -182,8 +189,8 @@ async def _generate_image(
         ),
         agent_deps=ImagePrompterDeps(
             caption_header=config.caption_header,
-            t5_tokenizer_name=config.t5_tokenizer_name,
-            flux_max_tokens=config.flux_max_tokens,
+            t5_tokenizer_name=app_config.t5_tokenizer_name,
+            flux_max_tokens=app_config.flux_max_tokens,
         ),
     )
 
@@ -196,7 +203,7 @@ async def _generate_image(
         "image_generation_prompt_tokens",
         prompt_description.count_prompt_tokens(
             config.caption_header,
-            config.t5_tokenizer_name,
+            app_config.t5_tokenizer_name,
         ),
     )
 

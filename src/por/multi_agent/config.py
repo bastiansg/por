@@ -71,17 +71,13 @@ class MultiAgentConfig(BaseSettings):
     images_path: StrictStr = "/resources/generated-images"
     input_image_extension: StrictStr = "jpg"
     generated_image_extension: StrictStr = "jpg"
-    t5_tokenizer_name: StrictStr = "google/t5-v1_1-xxl"
-    flux_max_tokens: PositiveInt = 512
     caption_header: StrictStr = (
         "In the Style of PBFR, a raw monochrome ink sketch with bold, "
         "expressive linework of:"
     )
 
-    replicate_model: StrictStr = (
-        "bastiansg/pbfr-flux:"
-        "35bbe647e733755ba300aa2ba1acf6ea211ce1615f7c6be53b1fa4c32cb5146d"
-    )
+    replicate_model: StrictStr = "bastiansg/pbfr-flux:35bbe647e733755ba300aa2ba1acf6ea211ce1615f7c6be53b1fa4c32cb5146d"
+    # replicate_model: StrictStr = "bastiansg/pbfr-flux:aa907f3d85892ffe5c6e044442a5ed9bbcff2ad889de1d14f94e723d6235c9dc"
 
     replicate_timeout: PositiveFloat = 120.0
     replicate_input: ReplicateInputConfig = Field(

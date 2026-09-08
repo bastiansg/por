@@ -1,5 +1,6 @@
 from functools import lru_cache
 
+from por.config import config
 from por.data import dc_poems, fc_messages
 
 from .config import MultiAgentConfig
@@ -12,6 +13,8 @@ def get_multi_agent_context(test_mode: bool = False) -> ContextSchema:
         **(
             MultiAgentConfig().model_dump()
             | {
+                "t5_tokenizer_name": config.t5_tokenizer_name,
+                "flux_max_tokens": config.flux_max_tokens,
                 "dc_poems": [
                     {
                         "poem_id": idx,

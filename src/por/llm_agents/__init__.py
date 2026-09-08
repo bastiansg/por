@@ -1,5 +1,6 @@
 from .pbf_image_describer.pbf_image_describer import (  # noqa
     PBFImageDescriber,
+    PBFImageDescriberDeps,
     PBFImageDescriberOutput,
     PBFSceneDescription,
 )

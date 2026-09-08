@@ -2,12 +2,13 @@ from pathlib import Path
 
 from llm_agents.meta.interfaces import LLMAgent
 from pydantic import BaseModel, PositiveInt, StrictStr
-from pydantic_ai import Agent, ModelRetry, RunContext, ToolOutput
+from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModelSettings
 
+from por.config import config
 from por.llm_agents.schema import ImageDescriptionOutput, SceneDescription
 from por.prompt import format_prompt
-from por.utils.tokens import count_t5_tokens
+from por.utils.tokens import count_t5_tokens, validate_t5_token_count
 
 
 class ImagePrompterDeps(BaseModel):
@@ -31,7 +32,10 @@ class ImagePrompterOutput(ImageDescriptionOutput[SceneDescription]):
 agent = Agent(
     name="image-prompter",
     model="openai-chat:gpt-5.6-sol",
-    model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
+    model_settings=OpenAIChatModelSettings(
+        openai_reasoning_effort="none",
+        max_tokens=config.flux_max_tokens,
+    ),
     deps_type=ImagePrompterDeps,
     output_type=ToolOutput(ImagePrompterOutput),
     retries=3,
@@ -55,11 +59,7 @@ async def validate_prompt_tokens(
         ctx.deps.t5_tokenizer_name,
     )
 
-    if token_count > ctx.deps.flux_max_tokens:
-        raise ModelRetry(
-            f"The formatted FLUX prompt contains {token_count} T5 tokens; "
-            f"rewrite it using at most {ctx.deps.flux_max_tokens} tokens."
-        )
+    validate_t5_token_count(token_count, ctx.deps.flux_max_tokens)
 
     return output
 

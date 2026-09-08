@@ -9,6 +9,7 @@ from pydantic_ai import BinaryContent
 from por.llm_agents import (
     MicrophoneRemover,
     PBFImageDescriber,
+    PBFImageDescriberDeps,
 )
 from por.multi_agent.console import render_node_banner
 from por.multi_agent.schema import ContextSchema, StateSchema
@@ -26,6 +27,11 @@ async def run(state: StateSchema) -> dict[str, Any]:
     image_data = await asyncio.to_thread(Path(image_path).read_bytes)
     image_describer_output = await image_describer_agent.generate(
         user_prompt="Analyze the provided image.",
+        agent_deps=PBFImageDescriberDeps(
+            caption_header=runtime_context.caption_header,
+            t5_tokenizer_name=runtime_context.t5_tokenizer_name,
+            flux_max_tokens=runtime_context.flux_max_tokens,
+        ),
         user_content=BinaryContent(
             data=image_data,
             media_type=f"image/{runtime_context.input_image_extension}",

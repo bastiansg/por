@@ -1,5 +1,6 @@
 from functools import lru_cache
 
+from pydantic_ai import ModelRetry
 from transformers import AutoTokenizer, PreTrainedTokenizerBase
 
 
@@ -16,3 +17,11 @@ def count_t5_tokens(text: str, tokenizer_name: str) -> int:
             truncation=False,
         )
     )
+
+
+def validate_t5_token_count(token_count: int, max_tokens: int) -> None:
+    if token_count > max_tokens:
+        raise ModelRetry(
+            f"The formatted FLUX prompt contains {token_count} T5 tokens; "
+            f"rewrite it using at most {max_tokens} tokens."
+        )
