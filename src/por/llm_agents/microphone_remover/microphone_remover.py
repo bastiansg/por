@@ -13,7 +13,7 @@ class MicrophoneRemoverOutput(PBFImageDescriberOutput):
     pass
 
 
-agent = Agent(  # type: ignore
+agent = Agent(
     name="microphone-remover",
     model="openai:gpt-5.6-luna",
     model_settings=OpenAIResponsesModelSettings(openai_reasoning_effort="low"),
@@ -29,8 +29,6 @@ async def get_system_prompt() -> str:
     )
 
 
-class MicrophoneRemover(
-    LLMAgent[None, MicrophoneRemoverOutput]
-):
+class MicrophoneRemover(LLMAgent[None, MicrophoneRemoverOutput]):
     def __init__(self, max_concurrency: int = 10):
         super().__init__(agent=agent, max_concurrency=max_concurrency)

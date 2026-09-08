@@ -28,8 +28,6 @@ async def run(state: StateSchema) -> dict[str, Any]:
     image_describer_output = await image_describer_agent.generate(
         user_prompt="Analyze the provided image.",
         agent_deps=PBFImageDescriberDeps(
-            caption_header=runtime_context.caption_header,
-            t5_tokenizer_name=runtime_context.t5_tokenizer_name,
             flux_max_tokens=runtime_context.flux_max_tokens,
         ),
         user_content=BinaryContent(

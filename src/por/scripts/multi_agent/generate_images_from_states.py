@@ -149,8 +149,6 @@ async def _generate_image(
         PBFImageDescriber().generate(
             user_prompt="Analyze the provided image.",
             agent_deps=PBFImageDescriberDeps(
-                caption_header=config.caption_header,
-                t5_tokenizer_name=app_config.t5_tokenizer_name,
                 flux_max_tokens=app_config.flux_max_tokens,
             ),
             user_content=binary_image,
@@ -188,21 +186,19 @@ async def _generate_image(
             f"\n\n**Clothing Description**: {cleaned_description.clothing_description}"
         ),
         agent_deps=ImagePrompterDeps(
-            caption_header=config.caption_header,
-            t5_tokenizer_name=app_config.t5_tokenizer_name,
             flux_max_tokens=app_config.flux_max_tokens,
         ),
     )
 
     image_generation_prompt = format_prompt(
         prompt_description,
-        config.caption_header,
+        app_config.caption_header,
     )
 
     render_node_detail(
         "image_generation_prompt_tokens",
         prompt_description.count_prompt_tokens(
-            config.caption_header,
+            app_config.caption_header,
             app_config.t5_tokenizer_name,
         ),
     )

@@ -13,6 +13,7 @@ def get_multi_agent_context(test_mode: bool = False) -> ContextSchema:
         **(
             MultiAgentConfig().model_dump()
             | {
+                "caption_header": config.caption_header,
                 "t5_tokenizer_name": config.t5_tokenizer_name,
                 "flux_max_tokens": config.flux_max_tokens,
                 "dc_poems": [

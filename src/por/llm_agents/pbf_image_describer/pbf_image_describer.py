@@ -12,8 +12,6 @@ from por.utils.tokens import count_t5_tokens, validate_t5_token_count
 
 
 class PBFImageDescriberDeps(BaseModel):
-    caption_header: StrictStr
-    t5_tokenizer_name: StrictStr
     flux_max_tokens: PositiveInt
 
 
@@ -50,10 +48,10 @@ agent = Agent(
 
 
 @agent.system_prompt
-async def get_system_prompt() -> str:
+async def get_system_prompt(ctx: RunContext[PBFImageDescriberDeps]) -> str:
     return LLMAgent.read_file(
         file_path=str(Path(__file__).with_name("system-prompt.md"))
-    )
+    ).format(flux_max_tokens=ctx.deps.flux_max_tokens)
 
 
 @agent.output_validator
@@ -62,8 +60,8 @@ async def validate_prompt_tokens(
     output: PBFImageDescriberOutput,
 ) -> PBFImageDescriberOutput:
     token_count = output.count_prompt_tokens(
-        ctx.deps.caption_header,
-        ctx.deps.t5_tokenizer_name,
+        config.caption_header,
+        config.t5_tokenizer_name,
     )
 
     validate_t5_token_count(token_count, ctx.deps.flux_max_tokens)

@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from llm_agents.meta.interfaces import LLMAgent
-from pydantic import BaseModel, PositiveInt, StrictStr
+from pydantic import BaseModel, PositiveInt
 from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIResponsesModelSettings
 
@@ -12,8 +12,6 @@ from por.utils.tokens import count_t5_tokens, validate_t5_token_count
 
 
 class ImagePrompterDeps(BaseModel):
-    caption_header: StrictStr
-    t5_tokenizer_name: StrictStr
     flux_max_tokens: PositiveInt
 
 
@@ -55,8 +53,8 @@ async def validate_prompt_tokens(
     output: ImagePrompterOutput,
 ) -> ImagePrompterOutput:
     token_count = output.count_prompt_tokens(
-        ctx.deps.caption_header,
-        ctx.deps.t5_tokenizer_name,
+        config.caption_header,
+        config.t5_tokenizer_name,
     )
 
     validate_t5_token_count(token_count, ctx.deps.flux_max_tokens)
