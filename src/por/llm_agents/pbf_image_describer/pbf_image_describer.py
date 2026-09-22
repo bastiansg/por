@@ -5,10 +5,7 @@ from pydantic import BaseModel, Field, PositiveInt, StrictStr
 from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIResponsesModelSettings
 
-from por.config import config
 from por.llm_agents.schema import ImageDescriptionOutput, SceneDescription
-from por.prompt import format_prompt
-from por.utils.tokens import count_t5_tokens, validate_t5_token_count
 
 
 class PBFImageDescriberDeps(BaseModel):
@@ -23,24 +20,13 @@ class PBFSceneDescription(SceneDescription):
 
 
 class PBFImageDescriberOutput(ImageDescriptionOutput[PBFSceneDescription]):
-    def count_prompt_tokens(
-        self,
-        caption_header: str,
-        tokenizer_name: str,
-    ) -> int:
-        return count_t5_tokens(
-            format_prompt(self, caption_header),
-            tokenizer_name,
-        )
+    pass
 
 
 agent = Agent(
     name="pbf-image-describer",
     model="openai:gpt-5.6-sol",
-    model_settings=OpenAIResponsesModelSettings(
-        openai_reasoning_effort="low",
-        max_tokens=config.flux_max_tokens,
-    ),
+    model_settings=OpenAIResponsesModelSettings(openai_reasoning_effort="low"),
     deps_type=PBFImageDescriberDeps,
     output_type=ToolOutput(PBFImageDescriberOutput),
     retries=3,
@@ -52,21 +38,6 @@ async def get_system_prompt(ctx: RunContext[PBFImageDescriberDeps]) -> str:
     return LLMAgent.read_file(
         file_path=str(Path(__file__).with_name("system-prompt.md"))
     ).format(flux_max_tokens=ctx.deps.flux_max_tokens)
-
-
-@agent.output_validator
-async def validate_prompt_tokens(
-    ctx: RunContext[PBFImageDescriberDeps],
-    output: PBFImageDescriberOutput,
-) -> PBFImageDescriberOutput:
-    token_count = output.count_prompt_tokens(
-        config.caption_header,
-        config.t5_tokenizer_name,
-    )
-
-    validate_t5_token_count(token_count, ctx.deps.flux_max_tokens)
-
-    return output
 
 
 class PBFImageDescriber(

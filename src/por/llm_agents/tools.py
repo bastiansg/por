@@ -17,6 +17,7 @@ from por.db.qdrant import (
 from por.llm_agents.utils import get_astro_weekly_data
 from por.meta.schema import ChunkMetadataFilter, TextChunk
 from por.multi_agent.console import render_node_detail
+from por.utils.tokens import count_t5_tokens
 
 console = Console()
 
@@ -46,6 +47,21 @@ retrieval_cache = RedisCache(
     namespace="retrievals",
     serializer=JsonSerializer(),
 )
+
+
+def count_flux_tokens(
+    text: Annotated[
+        str,
+        Field(description="Text whose FLUX T5 tokens should be counted."),
+    ],
+) -> int:
+    """Count the FLUX T5 tokens in a string.
+
+    Args:
+        text: Text whose FLUX T5 tokens should be counted.
+    """
+
+    return count_t5_tokens(text, config.t5_tokenizer_name)
 
 
 async def store_relevant_chunk_ids(
@@ -409,4 +425,11 @@ store_relevant_chunk_ids_tool = Tool(
     docstring_format="google",
     require_parameter_descriptions=True,
     max_retries=3,
+)
+
+count_flux_tokens_tool = Tool(
+    function=count_flux_tokens,
+    description="Count the FLUX T5 tokens in a string.",
+    docstring_format="google",
+    require_parameter_descriptions=True,
 )
