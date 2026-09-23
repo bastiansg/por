@@ -1,6 +1,11 @@
 polars==1.43.2
 gpiozero==2.0.1
+geopy==2.5.0
 more-itertools==11.1.0
+pyswisseph==2.10.3.2
+pytest==9.1.1
+timezonefinder==8.2.0
+tzdata==2026.4
 async_lru==2.3.0
 
 ipython==9.10.0
@@ -11,6 +16,8 @@ langchain_community==0.4.1
 
 torch==2.13.0
 torchaudio==2.11.0
+transformers==5.16.1
+sentencepiece==0.2.2
 
 python-escpos==3.1
 soundfile==0.14.0
@@ -29,10 +36,9 @@ replicate==1.0.7
 cairosvg==2.9.0
 
 # Bas packages
-hailo_apps==2.0.7
+hailo_apps==2.0.9
 sensehat_dsp==2.0.0
 
 # Aureka packages
-multi_agents==2.0.1
-llm_agents==2.0.13
-rage==2.0.1
+multi_agents==2.0.2
+rage==3.0.1

@@ -64,7 +64,8 @@ def render_node_banner(node_name: str) -> None:
     label = node_name.replace("_", " ").upper()
     message = Text()
     message.append("\n┌─[ ", style="dim magenta")
-    message.append(f"{label} ]\n", style="bold white")
+    message.append(label, style="bold white")
+    message.append(" ]\n", style="dim magenta")
     message.append("└──> ", style="dim magenta")
     message.append(f"{action}...\n", style="dim white")
     console.print(message)
@@ -100,7 +101,8 @@ def render_tool_call(
 
     message = Text()
     message.append("\n┌─[ ", style="dim magenta")
-    message.append(f"TOOL // {label} ]\n", style="bold white")
+    message.append(f"TOOL // {label}", style="bold white")
+    message.append(" ]\n", style="dim magenta")
     message.append("├── ", style="dim magenta")
     message.append("PARAMETERS\n", style="dim white")
 

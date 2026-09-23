@@ -1,20 +1,19 @@
 {
     "name": "por",
-    "initializeCommand": "make core-build",
-    "dockerComposeFile": "docker-compose.yml",
+    "initializeCommand": "make devcontainer-build",
+    "dockerComposeFile": "../docker-compose.yml",
     "service": "por-devcontainer",
+    "runServices": ["por-devcontainer"],
     "workspaceFolder": "/workspace",
     "customizations": {
         "vscode": {
             "settings": {
-                // "python.locator": "js",
                 "extensions.verifySignature": false,
                 "files.trimFinalNewlines": true,
                 "files.trimTrailingWhitespace": true,
                 "files.watcherExclude": {
                     ".git/**": true,
-                    "./resources/**": true,
-                    "./notebooks/**": true
+                    "./resources/**": true
                 },
                 "[python]": {
                     "editor.defaultFormatter": "charliermarsh.ruff",
@@ -27,15 +26,13 @@
                     "editor.defaultFormatter": "esbenp.prettier-vscode"
                 },
                 "editor.formatOnSave": true,
-                "notebook.formatOnSave.enabled": true,
-                "notebook.output.scrolling": true,
                 "ruff.lineLength": 80
             },
             "extensions": [
+                "ms-python.python",
                 "charliermarsh.ruff",
                 "esbenp.prettier-vscode",
                 "eamodio.gitlens",
-                "ms-toolsai.jupyter",
                 "ms-azuretools.vscode-docker",
                 "tamasfe.even-better-toml",
                 "christian-kohler.path-intellisense"

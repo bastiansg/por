@@ -3,6 +3,7 @@ from pathlib import Path
 from llm_agents.meta.interfaces import LLMAgent
 from pydantic import BaseModel, Field, StrictBool
 from pydantic_ai import Agent, ToolOutput
+from pydantic_ai.models.openai import OpenAIResponsesModelSettings
 from pydantic_extra_types.language_code import LanguageName
 
 
@@ -18,10 +19,8 @@ class LyricsValidatorOutput(BaseModel):
 
 agent = Agent(  # type: ignore
     name="lyrics-validator",
-    model="gpt-5.6-terra",
-    system_prompt=LLMAgent.read_file(
-        file_path=str(Path(__file__).with_name("system-prompt.md"))
-    ),
+    model="openai:gpt-5.6-terra",
+    model_settings=OpenAIResponsesModelSettings(openai_reasoning_effort="low"),
     output_type=ToolOutput(LyricsValidatorOutput),
     retries=3,
 )

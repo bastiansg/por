@@ -9,6 +9,7 @@ from pydantic import (
     ConfigDict,
     NonNegativeFloat,
     NonNegativeInt,
+    PositiveFloat,
     PositiveInt,
     StrictBool,
     StrictInt,
@@ -18,7 +19,11 @@ from pydantic import (
 from pydantic_extra_types.language_code import LanguageName
 from sensehat_dsp.display import Color
 
-from por.llm_agents import ImageDescriberOutput
+from por.llm_agents.image_prompter.image_prompter import ImagePrompterOutput
+from por.llm_agents.pbf_image_describer.pbf_image_describer import (
+    PBFImageDescriberOutput,
+)
+from por.multi_agent.config import ReplicateInputConfig
 from por.meta.schema import (
     AstrologyPlacements,
     PsychologicalProfile,
@@ -56,7 +61,14 @@ class ContextSchema(BaseModel):
     history_length: NonNegativeInt
     face_detector_min_score: NonNegativeFloat
     images_path: StrictStr
-    image_extension: StrictStr
+    input_image_extension: StrictStr
+    generated_image_extension: StrictStr
+    t5_tokenizer_name: StrictStr
+    flux_max_tokens: PositiveInt
+    caption_header: StrictStr
+    replicate_model: StrictStr
+    replicate_timeout: PositiveFloat
+    replicate_input: ReplicateInputConfig
     idle_angles: ServoAngles
     dc_poems: list[DCPoem]
     fc_messages: list[FCMessage]
@@ -88,7 +100,7 @@ class StateSchema(BaseModel):
     astrology_placements: AstrologyPlacements | None = None
     message_accepted: StrictBool | None = None
     rejection_reason: StrictStr | None = None
-    image_description: ImageDescriberOutput | None = None
+    image_description: PBFImageDescriberOutput | ImagePrompterOutput | None = None
     psychological_profile: PsychologicalProfile | None = None
     nietzsche_advise: StrictStr | None = None
     nietzsche_text_chunks: list[TextChunk] = []

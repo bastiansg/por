@@ -3,6 +3,9 @@ from pydantic import (
     Field,
     NonNegativeFloat,
     NonNegativeInt,
+    PositiveFloat,
+    PositiveInt,
+    StrictBool,
     StrictInt,
     StrictStr,
 )
@@ -44,6 +47,19 @@ class Printer(BaseModel):
     max_text_len: NonNegativeInt = 48
 
 
+class ReplicateInputConfig(BaseModel):
+    model: StrictStr = "dev"
+    lora_scale: PositiveFloat = 1.3
+    megapixels: StrictStr = "1"
+    num_outputs: PositiveInt = 1
+    aspect_ratio: StrictStr = "9:16"
+    output_format: StrictStr = "jpg"
+    guidance_scale: PositiveFloat = 5.0
+    output_quality: PositiveInt = 100
+    num_inference_steps: PositiveInt = 28
+    disable_safety_checker: StrictBool = True
+
+
 class MultiAgentConfig(BaseSettings):
     servo_angles: ServoAngles = Field(default_factory=ServoAngles)
     rotator_params: RotatorParams = Field(default_factory=RotatorParams)
@@ -53,6 +69,16 @@ class MultiAgentConfig(BaseSettings):
     history_length: NonNegativeInt = 1
     face_detector_min_score: NonNegativeFloat = 0.0
     images_path: StrictStr = "/resources/generated-images"
-    image_extension: StrictStr = "jpg"
+    input_image_extension: StrictStr = "jpg"
+    generated_image_extension: StrictStr = "jpg"
+
+    replicate_model: StrictStr = "bastiansg/pbfr-flux:35bbe647e733755ba300aa2ba1acf6ea211ce1615f7c6be53b1fa4c32cb5146d"
+    # replicate_model: StrictStr = "bastiansg/pbfr-flux:aa907f3d85892ffe5c6e044442a5ed9bbcff2ad889de1d14f94e723d6235c9dc"
+
+    replicate_timeout: PositiveFloat = 120.0
+    replicate_input: ReplicateInputConfig = Field(
+        default_factory=ReplicateInputConfig,
+    )
+
     idle_angles: IdleAngles = Field(default_factory=IdleAngles)
     printer: Printer = Field(default_factory=Printer)

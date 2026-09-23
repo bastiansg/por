@@ -1,16 +1,15 @@
 from pathlib import Path
 
 from llm_agents.meta.interfaces import LLMAgent
-from pydantic import BaseModel, StrictStr
+from pydantic import BaseModel
 from pydantic_ai import Agent, RunContext, ToolOutput
-from pydantic_ai.models.openai import OpenAIChatModelSettings
+from pydantic_ai.models.openai import OpenAIResponsesModelSettings
 from pydantic_extra_types.language_code import LanguageName
 
 from por.meta.schema import PsychologicalProfile
 
 
 class PsychologicalDescriberDeps(BaseModel):
-    question: StrictStr
     output_language: LanguageName
 
 
@@ -18,13 +17,10 @@ class PsychologicalDescriberOutput(PsychologicalProfile):
     pass
 
 
-agent = Agent(  # type: ignore
+agent = Agent(
     name="psychological-describer",
-    model="gpt-5.6-luna",
-    model_settings=OpenAIChatModelSettings(openai_reasoning_effort="none"),
-    system_prompt=LLMAgent.read_file(
-        file_path=str(Path(__file__).with_name("system-prompt.md"))
-    ),
+    model="openai:gpt-5.6-luna",
+    model_settings=OpenAIResponsesModelSettings(openai_reasoning_effort="low"),
     deps_type=PsychologicalDescriberDeps,
     output_type=ToolOutput(PsychologicalDescriberOutput),
     retries=3,

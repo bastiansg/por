@@ -1,4 +1,4 @@
-.PHONY: core-build app-build devcontainer-build cmtv-disk-urls camera-memory-free print-state print-gen-image run-text-oracle
+.PHONY: core-build app-build devcontainer-build cmtv-disk-urls camera-memory-free print-state print-gen-image run-text-oracle generate-images-from-states test
 
 
 core-build:
@@ -8,8 +8,11 @@ core-run:
 	docker compose run por-core
 
 
-devcontainer-build: core-build
-	docker compose -f .devcontainer/docker-compose.yml build por-devcontainer
+devcontainer-build:
+	docker compose build por-devcontainer
+
+test: devcontainer-build
+	docker compose run --rm --entrypoint="env PYTHONPATH=/workspace/src pytest" por-devcontainer
 
 
 redis-start:
@@ -39,7 +42,7 @@ qdrant-flush: qdrant-stop
 qdrant-restart: qdrant-stop qdrant-start
 
 
-app-build: core-build
+app-build:
 	docker compose build por-app
 
 app-run: app-build
@@ -60,13 +63,16 @@ camera-memory-free:
 
 
 create-qdrant-collections:
-	docker compose -f .devcontainer/docker-compose.yml run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.qdrant.create_collections" por-devcontainer
+	docker compose run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.qdrant.create_collections" por-devcontainer
 
 run-text-oracle: devcontainer-build
-	docker compose -f .devcontainer/docker-compose.yml run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.multi_agent.run_text_oracle" por-devcontainer
+	docker compose run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.multi_agent.run_text_oracle" por-devcontainer
+
+generate-images-from-states: devcontainer-build
+	docker compose run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.multi_agent.generate_images_from_states" por-devcontainer
 
 print-state:
-	docker compose -f .devcontainer/docker-compose.yml run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.printer.print_state --state-file $(STATE_FILE)" por-devcontainer
+	docker compose run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.printer.print_state --state-file $(STATE_FILE)" por-devcontainer
 
 print-gen-image:
-	docker compose -f .devcontainer/docker-compose.yml run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.printer.print_gen_image --gen-image-path $(GEN_IMAGE_PATH)" por-devcontainer
+	docker compose run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.printer.print_gen_image" por-devcontainer

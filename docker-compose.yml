@@ -1,10 +1,29 @@
 services:
+    por-devcontainer:
+        image: por-devcontainer
+        container_name: por-devcontainer
+        build:
+            context: .
+            dockerfile: Dockerfile
+            target: devcontainer
+        volumes:
+            - .:/workspace:cached
+            - ./resources:/resources
+            - /run/udev:/run/udev:ro
+        env_file:
+            - .env
+        privileged: true
+        entrypoint: ["tail", "-f", "/dev/null"]
+        networks:
+            - por
+
     por-core:
         image: por-core
         container_name: por-core
         build:
             context: .
-            dockerfile: ./docker/core/Dockerfile
+            dockerfile: Dockerfile
+            target: core
         volumes:
             - $PWD/resources:/resources
         env_file:
@@ -14,7 +33,7 @@ services:
             - por
 
     por-redis:
-        image: redis:8.8.0
+        image: redis:8.10.1
         container_name: por-redis
         volumes:
             - $PWD/resources/cache/redis:/data
@@ -23,7 +42,7 @@ services:
             - por
 
     por-qdrant:
-        image: qdrant/qdrant:v1.18.2
+        image: qdrant/qdrant:v1.19.0
         container_name: por-qdrant
         ports:
             - "6333:6333"
@@ -37,9 +56,13 @@ services:
     por-app:
         image: por-app
         container_name: por-app
+        depends_on:
+            - por-qdrant
+            - por-redis
         build:
             context: .
-            dockerfile: ./docker/app/Dockerfile
+            dockerfile: Dockerfile
+            target: app
         volumes:
             - $PWD/resources:/resources
             - /run/udev:/run/udev:ro

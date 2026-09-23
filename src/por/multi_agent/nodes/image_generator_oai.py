@@ -23,7 +23,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     render_node_banner("image_generator")
 
-    image_extension = runtime_context.image_extension
+    generated_image_extension = runtime_context.generated_image_extension
     audio_transcription = state.audio_transcription
     assert audio_transcription is not None
 
@@ -35,12 +35,17 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     ip = ImagePrompter()
     ip_output = await ip.generate(
-        user_prompt="Provide your surreal image-generation prompt.",
+        user_prompt=(
+            "Provide your surreal image-generation prompt."
+            f"\n\n**Question**: {audio_transcription}"
+            f"\n\n**Psychological Profile**: {psychological_profile}"
+            "\n\n**Previous Framing and Viewpoint**: "
+            f"{image_description.scene_description.composition}"
+            f"\n\n**People Description**: {image_description.people_description}"
+            f"\n\n**Clothing Description**: {image_description.clothing_description}"
+        ),
         agent_deps=ImagePrompterDeps(
-            question=audio_transcription,
-            psychological_profile=psychological_profile,
-            physical_description=image_description.physical_description,
-            clothing_description=image_description.clothing_description,
+            flux_max_tokens=runtime_context.flux_max_tokens,
         ),
     )
 
@@ -100,8 +105,10 @@ async def run(state: StateSchema) -> dict[str, Any]:
     assert invoked_at is not None
 
     gen_image_path = (
-        f"{images_path}/{invoked_at}-{state.image_id}-gen.{image_extension}"
+        f"{images_path}/{invoked_at}-{state.image_id}-gen."
+        f"{generated_image_extension}"
     )
+
     image.save(gen_image_path)
 
     return {

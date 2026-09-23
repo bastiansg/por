@@ -25,7 +25,3 @@ Your input includes:
 ## Hard Constraints
 
 - Respond with the psychological profile in {output_language}.
-
-# Context
-
-**Question**: {question}

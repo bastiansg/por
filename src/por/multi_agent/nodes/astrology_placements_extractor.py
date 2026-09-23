@@ -3,7 +3,7 @@ from typing import Any
 from multi_agents.graph import Node
 
 from por.llm_agents import AstrologyPlacementsExtractor
-from por.multi_agent.console import render_node_banner
+from por.multi_agent.console import render_node_banner, render_node_detail
 from por.multi_agent.schema import StateSchema
 
 
@@ -17,6 +17,10 @@ async def run(state: StateSchema) -> dict[str, Any]:
     ape_output = await ape.generate(
         user_prompt=(f"**Question**: {audio_transcription}"),
     )
+
+    render_node_detail("sun", ape_output.sun or "UNKNOWN")
+    render_node_detail("moon", ape_output.moon or "UNKNOWN")
+    render_node_detail("rising", ape_output.rising or "UNKNOWN")
 
     return {
         "astrology_placements": ape_output,
