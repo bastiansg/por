@@ -1,6 +1,11 @@
 polars==1.43.2
 gpiozero==2.0.1
+geopy==2.5.0
 more-itertools==11.1.0
+pyswisseph==2.10.3.2
+pytest==9.1.1
+timezonefinder==8.2.0
+tzdata==2026.4
 async_lru==2.3.0
 
 ipython==9.10.0

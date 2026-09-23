@@ -1,12 +1,18 @@
+from datetime import datetime, timezone
+from functools import lru_cache
 from typing import Annotated, Literal
+from zoneinfo import ZoneInfo
 
+import swisseph as swe
 from aiocache import RedisCache
 from aiocache.serializers import JsonSerializer
+from geopy.geocoders import Nominatim
 from more_itertools import unique_everseen
 from pydantic import Field
 from pydantic_ai import ModelRetry, RunContext, Tool
 from qdrant_client import models
 from rich.console import Console
+from timezonefinder import timezone_at
 
 from por.config import config
 from por.db.qdrant import (
@@ -25,6 +31,7 @@ console = Console()
 SEARCH_TOP_K = 5
 SEARCH_SCORE_THRESHOLD = 0.3
 RETRIEVAL_TTL_SECONDS = 900
+GEOCODER = Nominatim(user_agent="por-zodiac-chart")
 ZODIAC_SIGN_IDS = {
     "Aries": "ari",
     "Taurus": "tau",
@@ -38,6 +45,19 @@ ZODIAC_SIGN_IDS = {
     "Capricorn": "cap",
     "Aquarius": "aqu",
     "Pisces": "pis",
+}
+ZODIAC_SIGNS = tuple(ZODIAC_SIGN_IDS)
+ZODIAC_PLANETS = {
+    "Sun": swe.SUN,
+    "Moon": swe.MOON,
+    "Mercury": swe.MERCURY,
+    "Venus": swe.VENUS,
+    "Mars": swe.MARS,
+    "Jupiter": swe.JUPITER,
+    "Saturn": swe.SATURN,
+    "Uranus": swe.URANUS,
+    "Neptune": swe.NEPTUNE,
+    "Pluto": swe.PLUTO,
 }
 
 retrieval_cache = RedisCache(
@@ -242,6 +262,183 @@ async def get_astro_weekly_horoscope_by_sign(
     return document.text
 
 
+def _zodiac_position(longitude: float) -> dict[str, float | str]:
+    normalized_longitude = longitude % 360
+    sign_index = int(normalized_longitude // 30)
+
+    return {
+        "longitude": round(normalized_longitude, 6),
+        "sign": ZODIAC_SIGNS[sign_index],
+        "degree": round(normalized_longitude % 30, 6),
+    }
+
+
+def _planetary_position(
+    julian_day: float,
+    planet_id: int,
+) -> dict[str, float | str | bool]:
+    position, _ = swe.calc_ut(
+        julian_day,
+        planet_id,
+        swe.FLG_SWIEPH | swe.FLG_SPEED,
+    )
+
+    return {
+        **_zodiac_position(position[0]),
+        "retrograde": position[3] < 0,
+    }
+
+
+@lru_cache(maxsize=256)
+def get_coordinates(
+    city: Annotated[
+        str,
+        Field(description="City of the birthplace.", min_length=1),
+    ],
+    country: Annotated[
+        str,
+        Field(description="Country of the birthplace.", min_length=1),
+    ],
+) -> tuple[float, float]:
+    """Resolve a city and country to latitude and longitude.
+
+    Args:
+        city: City of the birthplace.
+        country: Country of the birthplace.
+
+    Returns:
+        Latitude and longitude in decimal degrees.
+
+    Raises:
+        ValueError: If the city and country cannot be resolved.
+    """
+
+    location = GEOCODER.geocode(
+        {
+            "city": city,
+            "country": country,
+        },
+        exactly_one=True,
+    )
+
+    if location is None:
+        raise ValueError(f"Location not found: {city}, {country}")
+
+    return location.latitude, location.longitude
+
+
+def _localize_datetime(
+    local_datetime: datetime,
+    latitude: float,
+    longitude: float,
+) -> tuple[datetime, str]:
+    timezone_name = timezone_at(lng=longitude, lat=latitude)
+
+    if timezone_name is None:
+        raise ValueError("Timezone not found for location")
+
+    return local_datetime.replace(tzinfo=ZoneInfo(timezone_name)), timezone_name
+
+
+def _utc_offset(local_datetime: datetime) -> str:
+    offset = local_datetime.strftime("%z")
+
+    return f"{offset[:3]}:{offset[3:]}"
+
+
+def compute_zodiac_chart(
+    birth_datetime: Annotated[
+        datetime,
+        Field(
+            description=(
+                "Local birth date and time without a UTC offset."
+            )
+        ),
+    ],
+    city: Annotated[
+        str,
+        Field(description="City of the birthplace.", min_length=1),
+    ],
+    country: Annotated[
+        str,
+        Field(description="Country of the birthplace.", min_length=1),
+    ],
+) -> dict[str, object]:
+    """Compute a tropical zodiac chart with Placidus houses.
+
+    Args:
+        birth_datetime: Local birth date and time without a UTC offset.
+        city: City of the birthplace.
+        country: Country of the birthplace.
+
+    Returns:
+        Planetary placements, house cusps, Ascendant, and Midheaven.
+
+    Raises:
+        ValueError: If the birth date and time includes a UTC offset or the
+            location or timezone cannot be resolved.
+    """
+
+    if birth_datetime.utcoffset() is not None:
+        raise ValueError("birth_datetime must be a local time without a UTC offset")
+
+    latitude, longitude = get_coordinates(city, country)
+    local_datetime, timezone_name = _localize_datetime(
+        birth_datetime,
+        latitude,
+        longitude,
+    )
+    utc_datetime = local_datetime.astimezone(timezone.utc)
+    utc_hour = (
+        utc_datetime.hour
+        + utc_datetime.minute / 60
+        + utc_datetime.second / 3600
+        + utc_datetime.microsecond / 3_600_000_000
+    )
+    julian_day = swe.julday(
+        utc_datetime.year,
+        utc_datetime.month,
+        utc_datetime.day,
+        utc_hour,
+        swe.GREG_CAL,
+    )
+    planetary_positions = {
+        name: _planetary_position(julian_day, planet_id)
+        for name, planet_id in ZODIAC_PLANETS.items()
+    }
+    house_cusps, angles = swe.houses(
+        julian_day,
+        latitude,
+        longitude,
+        b"P",
+    )
+
+    return {
+        "datetime_local": local_datetime.isoformat(),
+        "datetime_utc": utc_datetime.isoformat(),
+        "julian_day": julian_day,
+        "zodiac": "tropical",
+        "house_system": "Placidus",
+        "location": {
+            "city": city,
+            "country": country,
+            "latitude": latitude,
+            "longitude": longitude,
+            "timezone": timezone_name,
+            "utc_offset": _utc_offset(local_datetime),
+        },
+        "planets": planetary_positions,
+        "houses": [
+            {"house": house_number, **_zodiac_position(cusp)}
+            for house_number, cusp in enumerate(house_cusps, start=1)
+        ],
+        "angles": {
+            "Ascendant": _zodiac_position(angles[0]),
+            "Midheaven": _zodiac_position(angles[1]),
+        },
+    }
+
+
 async def lyrics_search(
     query: Annotated[
         str,
@@ -394,6 +591,16 @@ astro_weekly_general_tendencies_tool = Tool(
 astro_weekly_horoscope_by_sign_tool = Tool(
     function=get_astro_weekly_horoscope_by_sign,
     description="Return The Weekly Horoscope for a zodiac sign.",
+    docstring_format="google",
+    require_parameter_descriptions=True,
+)
+
+compute_zodiac_chart_tool = Tool(
+    function=compute_zodiac_chart,
+    description=(
+        "Compute a tropical zodiac chart with planetary placements, Placidus "
+        "houses, Ascendant, and Midheaven."
+    ),
     docstring_format="google",
     require_parameter_descriptions=True,
 )

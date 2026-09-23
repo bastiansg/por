@@ -1,4 +1,4 @@
-.PHONY: core-build app-build devcontainer-build cmtv-disk-urls camera-memory-free print-state print-gen-image run-text-oracle generate-images-from-states
+.PHONY: core-build app-build devcontainer-build cmtv-disk-urls camera-memory-free print-state print-gen-image run-text-oracle generate-images-from-states test
 
 
 core-build:
@@ -10,6 +10,9 @@ core-run:
 
 devcontainer-build:
 	docker compose build por-devcontainer
+
+test: devcontainer-build
+	docker compose run --rm --entrypoint="env PYTHONPATH=/workspace/src pytest" por-devcontainer
 
 
 redis-start:

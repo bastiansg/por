@@ -4,6 +4,7 @@ from llm_agents.meta.interfaces import LLMAgent
 from pydantic_ai import Agent, ToolOutput
 from pydantic_ai.models.openai import OpenAIResponsesModelSettings
 
+from por.llm_agents.tools import compute_zodiac_chart_tool
 from por.meta.schema import AstrologyPlacements
 
 agent = Agent(  # type: ignore
@@ -11,6 +12,7 @@ agent = Agent(  # type: ignore
     model="openai:gpt-5.6-terra",
     model_settings=OpenAIResponsesModelSettings(openai_reasoning_effort="low"),
     output_type=ToolOutput(AstrologyPlacements),
+    tools=[compute_zodiac_chart_tool],
     retries=3,
 )
 
