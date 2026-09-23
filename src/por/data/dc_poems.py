@@ -10,7 +10,7 @@ dc_poems = [
     "En la grieta de esa roca, una florcita ha nacido, a pesar de tu silencio, la esperanza no he perdido.",
     "Amor: a la primavera, yo te veo parecidx, cada vez que tu regresas, mas bella se hace la vida.",
     "En un jardín delicioso, cinco flores recogí, que son los cinco sentidos, que tengo puestos en ti.",
-    "La gente me ve distinto, y dicen que estoy cambiadx, yo tan sólo les respondo: es que estoy enamoradx!",
+    "La gente me ve distintx, y dicen que estoy cambiadx, yo tan sólo les respondo: es que estoy enamoradx!",
     "Dichoso del picaflor que pica distintas flores, yo me conformo con una, con la flor de tus amores.",
     "Cuando pasas a mi lado, muchas veces ni te miro, pero AMOR ni te imaginas, por dentro como suspiro!",
     "Tus ojos quieren decirme con su mirada insinuante, que si hasta ayer fuiste amigx, hoy me quieres por amante.",
