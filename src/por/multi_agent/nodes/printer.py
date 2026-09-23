@@ -1,14 +1,71 @@
-from typing import Any
+import asyncio
+from collections.abc import Callable
+from functools import partial
+from time import monotonic
+from typing import Any, cast
 
 from escpos.printer import Usb
 from langgraph.runtime import get_runtime
 from multi_agents.graph import Node
+from usb.core import Device, USBTimeoutError
 
 from por.data import get_copyright
+from por.meta.astrology_symbols import astrology_symbols_image
 from por.multi_agent.console import render_node_banner
 from por.multi_agent.schema import ContextSchema, StateSchema
 
 from .utils import get_dsp_images, get_printer, get_sensehat_dsp
+
+PRINT_COMPLETION_COMMAND = b"\x1d\x72\x01"
+PRINT_COMPLETION_STATUS_MASK = 0b11110000
+PRINT_COMPLETION_STATUS_VALUE = 0
+PRINT_COMPLETION_TIMEOUT = 30.0
+
+
+def print_and_wait(
+    printer: Usb,
+    print_job: Callable[[Usb], None],
+) -> None:
+    print_job(printer)
+    printer._raw(PRINT_COMPLETION_COMMAND)
+
+    device = printer.device
+    if device is None:
+        raise RuntimeError("The printer USB connection is not open")
+
+    device = cast(Device, device)
+    deadline = monotonic() + PRINT_COMPLETION_TIMEOUT
+    raw_status = None
+    while raw_status is None:
+        remaining_timeout = deadline - monotonic()
+        if remaining_timeout <= 0:
+            raise TimeoutError(
+                "The printer did not confirm completion within "
+                f"{PRINT_COMPLETION_TIMEOUT} seconds"
+            )
+
+        try:
+            response = device.read(
+                endpoint=printer.in_ep,
+                size_or_buffer=16,
+                timeout=max(1, round(remaining_timeout * 1000)),
+            )
+
+        except USBTimeoutError as error:
+            raise TimeoutError(
+                "The printer did not confirm completion within "
+                f"{PRINT_COMPLETION_TIMEOUT} seconds"
+            ) from error
+
+        raw_status = next(
+            (
+                int(value)
+                for value in response
+                if (int(value) & PRINT_COMPLETION_STATUS_MASK)
+                == PRINT_COMPLETION_STATUS_VALUE
+            ),
+            None,
+        )
 
 
 def head_pipeline(
@@ -69,6 +126,7 @@ def rejection_pipeline(
     printer: Usb,
     por_logo_path: str,
     state: StateSchema,
+    close_printer: bool = True,
 ) -> None:
     head_pipeline(
         printer=printer,
@@ -88,13 +146,15 @@ def rejection_pipeline(
     printer.text("\n\n")
 
     printer.cut()
-    printer.close()
+    if close_printer:
+        printer.close()
 
 
 def main_pipeline(
     printer: Usb,
     por_logo_path: str,
     state: StateSchema,
+    close_printer: bool = True,
 ) -> None:
     head_pipeline(
         printer=printer,
@@ -123,6 +183,22 @@ def main_pipeline(
 
     printer.block_text(message)
     printer.text("\n\n")
+
+    if nietzsche_advise is None:
+        astrology_placements = state.astrology_placements
+        assert astrology_placements is not None
+
+        with astrology_symbols_image(
+            sun=astrology_placements.sun,
+            moon=astrology_placements.moon,
+            rising=astrology_placements.rising,
+        ) as astrology_image_path:
+            printer.image(
+                img_source=astrology_image_path,
+                center=True,
+            )
+
+    printer.text("\n")
 
     #################################################################
 
@@ -180,12 +256,12 @@ def main_pipeline(
     printer.block_text(f"{state.lucky_number}")
     printer.text("\n\n")
 
-    printer.set(bold=True)
-    printer.block_text("Tu poema dos corazones:")
-    printer.set(bold=False)
-    printer.text("\n")
-    printer.block_text(f"{state.selected_dc_poem}")
-    printer.text("\n\n")
+    # printer.set(bold=True)
+    # printer.block_text("Tu poema dos corazones:")
+    # printer.set(bold=False)
+    # printer.text("\n")
+    # printer.block_text(f"{state.selected_dc_poem}")
+    # printer.text("\n\n")
 
     printer.set(bold=True)
     printer.block_text("Tu galleta de la fortuna:")
@@ -204,7 +280,8 @@ def main_pipeline(
     printer.block_text("Ticket no válido como factura (:")
 
     printer.cut()
-    printer.close()
+    if close_printer:
+        printer.close()
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
@@ -225,19 +302,18 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     printer = get_printer()
     por_logo_path = runtime_context.printer.por_logo_path
-    if state.message_accepted:
-        main_pipeline(
-            printer=printer,
-            por_logo_path=por_logo_path,
-            state=state,
-        )
+    pipeline = main_pipeline if state.message_accepted else rejection_pipeline
+    print_job = partial(
+        pipeline,
+        por_logo_path=por_logo_path,
+        state=state,
+        close_printer=False,
+    )
 
-    else:
-        rejection_pipeline(
-            printer=printer,
-            por_logo_path=por_logo_path,
-            state=state,
-        )
+    try:
+        await asyncio.to_thread(print_and_wait, printer, print_job)
+    finally:
+        printer.close()
 
     sensehat_dsp.stop()
     sensehat_dsp.clear()
