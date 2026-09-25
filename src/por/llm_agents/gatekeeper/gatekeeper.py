@@ -24,7 +24,7 @@ class GatekeeperOutput(BaseModel):
 
 agent = Agent(  # type: ignore
     name="gatekeeper",
-    model="openai:gpt-5.6-luna",
+    model="openai:gpt-5.6-terra",
     model_settings=OpenAIResponsesModelSettings(openai_reasoning_effort="low"),
     deps_type=GatekeeperDeps,
     output_type=ToolOutput(GatekeeperOutput),

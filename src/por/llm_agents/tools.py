@@ -439,6 +439,46 @@ def compute_zodiac_chart(
     }
 
 
+def compute_sun_placement(
+    year: Annotated[
+        int,
+        Field(description="Birth year.", ge=1, le=9999),
+    ],
+    month: Annotated[
+        int,
+        Field(description="Birth month.", ge=1, le=12),
+    ],
+    day: Annotated[
+        int,
+        Field(description="Day of the birth month.", ge=1, le=31),
+    ],
+) -> dict[str, float | str | bool]:
+    """Compute the tropical Sun placement for a birth date.
+
+    Args:
+        year: Birth year.
+        month: Birth month.
+        day: Day of the birth month.
+
+    Returns:
+        The Sun's tropical zodiac sign, degree, longitude, and retrograde state.
+
+    Raises:
+        ValueError: If the birth date is invalid.
+    """
+
+    birth_date = datetime(year, month, day, 12, tzinfo=timezone.utc)
+    julian_day = swe.julday(
+        birth_date.year,
+        birth_date.month,
+        birth_date.day,
+        12,
+        swe.GREG_CAL,
+    )
+
+    return _planetary_position(julian_day, swe.SUN)
+
+
 async def lyrics_search(
     query: Annotated[
         str,
@@ -601,6 +641,13 @@ compute_zodiac_chart_tool = Tool(
         "Compute a tropical zodiac chart with planetary placements, Placidus "
         "houses, Ascendant, and Midheaven."
     ),
+    docstring_format="google",
+    require_parameter_descriptions=True,
+)
+
+compute_sun_placement_tool = Tool(
+    function=compute_sun_placement,
+    description="Compute the tropical Sun placement from a birth date.",
     docstring_format="google",
     require_parameter_descriptions=True,
 )

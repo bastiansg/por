@@ -33,19 +33,7 @@ from por.prompt import format_prompt
 
 RESOURCES_PATH = Path(__file__).resolve().parents[4] / "resources"
 OUTPUT_PATH = RESOURCES_PATH / "generated-images-selected-states"
-SELECTED_STATE_IDS = [
-    "b3dfa27c570c45bf9de2465e74f14549",
-    "33f3ba371ea14bb28bb7e1814d76d3fe",
-    "64e417ad55a74b5e97b21a408fc76892",
-    "c6e893ddf8f143c3b868f61296e59107",
-    "4886c1ea96294d7caa4d68da6a1a92ec",
-    "fe03f987b38c4759bd92b5d3a77234d6",
-    "c28843a38efc4230959310b991e8e65c",
-    "7e5ac2d79bba4e93b50e5f9194dabcd6",
-    "1dde013e329c4750bb4722f3e4e81268",
-    "afa1bfea9a8c407b8c37a8eb00278b79",
-    "d527401aa1a945ffb617d7df5b1f7e3b",
-]
+STATE_DATE = "2026-09-11"
 
 
 @dataclass(frozen=True)
@@ -73,7 +61,7 @@ def _get_image_paths() -> dict[str, Path]:
     }
 
 
-def _get_valid_inputs() -> dict[str, StateInput]:
+def _get_valid_inputs() -> tuple[StateInput, ...]:
     image_paths = _get_image_paths()
     states = (
         state
@@ -83,37 +71,22 @@ def _get_valid_inputs() -> dict[str, StateInput]:
         if (state := _load_state(state_path)) is not None
     )
 
-    return {
-        state_id: StateInput(
+    return tuple(
+        StateInput(
             state_id=state_id,
             question=question,
             image_path=image_paths[Path(image_path).name],
         )
         for state in states
         if isinstance((state_id := state.get("image_id")), str)
+        if isinstance((invoked_at := state.get("invoked_at")), str)
+        if invoked_at.startswith(STATE_DATE)
         if state.get("message_accepted") is True
         if isinstance((question := state.get("audio_transcription")), str)
         if question.strip()
         if isinstance((image_path := state.get("image_path")), str)
         if Path(image_path).name in image_paths
-    }
-
-
-def _get_selected_inputs() -> tuple[StateInput, ...]:
-    valid_inputs = _get_valid_inputs()
-    invalid_state_ids = tuple(
-        state_id
-        for state_id in SELECTED_STATE_IDS
-        if state_id not in valid_inputs
     )
-
-    if invalid_state_ids:
-        raise RuntimeError(
-            "Selected states are missing, rejected, or lack a valid image: "
-            f"{', '.join(invalid_state_ids)}"
-        )
-
-    return tuple(valid_inputs[state_id] for state_id in SELECTED_STATE_IDS)
 
 
 def _get_media_type(image_path: Path) -> str:
@@ -225,7 +198,7 @@ async def _generate_image(
 
 
 async def main() -> None:
-    selected_inputs = _get_selected_inputs()
+    selected_inputs = _get_valid_inputs()
     selected_count = len(selected_inputs)
 
     OUTPUT_PATH.mkdir(parents=True, exist_ok=True)
