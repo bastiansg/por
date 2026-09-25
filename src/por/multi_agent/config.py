@@ -58,8 +58,8 @@ class FalInputConfig(BaseModel):
     num_images: PositiveInt = 1
     output_format: StrictStr = "jpeg"
     acceleration: StrictStr = "none"
-    guidance_scale: PositiveFloat = 3.5
-    num_inference_steps: PositiveInt = 28
+    guidance_scale: PositiveFloat = 5
+    num_inference_steps: PositiveInt = 50
     enable_safety_checker: StrictBool = False
     loras: list[FalLoraConfig] = Field(
         default_factory=lambda: [FalLoraConfig()],
