@@ -23,7 +23,7 @@ from por.llm_agents.image_prompter.image_prompter import ImagePrompterOutput
 from por.llm_agents.pbf_image_describer.pbf_image_describer import (
     PBFImageDescriberOutput,
 )
-from por.multi_agent.config import ReplicateInputConfig
+from por.multi_agent.config import FalInputConfig
 from por.meta.schema import (
     AstrologyPlacements,
     PsychologicalProfile,
@@ -66,9 +66,9 @@ class ContextSchema(BaseModel):
     t5_tokenizer_name: StrictStr
     flux_max_tokens: PositiveInt
     caption_header: StrictStr
-    replicate_model: StrictStr
-    replicate_timeout: PositiveFloat
-    replicate_input: ReplicateInputConfig
+    fal_model: StrictStr
+    fal_timeout: PositiveFloat
+    fal_input: FalInputConfig
     idle_angles: ServoAngles
     dc_poems: list[DCPoem]
     fc_messages: list[FCMessage]

@@ -5,11 +5,11 @@ from contextlib import suppress
 from dataclasses import dataclass
 from pathlib import Path
 
+import fal_client
 import httpx
 from PIL import Image
 from pydantic_ai import BinaryContent
 from pydantic_extra_types.language_code import LanguageName
-from replicate.client import Client
 from rich import box
 from rich.panel import Panel
 
@@ -109,7 +109,6 @@ def _save_image(image_data: bytes, image_path: Path) -> None:
 async def _generate_image(
     state_input: StateInput,
     config: MultiAgentConfig,
-    replicate_client: Client,
 ) -> Path:
     image_data = await asyncio.to_thread(state_input.image_path.read_bytes)
     binary_image = BinaryContent(
@@ -177,20 +176,22 @@ async def _generate_image(
     )
 
     render_node_detail("status", "Generating the image")
-    output = await asyncio.to_thread(
-        replicate_client.run,
-        config.replicate_model,
-        wait=False,
-        input=(
-            config.replicate_input.model_dump()
-            | {"prompt": image_generation_prompt}
-        ),
-    )
+    async with asyncio.timeout(config.fal_timeout):
+        output = await fal_client.subscribe_async(
+            config.fal_model,
+            arguments=(
+                config.fal_input.model_dump()
+                | {"prompt": image_generation_prompt}
+            ),
+        )
 
-    generated_image = next(iter(output))
-    generated_image_data = await asyncio.to_thread(generated_image.read)
+    generated_image_url = output["images"][0]["url"]
+    async with httpx.AsyncClient(timeout=config.fal_timeout) as client:
+        response = await client.get(generated_image_url)
+        response.raise_for_status()
+        generated_image_data = response.content
     output_path = OUTPUT_PATH / (
-        f"{state_input.state_id}-gen.{config.replicate_input.output_format}"
+        f"{state_input.state_id}-gen.{config.generated_image_extension}"
     )
 
     await asyncio.to_thread(_save_image, generated_image_data, output_path)
@@ -203,7 +204,6 @@ async def main() -> None:
 
     OUTPUT_PATH.mkdir(parents=True, exist_ok=True)
     config = MultiAgentConfig()
-    replicate_client = Client(timeout=httpx.Timeout(config.replicate_timeout))
 
     render_header()
     console.print(
@@ -240,7 +240,6 @@ async def main() -> None:
         output_path = await _generate_image(
             state_input,
             config,
-            replicate_client,
         )
 
         render_node_detail("generated_image", output_path)
