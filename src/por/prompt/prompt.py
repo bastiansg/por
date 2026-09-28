@@ -41,6 +41,7 @@ def format_prompt(
                 "People Description",
                 (
                     people.general_description,
+                    people.gender_presentation,
                     people.pose_and_posture,
                     people.body_proportions,
                     people.silhouette_shape,

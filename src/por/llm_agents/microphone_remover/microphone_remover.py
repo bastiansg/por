@@ -4,18 +4,16 @@ from llm_agents.meta.interfaces import LLMAgent
 from pydantic_ai import Agent, ToolOutput
 from pydantic_ai.models.openai import OpenAIResponsesModelSettings
 
-from por.llm_agents.pbf_image_describer.pbf_image_describer import (
-    PBFImageDescriberOutput,
-)
+from por.llm_agents.image_describer.image_describer import ImageDescriberOutput
 
 
-class MicrophoneRemoverOutput(PBFImageDescriberOutput):
+class MicrophoneRemoverOutput(ImageDescriberOutput):
     pass
 
 
 agent = Agent(
     name="microphone-remover",
-    model="openai:gpt-5.6-luna",
+    model="openai:gpt-5.6-terra",
     model_settings=OpenAIResponsesModelSettings(openai_reasoning_effort="low"),
     output_type=ToolOutput(MicrophoneRemoverOutput),
     retries=3,

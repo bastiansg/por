@@ -7,7 +7,7 @@ from multi_agents.graph import Node
 from openai import AsyncOpenAI
 from PIL import Image
 
-from por.llm_agents import ImagePrompter, ImagePrompterDeps
+from por.llm_agents import ImagePrompter
 from por.multi_agent.console import render_node_banner, render_node_detail
 from por.multi_agent.schema import ContextSchema, StateSchema
 
@@ -43,9 +43,6 @@ async def run(state: StateSchema) -> dict[str, Any]:
             f"{image_description.scene_description.composition}"
             f"\n\n**People Description**: {image_description.people_description}"
             f"\n\n**Clothing Description**: {image_description.clothing_description}"
-        ),
-        agent_deps=ImagePrompterDeps(
-            flux_max_tokens=runtime_context.flux_max_tokens,
         ),
     )
 

@@ -5,8 +5,8 @@ from contextlib import suppress
 from dataclasses import dataclass
 from pathlib import Path
 
-import fal_client
-import httpx
+import cairosvg
+import replicate
 from PIL import Image
 from pydantic_ai import BinaryContent
 from pydantic_extra_types.language_code import LanguageName
@@ -15,11 +15,10 @@ from rich.panel import Panel
 
 from por.config import config as app_config
 from por.llm_agents import (
+    ImageDescriber,
+    ImageDescriberDeps,
     ImagePrompter,
-    ImagePrompterDeps,
     MicrophoneRemover,
-    PBFImageDescriber,
-    PBFImageDescriberDeps,
     PsychologicalDescriber,
     PsychologicalDescriberDeps,
 )
@@ -29,7 +28,6 @@ from por.multi_agent.console import (
     render_header,
     render_node_detail,
 )
-from por.prompt import format_prompt
 
 RESOURCES_PATH = Path(__file__).resolve().parents[4] / "resources"
 OUTPUT_PATH = RESOURCES_PATH / "generated-images-selected-states"
@@ -94,8 +92,9 @@ def _get_media_type(image_path: Path) -> str:
     return f"image/{'jpeg' if extension in {'jpg', 'jpeg'} else extension}"
 
 
-def _save_image(image_data: bytes, image_path: Path) -> None:
-    with Image.open(io.BytesIO(image_data)) as source_image:
+def _save_image(svg_data: bytes, image_path: Path) -> None:
+    png_data = cairosvg.svg2png(bytestring=svg_data)
+    with Image.open(io.BytesIO(png_data)) as source_image:
         image = source_image.convert("L")
 
     resized_width = 576
@@ -118,9 +117,9 @@ async def _generate_image(
 
     render_node_detail("status", "Analyzing the source image and question")
     image_description, psychological_profile = await asyncio.gather(
-        PBFImageDescriber().generate(
+        ImageDescriber().generate(
             user_prompt="Analyze the provided image.",
-            agent_deps=PBFImageDescriberDeps(
+            agent_deps=ImageDescriberDeps(
                 flux_max_tokens=app_config.flux_max_tokens,
             ),
             user_content=binary_image,
@@ -149,7 +148,7 @@ async def _generate_image(
     render_node_detail("status", "Creating the image-generation prompt")
     prompt_description = await ImagePrompter().generate(
         user_prompt=(
-            "Provide the transformed image description."
+            "Provide your surreal image-generation prompt."
             f"\n\n**Question**: {state_input.question}"
             f"\n\n**Psychological Profile**: {psychological_profile}"
             "\n\n**Previous Framing and Viewpoint**: "
@@ -157,44 +156,25 @@ async def _generate_image(
             f"\n\n**People Description**: {cleaned_description.people_description}"
             f"\n\n**Clothing Description**: {cleaned_description.clothing_description}"
         ),
-        agent_deps=ImagePrompterDeps(
-            flux_max_tokens=app_config.flux_max_tokens,
-        ),
     )
 
-    image_generation_prompt = format_prompt(
-        prompt_description,
-        app_config.caption_header,
-    )
-
-    render_node_detail(
-        "image_generation_prompt_tokens",
-        prompt_description.count_prompt_tokens(
-            app_config.caption_header,
-            app_config.t5_tokenizer_name,
-        ),
-    )
+    image_generation_prompt = prompt_description.flux_prompt
 
     render_node_detail("status", "Generating the image")
-    async with asyncio.timeout(config.fal_timeout):
-        output = await fal_client.subscribe_async(
-            config.fal_model,
-            arguments=(
-                config.fal_input.model_dump()
-                | {"prompt": image_generation_prompt}
-            ),
-        )
+    output = await replicate.async_run(
+        "recraft-ai/recraft-v4.1-svg",
+        input={
+            "prompt": image_generation_prompt,
+            "size": "896x1152",
+        },
+    )
 
-    generated_image_url = output["images"][0]["url"]
-    async with httpx.AsyncClient(timeout=config.fal_timeout) as client:
-        response = await client.get(generated_image_url)
-        response.raise_for_status()
-        generated_image_data = response.content
+    svg_data = await output.aread()  # type: ignore
     output_path = OUTPUT_PATH / (
         f"{state_input.state_id}-gen.{config.generated_image_extension}"
     )
 
-    await asyncio.to_thread(_save_image, generated_image_data, output_path)
+    await asyncio.to_thread(_save_image, svg_data, output_path)
     return output_path
 
 
