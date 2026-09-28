@@ -20,7 +20,6 @@ from pydantic_extra_types.language_code import LanguageName
 from sensehat_dsp.display import Color
 
 from por.llm_agents.image_describer.image_describer import ImageDescriberOutput
-from por.llm_agents.image_prompter.image_prompter import ImagePrompterOutput
 from por.multi_agent.config import FalInputConfig
 from por.meta.schema import (
     AstrologyPlacements,
@@ -98,7 +97,7 @@ class StateSchema(BaseModel):
     astrology_placements: AstrologyPlacements | None = None
     message_accepted: StrictBool | None = None
     rejection_reason: StrictStr | None = None
-    image_description: ImageDescriberOutput | ImagePrompterOutput | None = None
+    image_description: ImageDescriberOutput | None = None
     psychological_profile: PsychologicalProfile | None = None
     nietzsche_advise: StrictStr | None = None
     nietzsche_text_chunks: list[TextChunk] = []
