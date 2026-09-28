@@ -93,12 +93,6 @@ def head_pipeline(
     printer.set(bold=True)
     printer.text("@dd.moon__")
     printer.set(bold=False)
-    printer.text("\n")
-
-    printer.text("* Drawings by ")
-    printer.set(bold=True)
-    printer.text("@paulabelenfa")
-    printer.set(bold=False)
     printer.text("\n\n")
 
     printer.block_text(get_copyright())
@@ -235,11 +229,6 @@ def main_pipeline(
 
     printer.image(
         img_source=state.gen_image_path,
-        center=True,
-    )
-
-    printer.image(
-        img_source="/resources/ticket-images/pbfa-sign.png",
         center=True,
     )
 

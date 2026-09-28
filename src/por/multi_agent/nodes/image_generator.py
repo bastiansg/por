@@ -1,17 +1,54 @@
 import io
+import xml.etree.ElementTree as ET
 from typing import Any
 
 import cairosvg
 import replicate
 from langgraph.runtime import get_runtime
 from multi_agents.graph import Node
-from PIL import Image
+from PIL import Image, ImageChops
 
 from por.llm_agents import ImagePrompter
 from por.multi_agent.console import render_node_banner
 from por.multi_agent.schema import ContextSchema, StateSchema
 
 from .utils import get_dsp_images, get_sensehat_dsp
+
+
+def _crop_svg_horizontally(svg_bytes: bytes) -> bytes:
+    svg = ET.fromstring(svg_bytes)
+    view_box = svg.get("viewBox")
+
+    if view_box is None:
+        return svg_bytes
+
+    preview_bytes = cairosvg.svg2png(bytestring=svg_bytes)
+    with Image.open(io.BytesIO(preview_bytes)).convert("RGBA") as preview:
+        background = Image.new("RGBA", preview.size, "white")
+        background.alpha_composite(preview)
+        grayscale_preview = background.convert("L")
+
+    white_background = Image.new("L", grayscale_preview.size, "white")
+    content_bounds = ImageChops.difference(
+        grayscale_preview,
+        white_background,
+    ).getbbox()
+
+    if content_bounds is None:
+        return svg_bytes
+
+    view_x, view_y, view_width, view_height = map(
+        float,
+        view_box.replace(",", " ").split(),
+    )
+
+    left, _, right, _ = content_bounds
+    cropped_x = view_x + left * view_width / grayscale_preview.width
+    cropped_width = (right - left) * view_width / grayscale_preview.width
+    svg.set("viewBox", f"{cropped_x} {view_y} {cropped_width} {view_height}")
+    svg.set("width", str(cropped_width))
+    svg.set("height", str(view_height))
+    return ET.tostring(svg, encoding="utf-8")
 
 
 async def run(state: StateSchema) -> dict[str, Any]:
@@ -63,15 +100,20 @@ async def run(state: StateSchema) -> dict[str, Any]:
     )
 
     svg_bytes = await rep_output.aread()  # type: ignore
-    png_bytes = cairosvg.svg2png(bytestring=svg_bytes)
+    image_width = 576
+    image_margin = 8
+    content_width = image_width - image_margin * 2
+    cropped_svg_bytes = _crop_svg_horizontally(svg_bytes)
+    png_bytes = cairosvg.svg2png(
+        bytestring=cropped_svg_bytes,
+        output_width=content_width,
+    )
+
     image = Image.open(io.BytesIO(png_bytes)).convert("L")  # type: ignore
 
-    resized_width = 576
-    target_height = round(image.height * resized_width / image.width)
-    image = image.resize(
-        (resized_width, target_height),
-        Image.Resampling.LANCZOS,
-    )
+    padded_image = Image.new("L", (image_width, image.height), "white")
+    padded_image.paste(image, (image_margin, 0))
+    image = padded_image
 
     images_path = runtime_context.images_path
     invoked_at = state.invoked_at
