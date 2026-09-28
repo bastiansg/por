@@ -47,17 +47,24 @@ class Printer(BaseModel):
     max_text_len: NonNegativeInt = 48
 
 
-class ReplicateInputConfig(BaseModel):
-    model: StrictStr = "dev"
-    lora_scale: PositiveFloat = 1.3
-    megapixels: StrictStr = "1"
-    num_outputs: PositiveInt = 1
-    aspect_ratio: StrictStr = "9:16"
-    output_format: StrictStr = "jpg"
-    guidance_scale: PositiveFloat = 5.0
-    output_quality: PositiveInt = 100
-    num_inference_steps: PositiveInt = 28
-    disable_safety_checker: StrictBool = True
+class FalLoraConfig(BaseModel):
+    # path: StrictStr = "https://v3b.fal.media/files/b/0aabdb3f/mr5Rou2s8RktEeKvlIb9V_pytorch_lora_weights.safetensors"
+    path: StrictStr = "https://v3b.fal.media/files/b/0aabdcf1/Sqy1p_b0foSsoCBR1k3ev_flux-lora.safetensors"
+    # scale: PositiveFloat = 2.0
+    scale: PositiveFloat = 1.8
+
+
+class FalInputConfig(BaseModel):
+    image_size: StrictStr = "portrait_16_9"
+    num_images: PositiveInt = 1
+    output_format: StrictStr = "jpeg"
+    acceleration: StrictStr = "none"
+    guidance_scale: PositiveFloat = 5
+    num_inference_steps: PositiveInt = 50
+    enable_safety_checker: StrictBool = False
+    loras: list[FalLoraConfig] = Field(
+        default_factory=lambda: [FalLoraConfig()],
+    )
 
 
 class MultiAgentConfig(BaseSettings):
@@ -65,19 +72,18 @@ class MultiAgentConfig(BaseSettings):
     rotator_params: RotatorParams = Field(default_factory=RotatorParams)
     image_size: ImageSize = Field(default_factory=ImageSize)
     capture_size: CaptureSize = Field(default_factory=CaptureSize)
-    final_capture_y_angle_offset: StrictInt = -15
+    # final_capture_y_angle_offset: StrictInt = -15
+    final_capture_y_angle_offset: StrictInt = 0
     history_length: NonNegativeInt = 1
     face_detector_min_score: NonNegativeFloat = 0.0
     images_path: StrictStr = "/resources/generated-images"
     input_image_extension: StrictStr = "jpg"
     generated_image_extension: StrictStr = "jpg"
 
-    replicate_model: StrictStr = "bastiansg/pbfr-flux:35bbe647e733755ba300aa2ba1acf6ea211ce1615f7c6be53b1fa4c32cb5146d"
-    # replicate_model: StrictStr = "bastiansg/pbfr-flux:aa907f3d85892ffe5c6e044442a5ed9bbcff2ad889de1d14f94e723d6235c9dc"
-
-    replicate_timeout: PositiveFloat = 120.0
-    replicate_input: ReplicateInputConfig = Field(
-        default_factory=ReplicateInputConfig,
+    fal_model: StrictStr = "fal-ai/flux-lora"
+    fal_timeout: PositiveFloat = 120.0
+    fal_input: FalInputConfig = Field(
+        default_factory=FalInputConfig,
     )
 
     idle_angles: IdleAngles = Field(default_factory=IdleAngles)

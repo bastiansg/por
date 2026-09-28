@@ -3,11 +3,11 @@ import io
 from pathlib import Path
 from typing import Any
 
+import fal_client
 import httpx
 from langgraph.runtime import get_runtime
 from multi_agents.graph import Node
 from PIL import Image
-from replicate.client import Client
 
 from por.llm_agents import ImagePrompter, ImagePrompterDeps
 from por.multi_agent.console import render_node_banner, render_node_detail
@@ -40,7 +40,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
 
     render_node_banner("image_generator")
 
-    generated_image_extension = runtime_context.replicate_input.output_format
+    generated_image_extension = runtime_context.generated_image_extension
     audio_transcription = state.audio_transcription
     assert audio_transcription is not None
 
@@ -88,27 +88,27 @@ async def run(state: StateSchema) -> dict[str, Any]:
         image_generation_prompt_tokens,
     )
 
-    replicate_client = Client(
-        timeout=httpx.Timeout(runtime_context.replicate_timeout)
-    )
-
-    output = await asyncio.to_thread(
-        replicate_client.run,
-        runtime_context.replicate_model,
-        wait=False,
-        input=(
-            runtime_context.replicate_input.model_dump()
-            | {"prompt": image_generation_prompt}
-        ),
-    )
+    async with asyncio.timeout(runtime_context.fal_timeout):
+        output = await fal_client.subscribe_async(
+            runtime_context.fal_model,
+            arguments=(
+                runtime_context.fal_input.model_dump()
+                | {"prompt": image_generation_prompt}
+            ),
+        )
 
     images_path = Path(runtime_context.images_path)
     await asyncio.to_thread(images_path.mkdir, parents=True, exist_ok=True)
     invoked_at = state.invoked_at
     assert invoked_at is not None
 
-    generated_image = next(iter(output))
-    image_data = await asyncio.to_thread(generated_image.read)
+    generated_image_url = output["images"][0]["url"]
+    async with httpx.AsyncClient(
+        timeout=runtime_context.fal_timeout,
+    ) as client:
+        response = await client.get(generated_image_url)
+        response.raise_for_status()
+        image_data = response.content
     gen_image_path = images_path / (
         f"{invoked_at}-{state.image_id}-gen.{generated_image_extension}"
     )

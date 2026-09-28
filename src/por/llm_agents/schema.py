@@ -1,11 +1,29 @@
-from typing import Generic, TypeVar
+from typing import Annotated, Generic, TypeVar
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, BeforeValidator, Field, StrictStr
+
+
+def _none_substring_to_none(value: object) -> object:
+    if isinstance(value, str) and "none" in value.casefold():
+        return None
+
+    return value
+
+
+_OptionalDescription = Annotated[
+    StrictStr | None,
+    BeforeValidator(_none_substring_to_none),
+]
 
 
 class PeopleDescription(BaseModel):
     general_description: StrictStr = Field(
         description="Very brief general description of the people in the image.",
+        min_length=1,
+    )
+
+    gender_presentation: StrictStr = Field(
+        description="Visible gender presentation.",
         min_length=1,
     )
 
@@ -24,7 +42,7 @@ class PeopleDescription(BaseModel):
         min_length=1,
     )
 
-    facial_expression: StrictStr | None = Field(
+    facial_expression: _OptionalDescription = Field(
         description=(
             "Visible facial expressions and facial characteristics. "
             "Must be None if not visible."
@@ -32,14 +50,14 @@ class PeopleDescription(BaseModel):
         default=None,
     )
 
-    hair_style: StrictStr | None = Field(
+    hair_style: _OptionalDescription = Field(
         description=(
             "Visible hair lengths, textures, and styling. Must be None if not visible."
         ),
         default=None,
     )
 
-    visible_modifications: StrictStr | None = Field(
+    visible_modifications: _OptionalDescription = Field(
         description=(
             "Visible tattoos, piercings, makeup, or cosmetic enhancements. "
             "Must be None if not visible."
@@ -54,14 +72,14 @@ class ClothingDescription(BaseModel):
         min_length=1,
     )
 
-    layering: StrictStr | None = Field(
+    layering: _OptionalDescription = Field(
         description=(
             "Visible garment layers and how they overlap. Must be None if not visible."
         ),
         default=None,
     )
 
-    fabric_and_texture: StrictStr | None = Field(
+    fabric_and_texture: _OptionalDescription = Field(
         description=(
             "Visible fabric texture, material impression, weight, and structure. "
             "Must be None if not visible."
@@ -69,7 +87,7 @@ class ClothingDescription(BaseModel):
         default=None,
     )
 
-    patterns_and_details: StrictStr | None = Field(
+    patterns_and_details: _OptionalDescription = Field(
         description=(
             "Visible patterns, trims, collars, fastenings, stitching, and motifs. "
             "Must be None if not visible."
@@ -77,7 +95,7 @@ class ClothingDescription(BaseModel):
         default=None,
     )
 
-    accessories: StrictStr | None = Field(
+    accessories: _OptionalDescription = Field(
         description=(
             "Visible jewelry, hats, eyewear, belts, bags, and other wearable accessories. "
             "Must be None if not visible."
@@ -85,7 +103,7 @@ class ClothingDescription(BaseModel):
         default=None,
     )
 
-    footwear: StrictStr | None = Field(
+    footwear: _OptionalDescription = Field(
         description=(
             "Visible footwear type, style, silhouette, and notable details. "
             "Must be None if not visible."
