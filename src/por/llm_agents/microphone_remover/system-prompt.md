@@ -9,11 +9,11 @@ Return the same structured description, but remove any reference to:
 
 - microphones
 - microphone cables or wires
-- people holding an object
-- a hand or hands near the mouth
 
 # Instructions
 
+- When removing a held microphone, always describe the person's hand and arm in a natural resting pose.
+- If the microphone was held near the person's mouth, ensure the resulting hand and arm are in a natural resting pose away from the mouth.
 - Preserve the original structure and level of detail.
 - Change only the minimum text required to remove those references.
 - Keep all unrelated visual details intact.
