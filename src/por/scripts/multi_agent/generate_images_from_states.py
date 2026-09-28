@@ -15,11 +15,11 @@ from rich.panel import Panel
 
 from por.config import config as app_config
 from por.llm_agents import (
+    ImageDescriber,
+    ImageDescriberDeps,
     ImagePrompter,
     ImagePrompterDeps,
     MicrophoneRemover,
-    PBFImageDescriber,
-    PBFImageDescriberDeps,
     PsychologicalDescriber,
     PsychologicalDescriberDeps,
 )
@@ -118,9 +118,9 @@ async def _generate_image(
 
     render_node_detail("status", "Analyzing the source image and question")
     image_description, psychological_profile = await asyncio.gather(
-        PBFImageDescriber().generate(
+        ImageDescriber().generate(
             user_prompt="Analyze the provided image.",
-            agent_deps=PBFImageDescriberDeps(
+            agent_deps=ImageDescriberDeps(
                 flux_max_tokens=app_config.flux_max_tokens,
             ),
             user_content=binary_image,

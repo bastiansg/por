@@ -1,39 +1,47 @@
 from pathlib import Path
 
 from llm_agents.meta.interfaces import LLMAgent
-from pydantic import BaseModel, Field
-from pydantic_ai import Agent, ToolOutput
+from pydantic import BaseModel, Field, PositiveInt, StrictStr
+from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIResponsesModelSettings
 
-from por.meta.schema import ClothingDescription, PhysicalDescription
+from por.llm_agents.schema import ImageDescriptionOutput, SceneDescription
 
 
-class ImageDescriberOutput(BaseModel):
-    physical_description: PhysicalDescription = Field(
-        description="Physical description of the people in the provided image.",
+class ImageDescriberDeps(BaseModel):
+    flux_max_tokens: PositiveInt
+
+
+class ImageSceneDescription(SceneDescription):
+    composition: StrictStr = Field(
+        description="Framing and viewpoint only.",
+        min_length=1,
     )
 
-    clothing_description: ClothingDescription = Field(
-        description="Clothing and accessory description of the people in the provided image.",
-    )
+
+class ImageDescriberOutput(ImageDescriptionOutput[ImageSceneDescription]):
+    pass
 
 
-agent = Agent(  # type: ignore
+agent = Agent(
     name="image-describer",
-    model="openai:gpt-5.6-luna",
+    model="openai:gpt-5.6-sol",
     model_settings=OpenAIResponsesModelSettings(openai_reasoning_effort="low"),
+    deps_type=ImageDescriberDeps,
     output_type=ToolOutput(ImageDescriberOutput),
     retries=3,
 )
 
 
 @agent.system_prompt
-async def get_system_prompt() -> str:
+async def get_system_prompt(ctx: RunContext[ImageDescriberDeps]) -> str:
     return LLMAgent.read_file(
         file_path=str(Path(__file__).with_name("system-prompt.md"))
-    )
+    ).format(flux_max_tokens=ctx.deps.flux_max_tokens)
 
 
-class ImageDescriber(LLMAgent[None, ImageDescriberOutput]):
+class ImageDescriber(
+    LLMAgent[ImageDescriberDeps, ImageDescriberOutput]
+):
     def __init__(self, max_concurrency: int = 10):
         super().__init__(agent=agent, max_concurrency=max_concurrency)

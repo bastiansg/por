@@ -7,9 +7,9 @@ from multi_agents.graph import Node
 from pydantic_ai import BinaryContent
 
 from por.llm_agents import (
+    ImageDescriber,
+    ImageDescriberDeps,
     MicrophoneRemover,
-    PBFImageDescriber,
-    PBFImageDescriberDeps,
 )
 from por.multi_agent.console import render_node_banner
 from por.multi_agent.schema import ContextSchema, StateSchema
@@ -23,11 +23,11 @@ async def run(state: StateSchema) -> dict[str, Any]:
     image_path = state.image_path
     assert image_path is not None
 
-    image_describer_agent = PBFImageDescriber()
+    image_describer_agent = ImageDescriber()
     image_data = await asyncio.to_thread(Path(image_path).read_bytes)
     image_describer_output = await image_describer_agent.generate(
         user_prompt="Analyze the provided image.",
-        agent_deps=PBFImageDescriberDeps(
+        agent_deps=ImageDescriberDeps(
             flux_max_tokens=runtime_context.flux_max_tokens,
         ),
         user_content=BinaryContent(

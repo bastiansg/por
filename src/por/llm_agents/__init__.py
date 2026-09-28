@@ -1,9 +1,3 @@
-from .pbf_image_describer.pbf_image_describer import (  # noqa
-    PBFImageDescriber,
-    PBFImageDescriberDeps,
-    PBFImageDescriberOutput,
-    PBFSceneDescription,
-)
 from .schema import (  # noqa
     ClothingDescription,
     ImageDescriptionOutput,
@@ -13,8 +7,9 @@ from .schema import (  # noqa
 from .gatekeeper.gatekeeper import Gatekeeper, GatekeeperDeps, GatekeeperOutput  # noqa
 from .image_describer.image_describer import (  # noqa
     ImageDescriber,
-    PhysicalDescription,
+    ImageDescriberDeps,
     ImageDescriberOutput,
+    ImageSceneDescription,
 )
 
 from .microphone_remover.microphone_remover import (  # noqa
