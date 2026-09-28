@@ -50,7 +50,8 @@ class Printer(BaseModel):
 class FalLoraConfig(BaseModel):
     # path: StrictStr = "https://v3b.fal.media/files/b/0aabdb3f/mr5Rou2s8RktEeKvlIb9V_pytorch_lora_weights.safetensors"
     path: StrictStr = "https://v3b.fal.media/files/b/0aabdcf1/Sqy1p_b0foSsoCBR1k3ev_flux-lora.safetensors"
-    scale: PositiveFloat = 2.0
+    # scale: PositiveFloat = 2.0
+    scale: PositiveFloat = 1.8
 
 
 class FalInputConfig(BaseModel):
@@ -71,7 +72,8 @@ class MultiAgentConfig(BaseSettings):
     rotator_params: RotatorParams = Field(default_factory=RotatorParams)
     image_size: ImageSize = Field(default_factory=ImageSize)
     capture_size: CaptureSize = Field(default_factory=CaptureSize)
-    final_capture_y_angle_offset: StrictInt = -15
+    # final_capture_y_angle_offset: StrictInt = -15
+    final_capture_y_angle_offset: StrictInt = 0
     history_length: NonNegativeInt = 1
     face_detector_min_score: NonNegativeFloat = 0.0
     images_path: StrictStr = "/resources/generated-images"
