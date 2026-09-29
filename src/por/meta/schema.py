@@ -58,6 +58,11 @@ class TextChunk(BaseModel):
     )
 
 
+class WebSearchResult(BaseModel):
+    title: StrictStr
+    href: StrictStr
+
+
 class Material(BaseModel):
     name: StrictStr
     interaction: StrictStr

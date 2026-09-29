@@ -1,50 +1,43 @@
 from pathlib import Path
 
 from llm_agents.meta.interfaces import LLMAgent
-from pydantic import BaseModel, Field, StrictBool, StrictStr
-from pydantic_ai import Agent, RunContext, ToolOutput
+from pydantic import BaseModel, StrictStr
+from pydantic_ai import Agent, RunContext
 from pydantic_ai.capabilities import PrepareTools, ProcessEventStream
 from pydantic_ai.models.openai import OpenAIResponsesModelSettings
 from pydantic_extra_types.language_code import LanguageName
+
+from por.meta.schema import TextChunk
 
 from ..tools import (
     get_neighboring_text_chunks_tool,
     matter_search_tool,
     search_by_chunk_metadata_filters_tool,
-    store_relevant_chunk_ids_tool,
 )
 from ..utils import hide_tools_after_limit, tool_logging_handler
 
 
-class RetrievalAssistantDeps(BaseModel):
-    request_id: StrictStr
+class RetrieverDeps(BaseModel):
     search_languages: list[LanguageName]
     collection_name: StrictStr
 
 
-class RetrievalAssistantOutput(BaseModel):
-    retrieval_stored: StrictBool = Field(
-        description="Whether the relevant chunk IDs were stored successfully.",
-    )
-
-
 def get_agent() -> Agent[
-    RetrievalAssistantDeps,
-    RetrievalAssistantOutput,
+    RetrieverDeps,
+    list[TextChunk],
 ]:
 
     agent = Agent(
-        name="retrieval-assistant",
+        name="retriever",
         model="openai:gpt-5.6-luna",
         model_settings=OpenAIResponsesModelSettings(openai_reasoning_effort="low"),
-        deps_type=RetrievalAssistantDeps,
-        output_type=ToolOutput(RetrievalAssistantOutput),
+        deps_type=RetrieverDeps,
+        output_type=list[TextChunk],
         retries=3,
         tools=[
             matter_search_tool,
             search_by_chunk_metadata_filters_tool,  # type: ignore
             get_neighboring_text_chunks_tool,  # type: ignore
-            store_relevant_chunk_ids_tool,
         ],
         capabilities=[
             PrepareTools(hide_tools_after_limit),
@@ -53,7 +46,7 @@ def get_agent() -> Agent[
     )
 
     @agent.system_prompt
-    async def get_system_prompt(ctx: RunContext[RetrievalAssistantDeps]) -> str:
+    async def get_system_prompt(ctx: RunContext[RetrieverDeps]) -> str:
         system_prompt = LLMAgent.read_file(
             file_path=str(Path(__file__).with_name("system-prompt.md"))
         )
@@ -63,9 +56,7 @@ def get_agent() -> Agent[
     return agent
 
 
-class RetrievalAssistant(
-    LLMAgent[RetrievalAssistantDeps, RetrievalAssistantOutput]
-):
+class Retriever(LLMAgent[RetrieverDeps, list[TextChunk]]):
     def __init__(self, max_concurrency: int = 10):
         super().__init__(
             agent=get_agent(),

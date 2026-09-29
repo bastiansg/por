@@ -15,7 +15,7 @@ class LanguageDetectorOutput(BaseModel):
 
 agent = Agent(  # type: ignore
     name="language-detector",
-    model="openai:gpt-5.6-luna",
+    model="openai:gpt-5.6-terra",
     model_settings=OpenAIResponsesModelSettings(openai_reasoning_effort="low"),
     output_type=ToolOutput(LanguageDetectorOutput),
     retries=3,

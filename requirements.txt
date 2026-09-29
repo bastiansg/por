@@ -3,6 +3,8 @@ gpiozero==2.0.1
 more-itertools==11.1.0
 pytest==9.1.1
 async_lru==2.3.0
+pydantic-ai-slim[duckduckgo]
+pydantic-ai-harness
 
 ipython==9.10.0
 # ipython==9.12.0

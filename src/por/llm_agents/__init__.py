@@ -49,10 +49,9 @@ from .astrology_advisor.astrology_advisor import (  # noqa
     AstrologyAdvisorOutput,
 )
 
-from .retrieval_assistant.retrieval_assistant import (  # noqa
-    RetrievalAssistant,
-    RetrievalAssistantDeps,
-    RetrievalAssistantOutput,
+from .retriever.retriever import (  # noqa
+    Retriever,
+    RetrieverDeps,
 )
 
 from .lyrics_advisor.lyrics_advisor import (  # noqa

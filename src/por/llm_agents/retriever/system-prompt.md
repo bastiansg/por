@@ -26,12 +26,11 @@ You must **ALWAYS** return at least one relevant chunk, even if the relation req
 - Assess relevance based on both the **text** and **metadata**.
 - Indirect, thematic, conceptual, or loosely related associations are acceptable when direct matches are unavailable.
 
-## Retrieval Storage
+## Output
 
-- Call `store_relevant_chunk_ids` once with the relevant `chunk_id` values ordered by relevance.
-- After storing the IDs, return `retrieval_stored` as true.
+- Return the complete relevant chunks ordered by relevance.
 
 ## Hard Constraints
 
 - You must **not answer the question**, only provide relevant context chunks.
-- You must NEVER store an empty list of relevant `chunk_ids`.
+- You must NEVER return an empty list of relevant chunks.

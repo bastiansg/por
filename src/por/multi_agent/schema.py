@@ -26,6 +26,7 @@ from por.meta.schema import (
     PsychologicalProfile,
     Song,
     TextChunk,
+    WebSearchResult,
 )
 
 
@@ -105,6 +106,7 @@ class StateSchema(BaseModel):
     selected_material_reason: StrictStr | None = None
     matter_advise: StrictStr | None = None
     matter_text_chunks: list[TextChunk] = []
+    matter_web_results: list[WebSearchResult] = []
     nietzsche_advise: StrictStr | None = None
     nietzsche_text_chunks: list[TextChunk] = []
     astrology_advice: StrictStr | None = None
