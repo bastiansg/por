@@ -5,13 +5,12 @@ from llm_agents.meta.interfaces import LLMAgent
 from pydantic import BaseModel, Field, StrictStr
 from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIResponsesModelSettings
-from pydantic_extra_types.language_code import LanguageName
 
 from por.meta.schema import Material, PsychologicalProfile
 
 
 class MaterialSelectorDeps(BaseModel):
-    output_language: LanguageName
+    output_language: StrictStr
     psychological_profile: PsychologicalProfile
     question: StrictStr
     materials: list[Material]

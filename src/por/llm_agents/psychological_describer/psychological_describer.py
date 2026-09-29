@@ -1,16 +1,15 @@
 from pathlib import Path
 
 from llm_agents.meta.interfaces import LLMAgent
-from pydantic import BaseModel
+from pydantic import BaseModel, StrictStr
 from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIResponsesModelSettings
-from pydantic_extra_types.language_code import LanguageName
 
 from por.meta.schema import PsychologicalProfile
 
 
 class PsychologicalDescriberDeps(BaseModel):
-    output_language: LanguageName
+    output_language: StrictStr
 
 
 class PsychologicalDescriberOutput(PsychologicalProfile):

@@ -4,11 +4,10 @@ from llm_agents.meta.interfaces import LLMAgent
 from pydantic import BaseModel, Field, StrictBool, StrictStr
 from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIResponsesModelSettings
-from pydantic_extra_types.language_code import LanguageName
 
 
 class GatekeeperDeps(BaseModel):
-    output_language: LanguageName
+    output_language: StrictStr
 
 
 class GatekeeperOutput(BaseModel):

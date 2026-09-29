@@ -16,7 +16,6 @@ from pydantic import (
     StrictStr,
     field_validator,
 )
-from pydantic_extra_types.language_code import LanguageName
 from sensehat_dsp.display import Color
 
 from por.llm_agents.image_describer.image_describer import ImageDescriberOutput
@@ -94,7 +93,7 @@ class StateSchema(BaseModel):
     image_path: StrictStr | None = None
     recorder_ok: StrictBool = False
     audio_transcription: StrictStr | None = None
-    detected_language: LanguageName | None = None
+    detected_language: StrictStr | None = None
     astrology_placements: AstrologyPlacements | None = None
     message_accepted: StrictBool | None = None
     rejection_reason: StrictStr | None = None

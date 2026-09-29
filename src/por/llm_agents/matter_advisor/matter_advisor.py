@@ -5,7 +5,6 @@ from pydantic import BaseModel, Field, StrictStr, model_validator
 from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIResponsesModelSettings
 from pydantic_ai_harness import SubAgent, SubAgents
-from pydantic_extra_types.language_code import LanguageName
 
 from por.meta.schema import WebSearchResult
 
@@ -14,7 +13,7 @@ from ..web_search_agent import get_web_search_agent
 
 
 class MatterAdvisorDeps(RetrieverDeps):
-    output_language: LanguageName
+    output_language: StrictStr
 
 
 class MatterAdvisorOutput(BaseModel):
