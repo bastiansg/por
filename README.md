@@ -1,13 +1,13 @@
 # P.O.R. (Pop Oracle Robot)
 
-P.O.R. is a machine oracle: you ask, it judges, consults its synthetic ghosts,
-and prints an answer you probably should not trust.
+P.O.R. is a machine oracle: you ask a question about Matter, it judges,
+consults its Matter sources, and prints an answer you probably should not trust.
 
 ## Components
 
 The application is organized as a multi-agent workflow. It captures a
-participant's input, analyzes it through specialized agents, retrieves relevant
-material from a curated bibliography, generates a response, and sends the
+user's input, analyzes it through specialized agents, retrieves relevant
+material from curated Matter sources, generates a response, and sends the
 result to the robot's output devices.
 
 ```text
@@ -15,7 +15,7 @@ result to the robot's output devices.
 │  P.O.R. // ORACLE PIPELINE                                         │
 └─────────────────────────────────────────────────────────────────────┘
 
- [ PARTICIPANT ]
+ [ USER ]
         │
         │ voice + image
         ▼
@@ -66,37 +66,38 @@ and transitions that coordinate an interaction from input to output.
         ▼
  [ audio_transcriber ]
         │
-        ├──► [ language_detector ] ──► [ gatekeeper ] ──┐
-        │                                                │
-        └──► [ astrology_placements_extractor ] ─────────┤
-                                                         ▼
-                                            [ validation_checkpoint ]
-                                                         │
-                  ┌──────────────────────┴──────────────────────┐
-                  │ rejected                                   │ accepted
-                  ▼                                            │
-             [ printer ]                                       ├── [ random_selector ] ──► [ printer ]
-                                                               │
-                                                               ├── [ image_describer ] ──┐
-                                                               │                         ├──► [ image_generator ] ──► [ printer ]
-                                                               └── [ psychological_describer ] ─┘
-                                                                          │
-                                                ┌─────────────┬───────────┼───────────┐
-                                                ▼             ▼           ▼           ▼
-                                      [ lyrics_advisor ] [ nietzsche_advisor ] [ astrology_advisor ] [ satc_advisor ]
-                                                │             │           │           │
-                                                └─────────────┴───────────┴───────────┴──► [ printer ]
+        └──► [ language_detector ] ──► [ gatekeeper ]
+                                                │
+                                                ▼
+                                   [ validation_checkpoint ]
+                                                │
+                 ┌──────────────────────────────┴─────────────┐
+                 │ rejected                                   │ accepted
+                 ▼                                            │
+            [ printer ]                                       ├── [ random_selector ] ──► [ printer ]
+                                                              │
+                                                              ├── [ image_describer ] ──┐
+                                                              │                         ├──► [ image_generator ] ──► [ printer ]
+                                                              └── [ psychological_describer ]
+                                                                         │
+                                                       ┌─────────────────┴─────────────────┐
+                                                       ▼                                   ▼
+                                              [ matter_advisor ]                 [ material_selector ]
+                                                       │                                   │
+                                                       └─────────────────┬─────────────────┘
+                                                                         ▼
+                                                                    [ printer ]
 ```
 
 ### [LLM agents](src/por/llm_agents)
 
 The LLM agents provide the specialized reasoning roles used to interpret the
-participant and produce the different parts of the oracle response.
+user and produce the different parts of the Matter oracle response.
 
 ### [Retrieval](src/por/db)
 
-The retrieval layer provides the agents with relevant material from a curated
-bibliography.
+The retrieval layer provides the agents with relevant material from curated
+Matter sources.
 
 ### [Data loaders](src/por/loaders)
 
@@ -110,7 +111,7 @@ controls, display, and motion system.
 ### [Thermal printer](src/por/multi_agent/nodes/printer.py)
 
 The thermal printer turns the generated oracle response into a physical receipt
-for the participant.
+for the user.
 
 ## Package dependencies
 
@@ -119,7 +120,7 @@ retrieval infrastructure to five project dependencies.
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────┐
-│  P.O.R. // PACKAGE DEPENDENCY MAP                                  │
+│  P.O.R. // PACKAGE DEPENDENCY MAP                                   │
 └─────────────────────────────────────────────────────────────────────┘
 
  ┌─────────────────────┐
@@ -162,7 +163,7 @@ language-model agents.
 ### [rage](https://github.com/aureka-team/rage2)
 
 Provides document loading, text processing, embeddings, indexing, and
-retrieval for the curated bibliography used by the agents.
+retrieval for the curated Matter sources used by the agents.
 
 ## Setup
 

@@ -10,7 +10,6 @@ from multi_agents.graph import Node
 from usb.core import Device, USBTimeoutError
 
 from por.data import get_copyright
-from por.meta.astrology_symbols import astrology_symbols_image
 from por.multi_agent.console import render_node_banner
 from por.multi_agent.schema import ContextSchema, StateSchema
 
@@ -98,11 +97,6 @@ def head_pipeline(
     printer.block_text(get_copyright())
     printer.text("\n\n")
 
-    # printer.text("\n")
-    # printer.image(
-    #     img_source="/resources/ticket-images/material-interactions-576.jpg"
-    # )
-
     printer.text("\n\n")
     printer.text("------------------------------------------------")
     printer.text("\n\n")
@@ -156,108 +150,51 @@ def main_pipeline(
         state=state,
     )
 
-    nietzsche_advise = state.nietzsche_advise
-    astrology_advice = state.astrology_advice
+    matter_advise = state.matter_advise
+    gen_image_path = state.gen_image_path
+    material_interaction = state.selected_material_interaction
+    material_image_path = state.selected_material_image_path
+    material_reason = state.selected_material_reason
 
-    header = (
-        "$$ Lo que dicen que Nietzsche dijo:"
-        if nietzsche_advise is not None
-        else "$$ Lo que dicen los astros:"
-    )
-
-    message = (
-        nietzsche_advise if nietzsche_advise is not None else astrology_advice
-    )
+    assert matter_advise is not None
+    assert gen_image_path is not None
+    assert material_interaction is not None
+    assert material_image_path is not None
+    assert material_reason is not None
 
     printer.set(bold=True, align="left")
-    printer.set(bold=True)
-    printer.block_text(header)
+    printer.block_text("$$ Interacciones (im)posibles con la Materia:")
     printer.text("\n")
     printer.set(bold=False)
 
-    printer.block_text(message)
+    printer.block_text(matter_advise)
     printer.text("\n\n")
-
-    if nietzsche_advise is None:
-        astrology_placements = state.astrology_placements
-        assert astrology_placements is not None
-
-        with astrology_symbols_image(
-            sun=astrology_placements.sun,
-            moon=astrology_placements.moon,
-            rising=astrology_placements.rising,
-        ) as astrology_image_path:
-            printer.image(
-                img_source=astrology_image_path,
-                center=True,
-            )
-
-    printer.text("\n")
-
-    #################################################################
-
-    if state.satc_advice is not None:
-        printer.set(bold=True, align="left")
-        printer.set(bold=True)
-        printer.block_text("$$ Lo que escribe Carrie Bradshaw:")
-        printer.text("\n")
-        printer.set(bold=False)
-
-        printer.block_text(state.satc_advice)
-        printer.text("\n\n")
-
-    #################################################################
-
-    if state.song is not None and state.lyrics_advise is not None:
-        printer.set(bold=True, align="left")
-        printer.set(bold=True)
-        printer.block_text("$$ Lo que tenés que escuchar:")
-        printer.set(bold=False)
-        printer.text("\n")
-
-        song_text = (
-            f"{state.song.title} | {state.song.artist} | {state.song.year}"
-        )
-
-        printer.block_text(song_text)
-        printer.text("\n\n")
-        printer.block_text(state.lyrics_advise)
-        printer.text("\n\n")
 
     printer.text("------------------------------------------------")
     printer.text("\n\n")
 
     printer.image(
-        img_source=state.gen_image_path,
+        img_source=gen_image_path,
         center=True,
     )
 
     printer.text("\n\n")
     printer.text("------------------------------------------------")
+    printer.text("\n\n")
+
+    printer.set(bold=True)
+    printer.block_text(f"$$ Tu interacción material es: {material_interaction}")
+    printer.set(bold=False)
+    printer.text("\n\n")
+
+    printer.image(img_source=material_image_path)
+    printer.text("\n")
+    printer.block_text(material_reason)
+
+    printer.text("\n\n")
+    printer.text("------------------------------------------------")
     printer.text("\n")
     printer.text("------------------------------------------------")
-    printer.text("\n\n")
-
-    printer.set(bold=True)
-    printer.block_text("Tu lucky number:")
-    printer.set(bold=False)
-    printer.text("\n")
-    printer.block_text(f"{state.lucky_number}")
-    printer.text("\n\n")
-
-    # printer.set(bold=True)
-    # printer.block_text("Tu poema dos corazones:")
-    # printer.set(bold=False)
-    # printer.text("\n")
-    # printer.block_text(f"{state.selected_dc_poem}")
-    # printer.text("\n\n")
-
-    printer.set(bold=True)
-    printer.block_text("Tu galleta de la fortuna:")
-    printer.set(bold=False)
-    printer.text("\n")
-    printer.block_text(f"{state.selected_fc_message}")
-    printer.text("\n\n")
     printer.text("\n\n")
 
     printer.set(align="center")

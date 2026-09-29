@@ -11,13 +11,13 @@ You must **ALWAYS** return at least one relevant chunk, even if the relation req
 
 ## Search Strategy
 
-- Use `{search_tool}` to find relevant chunks.
+- Use `matter_search` to find relevant chunks.
 - Use `search_by_chunk_metadata_filters` to narrow the search when previously retrieved chunks have useful `title`, `artist`, or `author` metadata.
 - Use `get_neighboring_text_chunks` to retrieve neighboring chunks for additional context.
 
 ## Search Constraints
 
-- **ALWAYS** perform `{search_tool}` in **ALL** of the following languages: {search_languages}
+- **ALWAYS** perform `matter_search` in **ALL** of the following languages: {search_languages}
 - **ALWAYS** expand search breadth and contextual depth to gather as much relevant content as possible.
 
 ## Relevance Criteria

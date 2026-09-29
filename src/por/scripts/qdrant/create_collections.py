@@ -12,10 +12,11 @@ from rage.utils.embeddings import get_openai_embeddings
 from rich.console import Console
 from tqdm import tqdm
 
-from por.loaders import LyricsLoader, SATCLoader, YTBLoader
+from por.loaders import WikiLoader, YTBLoader
 
-from .file_items import file_items
-from .ytb_items import ytb_items
+from .matter_file_items import file_items
+from .matter_wiki_items import wiki_items
+from .matter_ytb_items import ytb_items
 
 console = Console()
 
@@ -25,6 +26,8 @@ PAYLOAD_INDEX_FIELDS = (
     "metadata.language",
     "metadata.file_name",
 )
+
+DOCUMENTS_GLOB = "/resources/documents/material-interactions/**/*"
 
 LOADER_MAP = {
     ".pdf": {
@@ -57,14 +60,11 @@ LOADER_MAP = {
 async def get_file_text_chunks() -> list[TextChunk]:
     file_paths = [
         fp
-        for fp in glob(
-            "/resources/documents/main/**/*",
-            recursive=True,
-        )
+        for fp in glob(DOCUMENTS_GLOB, recursive=True)
         if os.path.isfile(fp)
     ]
 
-    file_map = {fi.source: fi for fi in file_items}
+    file_map = {file_item.source: file_item for file_item in file_items}
     text_chunks = []
 
     for fp in tqdm(file_paths, ascii=True):
@@ -116,27 +116,23 @@ async def get_ytb_text_chunks() -> list[TextChunk]:
     return text_chunks
 
 
-async def get_satc_text_chunks() -> list[TextChunk]:
-    loader = SATCLoader()
-    documents = await loader.load()
-
+async def get_wiki_text_chunks() -> list[TextChunk]:
     splitter = TokenSplitter()
-    text_chunks = splitter.split_documents(documents=documents)
+    text_chunks = []
 
-    return text_chunks
+    for wiki_item in wiki_items:
+        language_code = wiki_item.source.split("://", maxsplit=1)[1].split(
+            ".", maxsplit=1
+        )[0]
+        language = pycountry.languages.get(alpha_2=language_code)
+        assert language is not None
 
-
-async def get_lyrics_text_chunks() -> list[TextChunk]:
-    loader = LyricsLoader()
-    documents = await loader.load(
-        source_path="/resources/documents/lyrics/lyrics.json"
-    )
-
-    splitter = TokenSplitter(
-        chunk_size=128,
-        chunk_overlap=16,
-    )
-    text_chunks = splitter.split_documents(documents=documents)
+        loader = WikiLoader(
+            metadata=wiki_item.metadata.model_dump()
+            | {"language": language.name}
+        )
+        documents = await loader.load(source_path=wiki_item.source)
+        text_chunks.extend(splitter.split_documents(documents=documents))
 
     return text_chunks
 
@@ -148,18 +144,10 @@ async def main() -> None:
     ytb_text_chunks = await get_ytb_text_chunks()
     console.log(f"ytb_text_chunks: {len(ytb_text_chunks)}")
 
-    satc_text_chunks = await get_satc_text_chunks()
-    console.log(f"satc_text_chunks: {len(satc_text_chunks)}")
+    wiki_text_chunks = await get_wiki_text_chunks()
+    console.log(f"wiki_text_chunks: {len(wiki_text_chunks)}")
 
-    lyrics_text_chunks = await get_lyrics_text_chunks()
-    console.log(f"lyrics_text_chunks: {len(lyrics_text_chunks)}")
-
-    text_chunks = (
-        file_text_chunks
-        + ytb_text_chunks
-        + satc_text_chunks
-        + lyrics_text_chunks
-    )
+    text_chunks = file_text_chunks + ytb_text_chunks + wiki_text_chunks
 
     console.log(f"text_chunks: {len(text_chunks)}")
     text_chunks = sorted(

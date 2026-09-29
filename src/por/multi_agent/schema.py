@@ -99,6 +99,12 @@ class StateSchema(BaseModel):
     rejection_reason: StrictStr | None = None
     image_description: ImageDescriberOutput | None = None
     psychological_profile: PsychologicalProfile | None = None
+    selected_material_code: StrictStr | None = None
+    selected_material_interaction: StrictStr | None = None
+    selected_material_image_path: StrictStr | None = None
+    selected_material_reason: StrictStr | None = None
+    matter_advise: StrictStr | None = None
+    matter_text_chunks: list[TextChunk] = []
     nietzsche_advise: StrictStr | None = None
     nietzsche_text_chunks: list[TextChunk] = []
     astrology_advice: StrictStr | None = None

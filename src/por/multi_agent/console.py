@@ -25,21 +25,18 @@ POR_STYLES = (
 )
 
 NODE_ACTIONS = {
-    "astrology_advisor": "READING THE STARS",
-    "astrology_placements_extractor": "LOOKING FOR YOUR SUN / MOON / RISING",
     "audio_transcriber": "TURNING YOUR VOICE INTO TEXT",
     "gatekeeper": "CHECKING YOUR QUESTION AT THE DOOR",
     "idle_state": "WAITING FOR A SIGN",
     "image_describer": "LOOKING AT YOU",
     "image_generator": "MAKING YOUR VISION VISIBLE",
     "language_detector": "LISTENING FOR YOUR LANGUAGE",
-    "lyrics_advisor": "DIGGING FOR YOUR SONG",
-    "nietzsche_advisor": "ASKING NIETZSCHE",
+    "material_selector": "CHOOSING YOUR MATERIAL",
+    "matter_advisor": "CONSULTING MATTER",
     "printer": "PRINTING YOUR TICKET",
     "psychological_describer": "READING BETWEEN YOUR LINES",
     "random_selector": "LEAVING SOMETHING TO CHANCE",
     "recorder": "RECORDING YOUR QUESTION",
-    "satc_advisor": "ASKING CARRIE BRADSHAW",
     "validation_checkpoint": "DECIDING WHAT COMES NEXT",
 }
 

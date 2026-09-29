@@ -49,10 +49,6 @@ from .astrology_advisor.astrology_advisor import (  # noqa
     AstrologyAdvisorOutput,
 )
 
-from .astrology_placements_extractor.astrology_placements_extractor import (  # noqa
-    AstrologyPlacementsExtractor,
-)
-
 from .retrieval_assistant.retrieval_assistant import (  # noqa
     RetrievalAssistant,
     RetrievalAssistantDeps,
@@ -63,4 +59,14 @@ from .lyrics_advisor.lyrics_advisor import (  # noqa
     LyricsAdvisor,
     LyricsAdvisorDeps,
     LyricsAdvisorOutput,
+)
+from .matter_advisor.matter_advisor import (  # noqa
+    MatterAdvisor,
+    MatterAdvisorDeps,
+    MatterAdvisorOutput,
+)
+from .material_selector.material_selector import (  # noqa
+    MaterialSelector,
+    MaterialSelectorDeps,
+    MaterialSelectorOutput,
 )

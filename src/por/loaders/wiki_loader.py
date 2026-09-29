@@ -1,7 +1,13 @@
 from urllib.parse import unquote, urlparse
 
+import wikipedia
 from langchain_community.document_loaders import WikipediaLoader
 from rage.meta.interfaces import Document, TextLoader
+
+WIKIPEDIA_USER_AGENT = (
+    "por/1.0 (https://github.com/bastiansg/por; bastiansg.bas@gmail.com)"
+)
+wikipedia.set_user_agent(WIKIPEDIA_USER_AGENT)
 
 
 class WikiLoader(TextLoader):

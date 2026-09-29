@@ -27,7 +27,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     client = AsyncOpenAI()
 
     transcription = await client.audio.transcriptions.create(
-        model="gpt-4o-transcribe",
+        model="gpt-transcribe",
         file=audio_buffer,
     )
 
