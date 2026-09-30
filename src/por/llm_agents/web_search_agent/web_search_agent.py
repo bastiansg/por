@@ -11,11 +11,11 @@ from pydantic_ai.common_tools.duckduckgo import (
 from pydantic_ai.models.openai import OpenAIResponsesModelSettings
 
 DepsT = TypeVar("DepsT")
-WIKIPEDIA_SEARCH_PREFIX = "site:wikipedia.org"
+MATTERS_OF_ACTIVITY_SEARCH_PREFIX = "site:matters-of-activity.de"
 
 
-def format_wikipedia_query(query: str) -> str:
-    return f"{WIKIPEDIA_SEARCH_PREFIX} {query}"
+def format_matters_of_activity_query(query: str) -> str:
+    return f"{MATTERS_OF_ACTIVITY_SEARCH_PREFIX} {query}"
 
 
 def get_web_search_agent(
@@ -25,7 +25,7 @@ def get_web_search_agent(
 
     async def search(query: str) -> list[DuckDuckGoResult]:
         try:
-            return await search_tool.function(format_wikipedia_query(query))
+            return await search_tool.function(format_matters_of_activity_query(query))
         except DDGSException as error:
             if str(error) == "No results found.":
                 return []

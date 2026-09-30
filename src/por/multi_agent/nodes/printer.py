@@ -19,6 +19,19 @@ PRINT_COMPLETION_COMMAND = b"\x1d\x72\x01"
 PRINT_COMPLETION_STATUS_MASK = 0b11110000
 PRINT_COMPLETION_STATUS_VALUE = 0
 PRINT_COMPLETION_TIMEOUT = 30.0
+TICKET_HEADER_IMAGE_PATH = "/resources/ticket-images/biodesign/header.jpeg"
+TICKET_FOOTER_LINES = (
+    "Materia Viva",
+    "Taller de experimetación biomaterial • CCEBA",
+    "-",
+    "@SistemasMateriales",
+    "",
+    "Heidi Jalkh",
+    "Leonardo Majul",
+    "Gisela Pozzetti",
+    "-",
+    "Buenos Aires, Argentina | Sept 2026",
+)
 
 
 def print_and_wait(
@@ -97,6 +110,8 @@ def head_pipeline(
     printer.block_text(get_copyright())
     printer.text("\n\n")
 
+    printer.text("\n")
+    printer.image(img_source=TICKET_HEADER_IMAGE_PATH)
     printer.text("\n\n")
     printer.text("------------------------------------------------")
     printer.text("\n\n")
@@ -182,13 +197,22 @@ def main_pipeline(
     printer.text("------------------------------------------------")
     printer.text("\n\n")
 
-    printer.set(bold=True)
-    printer.block_text(f"$$ Tu interacción material es: {material_interaction}")
-    printer.set(bold=False)
+    printer.image(img_source=material_image_path)
     printer.text("\n\n")
 
-    printer.image(img_source=material_image_path)
+    biodesign_name, biodesign_process, biodesign_intention = (
+        material_interaction.split("\n", maxsplit=2)
+    )
+
+    printer.set(bold=True)
+    printer.block_text(f"$$ Sos {biodesign_name}")
+    printer.set(bold=False)
     printer.text("\n")
+    printer.block_text(biodesign_process)
+    printer.text("\n")
+    printer.block_text(biodesign_intention)
+    printer.text("\n\n")
+
     printer.block_text(material_reason)
 
     printer.text("\n\n")
@@ -197,6 +221,12 @@ def main_pipeline(
     printer.text("------------------------------------------------")
     printer.text("\n\n")
 
+    printer.set(align="left")
+    for line in TICKET_FOOTER_LINES:
+        printer.text(f"{line}\n")
+
+    printer.text("\n\n\n")
+    # printer.text("\n")
     printer.set(align="center")
     printer.set(font=1)  # type: ignore
     printer.set(bold=True)

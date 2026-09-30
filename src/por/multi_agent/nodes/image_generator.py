@@ -15,7 +15,7 @@ from por.multi_agent.schema import ContextSchema, StateSchema
 from .utils import get_dsp_images, get_sensehat_dsp
 
 
-def _crop_svg_horizontally(svg_bytes: bytes) -> bytes:
+def _crop_svg(svg_bytes: bytes) -> bytes:
     svg = ET.fromstring(svg_bytes)
     view_box = svg.get("viewBox")
 
@@ -42,12 +42,22 @@ def _crop_svg_horizontally(svg_bytes: bytes) -> bytes:
         view_box.replace(",", " ").split(),
     )
 
-    left, _, right, _ = content_bounds
+    left, top, right, bottom = content_bounds
+    vertical_margin = min(top, grayscale_preview.height - bottom)
+    cropped_top = top - vertical_margin
+    cropped_bottom = bottom + vertical_margin
     cropped_x = view_x + left * view_width / grayscale_preview.width
+    cropped_y = view_y + cropped_top * view_height / grayscale_preview.height
     cropped_width = (right - left) * view_width / grayscale_preview.width
-    svg.set("viewBox", f"{cropped_x} {view_y} {cropped_width} {view_height}")
+    cropped_height = (
+        (cropped_bottom - cropped_top)
+        * view_height
+        / grayscale_preview.height
+    )
+
+    svg.set("viewBox", f"{cropped_x} {cropped_y} {cropped_width} {cropped_height}")
     svg.set("width", str(cropped_width))
-    svg.set("height", str(view_height))
+    svg.set("height", str(cropped_height))
     return ET.tostring(svg, encoding="utf-8")
 
 
@@ -103,7 +113,7 @@ async def run(state: StateSchema) -> dict[str, Any]:
     image_width = 576
     image_margin = 8
     content_width = image_width - image_margin * 2
-    cropped_svg_bytes = _crop_svg_horizontally(svg_bytes)
+    cropped_svg_bytes = _crop_svg(svg_bytes)
     png_bytes = cairosvg.svg2png(
         bytestring=cropped_svg_bytes,
         output_width=content_width,

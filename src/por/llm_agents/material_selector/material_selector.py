@@ -18,11 +18,9 @@ class MaterialSelectorDeps(BaseModel):
 
 class MaterialSelectorOutput(BaseModel):
     selected_material_code: Literal[
-        "BM.01",
-        "GM.02",
-        "MC.03",
-        "AS.04",
-        "MF.05",
+        "bioinspirado",
+        "biobasado",
+        "biofabricado",
     ]
     selection_reason: StrictStr = Field(
         description="A very short standalone reason for the selection.",

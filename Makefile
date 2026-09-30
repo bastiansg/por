@@ -75,7 +75,7 @@ image-caption-generation: devcontainer-build redis-start
 	docker compose run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.image_caption_generation.image_caption_generation" por-devcontainer
 
 print-state:
-	docker compose run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.printer.print_state --state-file $(STATE_FILE)" por-devcontainer
+	docker compose run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.printer.print_state" por-devcontainer
 
 print-gen-image:
 	docker compose run --rm --entrypoint="env PYTHONPATH=/workspace/src python -m por.scripts.printer.print_gen_image" por-devcontainer

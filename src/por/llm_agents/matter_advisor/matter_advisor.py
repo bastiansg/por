@@ -8,7 +8,8 @@ from pydantic_ai_harness import SubAgent, SubAgents
 
 from por.meta.schema import WebSearchResult
 
-from ..retriever import RetrieverDeps, get_agent as get_retriever_agent
+from ..retriever import RetrieverDeps
+from ..retriever import get_agent as get_retriever_agent
 from ..web_search_agent import get_web_search_agent
 
 
@@ -31,7 +32,9 @@ class MatterAdvisorOutput(BaseModel):
     @model_validator(mode="after")
     def validate_references(self) -> "MatterAdvisorOutput":
         if not self.relevant_chunk_ids and not self.relevant_web_results:
-            raise ValueError("At least one Matter chunk or web result is required.")
+            raise ValueError(
+                "At least one Matter chunk or web result is required."
+            )
 
         return self
 
@@ -55,12 +58,12 @@ def get_agent() -> Agent[MatterAdvisorDeps, MatterAdvisorOutput]:
                     SubAgent(
                         retriever,
                         max_calls=3,
-                        timeout_seconds=120,
+                        timeout_seconds=300,
                     ),
                     SubAgent(
                         web_search_agent,
                         max_calls=2,
-                        timeout_seconds=120,
+                        timeout_seconds=300,
                     ),
                 ],
                 contain_errors=True,
