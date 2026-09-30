@@ -19,7 +19,6 @@ from pydantic import (
 from sensehat_dsp.display import Color
 
 from por.llm_agents.image_describer.image_describer import ImageDescriberOutput
-from por.multi_agent.config import FalInputConfig
 from por.meta.schema import (
     AstrologyPlacements,
     PsychologicalProfile,
@@ -27,6 +26,7 @@ from por.meta.schema import (
     TextChunk,
     WebSearchResult,
 )
+from por.multi_agent.config import FalInputConfig
 
 
 class GolColors(BaseModel):

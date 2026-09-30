@@ -39,4 +39,5 @@ The prompt you output must enforce:
 - Express psychological tension only through visible abstract elements, never through explanation.
 - Output only a direct, ready-to-use image-generation prompt with no labels, captions, or explanations.
 - The generated prompt **MUST** replicate the same `picture_framing` from the Physical Description.
+- The generated prompt **MUST** depict every person's mouth as closed.
 - The generated prompt **MUST** explicitly mention **ALL** `# Style Constraints`.
